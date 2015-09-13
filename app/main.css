@@ -1,0 +1,205 @@
+/*Style Guide*/
+/*Yellow: #F5CB5C*/
+
+/*remove all preset styles*/
+html, body, h1, h2, h3, h4, p, div, ul, li, a {
+	padding: 0;
+	border: 0;
+	margin: 0;
+	font-size: 100%
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-weight: 200;
+	list-style: none;
+	text-decoration: none;
+}
+/*create logo font ACMountain*/
+@font-face {
+	font-family: "ACMountain";
+	src: url(assets/fonts/ACMountain.otf);
+}
+/*Logo Style*/
+#header {
+  font-family: "ACMountain", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 75px;
+  text-align: center;
+  color: #F5CB5C;
+  background-color: #000000;
+  padding: 30px 0;
+}
+/*Set everything to Helvetica Neue*/
+#workBox, #available-box, #Upload-box, h3, h4 {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+/*nav bar & available page padding for mobile*/
+@media screen and (max-width:600px)  {
+	#tabs {
+		background-color: #3F3F3F;
+		display: block;
+		width: 100vw;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	#tabs li{
+	  font-size: 25px;
+		font-weight: 200;
+		display: block;
+		text-align: center;
+		color: #FFFFFF;
+	}
+	#classAvailable {
+		margin: 5vh 2vw;
+	}#columnTitle {
+		padding-right: 5px;
+	}
+}
+/*nav bar & available page padding for desktop*/
+@media screen and (min-width:601px)  {
+	#tabs {
+		background-color: #3F3F3F;
+		display: inline-block;
+		width: 100vw;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	#nav {
+		display: table;
+		width: 100%;
+	}
+	#tabs {
+		display: table-cell;
+		text-align: center;
+	}
+	#tabs li{
+	  font-size: 25px;
+		font-weight: 200;
+	  padding: 0 5%;
+		display: inline;
+		color: #FFFFFF;
+	}
+	#classAvailable {
+		margin: 5vh 8vw;
+	}
+	#columnTitle {
+		padding-right: 50px;
+	}
+}
+/*Yellow coloring for link hover*/
+#tabs li:hover{
+	color: #F5CB5C;
+}
+/*Buttons within app*/
+#matchButton, #exportButton, #submitButton, #txtFileUpload, #updateButton, #confirm-button {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 17px;
+  font-weight: 200;
+  padding: 10px 20px;
+  border: 1px;
+  border-radius: 4px;
+	display: block;
+	margin: 10px auto 10px auto;
+}
+#uploadForm #submitbutton, #uploadForm #confirm-button {
+	
+}
+/*Buttons before login*/
+#submitRegister, #loginButtons #submit, #loginButtons #register {
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 17px;
+  font-weight: 200;
+  padding: 10px 20px;
+	border: 1px;
+	border-radius: 4px;
+	display: inline-block;
+	margin-left: 15px;
+}
+#submitRegister {
+	margin-left: 4vw;
+}
+/*Login Components*/
+#tabs h4 {
+	font-size: 25px;
+	font-weight: 200;
+	text-align: center;
+	color: #FFFFFF;
+	letter-spacing: 0.075em;
+}
+#credentials, #registerInput {
+	display: block;
+	padding-top: 30px;
+}
+
+#loginContainer, #registerBox {
+	display: table;
+}
+#credentials, #registerInput {
+	display: block;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 40vw;
+	padding-right: 40vw;
+}
+
+/*Match Component*/
+/*
+#loading {
+	width: 50px;
+	display: inline-block;
+	margin: 0 auto;
+}
+
+#matchButton:enabled {
+	content: url(assets/loading.gif);
+}
+*/
+
+/*Available Component*/
+.sections {
+	  display: inline-block;
+	  width: 15%;
+}
+.row-title{
+  display: inline-block;
+}
+#topRow {
+}
+#topRowTitles {
+	text-align: center;
+}
+#columnTitle {
+	text-align: right;
+}
+
+/*Upload Component*/
+#uploadForm, #dvImportSegments {
+	width: 50%;
+	margin: 15px auto;
+	text-align: center;
+}
+.host{
+  display: inline-block;
+}
+#file-form {
+}
+.fileupload {
+	display: block;
+	margin: 0 auto;
+}
+
+/*legacy code ????*/
+#calendar{
+  border-style: solid;
+  border-radius: 5px;
+  border-top-color: black;
+}
+
+.day{
+  margin: 5px,5px,5px,5px;
+}
+#array-of-individuals{
+overflow:scroll;
+height:400px;
+}
+.table-row{
+  display: block;
+}
