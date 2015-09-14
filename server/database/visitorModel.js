@@ -19,7 +19,8 @@ var visitorSchema = new Schema({
         Email: {type: String}        
     },
     MatchInfo: {
-        classVisitTime: {type: Number},
+        'Class Visit Time': {type: String},
+        classVisitNumber: {type: Number},
         matchScore: {type: Number},
         matchIndex: {type: String},
         matchedOn: {type: Object},
