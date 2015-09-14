@@ -16,7 +16,10 @@ var Match = React.createClass({
         // console.log("data", data);
         // console.log(self, 'self');
         self.props.setMatchData(data);
-        this.refs.button.success();
+        self.refs.button.success();
+      },
+      error: function(resp) {
+        self.refs.button.error();
       }
     });
   },

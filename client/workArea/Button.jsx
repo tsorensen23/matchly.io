@@ -19,7 +19,9 @@ var React = require('react');
           style={{
             backgroundColor: this.props.color,
             color: "black",
-            opacity: opacity
+            opacity: opacity,
+            width: "100%",
+            padding: "5%"
           }}
           type="button"
           onClick={this.handleClick}
