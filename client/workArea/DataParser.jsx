@@ -35,7 +35,7 @@ parseDataHost: function(dataObject){
           matchScore:-1
         }
       };
-      
+
     }
 //working on modifying the schema;
 
@@ -66,7 +66,7 @@ parseDataHost: function(dataObject){
       }
       // if(object.Characteristics.Military==='None') {
       //   object.Characteristics.Military=0;
-      // } 
+      // }
       // for(var key in object) {
       //   if(object[key][0]==="") {
       //     object[key][1]=0;
@@ -80,15 +80,16 @@ parseDataHost: function(dataObject){
     var dataArray = dataObject.data;
     console.log('fields', fields);
     var modifiedDataArray = [];
+    var classVisitNumber = null;
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, ClassVisitTime) {
-      if(ClassVisitTime==='8:00 AM'){
-      classVisitNumber=1;
+    if(ClassVisitTime ==='8:00 AM'){
+      classVisitNumber = 1;
     } else if(ClassVisitTime ==='10:00 AM'){
-      classVisitNumber=2;
-    } else if(ClassVisitTime==='11:45 AM'){
-      classVisitNumber=3;
-    } 
-      this.Characteristics={
+      classVisitNumber = 2;
+    } else if(ClassVisitTime ==='11:45 AM'){
+      classVisitNumber = 3;
+    }
+      this.Characteristics = {
         Military: military,
         Country: country,
         Citizenship: citizenship,
@@ -99,21 +100,21 @@ parseDataHost: function(dataObject){
         State: state,
         Gender: gender
       };
-      this.Contact={
+      this.Contact = {
         First: first,
         Last: last,
         Email: null
       };
-      this.MatchInfo={
+      this.MatchInfo = {
         'Class Visit Time': ClassVisitTime,
         classVisitNumber: classVisitNumber,
-        matchScore:-1,
-        matchIndex:null,
-        matchedOn:null,
-        matchCount:0
+        matchScore: -1,
+        matchIndex: null,
+        matchedOn: null,
+        matchCount: 0
       };
     }
-   
+
     for(var i=0; i<dataArray.length; i++) {
       var milStatusKey = fields[0];
       var CountryKey=fields[1];
