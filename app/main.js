@@ -31,7 +31,7 @@ var LoginWrapper = React.createClass({
   }
 });
 
-//these are the routes, they determine which component will be 
+//these are the routes, they determine which component will be
 //loaded for each url
 var routes = (
   <Route handler={App}>
@@ -60,7 +60,6 @@ var App = React.createClass({
 });
 
 Router.run(routes, Router.HashLocation, function(Root){
-  React.render(<Root/>, document.body);
+  React.render(<Root/>, document.getElementById('main'));
 });
-
 

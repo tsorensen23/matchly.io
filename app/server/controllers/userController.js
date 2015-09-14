@@ -1,9 +1,9 @@
-var UserProfile = require('./userModel.js');
-var VisitorProfile = require('./visitorModel.js');
-var HostProfile = require('./hostModel.js');
+var UserProfile = require('../database/userModel.js');
+var VisitorProfile = require('../database/visitorModel.js');
+var HostProfile = require('../database/hostModel.js');
 var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
-var availabilityProfile = require('./availability.js');
+var availabilityProfile = require('../database/availability.js');
 var Promise = require("bluebird");
 var Rumble = require('./../../algorithm2.js');
 var csv=require('fast-csv');

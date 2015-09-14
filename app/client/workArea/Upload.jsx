@@ -1,12 +1,12 @@
 var React=require('react');
 var ParsedDataVisitors=require('./ParsedDataVisitors.jsx');
 var ParsedDataHosts=require('./ParsedDataHosts.jsx');
-var DataParser=require('./DataParser.jsx');
+var DataParser = require('./DataParser.jsx');
 var EditableTableView = require('../generic/EditableTableView.jsx');
-
+var ButtonList = require('./ButtonList.jsx');
 var visitorHeaders = [
-  'Contact.First', 
-  'Contact.Last', 
+  'Contact.First',
+  'Contact.Last',
   'Contact.Email',
   'ClassVisitTime',
   'Characteristics.Military',
@@ -19,14 +19,16 @@ var visitorHeaders = [
   'Characteristics.State'
 ];
 
-var Upload=React.createClass({
+var Upload = React.createClass({
   getInitialState: function(){
     return{
       data: null,
       hostOrVisitor: null,
-      arrayOfIndividuals:null,
+      arrayOfIndividuals: null,
       dataArray: null,
       hide: 'hidden',
+      fields: null,
+      visitorCategories: ['military', 'country', 'citizenship', 'undergrad', 'employer', 'industry', 'city', 'state', 'first', 'last', 'gender', 'ClassVisitTime']
     };
   },
 
@@ -52,7 +54,7 @@ var Upload=React.createClass({
         /*
         return array.map(function(element) {
           return(
-            <ParsedDataVisitors 
+            <ParsedDataVisitors
               data={element} />
 
           );
@@ -66,18 +68,20 @@ var Upload=React.createClass({
     if(document.getElementById('txtFileUpload').files.length===0){
       alert('no file selected');
     } else {
-      var self=this;
+      var self = this;
       this.setState({hostOrVisitor: this.determineHostOrVisitor()});
       var data = document.getElementById('txtFileUpload').files;
       var reader = new FileReader();
       reader.addEventListener('load', function(event) {
-        var data = Papa.parse(event.target.result, {header:true});
-        console.log(data, 'data');
+        data = Papa.parse(event.target.result, {header:true});
+        console.log(data.meta.fields);
+        self.setState({fields: data.meta.fields});
+        console.log('gulp is working');
         document.getElementById("confirm-button").disabled = false;
         // self.setState({data: data});
         if(self.state.hostOrVisitor==='visitor') {
           //figure out what to do with returned data
-          console.log('visitor fires');
+          // console.log('visitor fires');
           self.setState({dataArray: DataParser.parseDataVisitor(data)});
         } else {
           console.log('host fires');
@@ -130,8 +134,12 @@ browserSupportFileUpload: function() {
       });
   },
 
-  render:function() {
-    return(
+  render: function() {
+    console.dir(this.state.fields);
+    if(this.state.fields) {
+     var buttonstuff = (<ButtonList fields={this.state.fields} categories={this.state.visitorCategories} />);
+    }
+    return (
       <div id='Upload-box'>
         <div id="nav">
           <div id='tabs'>
@@ -157,6 +165,7 @@ browserSupportFileUpload: function() {
           </form>
           </div>
             <input id='confirm-button' type='button' value="Confirm Data" onClick={this.submitData}></input>
+            {buttonstuff}
           <div id="array-of-individuals">
             {this.populateIndividualArray(this.state.dataArray)}
           </div>

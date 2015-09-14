@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^2.9.34",
+    "bluebird": "^2.10.0",
     "body-parser": "~1.12.4",
     "browserify": "^10.2.4",
     "clone": "^1.0.2",
@@ -15,10 +15,11 @@
     "express": "~4.12.4",
     "fast-csv": "^0.6.0",
     "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.3",
+    "gulp-nodemon": "^2.0.4",
     "hat": "0.0.3",
     "jquery": "^2.1.4",
     "mongoose": "^4.1.2",
+    "morgan": "^1.6.1",
     "mpath": "^0.2.1",
     "passport": "^0.2.2",
     "react": "^0.13.3",
@@ -27,6 +28,6 @@
     "reactify": "^1.1.1",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.2"
+    "watchify": "^3.4.0"
   }
 }

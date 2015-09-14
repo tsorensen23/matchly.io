@@ -2,13 +2,13 @@ var cookieParser = require('cookie-parser');
 var express = require('express');
 var Hat = require('hat');
 var app = express();
-var userController = require('./database/userController');
+var userController = require('./controllers/userController');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var connect=false;
+var morgan = require('morgan');
 mongoose.connect('mongodb://travis:abc123@ds041188.mongolab.com:41188/finalproject');
 mongoose.connection.on('error', function(err){
-  
   console.error('connection error ',err);
   // throw err;
 });
@@ -18,6 +18,7 @@ mongoose.connection.on('connected', function(){
 mongoose.connection.on('disconnected', function(){
   connect=false;
 });
+app.use(morgan('combined'));
 
 app.use(function(req,res,next) {
   if(!connect) {
