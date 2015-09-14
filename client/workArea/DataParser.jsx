@@ -1,5 +1,3 @@
-var moment = require('moment');
-
 var DataParser = {
 
 parseDataHost: function(dataObject){
