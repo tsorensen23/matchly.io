@@ -94,9 +94,9 @@ var Rumble = {
     var hostMatched;
     var classFull;
     var section=host.MatchInfo.Section;
-    var classVisitTime=visitor.MatchInfo.classVisitTime.toString();
-    var sectionVisit=section+classVisitTime;
-    if(host.MatchInfo[classVisitTime].matchIndex===null) {
+    var classVisitNumber=visitor.MatchInfo.classVisitNumber.toString();
+    var sectionVisit=section+classVisitNumber;
+    if(host.MatchInfo[classVisitNumber].matchIndex===null) {
       hostMatched='notMatched';
     } else {
       hostMatched='matched';
@@ -112,7 +112,7 @@ var Rumble = {
   SpecificClass:function(visitor, host) {
     // console.log(host);
     var section = host.MatchInfo.Section;
-    var sectionNumber = visitor.MatchInfo.classVisitTime;
+    var sectionNumber = visitor.MatchInfo.classVisitNumber;
     var specificClass=section+sectionNumber;
     return specificClass;
 
@@ -151,7 +151,7 @@ var Rumble = {
     var matches = visitorArray.map(function(visitor){
       var host=hostArray[visitor.MatchInfo.matchIndex];
       // console.log(visitor, 'visitor');
-      var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitTime,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
+      var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitNumber,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
       return m;
     });
 
@@ -253,7 +253,8 @@ var Rumble = {
           bestMatchIndex=null;
           bestCount=null;
           bestMatchedOn=null;
-          var classNumber=visitorArray[i].MatchInfo.classVisitTime;
+          var classNumber=visitorArray[i].MatchInfo.classVisitNumber;
+          console.log('class number;',classNumber);
           console.log(bestMatchIndex, 'bestMatchIndex after if');
           var counterif=0;
           var found = false;
