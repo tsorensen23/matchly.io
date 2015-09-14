@@ -3,7 +3,7 @@ var DataParser = {
 parseDataHost: function(dataObject){
     var dataArray = dataObject.data;
     var modifiedDataArray = [];
-    function individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, email, section) {
+    function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, email, section) {
       this.Characteristics={
         Military: military,
         Country: country,
@@ -40,7 +40,7 @@ parseDataHost: function(dataObject){
 //working on modifying the schema;
 
     for(var i=0; i<dataArray.length; i++) {
-      var data = new individual(
+      var data = new Individual(
         dataArray[i]['Veteran'],
         dataArray[i]['Country'],
         dataArray[i]['Citizenship'],
@@ -73,32 +73,21 @@ parseDataHost: function(dataObject){
       //   }
       // }
     });
-    console.log('modifiedDataArray', modifiedDataArray);
     return modifiedDataArray;
   },
 
-  parseDataVisitor: function(dataObject) {
-    // console.log('parseDataVisitors');
-    // console.log('data in parseDataVisitor', dataObject);
+  parseDataVisitor: function(dataObject, fields) {
     var dataArray = dataObject.data;
-    console.log(dataArray);
-
-    // console.log(dataArray,'dataArray');
+    console.log('fields', fields);
     var modifiedDataArray = [];
-    // console.log(dataArray, 'dataArray');
-    function individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, ClassVisitTime) {
-      console.log('ClassVisitTime', ClassVisitTime);
+    function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, ClassVisitTime) {
       if(ClassVisitTime==='8:00 AM'){
-        console.log('8 am fires');
-      ClassVisitTime=1;
+      classVisitNumber=1;
     } else if(ClassVisitTime ==='10:00 AM'){
-      console.log('10 am fires');
-      ClassVisitTime=2;
+      classVisitNumber=2;
     } else if(ClassVisitTime==='11:45 AM'){
-      console.log('11:45 fires');
-      ClassVisitTime=3;
+      classVisitNumber=3;
     } 
-    console.log('ClassVisitTime after parse', ClassVisitTime);
       this.Characteristics={
         Military: military,
         Country: country,
@@ -116,30 +105,44 @@ parseDataHost: function(dataObject){
         Email: null
       };
       this.MatchInfo={
-        classVisitTime: ClassVisitTime,
+        'Class Visit Time': ClassVisitTime,
+        classVisitNumber: classVisitNumber,
         matchScore:-1,
         matchIndex:null,
         matchedOn:null,
         matchCount:0
       };
     }
+   
     for(var i=0; i<dataArray.length; i++) {
-      var data = new individual(
-        dataArray[i]['Military Status'],
-        dataArray[i]['Address Country'],
-        dataArray[i]['CITIZENSHIP1'],
-        dataArray[i]['Undergraduate Institution'],
-        dataArray[i]['Employer'],
-        dataArray[i]['Industry'],
-        dataArray[i]['Address City'],
-        dataArray[i]['Address Region'],
-        dataArray[i]['First'],
-        dataArray[i]['Last'],
-        dataArray[i]['Gender'],
-        dataArray[i]['Class Visit Time']
+      var milStatusKey = fields[0];
+      var CountryKey=fields[1];
+      var CitizenshipKey=fields[2];
+      var UndergraduateKey=fields[3];
+      var EmployerKey=fields[4];
+      var IndustryKey=fields[5];
+      var CityKey=fields[6];
+      var StateKey=fields[7];
+      var FirstKey=fields[8];
+      var LastKey=fields[9];
+      var GenderKey=fields[10];
+      var ClassVisitTimeKey=fields[11];
+      var data = new Individual(
+        dataArray[i][milStatusKey],
+        dataArray[i][CountryKey],
+        dataArray[i][CitizenshipKey],
+        dataArray[i][UndergraduateKey],
+        dataArray[i][EmployerKey],
+        dataArray[i][IndustryKey],
+        dataArray[i][CityKey],
+        dataArray[i][StateKey],
+        dataArray[i][FirstKey],
+        dataArray[i][LastKey],
+        dataArray[i][GenderKey],
+        dataArray[i][ClassVisitTimeKey]
         );
+      console.log(data);
       modifiedDataArray.push(data);
-      // console.log(modifiedDataArray,'modifiedDataArray');
     }
     return modifiedDataArray;
   },

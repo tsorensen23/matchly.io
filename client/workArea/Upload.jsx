@@ -7,8 +7,7 @@ var ButtonList = require('./ButtonList.jsx');
 var visitorHeaders = [
   'Contact.First',
   'Contact.Last',
-  'Contact.Email',
-  'ClassVisitTime',
+  'MatchInfo.Class Visit Time',
   'Characteristics.Military',
   'Characteristics.Country',
   'Characteristics.Citizenship',
@@ -38,11 +37,14 @@ var Upload = React.createClass({
     document.getElementById("confirm-button").disabled = true;
   },
   togglePageView: function() {
+    console.log('toggle is called');
     if(this.state.pageView===0){
-      this.setState({pageView:1});
-    } else {
-      this.setState({pageView:0});      
+      return this.setState({pageView:1});
+    } 
+    if(this.state.pageView === 1){
+      return this.setState({pageView:2});      
     }
+    return this.setState({pageView: 0});
   },
   populateIndividualArray:function(array) {
     if(array===null) {
@@ -73,27 +75,27 @@ var Upload = React.createClass({
     if(document.getElementById('txtFileUpload').files.length===0){
       alert('no file selected');
     } else {
-      var self = this;
       this.setState({hostOrVisitor: this.determineHostOrVisitor()});
       var data = document.getElementById('txtFileUpload').files;
       var reader = new FileReader();
       reader.addEventListener('load', function(event) {
         data = Papa.parse(event.target.result, {header:true});
-        console.log(data.meta.fields);
-        self.setState({fields: data.meta.fields});
+        console.log('data', data);
+        this.setState({fields: data.meta.fields});
         console.log('gulp is working');
         document.getElementById("confirm-button").disabled = false;
-        // self.setState({data: data});
-        if(self.state.hostOrVisitor==='visitor') {
+        // this.setState({data: data});
+        if(this.state.hostOrVisitor==='visitor') {
           //figure out what to do with returned data
           // console.log('visitor fires');
-          self.setState({dataArray: DataParser.parseDataVisitor(data)});
+          this.setState({dataArray: DataParser.parseDataVisitor(data, this.state.fields)});
         } else {
           console.log('host fires');
-          self.setState({dataArray: DataParser.parseDataHost(data)});
+          this.setState({dataArray: DataParser.parseDataHost(data)});
         }
-      });
+      }.bind(this));
       reader.readAsText(data[0]);
+      this.togglePageView();
     }
   },
 
@@ -120,11 +122,31 @@ browserSupportFileUpload: function() {
   toggleSubmit: function() {
     document.getElementById("submitButton").disabled = false;
   },
-  handlerFunction: function(array) {
+  fieldsChanger: function(array) {
+    console.log(array);
+    this.togglePageView();
   //this function takes an array of category names and sets the data array state to that array
-  this.headers = array;
+      var data = document.getElementById('txtFileUpload').files;
+      var reader = new FileReader();
+      reader.addEventListener('load', function(event) {
+        data = Papa.parse(event.target.result, {header:true});
+        document.getElementById("confirm-button").disabled = false;
+        // this.setState({data: data});
+        if(this.state.hostOrVisitor==='visitor') {
+          //figure out what to do with returned data
+          // console.log('visitor fires');
+          var data =DataParser.parseDataVisitor(data, array);
+          this.setState({dataArray: data});
+          console.dir(data);          
+        } else {
+          console.log('host fires');
+          this.setState({dataArray: DataParser.parseDataHost(data)});
+        }
+      }.bind(this));
+      reader.readAsText(data[0]);
+      this.togglePageView();
   },
-  submitData:function() {
+  submitData: function() {
     var dataArray=this.state.dataArray;
     if(this.state.hostOrVisitor==='host'){
       var url='/submithosts';
@@ -144,7 +166,10 @@ browserSupportFileUpload: function() {
 
   render: function() {
     if(this.state.fields) {
-     var buttonstuff = (<ButtonList fields={this.state.fields} categories={this.state.visitorCategories} />);
+     var buttonstuff = (<ButtonList 
+      fields={this.state.fields} 
+      fieldsChanger={this.fieldsChanger} 
+      categories={this.state.visitorCategories} />);
     }
     var dataView;
     if(this.state.pageView===1) {
@@ -156,11 +181,13 @@ browserSupportFileUpload: function() {
         </div>);
     } else if(this.state.pageView===2) {
       dataView=(
+        <div>
+        <h2>THIS STATE IS 2</h2>
         <div id="array-of-individuals">
           {this.populateIndividualArray(this.state.dataArray)}
         </div>
         <input id='confirm-button' type='button' value="Confirm Data" onClick={this.submitData}></input>
-
+        </div>
       );
     }
     return (
@@ -185,7 +212,7 @@ browserSupportFileUpload: function() {
                 <legend>Upload your CSV File</legend>
                 <input type="file" name="File Upload" id="txtFileUpload" accept=".csv" />
             </div>
-            <input id='submitButton' type='submit' onClick={this.togglePageView}></input>
+            <input id='submitButton' type='submit'></input>
           </form>
           </div>
             {dataView}

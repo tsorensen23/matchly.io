@@ -2,7 +2,7 @@ var React = require('react');
 var Button = require('./Button.jsx');
 var ButtonList = React.createClass({
   getInitialState: function() {
-    var colors = ["#389adc", "#e74c3c", "#f1c40f", "#1abc9c", "#9b59b6", "#34495e", "#d35400", "#f39c12", "#16a085" ];
+    var colors = ["#389adc", "#e74c3c", "#f1c40f", "#1abc9c", "#9b59b6", "#34495e", "#d35400", "#f39c12", "#16a085", "dodgerblue", "peachpuff","teal" ];
     var fields = this.props.fields.map(function(value){
       return {
         value: value,
@@ -25,29 +25,33 @@ var ButtonList = React.createClass({
       categories: categories
     });
   },
+  callFieldsChange: function() {
+    var awesome = this.state.fields.reduce(function (prev,curr) {
+      prev.push(curr.value);
+      return prev;
+    }, []);
+    awesome = awesome.splice(0,12);
+
+    this.props.fieldsChanger(awesome);
+  },
   // changeColor takes a componenets index
   changeColor: function(buttonIndex) {
-    console.log('index',this.state.index);
     if(this.state.index === null) {
       this.setState({index: buttonIndex});
     } else {
       this.reorder(buttonIndex, this.state.index);
     }
     this.toggleDisabled();
-    console.log(buttonIndex);
   },
   reorder: function(currIndex, newIndex){
-    console.warn('reorder was called');
     var tempFields = this.state.fields;
     var temp = tempFields[currIndex];
     temp.color=this.state.categories[newIndex].color;
     tempFields[currIndex] = tempFields[newIndex];
     tempFields[newIndex] = temp;
-    console.dir(this.state.fields);
     this.setState({fields: tempFields,
                   index: null
     });
-    console.log('temp', temp);
   },
   toggleDisabled: function() {
     this.setState({
@@ -56,10 +60,6 @@ var ButtonList = React.createClass({
     });
   },
   render: function() {
-    console.log("index at render", this.state.index);
-    console.dir(this.state.fields);
-    
-
     var fieldButtons = this.state.fields.map(function(object, index) {
       return (
         <Button
@@ -92,6 +92,8 @@ var ButtonList = React.createClass({
                 <h1>Headers we got</h1>
                 {fieldButtons}
               </div>
+              <input id='confirm-button' type='button' value="Field Change" onClick={this.callFieldsChange}></input>
+
             </div>
           );
   }
