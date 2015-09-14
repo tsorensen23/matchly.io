@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 var DataParser = {
 
 parseDataHost: function(dataObject){
@@ -80,16 +82,21 @@ parseDataHost: function(dataObject){
     var dataArray = dataObject.data;
     console.log('fields', fields);
     var modifiedDataArray = [];
-    var classVisitNumber = null;
-    function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, ClassVisitTime) {
-    if(ClassVisitTime ==='8:00 AM'){
-      classVisitNumber = 1;
-    } else if(ClassVisitTime ==='10:00 AM'){
-      classVisitNumber = 2;
-    } else if(ClassVisitTime ==='11:45 AM'){
-      classVisitNumber = 3;
-    }
-      this.Characteristics = {
+    function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
+    var classVisitNumber;
+    if(classVisitTime==='8:00 AM'){
+      classVisitNumber=1;
+      classVisitTime=800;
+    } else if(classVisitTime ==='10:00 AM'){
+      classVisitTime=1000;
+      classVisitNumber=2;
+    } else if(classVisitTime==='11:45 AM'){
+      classVisitNumber=3;
+      classVisitTime=1145;
+
+    } 
+
+      this.Characteristics={
         Military: military,
         Country: country,
         Citizenship: citizenship,
@@ -105,8 +112,8 @@ parseDataHost: function(dataObject){
         Last: last,
         Email: null
       };
-      this.MatchInfo = {
-        'Class Visit Time': ClassVisitTime,
+      this.MatchInfo={
+        'Class Visit Time': classVisitTime,
         classVisitNumber: classVisitNumber,
         matchScore: -1,
         matchIndex: null,
@@ -127,7 +134,7 @@ parseDataHost: function(dataObject){
       var FirstKey=fields[8];
       var LastKey=fields[9];
       var GenderKey=fields[10];
-      var ClassVisitTimeKey=fields[11];
+      var classVisitTimeKey=fields[11];
       var data = new Individual(
         dataArray[i][milStatusKey],
         dataArray[i][CountryKey],
@@ -140,7 +147,7 @@ parseDataHost: function(dataObject){
         dataArray[i][FirstKey],
         dataArray[i][LastKey],
         dataArray[i][GenderKey],
-        dataArray[i][ClassVisitTimeKey]
+        dataArray[i][classVisitTimeKey]
         );
       console.log(data);
       modifiedDataArray.push(data);
