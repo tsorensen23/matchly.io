@@ -1,5 +1,3 @@
-var moment = require('moment');
-
 var DataParser = {
 
 parseDataHost: function(dataObject){
@@ -85,13 +83,13 @@ parseDataHost: function(dataObject){
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
     var classVisitNumber;
     if(classVisitTime==='8:00 AM'){
-      classVisitNumber=1;
+      classVisitNumber='1';
       classVisitTime=800;
     } else if(classVisitTime ==='10:00 AM'){
       classVisitTime=1000;
-      classVisitNumber=2;
+      classVisitNumber='2';
     } else if(classVisitTime==='11:45 AM'){
-      classVisitNumber=3;
+      classVisitNumber='3';
       classVisitTime=1145;
 
     } 
