@@ -23,6 +23,7 @@ var Upload = React.createClass({
   getInitialState: function(){
     return{
       data: null,
+      pageView:0,
       hostOrVisitor: null,
       arrayOfIndividuals: null,
       dataArray: null,
@@ -32,13 +33,17 @@ var Upload = React.createClass({
     };
   },
 
-
-
   componentDidMount: function(){
     document.getElementById("submitButton").disabled = true;
     document.getElementById("confirm-button").disabled = true;
   },
-
+  togglePageView: function() {
+    if(this.state.pageView===0){
+      this.setState({pageView:1});
+    } else {
+      this.setState({pageView:0});      
+    }
+  },
   populateIndividualArray:function(array) {
     if(array===null) {
       return;
@@ -115,7 +120,10 @@ browserSupportFileUpload: function() {
   toggleSubmit: function() {
     document.getElementById("submitButton").disabled = false;
   },
-
+  handlerFunction: function(array) {
+  //this function takes an array of category names and sets the data array state to that array
+  this.headers = array;
+  },
   submitData:function() {
     var dataArray=this.state.dataArray;
     if(this.state.hostOrVisitor==='host'){
@@ -135,9 +143,25 @@ browserSupportFileUpload: function() {
   },
 
   render: function() {
-    console.dir(this.state.fields);
     if(this.state.fields) {
      var buttonstuff = (<ButtonList fields={this.state.fields} categories={this.state.visitorCategories} />);
+    }
+    var dataView;
+    if(this.state.pageView===1) {
+      //submitted csv
+      dataView=
+        (<div>
+        {buttonstuff}
+        <input id='confirm-button' type='button' value="Confirm Data" onClick={this.togglePageView}></input>
+        </div>);
+    } else if(this.state.pageView===2) {
+      dataView=(
+        <div id="array-of-individuals">
+          {this.populateIndividualArray(this.state.dataArray)}
+        </div>
+        <input id='confirm-button' type='button' value="Confirm Data" onClick={this.submitData}></input>
+
+      );
     }
     return (
       <div id='Upload-box'>
@@ -161,14 +185,10 @@ browserSupportFileUpload: function() {
                 <legend>Upload your CSV File</legend>
                 <input type="file" name="File Upload" id="txtFileUpload" accept=".csv" />
             </div>
-            <input id='submitButton' type='submit'></input>
+            <input id='submitButton' type='submit' onClick={this.togglePageView}></input>
           </form>
           </div>
-            <input id='confirm-button' type='button' value="Confirm Data" onClick={this.submitData}></input>
-            {buttonstuff}
-          <div id="array-of-individuals">
-            {this.populateIndividualArray(this.state.dataArray)}
-          </div>
+            {dataView}
       </div>
     );
   }

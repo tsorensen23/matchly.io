@@ -2,22 +2,36 @@ var React = require('react');
 var Button = require('./Button.jsx');
 var ButtonList = React.createClass({
   getInitialState: function() {
+    var colors = ["#389adc", "#e74c3c", "#f1c40f", "#1abc9c", "#9b59b6", "#34495e", "#d35400", "#f39c12", "#16a085" ];
+    var fields = this.props.fields.map(function(value){
+      return {
+        value: value,
+        color: null,
+        matchIndex: null
+      };
+    });
+    var categories = this.props.categories.map(function(value, i){
+      return {
+        value: value,
+        color: colors[i],
+        matchIndex: null
+      };
+    }.bind(this));
     return ({
-      colors: ["#389adc", "#e74c3c", "#f1c40f", "#1abc9c", "#9b59b6", "#34495e", "#d35400", "#f39c12", "#16a085" ],
       index: null,
       categoriesDisabled: false,
       fieldsDisabled: true,
-      fields: this.props.fields,
-      categories: this.props.categories
+      fields: fields,
+      categories: categories
     });
   },
   // changeColor takes a componenets index
   changeColor: function(buttonIndex) {
-    if(!this.state.index) {
+    console.log('index',this.state.index);
+    if(this.state.index === null) {
       this.setState({index: buttonIndex});
     } else {
       this.reorder(buttonIndex, this.state.index);
-      this.setState({index: null});
     }
     this.toggleDisabled();
     console.log(buttonIndex);
@@ -26,10 +40,14 @@ var ButtonList = React.createClass({
     console.warn('reorder was called');
     var tempFields = this.state.fields;
     var temp = tempFields[currIndex];
+    temp.color=this.state.categories[newIndex].color;
     tempFields[currIndex] = tempFields[newIndex];
     tempFields[newIndex] = temp;
     console.dir(this.state.fields);
-    this.setState({fields: tempFields});
+    this.setState({fields: tempFields,
+                  index: null
+    });
+    console.log('temp', temp);
   },
   toggleDisabled: function() {
     this.setState({
@@ -38,23 +56,11 @@ var ButtonList = React.createClass({
     });
   },
   render: function() {
+    console.log("index at render", this.state.index);
     console.dir(this.state.fields);
-    var fields = this.state.fields.map(function(value){
-      return {
-        value: value,
-        color: null,
-        matchIndex: null
-      };
-    });
-    var categories = this.state.categories.map(function(value, i){
-      return {
-        value: value,
-        color: this.state.colors[i],
-        matchIndex: null
-      };
-    }.bind(this));
+    
 
-    var fieldButtons = fields.map(function(object, index) {
+    var fieldButtons = this.state.fields.map(function(object, index) {
       return (
         <Button
           colorChange={this.changeColor}
@@ -65,7 +71,7 @@ var ButtonList = React.createClass({
           data={object.value} />
         );
     }.bind(this));
-    var categoryButtons = categories.map(function(object, index) {
+    var categoryButtons = this.state.categories.map(function(object, index) {
       return (
         <Button
           colorChange={this.changeColor}
