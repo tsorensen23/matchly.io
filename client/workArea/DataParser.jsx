@@ -35,7 +35,7 @@ parseDataHost: function(dataObject){
           matchScore:-1
         }
       };
-      
+
     }
 //working on modifying the schema;
 
@@ -66,7 +66,7 @@ parseDataHost: function(dataObject){
       }
       // if(object.Characteristics.Military==='None') {
       //   object.Characteristics.Military=0;
-      // } 
+      // }
       // for(var key in object) {
       //   if(object[key][0]==="") {
       //     object[key][1]=0;
@@ -121,7 +121,7 @@ parseDataHost: function(dataObject){
         State: state,
         Gender: gender
       };
-      this.Contact={
+      this.Contact = {
         First: first,
         Last: last,
         Email: null
@@ -129,13 +129,13 @@ parseDataHost: function(dataObject){
       this.MatchInfo={
         'Class Visit Time': classVisitTime,
         classVisitNumber: classVisitNumber,
-        matchScore:-1,
-        matchIndex:null,
-        matchedOn:null,
-        matchCount:0
+        matchScore: -1,
+        matchIndex: null,
+        matchedOn: null,
+        matchCount: 0
       };
     }
-   
+
     for(var i=0; i<dataArray.length; i++) {
       var milStatusKey = fields[0];
       var CountryKey=fields[1];

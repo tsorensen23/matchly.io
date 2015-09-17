@@ -79,9 +79,9 @@ var Rumble = {
     var hostMatched;
     var classFull;
     var section=host.MatchInfo.Section;
-    var classVisitNumber=visitor.MatchInfo.classVisitNumber.toString();
-    var sectionVisit=section+classVisitNumber;
-    if(host.MatchInfo[classVisitNumber].matchIndex===null) {
+    var classVisitTime=visitor.MatchInfo.classVisitTime.toString();
+    var sectionVisit=section+classVisitTime;
+    if(host.MatchInfo[classVisitTime].matchIndex===null) {
       hostMatched='notMatched';
     } else {
       hostMatched='matched';
@@ -96,7 +96,7 @@ var Rumble = {
   },
   SpecificClass:function(visitor, host) {
     var section = host.MatchInfo.Section;
-    var sectionNumber = visitor.MatchInfo.classVisitNumber;
+    var sectionNumber = visitor.MatchInfo.classVisitTime;
     var specificClass=section+sectionNumber;
     return specificClass;
 
@@ -131,7 +131,10 @@ var Rumble = {
     }
     var matches = visitorArray.map(function(visitor){
       var host=hostArray[visitor.MatchInfo.matchIndex];
-      var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitNumber,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
+      //the below commmented out code has classVisitNumber as opposed to Class Visit time.  I think we want time because the matching is already done and we're just returning the data to the user.
+      // var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitNumber,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
+      // console.log(visitor, 'visitor');
+      var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitTime,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
       return m;
     });
 
@@ -229,6 +232,9 @@ var Rumble = {
           bestCount=null;
           bestMatchedOn=null;
           var classNumber=visitorArray[i].MatchInfo.classVisitNumber;
+          //here I think we want classVisitNumber, because we're matching.
+          // var classNumber=visitorArray[i].MatchInfo.classVisitTime;
+          console.log(bestMatchIndex, 'bestMatchIndex after if');
           var counterif=0;
           var found = false;
           for(var k =0; k<hostArray.length; k++) {

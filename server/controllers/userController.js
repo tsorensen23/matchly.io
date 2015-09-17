@@ -35,7 +35,7 @@ module.exports = {
     if(!req.cookies) {
       return res.redirect('/login.html');
     }
-    
+
     if(!req.cookies.matchlycookie) {
       return res.redirect('/login.html');
     }
@@ -46,7 +46,7 @@ module.exports = {
           return res.send(err);
         }
         else if(data===null) {
-         return res.redirect('/login.html'); 
+         return res.redirect('/login.html');
         }
         // res.send(data);
         next();
@@ -153,13 +153,14 @@ module.exports = {
             }
           res.send(data);
           });
-    });
-  },
 
+    });
+    res.sendStatus(200);
+  },
   registerUser: function(req, res) {
     // console.log(req.body, "before has");
-    req.body.password=bcrypt.hashSync(req.body.password);
-    req.body.matchlycookie=req.cookies.matchlycookie;
+    req.body.password = bcrypt.hashSync(req.body.password);
+    req.body.matchlycookie = req.cookies.matchlycookie;
 
     // console.log(req.body,"after hash");
     UserProfile.create(req.body, function(err, data) {
