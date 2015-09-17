@@ -125,10 +125,12 @@ module.exports = {
     });
   },
 
-  submithosts: function(req, res) {
+  submithosts: function(req, res,next) {
     //made this a batch upload, have not tested it...
-    HostProfile.find({}).remove().exec();
-    // console.log(req.body);
+    HostProfile.find({}).remove().exec(function(err, data) {
+      if(err) {
+        return next(err);
+      }
       HostProfile.create(req.body, function(err, data) {
         if(err) {
           return res.send(err);
@@ -136,6 +138,7 @@ module.exports = {
         data = data.toObject();
         res.send(data);
       });
+    });
   },
 
   submitvisitors: function(req,res,next) {
