@@ -20,7 +20,7 @@ var visitorSchema = new Schema({
     },
     MatchInfo: {
         'Class Visit Time': {type: String},
-        classVisitNumber: {type: Number},
+        classVisitNumber: {type: String},
         matchScore: {type: Number},
         matchIndex: {type: String},
         matchedOn: {type: Object},

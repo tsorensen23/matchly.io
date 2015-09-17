@@ -82,18 +82,35 @@ parseDataHost: function(dataObject){
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
     var classVisitNumber;
-    if(classVisitTime==='8:00 AM'){
-      classVisitNumber=1;
+    // TODO factor this into a helper function
+    if(classVisitTime==='8:00'|| 
+      classVisitTime==='8:00 AM' || 
+      classVisitTime==='8:00:00 AM' || 
+      classVisitTime==='800' || 
+      classVisitTime==='800 AM'){
+      classVisitNumber='1';
       classVisitTime=800;
-    } else if(classVisitTime ==='10:00 AM'){
+    } else if(classVisitTime ==='10:00'|| 
+      classVisitTime==='10:00 AM' || 
+      classVisitTime==='10:00:00 AM' || 
+      classVisitTime==='1000' || 
+      classVisitTime==='1000 AM'){
       classVisitTime=1000;
-      classVisitNumber=2;
-    } else if(classVisitTime==='11:45 AM'){
-      classVisitNumber=3;
+      classVisitNumber='2';
+    } else if(classVisitTime==='11:45'|| 
+      classVisitTime==='11:45 AM' || 
+      classVisitTime==='11:45:00 AM' || 
+      classVisitTime==='11045' || 
+      classVisitTime==='1145AM'){
+      classVisitNumber='3';
       classVisitTime=1145;
+    }
+      else {
+        console.log('classVisitTime ',classVisitTime);
+        throw 1;
+      }
 
-    } 
-
+    
       this.Characteristics={
         Military: military,
         Country: country,

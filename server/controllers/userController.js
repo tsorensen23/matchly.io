@@ -125,11 +125,13 @@ module.exports = {
     });
   },
 
-  submithosts: function(req, res) {
-    HostProfile.find({}).remove().exec();
-    // console.log(req.body);
-    req.body.forEach(function(element){
-      HostProfile.create(element, function(err, data) {
+  submithosts: function(req, res,next) {
+    //made this a batch upload, have not tested it...
+    HostProfile.find({}).remove().exec(function(err, data) {
+      if(err) {
+        return next(err);
+      }
+      HostProfile.create(req.body, function(err, data) {
         if(err) {
           return res.send(err);
         }
@@ -139,16 +141,19 @@ module.exports = {
     });
   },
 
-  submitvisitors: function(req,res) {
-    VisitorProfile.find({}).remove().exec();
-    // console.log(req.body);
-    var output = [];
-    var visitors = req.body.forEach(function(element){
-      return VisitorProfile.create(element, function(err, data) {
-        if(err){
-          throw new Error(err);
-        }
-      });
+  submitvisitors: function(req,res,next) {
+    VisitorProfile.find({}).remove().exec(function (err, data) {
+      if(err) {
+        return next(err);
+      }
+        console.log('request.body',req.body);
+          VisitorProfile.create(req.body, function(err, data) {
+            if(err) {
+              return res.send(err);
+            }
+          res.send(data);
+          });
+
     });
     res.sendStatus(200);
   },
