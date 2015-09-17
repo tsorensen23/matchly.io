@@ -176,8 +176,13 @@ var Rumble = {
     // visitorArray=clone(visitorArray);
 
     var notMatchedFullCount=0;
+    
     visitorArray=visitorArray.sort(function(a,b){
-      return a.Contact.First - b.Contact.First;
+      return a.Contact.Last-b.Contact.Last;
+    });
+
+    hostArray=hostArray.sort(function(a,b){
+      return .5 + Math.random();
     });
 
     constraintObject=constraintObject[0];
