@@ -81,9 +81,11 @@ parseDataHost: function(dataObject){
     console.log('fields', fields);
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
+      console.log(classVisitTime);
     var classVisitNumber;
     if(classVisitTime==='8:00'|| 
       classVisitTime==='8:00 AM' || 
+      classVisitTime==='08:00 AM' || 
       classVisitTime==='8:00:00 AM' || 
       classVisitTime==='800' || 
       classVisitTime==='800 AM'){

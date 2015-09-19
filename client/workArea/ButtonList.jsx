@@ -83,18 +83,27 @@ var ButtonList = React.createClass({
         );
     }.bind(this));
       return (
+          <div>
             <div className='row'>
               <div className='col-md-2 col-md-offset-2'>
                 <h1>Categories we need</h1>
-                {categoryButtons}
               </div>
               <div className='col-md-2 col-md-offset-1'>
                 <h1>Headers we got</h1>
+              </div>
+              <div className='col-md-2'>
+                <input id='confirm-button' type='button' value="Field Change" onClick={this.callFieldsChange}></input>
+              </div>
+            </div>
+            <div className='row'>
+              <div className='col-md-2 col-md-offset-2'>
+                {categoryButtons}
+              </div>
+              <div className='col-md-2 col-md-offset-1'>
                 {fieldButtons}
               </div>
-              <input id='confirm-button' type='button' value="Field Change" onClick={this.callFieldsChange}></input>
-
             </div>
+          </div>
           );
   }
 
