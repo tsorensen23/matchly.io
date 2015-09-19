@@ -47,7 +47,10 @@ function scripts(input, output) {
 }
 
 function serve() {
- nodemon({script: './server/server.js'});
+ nodemon({
+   script: './server/server.js',
+   "ignore": ["client/*.js", "build/*.js"]
+ });
 }
 
 gulp.task('default', ['browserify', 'serve']);
