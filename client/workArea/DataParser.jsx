@@ -83,6 +83,7 @@ parseDataHost: function(dataObject){
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
       console.log(classVisitTime);
     var classVisitNumber;
+    // TODO factor this into a helper function
     if(classVisitTime==='8:00'|| 
       classVisitTime==='8:00 AM' || 
       classVisitTime==='08:00 AM' || 
