@@ -1,10 +1,10 @@
 var DataParser = {
 
-parseDataHost: function(dataObject){
+  parseDataHost: function(dataObject) {
     var dataArray = dataObject.data;
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, email, section) {
-      this.Characteristics={
+      this.Characteristics = {
         Military: military,
         Country: country,
         Citizenship: citizenship,
@@ -15,55 +15,57 @@ parseDataHost: function(dataObject){
         State: state,
         Gender: gender,
       };
-      this.Contact={
+      this.Contact = {
         First: first,
         Last: last,
-        Email: email
+        Email: email,
       };
-      this.MatchInfo= {
+      this.MatchInfo = {
         Section: section,
         1: {
           matchIndex:null,
-          matchScore:-1
+          matchScore:-1,
         },
         2: {
           matchIndex:null,
-          matchScore:-1
+          matchScore:-1,
         },
         3: {
           matchIndex:null,
-          matchScore:-1
-        }
+          matchScore:-1,
+        },
       };
 
     }
-//working on modifying the schema;
 
-    for(var i=0; i<dataArray.length; i++) {
+    //working on modifying the schema;
+    for (var i = 0; i < dataArray.length; i++) {
       var data = new Individual(
-        dataArray[i]['Veteran'],
-        dataArray[i]['Country'],
-        dataArray[i]['Citizenship'],
+        dataArray[i].Veteran,
+        dataArray[i].Country,
+        dataArray[i].Citizenship,
         dataArray[i]['School UG Name'],
-        dataArray[i]['Employer'],
+        dataArray[i].Employer,
         dataArray[i]['Employment Industry'],
-        dataArray[i]['City'],
-        dataArray[i]['State'],
-        dataArray[i]['Preferred'],
-        dataArray[i]['Last'],
-        dataArray[i]['Sex'],
-        dataArray[i]['Email'],
-        dataArray[i]['Section']
+        dataArray[i].City,
+        dataArray[i].State,
+        dataArray[i].Preferred,
+        dataArray[i].Last,
+        dataArray[i].Sex,
+        dataArray[i].Email,
+        dataArray[i].Section
         );
 
       modifiedDataArray.push(data);
     }
-    modifiedDataArray.forEach(function(object){
-      if(object.Characteristics.Gender==='F') {
-        object.Characteristics.Gender='Female';
+
+    modifiedDataArray.forEach(function(object) {
+      if (object.Characteristics.Gender === 'F') {
+        object.Characteristics.Gender = 'Female';
       } else {
-        object.Characteristics.Gender='Male';
+        object.Characteristics.Gender = 'Male';
       }
+
       // if(object.Characteristics.Military==='None') {
       //   object.Characteristics.Military=0;
       // }
@@ -73,6 +75,7 @@ parseDataHost: function(dataObject){
       //   }
       // }
     });
+
     return modifiedDataArray;
   },
 
@@ -82,38 +85,37 @@ parseDataHost: function(dataObject){
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
       console.log(classVisitTime);
-    var classVisitNumber;
-    // TODO factor this into a helper function
-    if(classVisitTime==='8:00'|| 
-      classVisitTime==='8:00 AM' || 
-      classVisitTime==='08:00 AM' || 
-      classVisitTime==='8:00:00 AM' || 
-      classVisitTime==='800' || 
-      classVisitTime==='800 AM'){
-      classVisitNumber='1';
-      classVisitTime=800;
-    } else if(classVisitTime ==='10:00'|| 
-      classVisitTime==='10:00 AM' || 
-      classVisitTime==='10:00:00 AM' || 
-      classVisitTime==='1000' || 
-      classVisitTime==='1000 AM'){
-      classVisitTime=1000;
-      classVisitNumber='2';
-    } else if(classVisitTime==='11:45'|| 
-      classVisitTime==='11:45 AM' || 
-      classVisitTime==='11:45:00 AM' || 
-      classVisitTime==='11045' || 
-      classVisitTime==='1145AM'){
-      classVisitNumber='3';
-      classVisitTime=1145;
-    }
-      else {
-        console.log('classVisitTime ',classVisitTime);
+      var classVisitNumber;
+
+      // TODO factor this into a helper function
+      if (classVisitTime === '8:00' ||
+        classVisitTime === '8:00 AM' ||
+        classVisitTime === '08:00 AM' ||
+        classVisitTime === '8:00:00 AM' ||
+        classVisitTime === '800' ||
+        classVisitTime === '800 AM') {
+        classVisitNumber = '1';
+        classVisitTime = 800;
+      } else if (classVisitTime === '10:00' ||
+        classVisitTime === '10:00 AM' ||
+        classVisitTime === '10:00:00 AM' ||
+        classVisitTime === '1000' ||
+        classVisitTime === '1000 AM') {
+        classVisitTime = 1000;
+        classVisitNumber = '2';
+      } else if (classVisitTime === '11:45' ||
+        classVisitTime === '11:45 AM' ||
+        classVisitTime === '11:45:00 AM' ||
+        classVisitTime === '11045' ||
+        classVisitTime === '1145AM') {
+        classVisitNumber = '3';
+        classVisitTime = 1145;
+      } else {
+        console.log('classVisitTime ', classVisitTime);
         throw 1;
       }
 
-    
-      this.Characteristics={
+      this.Characteristics = {
         Military: military,
         Country: country,
         Citizenship: citizenship,
@@ -122,36 +124,36 @@ parseDataHost: function(dataObject){
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender
+        Gender: gender,
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: null
+        Email: null,
       };
-      this.MatchInfo={
+      this.MatchInfo = {
         'Class Visit Time': classVisitTime,
         classVisitNumber: classVisitNumber,
         matchScore: -1,
         matchIndex: null,
         matchedOn: null,
-        matchCount: 0
+        matchCount: 0,
       };
     }
 
-    for(var i=0; i<dataArray.length; i++) {
+    for (var i = 0; i < dataArray.length; i++) {
       var milStatusKey = fields[0];
-      var CountryKey=fields[1];
-      var CitizenshipKey=fields[2];
-      var UndergraduateKey=fields[3];
-      var EmployerKey=fields[4];
-      var IndustryKey=fields[5];
-      var CityKey=fields[6];
-      var StateKey=fields[7];
-      var FirstKey=fields[8];
-      var LastKey=fields[9];
-      var GenderKey=fields[10];
-      var classVisitTimeKey=fields[11];
+      var CountryKey = fields[1];
+      var CitizenshipKey = fields[2];
+      var UndergraduateKey = fields[3];
+      var EmployerKey = fields[4];
+      var IndustryKey = fields[5];
+      var CityKey = fields[6];
+      var StateKey = fields[7];
+      var FirstKey = fields[8];
+      var LastKey = fields[9];
+      var GenderKey = fields[10];
+      var classVisitTimeKey = fields[11];
       var data = new Individual(
         dataArray[i][milStatusKey],
         dataArray[i][CountryKey],
@@ -169,8 +171,9 @@ parseDataHost: function(dataObject){
       console.log(data);
       modifiedDataArray.push(data);
     }
+
     return modifiedDataArray;
   },
 };
 
-module.exports=DataParser;
+module.exports = DataParser;
