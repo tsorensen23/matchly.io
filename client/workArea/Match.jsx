@@ -11,7 +11,7 @@ var Match = React.createClass({
       method: 'GET',
       url: '/match',
       success: function(data) {
-        // console.log("data", data);
+        console.log("data after get request", data);
         // console.log(self, 'self');
         self.props.setMatchData(data);
 
@@ -29,7 +29,7 @@ var Match = React.createClass({
       // console.log('if statement fires');
       // console.log(this.props.matchData.array,'matchData');
       data=this.props.matchData.array.map(function(visitor){
-        return (<div><Visitor visitor={visitor} /></div>);
+        return (<Visitor visitor={visitor} />);
       });
     }
     return(
@@ -56,7 +56,7 @@ var Match = React.createClass({
           <div id="loading">
           </div>
           <div id='data'>
-            {data}
+            <table className='minorPadding'>{data}</table>
           </div>
         </div>
 

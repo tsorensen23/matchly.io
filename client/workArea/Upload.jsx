@@ -83,7 +83,7 @@ var Upload = React.createClass({
         console.log('data', data);
         this.setState({fields: data.meta.fields});
         console.log('gulp is working');
-        document.getElementById("confirm-button").disabled = false;
+        // document.getElementById("confirm-button").disabled = false;
         // this.setState({data: data});
         if(this.state.hostOrVisitor==='visitor') {
           //figure out what to do with returned data

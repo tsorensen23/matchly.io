@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Match = require('./../../matchingAlgorithm/Match.js');
+
 var Schema = mongoose.Schema;
 
 var visitorSchema = new Schema({
@@ -21,11 +23,14 @@ var visitorSchema = new Schema({
     MatchInfo: {
         'Class Visit Time': {type: String},
         classVisitNumber: {type: String},
-        matchScore: {type: Number},
-        matchIndex: {type: String},
-        matchedOn: {type: Object},
-        matchCount: {type: Number}
-    }
+    },
   });
+var virtual = visitorSchema.virtual('match');
+virtual.get(function(){
+    return this.MATCH;
+});
+virtual.set(function(a){
+    this.MATCH=a;
+});
 
 module.exports = mongoose.model('visitorProfile', visitorSchema);

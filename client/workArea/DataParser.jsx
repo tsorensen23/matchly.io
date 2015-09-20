@@ -22,18 +22,7 @@ parseDataHost: function(dataObject){
       };
       this.MatchInfo= {
         Section: section,
-        1: {
-          matchIndex:null,
-          matchScore:-1
-        },
-        2: {
-          matchIndex:null,
-          matchScore:-1
-        },
-        3: {
-          matchIndex:null,
-          matchScore:-1
-        }
+        
       };
 
     }
@@ -78,7 +67,6 @@ parseDataHost: function(dataObject){
 
   parseDataVisitor: function(dataObject, fields) {
     var dataArray = dataObject.data;
-    console.log('fields', fields);
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
     var classVisitNumber;
@@ -105,7 +93,6 @@ parseDataHost: function(dataObject){
       classVisitTime=1145;
     }
       else {
-        console.log('classVisitTime ',classVisitTime);
         throw 1;
       }
 
@@ -163,7 +150,6 @@ parseDataHost: function(dataObject){
         dataArray[i][GenderKey],
         dataArray[i][classVisitTimeKey]
         );
-      console.log(data);
       modifiedDataArray.push(data);
     }
     return modifiedDataArray;

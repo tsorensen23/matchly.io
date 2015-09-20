@@ -61,7 +61,7 @@ var Home = React.createClass({
   },
 
   render: function(){
-    console.log(this.state.availableData,'availableData');
+    console.log(this.state.matchData,'matchData');
   // console.log('matchData',this.state.matchData);
   var self=this;
   var workArea=<div></div>

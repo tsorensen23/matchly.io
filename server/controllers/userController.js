@@ -5,7 +5,8 @@ var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
 var availabilityProfile = require('../database/availability.js');
 var Promise = require("bluebird");
-var Rumble = require('./../../algorithm2.js');
+//need to change this when we break up algorithm2
+var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv=require('fast-csv');
 var Hat = require('hat');
 
@@ -13,7 +14,6 @@ module.exports = {
   cookieCheck: function(req,res) {
     var cookie = req.cookies.matchlycookie;
     UserProfile.findOne({'matchlycookie': cookie}, function(err, data) {
-        // console.log(data);
         res.send(data);
     });
   },
@@ -31,7 +31,6 @@ module.exports = {
   },
 
   authorizationCheck: function(req,res,next) {
-    // console.log(req);
     if(!req.cookies) {
       return res.redirect('/login.html');
     }
@@ -51,17 +50,14 @@ module.exports = {
         // res.send(data);
         next();
     });
-    // console.log(cookie,'matchlycookie');
   },
 
   checkLogin: function(req, res, next) {
-    console.log(req.body)
     var hash = req.body.password;
     UserProfile.findOne({username: req.body.username}, function(err, data) {
       if(err) {
         return next(err);
       }
-      // console.log('data', data);
       var dbhash = data.password;
       var compare = bcrypt.compareSync(hash, dbhash); // true when using correct password
       if(!compare) {
@@ -93,14 +89,19 @@ module.exports = {
           return res.send(err);
         }
         HostData=data;
-        availabilityProfile.find({}).lean().exec(function(err, data){
+        availabilityProfile.findOne({}).lean().exec(function(err, data){
           if(err) {
             return res.send(err);
           }
           AvailabiltyConstraint=data;
-          var RumbleData = Rumble.rumble(VisitorData,HostData,AvailabiltyConstraint);
+          var RumbleData;
+          try {
+            RumbleData = Rumble.rumble(VisitorData,HostData,AvailabiltyConstraint);
+          }
+          catch(err) {
+            return res.send(err);
+          }
           var csvStream = csv.writeToString(RumbleData, function(err, data){
-            console.log(data);
             if(err){
               res.send(err);
             }
@@ -120,7 +121,6 @@ module.exports = {
       if(err) {
         return res.send(err);
       }
-      console.log(data,'data');
       res.send(data);
     });
   },
@@ -135,7 +135,6 @@ module.exports = {
         if(err) {
           return res.send(err);
         }
-        data = data.toObject();
         res.send(data);
       });
     });
@@ -146,7 +145,6 @@ module.exports = {
       if(err) {
         return next(err);
       }
-        console.log('request.body',req.body);
           VisitorProfile.create(req.body, function(err, data) {
             if(err) {
               return res.send(err);
@@ -158,11 +156,9 @@ module.exports = {
     res.sendStatus(200);
   },
   registerUser: function(req, res) {
-    // console.log(req.body, "before has");
     req.body.password = bcrypt.hashSync(req.body.password);
     req.body.matchlycookie = req.cookies.matchlycookie;
 
-    // console.log(req.body,"after hash");
     UserProfile.create(req.body, function(err, data) {
       if(err) {
         return res.send(err);

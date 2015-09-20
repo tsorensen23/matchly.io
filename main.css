@@ -203,3 +203,8 @@ height:400px;
 .table-row{
   display: block;
 }
+.minorPadding td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+

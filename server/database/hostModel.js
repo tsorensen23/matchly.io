@@ -1,3 +1,4 @@
+var Match = require('./../../matchingAlgorithm/Match.js');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -19,20 +20,16 @@ var hostSchema = new Schema({
         Email: {type: String},
     },
     MatchInfo: {
+        matchesDone:{type:Number,default:0},
         Section: {type: String},
-        1: {
-            matchIndex:{type: String},
-            matchScore:{type: Number}
-        },
-        2: {
-            matchIndex:{type: String},
-            matchScore:{type: Number}
-        },
-        3: {
-            matchIndex:{type: String},
-            matchScore:{type: Number}
-        } 
-    }
+    },
   });
+var virtual = hostSchema.virtual('match');
+virtual.get(function(){
+    return this.MATCH;
+});
+virtual.set(function(a){
+    this.MATCH=a;
+});
 
 module.exports = mongoose.model('hostProfile', hostSchema);
