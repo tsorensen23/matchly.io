@@ -2,7 +2,6 @@
 var React = require('react');
 
 var Login = React.createClass({
-
   checkLogin: function(){
     console.log('checkLogin');
     var userName=$('#userName').val();
@@ -39,22 +38,14 @@ var Login = React.createClass({
         </div>
                     <div id='loginContainer'>
                       <div id='credentials'>
-                        <table>
-                          <tr>
                             <h3>Username: <input id='userName' type='text' /></h3>
-                          </tr>
-                          <tr>
                             <h3>Password: <input id='password' type='password' /></h3>
-                          </tr>
-                        </table>
-                        <table>
-                          <tr>
+                            <form action="#" onSubmit={this.checkLogin} >
                             <div id="loginButtons">
-                              <button id='submit' type='submit' onClick={this.checkLogin}>Login</button>
+                              <input id='submit' type='submit' value="Login" />
                               <button id='register' onClick={this.register}>Register</button>
                             </div>
-                          </tr>
-                        </table>
+                            </form>
                       </div>
                     </div>
       </div>
