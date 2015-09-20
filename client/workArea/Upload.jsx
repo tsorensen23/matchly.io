@@ -124,7 +124,6 @@ browserSupportFileUpload: function() {
   },
   fieldsChanger: function(array) {
     console.log(array);
-    this.togglePageView();
   //this function takes an array of category names and sets the data array state to that array
       var data = document.getElementById('txtFileUpload').files;
       var reader = new FileReader();
@@ -176,7 +175,7 @@ browserSupportFileUpload: function() {
       //submitted csv
       dataView=
         (<div>
-        {buttonstuff}
+          {buttonstuff}
         <input id='confirm-button' type='button' value="Confirm Data" onClick={this.togglePageView}></input>
         </div>);
     } else if(this.state.pageView===2) {

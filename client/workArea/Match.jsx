@@ -1,12 +1,14 @@
 var React=require('react');
 var Visitor=require('./Visitors.jsx');
 var Loading=require('./Loading.jsx');
+var ProgressButton = require('react-progress-button');
 
 var Match = React.createClass({
   match:function(){
     // console.log(this.props,'props');
     var self=this;
     // this.props
+    this.refs.button.loading();
     $.ajax({
       method: 'GET',
       url: '/match',
@@ -14,7 +16,10 @@ var Match = React.createClass({
         console.log("data after get request", data);
         // console.log(self, 'self');
         self.props.setMatchData(data);
-
+        self.refs.button.success();
+      },
+      error: function(resp) {
+        self.refs.button.error();
       }
     });
   },
@@ -50,7 +55,7 @@ var Match = React.createClass({
             <div id='schedule'>
 
             </div>
-            <button id='matchButton' onClick={this.match}>MATCH</button>
+            <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
             <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
           </div>
           <div id="loading">
