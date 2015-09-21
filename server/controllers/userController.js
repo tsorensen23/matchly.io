@@ -153,7 +153,8 @@ module.exports = {
           });
 
     });
-    res.sendStatus(200);
+    //I think this is what was causing the cannot set headers error
+    // res.sendStatus(200);
   },
   registerUser: function(req, res) {
     req.body.password = bcrypt.hashSync(req.body.password);
