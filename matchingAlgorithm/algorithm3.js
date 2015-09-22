@@ -130,11 +130,9 @@ var Rumble = {
     }
 
     while(unMatchedVisitors.length){
-      console.log(unMatchedVisitors.length,'length');
         var curVisitor = unMatchedVisitors.shift();
         //this goes through all hosts
         var bestMatch = this.getBestMatch(curVisitor, hostArray, constraintObject);
-        console.log('best match',bestMatch);
         var newHost = bestMatch.host;
         //the visitor that the host was matched with
         var oldMatch = newHost.match;
@@ -162,11 +160,9 @@ var Rumble = {
             var lowestMatch = curConstraint.matches.pop();
             var lowestVisitor = lowestMatch.visitor;
             lowestVisitor.match = null;
-            console.log('first push fires');
             unMatchedVisitors.push(lowestVisitor);
         }
         //push the visitor back to the unmatched array
-        console.log('second push fires');
         curConstraint.matches.push(bestMatch);
         //make sure that the lowest score is the last element in the array
         curConstraint.matches.sort(function(a,b){

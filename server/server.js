@@ -39,7 +39,7 @@ app.use(cookieParser());
 //   next();
 // });
 app.get('/',userController.authorizationCheck);
-// app.get('/login',userController.loginHTML);
+app.get('/login',userController.loginHTML);
 app.use(express.static(__dirname + "./../"));
 app.use(bodyParser.json({limit:1024*1024*20}));
 app.post('/checkLogin', userController.cookieCheck);

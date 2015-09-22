@@ -5,7 +5,6 @@ var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
 var availabilityProfile = require('../database/availability.js');
 var Promise = require("bluebird");
-//need to change this when we break up algorithm2
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv=require('fast-csv');
 var Hat = require('hat');
@@ -27,7 +26,7 @@ module.exports = {
   },
 
   loginHTML:function(req,res) {
-    res.sendFile(__dirname + '/../../login.html');
+    res.sendFile(__dirname + '/../../index.html');
   },
 
   authorizationCheck: function(req,res,next) {
@@ -69,6 +68,7 @@ module.exports = {
         if(err) {
           return next(err);
         }
+        console.log('hat number',hatNumber);
         res.cookie('matchlycookie',hatNumber);
         res.send();
       });
@@ -151,7 +151,6 @@ module.exports = {
             }
           res.send(data);
           });
-
     });
     //I think this is what was causing the cannot set headers error
     // res.sendStatus(200);
