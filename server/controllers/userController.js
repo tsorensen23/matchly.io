@@ -4,6 +4,7 @@ var HostProfile = require('../database/hostModel.js');
 var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
 var availabilityProfile = require('../database/availability.js');
+var headers = require('../database/headersModel.js');
 var Promise = require("bluebird");
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv=require('fast-csv');
@@ -166,4 +167,34 @@ module.exports = {
       res.send(data);
     });
   },
+  getHeaderData:function(req,res) {
+    console.log('request body',req.body);
+    headers.findOne({School:req.body.School},function(err,data){
+      if(err) {
+        return res.send(err);
+      }
+      if(data) {
+        return res.send(data);
+      } 
+        var headersModel = {
+        School: req.body.School,
+        Military: null,
+        Country: null, 
+        Citizenship: null,
+        Undergrad: null,
+        Employer: null,
+        Industry: null,
+        City: null,
+        State: null,
+        Gender: null
+      };
+        headers.create(headersModel,function(err, data){
+          if (err) {
+            return res.send(err);
+          }
+          res.send(data);
+        });
+    });
+  }
+
 };

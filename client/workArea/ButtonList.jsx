@@ -2,7 +2,21 @@ var React = require('react');
 var Button = require('./Button.jsx');
 var ButtonList = React.createClass({
   getInitialState: function() {
-    var colors = ["#389adc", "#e74c3c", "#f1c40f", "#1abc9c", "#9b59b6", "#34495e", "#d35400", "#f39c12", "#16a085", "dodgerblue", "peachpuff","teal" ];
+    var colors = [
+      "#389adc", 
+      "#e74c3c", 
+      "#f1c40f", 
+      "#1abc9c", 
+      "#9b59b6", 
+      "#34495e", 
+      "#d35400", 
+      "#f39c12", 
+      "#16a085", 
+      "dodgerblue", 
+      "peachpuff",
+      "teal" 
+    ];
+
     var fields = this.props.fields.map(function(value){
       return {
         value: value,
@@ -16,14 +30,32 @@ var ButtonList = React.createClass({
         color: colors[i],
         matchIndex: null
       };
-    }.bind(this));
+    });
     return ({
       index: null,
-      categoriesDisabled: false,
+      categoriesDisabled: true,
+      matchedFieldsDisabled: false,
       fieldsDisabled: true,
       fields: fields,
-      categories: categories
+      categories: categories,
+      matchedFields:null
     });
+  },
+
+  componentDidMount:function() {
+    var matchedFields =[];
+      for(var i=0;i<13;i++){
+        matchedFields.push(
+          <Button
+          colorChange={this.changeColor}
+          color="#ccc"
+          disabled={this.state.matchedFieldsDisabled}
+          key={i}
+          index={i}
+          data="" />
+        );
+      }
+      this.setState({matchedFields:matchedFields});
   },
   callFieldsChange: function() {
     var awesome = this.state.fields.reduce(function (prev,curr) {
@@ -34,6 +66,7 @@ var ButtonList = React.createClass({
 
     this.props.fieldsChanger(awesome);
   },
+
   // changeColor takes a componenets index
   changeColor: function(buttonIndex) {
     if(this.state.index === null) {
@@ -43,22 +76,26 @@ var ButtonList = React.createClass({
     }
     this.toggleDisabled();
   },
+
   reorder: function(currIndex, newIndex){
     var tempFields = this.state.fields;
     var temp = tempFields[currIndex];
-    temp.color=this.state.categories[newIndex].color;
     tempFields[currIndex] = tempFields[newIndex];
     tempFields[newIndex] = temp;
+    tempFields[currIndex].color = '#ccc';
+    tempFields[newIndex].color=this.state.categories[newIndex].color;
     this.setState({fields: tempFields,
                   index: null
     });
   },
+
   toggleDisabled: function() {
     this.setState({
-      categoriesDisabled: !this.state.categoriesDisabled,
+      matchedFieldsDisabled: !this.state.matchedFieldsDisabled,
       fieldsDisabled: !this.state.fieldsDisabled
     });
   },
+
   render: function() {
     var fieldButtons = this.state.fields.map(function(object, index) {
       return (
@@ -82,6 +119,9 @@ var ButtonList = React.createClass({
           data={object.value} />
         );
     }.bind(this));
+    
+
+
       return (
           <div>
             <div className='row'>
@@ -99,6 +139,10 @@ var ButtonList = React.createClass({
               <div className='col-md-2 col-md-offset-2'>
                 {categoryButtons}
               </div>
+              <div className='col-md-2 col-md-offset-2'>
+                {matchedFields}
+              </div>
+              
               <div className='col-md-2 col-md-offset-1'>
                 {fieldButtons}
               </div>

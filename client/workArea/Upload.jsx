@@ -28,7 +28,7 @@ var Upload = React.createClass({
       dataArray: null,
       hide: 'hidden',
       fields: null,
-      visitorCategories: ['military', 'country', 'citizenship', 'undergrad', 'employer', 'industry', 'city', 'state', 'first', 'last', 'gender', 'ClassVisitTime']
+      visitorCategories: ['Military', 'Country', 'Citizenship', 'Undergrad', 'Employer', 'Industry', 'City', 'State', 'First', 'Last', 'Gender', 'Class Visit Time']
     };
   },
 
@@ -82,7 +82,7 @@ var Upload = React.createClass({
         data = Papa.parse(event.target.result, {header:true});
         console.log('data', data);
         this.setState({fields: data.meta.fields});
-        console.log('gulp is working');
+        // console.log('gulp is working');
         // document.getElementById("confirm-button").disabled = false;
         // this.setState({data: data});
         if(this.state.hostOrVisitor==='visitor') {
@@ -90,7 +90,7 @@ var Upload = React.createClass({
           // console.log('visitor fires');
           this.setState({dataArray: DataParser.parseDataVisitor(data, this.state.fields)});
         } else {
-          console.log('host fires');
+          // console.log('host fires');
           this.setState({dataArray: DataParser.parseDataHost(data)});
         }
       }.bind(this));
@@ -136,9 +136,9 @@ browserSupportFileUpload: function() {
           // console.log('visitor fires');
           var data =DataParser.parseDataVisitor(data, array);
           this.setState({dataArray: data});
-          console.dir(data);          
+          // console.dir(data);          
         } else {
-          console.log('host fires');
+          // console.log('host fires');
           this.setState({dataArray: DataParser.parseDataHost(data)});
         }
       }.bind(this));
@@ -164,11 +164,13 @@ browserSupportFileUpload: function() {
   },
 
   render: function() {
+    console.log('fields state',this.state.fields);
     if(this.state.fields) {
      var buttonstuff = (<ButtonList 
       fields={this.state.fields} 
       fieldsChanger={this.fieldsChanger} 
-      categories={this.state.visitorCategories} />);
+      categories={this.state.visitorCategories} 
+      previoiusHeaders={this.props.previoiusHeaders} />);
     }
     var dataView;
     if(this.state.pageView===1) {
@@ -181,7 +183,7 @@ browserSupportFileUpload: function() {
     } else if(this.state.pageView===2) {
       dataView=(
         <div>
-        <h2>THIS STATE IS 2</h2>
+        <h2>Visitor Information</h2>
         <div id="array-of-individuals">
           {this.populateIndividualArray(this.state.dataArray)}
         </div>
