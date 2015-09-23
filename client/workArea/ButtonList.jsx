@@ -67,7 +67,7 @@ var ButtonList = React.createClass({
     this.props.fieldsChanger(awesome);
   },
 
-  // changeColor takes a componenets index
+  //changeColor takes a componenets index
   changeColor: function(buttonIndex) {
     if(this.state.index === null) {
       this.setState({index: buttonIndex});
