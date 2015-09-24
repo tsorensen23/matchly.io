@@ -5,7 +5,8 @@ var Login = React.createClass({
     console.log('register fire');
     window.location = '/#/register';
   },
-  handler: function() {
+  handler: function(event) {
+    event.preventDefault();
     var userName = React.findDOMNode(this.refs.username).value;
     var password = React.findDOMNode(this.refs.password).value;
     var profileObject = {
@@ -22,9 +23,9 @@ var Login = React.createClass({
           }
     });
   },
-  keyDown: function(e) {
-    if (e.key === 'Enter') {
-      this.handler();
+  keyDown: function(event) {
+    if (event.key === 'Enter') {
+      this.handler(event);
     }
   },
   render: function() {

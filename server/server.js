@@ -51,6 +51,7 @@ app.post('/availability', userController.availability);
 app.get('/match', userController.rumble);
 app.get('/getAvailableData',userController.getAvailableData);
 app.post('/headerOrder',userController.getHeaderData);
+app.post('/updateHeaderOrder',userController.updateHeaderOrder);
 
 app.use(function(err, req, res, next){
   console.error('route error', err);

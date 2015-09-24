@@ -128,12 +128,12 @@ browserSupportFileUpload: function() {
       var payload = this.state.visitorCategories.reduce(function(prev, curr, index){
         prev[curr] = array[index];
         return prev;
-      }, { School: Darden})
+      }, { School: 'Darden'})
       $.ajax({
           method: 'POST',
           contentType: 'application/json',
           data: JSON.stringify(payload),
-          url: "updateHeaderOrder",
+          url: "/updateHeaderOrder",
           success: function(data) {
             console.log(data);
           }

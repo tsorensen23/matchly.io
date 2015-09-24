@@ -1,8 +1,8 @@
 var React = require('react');
 
 var LoginForm = React.createClass({
-  checkLogin: function() {
-    this.props.handler();
+  checkLogin: function(event) {
+    this.props.handler(event);
   },
   render: function() {
     return (
