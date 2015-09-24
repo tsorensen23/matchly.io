@@ -13,11 +13,34 @@ var Home = React.createClass({
       workNumber:0,
       matchData:null,
       availableData: null,
-      loadingIcon: false
+      loadingIcon: false,
+      previousHeaders: null
     };
   },
   componentDidMount:function() {
     this.getAvailableData();
+    this.retrieveLastHeaderOrder();
+  },
+
+  setStateFunction:function(key, value) {
+    var object={};
+    object[key]=value;
+    this.setState(object);
+  },
+
+  retrieveLastHeaderOrder:function() {
+        
+    var headerObject={School: 'Darden'};
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      url: '/headerOrder',
+      data: JSON.stringify(headerObject),
+      success: function(data) {
+        console.log(data,'header data');
+        this.setStateFunction('previousHeaders', data);  
+      }.bind(this)
+    });
   },
 
   setLoadingIcon:function(word) {
@@ -49,7 +72,7 @@ var Home = React.createClass({
     this.setState({name:name});
   },
   setMatchData: function(data) {
-    console.log('setMatchData fires');
+    // console.log('setMatchData fires');
     this.setState({matchData:data});
   },
 
@@ -61,7 +84,8 @@ var Home = React.createClass({
   },
 
   render: function(){
-    console.log(this.state.matchData,'matchData');
+    console.log('previousHeaders',this.state.previousHeaders);
+    // console.log(this.state.matchData,'matchData');
   // console.log('matchData',this.state.matchData);
   var self=this;
   var workArea=<div></div>
@@ -82,7 +106,8 @@ var Home = React.createClass({
   } else if(workNumber===2) {
     workArea=<Upload workNumber={this.state.workNumber}
     setWorkArea={this.setWorkArea}
-    indexNumber={this.state.indexNumber} />;
+    indexNumber={this.state.indexNumber}
+    previousHeaders={this.state.previousHeaders} />;
   }
 
     return(
