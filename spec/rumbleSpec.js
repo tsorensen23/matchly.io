@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-var rumble = require('../algorithm2')
+var rumble = require('../matchingAlgorithm/algorithm3')
   , mongo = require('mongodb').MongoClient
   , db
   , expect = require('chai').expect;

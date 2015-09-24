@@ -123,7 +123,7 @@ browserSupportFileUpload: function() {
     document.getElementById("submitButton").disabled = false;
   },
   fieldsChanger: function(array) {
-    console.log(array);
+    // this function is passed down into the button and called when the user reorganizes the headers
   //this function takes an array of category names and sets the data array state to that array
       var data = document.getElementById('txtFileUpload').files;
       var reader = new FileReader();
