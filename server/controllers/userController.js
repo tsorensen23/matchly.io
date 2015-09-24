@@ -52,8 +52,15 @@ module.exports = {
   },
 
   checkLogin: function(req, res, next) {
+    if(!req.body.password){
+      return res.sendStatus(404);
+    } 
     var hash = req.body.password;
     UserProfile.findOne({username: req.body.username}, function(err, data) {
+      if(!data){
+        // TODO need to handle this properly
+        return res.send('User Wasnt found')
+      }
       if(err) {
         return next(err);
       }
