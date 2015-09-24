@@ -31,7 +31,7 @@ var Home = React.createClass({
       url: '/headerOrder',
       data: JSON.stringify(headerObject),
       success: function(data) {
-        this.setState({previousHeaders: data});
+        this.setState({ previousHeaders: data });
       }.bind(this)
     });
   },

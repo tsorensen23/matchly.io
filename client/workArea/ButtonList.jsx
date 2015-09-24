@@ -38,11 +38,12 @@ var ButtonList = React.createClass({
       fieldsDisabled: true,
       fields: fields,
       categories: categories,
-      matchedFields:null
     });
   },
 
   componentDidMount:function() {
+    var prevHeaders = this.props.previousHeaders;
+    console.log(prevHeaders);
     var matchedFields =[];
       for(var i=0;i<13;i++){
         matchedFields.push(
@@ -140,7 +141,7 @@ var ButtonList = React.createClass({
                 {categoryButtons}
               </div>
               <div className='col-md-2 col-md-offset-2'>
-                {matchedFields}
+                {this.state.matchedFields}
               </div>
               
               <div className='col-md-2 col-md-offset-1'>

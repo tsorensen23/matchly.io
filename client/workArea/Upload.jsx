@@ -124,7 +124,21 @@ browserSupportFileUpload: function() {
   },
   fieldsChanger: function(array) {
     // this function is passed down into the button and called when the user reorganizes the headers
-  //this function takes an array of category names and sets the data array state to that array
+  // this function takes an array of category names and sets the data array state to that array
+      var payload = this.state.visitorCategories.reduce(function(prev, curr, index){
+        prev[curr] = array[index];
+        return prev;
+      }, { School: Darden})
+      $.ajax({
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(payload),
+          url: "updateHeaderOrder",
+          success: function(data) {
+            console.log(data);
+          }
+      });
+
       var data = document.getElementById('txtFileUpload').files;
       var reader = new FileReader();
       reader.addEventListener('load', function(event) {
@@ -170,7 +184,7 @@ browserSupportFileUpload: function() {
       fields={this.state.fields} 
       fieldsChanger={this.fieldsChanger} 
       categories={this.state.visitorCategories} 
-      previoiusHeaders={this.props.previoiusHeaders} />);
+      previousHeaders={this.props.previousHeaders} />);
     }
     var dataView;
     if(this.state.pageView===1) {
