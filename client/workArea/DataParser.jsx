@@ -71,6 +71,9 @@ var DataParser = {
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
       var classVisitNumber;
+      classVisitTime = classVisitTime.trim();
+      classVisitTime = classVisitTime.replace(/\./g,'');
+      classVisitTime = classVisitTime.toUpperCase();
 
       // TODO factor this into a helper function
       if (classVisitTime === '8:00' ||
