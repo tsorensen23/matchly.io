@@ -125,6 +125,8 @@ browserSupportFileUpload: function() {
   fieldsChanger: function(array) {
     // this function is passed down into the button and called when the user reorganizes the headers
   // this function takes an array of category names and sets the data array state to that array
+
+    // this loops through two array and adds they key value pairs based on the index
       var payload = this.state.visitorCategories.reduce(function(prev, curr, index){
         prev[curr] = array[index];
         return prev;
