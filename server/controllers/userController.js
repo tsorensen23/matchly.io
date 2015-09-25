@@ -175,7 +175,7 @@ module.exports = {
     });
   },
   getHeaderData:function(req,res) {
-    console.log('request body',req.body);
+    // console.log('request body',req.body);
     headers.findOne({School:req.body.School},function(err,data){
       if(err) {
         return res.send(err);

@@ -44,8 +44,9 @@ var ButtonList = React.createClass({
   componentDidMount:function() {
     var prevHeaders = this.props.previousHeaders;
     console.log(prevHeaders);
+    this.autoSortMatchedFields(this.state.fields, this.state.categories, prevHeaders);
     var matchedFields =[];
-      for(var i=0;i<13;i++){
+      for(var i=0;i<12;i++){
         matchedFields.push(
           <Button
           colorChange={this.changeColor}
@@ -68,6 +69,13 @@ var ButtonList = React.createClass({
     this.props.fieldsChanger(awesome);
   },
 
+  autoSortMatchedFields:function(fields, categories, previousHeaders) {
+    for(var i=0;i<categories.length;i++) {
+      var previousHeader = previousHeaders[categories[i].value];
+      console.log('previous header',previousHeader);
+    }
+  },
+
   //changeColor takes a componenets index
   changeColor: function(buttonIndex) {
     if(this.state.index === null) {
@@ -79,6 +87,8 @@ var ButtonList = React.createClass({
   },
 
   reorder: function(currIndex, newIndex){
+    console.log('curr',currIndex);
+    console.log('new',newIndex);
     var tempFields = this.state.fields;
     var temp = tempFields[currIndex];
     tempFields[currIndex] = tempFields[newIndex];
