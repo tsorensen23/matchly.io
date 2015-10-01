@@ -31,21 +31,6 @@ var routes = (
 );
 
 var RouteHandler = Router.RouteHandler;
-
-var App = React.createClass({
-
-  render: function() {
-    var appScope=this;
-    return (
-      <div>
-        <h1>App</h1>
-        <h2>Hello {this.state.name}</h2>
-        <RouteHandler/>
-      </div>
-    );
-  }
-});
-
 Router.run(routes, Router.HashLocation, function(Root){
   React.render(<Root/>, document.body);
 });

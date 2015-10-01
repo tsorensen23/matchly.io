@@ -9,7 +9,7 @@ var LoginForm = React.createClass({
           <form onSubmit={this.checkLogin} >
             <div id='loginButtons'>
               <input type='submit' id='submit' value='Login' />
-              <button id='register'>Register</button>
+              <div onClick={this.props.register} id='register'>Register</div>
             </div>
           </form>
         );
