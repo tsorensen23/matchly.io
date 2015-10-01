@@ -1,5 +1,6 @@
-var Match = require('./../../matchingAlgorithm/Match.js');
+var Match = require('./../../../matchingAlgorithm/Match.js');
 var mongoose = require('mongoose');
+var db = require('../connection');
 var Schema = mongoose.Schema;
 var tempObject = {};
 ['A','B','C','D','E'].forEach(function(letter) {
@@ -23,5 +24,5 @@ availabilitySchema.method('getTotalAvailableOf',function(number) {
 
 
 
-module.exports = mongoose.model('availability', availabilitySchema);
+module.exports = db.model('availability', availabilitySchema);
 

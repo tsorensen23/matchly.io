@@ -1,9 +1,10 @@
-var UserProfile = require('../database/userModel.js');
-var VisitorProfile = require('../database/visitorModel.js');
-var HostProfile = require('../database/hostModel.js');
+var db = require('../database/db');
+var User = db.User;
+var Visitor = db.Visitor;
+var Host = db.Host;
 var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
-var availabilityProfile = require('../database/availability.js');
+var Availability = db.Availability;
 var headers = require('../database/headersModel.js');
 var Promise = require("bluebird");
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
@@ -13,12 +14,13 @@ var Hat = require('hat');
 module.exports = {
   cookieCheck: function(req,res) {
     var cookie = req.cookies.matchlycookie;
-    UserProfile.findOne({'matchlycookie': cookie}, function(err, data) {
+    User.findOne({'matchlycookie': cookie}, function(err, data) {
         res.send(data);
     });
   },
   getAvailableData:function(req, res) {
-    availabilityProfile.find({},function(err, data){
+    console.log(db);
+    Availability.find({},function(err, data){
       if(err) {
         res.send(err);
       }
@@ -40,7 +42,7 @@ module.exports = {
     }
 
     var cookie=req.cookies.matchlycookie;
-    UserProfile.findOne({'matchlycookie': cookie}, function(err, data) {
+    User.findOne({'matchlycookie': cookie}, function(err, data) {
         if(err){
           return res.send(err);
         }
@@ -57,7 +59,7 @@ module.exports = {
       return res.sendStatus(404);
     } 
     var hash = req.body.password;
-    UserProfile.findOne({username: req.body.username}, function(err, data) {
+    User.findOne({username: req.body.username}, function(err, data) {
       if(!data){
         // TODO need to handle this properly
         return res.send('User Wasnt found')
@@ -87,17 +89,17 @@ module.exports = {
     var VisitorData;
     var HostData;
     var AvailabiltyConstraint;
-    VisitorProfile.find({},function(err, data){
+    Visitor.find({},function(err, data){
       if(err) {
         return res.send(err);
       }
       VisitorData=data;
-      HostProfile.find({},function(err, data){
+      Host.find({},function(err, data){
         if(err) {
           return res.send(err);
         }
         HostData=data;
-        availabilityProfile.findOne({}).lean().exec(function(err, data){
+        Availability.findOne({}).lean().exec(function(err, data){
           if(err) {
             return res.send(err);
           }
@@ -125,7 +127,7 @@ module.exports = {
   },
 
   availability:function(req,res) {
-    availabilityProfile.update(req.body, function(err, data) {
+    Availability.update(req.body, function(err, data) {
       if(err) {
         return res.send(err);
       }
@@ -135,11 +137,11 @@ module.exports = {
 
   submithosts: function(req, res,next) {
     //made this a batch upload, have not tested it...
-    HostProfile.find({}).remove().exec(function(err, data) {
+    Host.find({}).remove().exec(function(err, data) {
       if(err) {
         return next(err);
       }
-      HostProfile.create(req.body, function(err, data) {
+      Host.create(req.body, function(err, data) {
         if(err) {
           return res.send(err);
         }
@@ -149,11 +151,11 @@ module.exports = {
   },
 
   submitvisitors: function(req,res,next) {
-    VisitorProfile.find({}).remove().exec(function (err, data) {
+    Visitor.find({}).remove().exec(function (err, data) {
       if(err) {
         return next(err);
       }
-          VisitorProfile.create(req.body, function(err, data) {
+          Visitor.create(req.body, function(err, data) {
             if(err) {
               return res.send(err);
             }
@@ -167,7 +169,7 @@ module.exports = {
     req.body.password = bcrypt.hashSync(req.body.password);
     req.body.matchlycookie = req.cookies.matchlycookie;
 
-    UserProfile.create(req.body, function(err, data) {
+    User.create(req.body, function(err, data) {
       if(err) {
         return res.send(err);
       }
