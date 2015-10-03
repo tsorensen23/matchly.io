@@ -147,7 +147,6 @@ browserSupportFileUpload: function() {
         // console.log('object',object);
         data[object.category] = object.value;
       });
-      // console.log('data array',data);
       $.ajax({
           method: 'POST',
           contentType: 'application/json',
