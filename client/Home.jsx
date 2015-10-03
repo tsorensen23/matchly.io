@@ -70,7 +70,7 @@ var Home = React.createClass({
     this.setState({workNumber: number});
   },
   render: function() {
-    console.log('previous headers',this.state.previousHeaders);
+    // console.log('previous headers',this.state.previousHeaders);
     var workArea = <div></div>;
     var workNumber = this.state.workNumber;
     if (workNumber === 0) {

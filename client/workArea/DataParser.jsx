@@ -67,7 +67,8 @@ var DataParser = {
   },
 
   parseDataVisitor: function(dataObject, fields) {
-    var dataArray = dataObject.data;
+    console.log("dataparser stuff",dataObject,fields);
+    var dataArray = dataObject;
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
       var classVisitNumber;

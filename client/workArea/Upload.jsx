@@ -28,6 +28,8 @@ var Upload = React.createClass({
       dataArray: null,
       hide: 'hidden',
       fields: null,
+      headers: [],
+      uploadedData:null,
       visitorCategories: ['Military', 'Country', 'Citizenship', 'Undergrad', 'Employer', 'Industry', 'City', 'State', 'First', 'Last', 'Gender', 'Class Visit Time']
     };
   },
@@ -37,7 +39,7 @@ var Upload = React.createClass({
     document.getElementById("confirm-button").disabled = true;
   },
   togglePageView: function() {
-    console.log('toggle is called');
+    // console.log('toggle is called');
     if(this.state.pageView===0){
       return this.setState({pageView:1});
     } 
@@ -47,6 +49,7 @@ var Upload = React.createClass({
     return this.setState({pageView: 0});
   },
   populateIndividualArray:function(array) {
+    
     if(array===null) {
       return;
     }
@@ -72,6 +75,7 @@ var Upload = React.createClass({
 
   fileupload: function(event) {
     event.preventDefault();
+    console.log("file upload called");
     if(document.getElementById('txtFileUpload').files.length===0){
       alert('no file selected');
     } else {
@@ -81,23 +85,35 @@ var Upload = React.createClass({
       reader.addEventListener('load', function(event) {
         data = Papa.parse(event.target.result, {header:true});
         console.log('data', data);
+        this.setState({uploadedData:data.data});
         this.setState({fields: data.meta.fields});
         // console.log('gulp is working');
         // document.getElementById("confirm-button").disabled = false;
         // this.setState({data: data});
-        if(this.state.hostOrVisitor==='visitor') {
-          //figure out what to do with returned data
-          // console.log('visitor fires');
-          this.setState({dataArray: DataParser.parseDataVisitor(data, this.state.fields)});
-        } else {
-          // console.log('host fires');
-          this.setState({dataArray: DataParser.parseDataHost(data)});
-        }
+        // if(this.state.hostOrVisitor==='visitor') {
+        //   //figure out what to do with returned data
+        //   // console.log('visitor fires');
+        //   this.setState({dataArray: DataParser.parseDataVisitor(data, this.state.fields)});
+        // } else {
+        //   // console.log('host fires');
+        //   this.setState({dataArray: DataParser.parseDataHost(data)});
+        // }
       }.bind(this));
       reader.readAsText(data[0]);
       this.togglePageView();
     }
   },
+  callDataParser: function(headers) {
+      console.log('headers',headers);
+      console.log('uploadedData',this.state.uploadedData);
+      this.setState({dataArray: DataParser.parseDataVisitor(this.state.uploadedData, headers)});
+        // } else {
+        //   // console.log('host fires');
+        //   this.setState({dataArray: DataParser.parseDataHost(data)});
+        // }
+    
+  },
+
 
  determineHostOrVisitor:function() {
   var hostOrVisitor;
@@ -125,14 +141,17 @@ browserSupportFileUpload: function() {
   fieldsChanger: function(array) {
     // this function is passed down into the button and called when the user reorganizes the headers
   // this function takes an array of category names and sets the data array state to that array
-      var payload = this.state.visitorCategories.reduce(function(prev, curr, index){
-        prev[curr] = array[index];
-        return prev;
-      }, { School: 'Darden'})
+     // console.log('fields changer array:', array);
+     var data = {School:'Darden'};
+      array.forEach(function(object){
+        // console.log('object',object);
+        data[object.category] = object.value;
+      });
+      // console.log('data array',data);
       $.ajax({
           method: 'POST',
           contentType: 'application/json',
-          data: JSON.stringify(payload),
+          data: JSON.stringify(data),
           url: "/updateHeaderOrder",
           success: function(data) {
             console.log(data);
@@ -148,12 +167,12 @@ browserSupportFileUpload: function() {
         if(this.state.hostOrVisitor==='visitor') {
           //figure out what to do with returned data
           // console.log('visitor fires');
-          var data =DataParser.parseDataVisitor(data, array);
-          this.setState({dataArray: data});
+          // var data =DataParser.parseDataVisitor(data, array);
+          // this.setState({dataArray: data});
           // console.dir(data);          
         } else {
           // console.log('host fires');
-          this.setState({dataArray: DataParser.parseDataHost(data)});
+          // this.setState({dataArray: DataParser.parseDataHost(data)});
         }
       }.bind(this));
       reader.readAsText(data[0]);
@@ -176,15 +195,27 @@ browserSupportFileUpload: function() {
             }.bind(this)
       });
   },
+  headersChanger: function(array) {
+    array=array.map(function(obj){
+      return obj.value;
+    });
+    console.log('headersChanger',array);
+    this.setState({headers:array});
+    this.callDataParser(array);
+
+  },
 
   render: function() {
-    console.log('fields state',this.state.fields);
+    console.log('dataArray',this.state.dataArray);
     if(this.state.fields) {
      var buttonstuff = (<ButtonList 
       fields={this.state.fields} 
       fieldsChanger={this.fieldsChanger} 
       categories={this.state.visitorCategories} 
-      previousHeaders={this.props.previousHeaders} />);
+      previousHeaders={this.props.previousHeaders}
+      togglePageView={this.togglePageView} 
+      headersChanger={this.headersChanger} 
+      callDataParser={this.callDataParser}/>);
     }
     var dataView;
     if(this.state.pageView===1) {
@@ -192,7 +223,6 @@ browserSupportFileUpload: function() {
       dataView=
         (<div>
           {buttonstuff}
-        <input id='confirm-button' type='button' value="Confirm Data" onClick={this.togglePageView}></input>
         </div>);
     } else if(this.state.pageView===2) {
       dataView=(

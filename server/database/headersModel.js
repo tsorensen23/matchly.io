@@ -12,7 +12,10 @@ var headersSchema = new Schema({
         Industry: {type: String},
         City: {type: String},
         State: {type: String},
-        Gender: {type: String}
+        Gender: {type: String},
+        First: {type: String},
+        Last: {type: String},
+        'Class Visit Time':{type: String}
   });
 
 module.exports = mongoose.model('headersSchema', headersSchema);

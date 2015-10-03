@@ -205,7 +205,6 @@ module.exports = {
   },
 
   updateHeaderOrder:function(req,res) {
-    console.log('updateHeaderOrder');
     headers.findOneAndUpdate({School:req.body.School}, req.body,function(err,data) {
       if(err) return err;
       res.send(data);
