@@ -6,7 +6,7 @@ var rumble = require('../matchingAlgorithm/algorithm3')
 describe('rumble', function() {
   describe('calculate match score', function () {
     beforeEach(function(done) {
-      mongo.connect('mongodb://travis:abc123@ds041188.mongolab.com:41188/finalproject', function(err, connection) {
+      mongo.connect('mongodb://localhost/matchly', function(err, connection) {
           if(err) {
             done(err);
           }

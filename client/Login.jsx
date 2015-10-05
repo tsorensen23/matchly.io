@@ -39,7 +39,7 @@ var Login = React.createClass({
           <div id='credentials'>
                 <h3>Username: <input onKeyDown={this.keyDown} ref='username' id='userName' type='text' /></h3>
                 <h3>Password: <input onKeyDown={this.keyDown} ref='password' id='password' type='password' /></h3>
-                <LoginForm handler={this.handler}/>
+                <LoginForm handler={this.handler} register={this.register}/>
           </div>
         </div>
       </div>

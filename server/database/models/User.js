@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var db = require('../connection');
 
 var userSchema = new Schema({
 	schoolCode: {type: String, required:true},
@@ -11,4 +12,4 @@ var userSchema = new Schema({
   matchlycookie: {type: String, required:false}
 });
 
-module.exports = mongoose.model('UserController', userSchema);
+module.exports = db.model('UserController', userSchema);
