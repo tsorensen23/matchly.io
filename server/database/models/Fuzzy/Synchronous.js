@@ -27,11 +27,17 @@ Fuzzy.prototype.acronym = function(words) {
   return words.split(' ').reduce(function(prev,word) {
     if (IGNORED.indexOf(word.toLowerCase()) > -1) return prev;
     if (word.charAt(0).toUpperCase() !== word.charAt(0)) return prev;
-    return prev + word.charAt(0);
+    for (var i = 1, l = word.length; i < l; i++) {
+      if (word.charAt(1).toUpperCase() !== word.charAt(1)) {
+        return prev + word.charAt(0);
+      }
+    }
+
+    return prev + word;
   }, '');
 };
 
-Fuzzy.prototype.checkValue = function(word) {
+Fuzzy.prototype.getFull = function(word) {
   // TODO: Rawb o.o
 };
 
