@@ -116,15 +116,22 @@ var Upload = React.createClass({
   },
   sendSchoolNames: function(array){
     var payload = {"names": array};
-    $.post('checkschools',
-      JSON.stringify(payload),
-      function (data, textStatus, jqXHR) {
+    $.ajax({
+      url: '/checkschools',
+      type: 'POST',
+      dataType: 'json',
+      contentType: "application/json",
+      data: JSON.stringify(payload),
+      complete: function (jqXHR, textStatus) {
+      },
+      success: function (data, textStatus, jqXHR) {
         console.log(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        // error callback
       }
-    );
+    });
   },
-
-
  determineHostOrVisitor:function() {
   var hostOrVisitor;
   var select = document.getElementsByName('hostOrVisitor');

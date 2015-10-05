@@ -1,8 +1,9 @@
 
+var IGNORED = require('./ignored-words');
 function Fuzzy(list) {
   this.acronyms = {};
   this.fulls = [];
-  list.forEach(this.addWord.bind(this));
+  list.forEach(this.addFull.bind(this));
 }
 
 Fuzzy.prototype.addFull = function(words) {

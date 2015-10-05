@@ -4,7 +4,8 @@ var Acronym = require('./Acronym');
 var IGNORED = require('./ignored-words');
 
 var Full = new Schema({
-  value: {type:String, index:true, unique:true,},
+  value: { type: String, index: true, unique: true,},
+  permanentAcronym: { type String }
 });
 
 Full.pre('save', function(obj,next) {
