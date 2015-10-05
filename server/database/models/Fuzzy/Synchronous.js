@@ -34,3 +34,5 @@ Fuzzy.prototype.acronym = function(words) {
 Fuzzy.prototype.checkValue = function(word) {
   // TODO: Rawb o.o
 };
+
+module.exports = Fuzzy;
