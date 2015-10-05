@@ -5,6 +5,17 @@ var Register = require('./client/Register.jsx');
 
 var Router = require('react-router');
 var Route = Router.Route;
+var App = React.createClass({
+
+  render: function() {
+    var appScope=this;
+    return (
+      <div>
+        <RouteHandler/>
+      </div>
+    );
+  }
+});
 
 var LoginWrapper = React.createClass({
   render: function () {

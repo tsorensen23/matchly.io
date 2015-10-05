@@ -1,5 +1,6 @@
 var Match = require('./../../matchingAlgorithm/Match.js');
 var mongoose = require('mongoose');
+var DB = require('./connection.js');
 var Schema = mongoose.Schema;
 
 var headersSchema = new Schema({
@@ -18,4 +19,4 @@ var headersSchema = new Schema({
         'Class Visit Time':{type: String}
   });
 
-module.exports = mongoose.model('headersSchema', headersSchema);
+module.exports = DB.model('headersSchema', headersSchema);

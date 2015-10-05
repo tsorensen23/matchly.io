@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Match = require('./../../../matchingAlgorithm/Match.js');
-var db = require('../connection');
+var db = require('./../connection');
 
 var Schema = mongoose.Schema;
 
@@ -26,12 +26,12 @@ var visitorSchema = new Schema({
         classVisitNumber: {type: String},
     },
   });
-var virtual = visitorSchema.virtual('match');
-virtual.get(function(){
-    return this.MATCH;
-});
-virtual.set(function(a){
-    this.MATCH=a;
-});
+// var virtual = visitorSchema.virtual('match');
+// virtual.get(function(){
+//     return this.MATCH;
+// });
+// virtual.set(function(a){
+//     this.MATCH=a;
+// });
 
 module.exports = db.model('visitorProfile', visitorSchema);

@@ -19,7 +19,6 @@ module.exports = {
     });
   },
   getAvailableData:function(req, res) {
-    console.log(db);
     Availability.find({},function(err, data){
       if(err) {
         res.send(err);
@@ -78,7 +77,6 @@ module.exports = {
         if(err) {
           return next(err);
         }
-        console.log('hat number',hatNumber);
         res.cookie('matchlycookie',hatNumber);
         res.send();
       });
@@ -151,9 +149,11 @@ module.exports = {
   },
 
   submitvisitors: function(req,res,next) {
+    console.log('visitor',Visitor);
     Visitor.find({}).remove().exec(function (err, data) {
       if(err) {
-        return next(err);
+        return  res.send(err);
+        // next(err);
       }
           Visitor.create(req.body, function(err, data) {
             if(err) {
@@ -177,7 +177,6 @@ module.exports = {
     });
   },
   getHeaderData:function(req,res) {
-    // console.log('request body',req.body);
     headers.findOne({School:req.body.School},function(err,data){
       if(err) {
         return res.send(err);
