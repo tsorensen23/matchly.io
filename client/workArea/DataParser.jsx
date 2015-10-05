@@ -13,15 +13,15 @@ var DataParser = {
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender,
+        Gender: gender
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: email,
+        Email: email
       };
       this.MatchInfo = {
-        Section: section,
+        Section: section
       };
     }
 
@@ -67,13 +67,12 @@ var DataParser = {
   },
 
   parseDataVisitor: function(dataObject, fields) {
-    console.log("dataparser stuff",dataObject,fields);
     var dataArray = dataObject;
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
       var classVisitNumber;
       classVisitTime = classVisitTime.trim();
-      classVisitTime = classVisitTime.replace(/\./g,'');
+      classVisitTime = classVisitTime.replace(/\./g, '');
       classVisitTime = classVisitTime.toUpperCase();
 
       // TODO factor this into a helper function
@@ -101,7 +100,7 @@ var DataParser = {
         classVisitTime = 1145;
       } else {
         console.log('classVisitTime ', classVisitTime);
-        throw 1;
+        console.warn('classvisitTime freakout');
       }
 
       this.Characteristics = {
@@ -113,12 +112,12 @@ var DataParser = {
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender,
+        Gender: gender
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: null,
+        Email: null
       };
       this.MatchInfo = {
         'Class Visit Time': classVisitTime,
@@ -126,7 +125,7 @@ var DataParser = {
         matchScore: -1,
         matchIndex: null,
         matchedOn: null,
-        matchCount: 0,
+        matchCount: 0
       };
     }
 

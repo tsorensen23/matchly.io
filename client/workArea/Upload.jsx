@@ -104,14 +104,24 @@ var Upload = React.createClass({
     }
   },
   callDataParser: function(headers) {
-      console.log('headers',headers);
-      console.log('uploadedData',this.state.uploadedData);
-      this.setState({dataArray: DataParser.parseDataVisitor(this.state.uploadedData, headers)});
+    console.log('called dataparser');
+    var data = DataParser.parseDataVisitor(this.state.uploadedData, headers);
+    console.log(data);
+      this.setState({dataArray: data});
+
         // } else {
         //   // console.log('host fires');
         //   this.setState({dataArray: DataParser.parseDataHost(data)});
         // }
-    
+  },
+  sendSchoolNames: function(array){
+    var payload = {"names": array};
+    $.post('checkschools',
+      JSON.stringify(payload),
+      function (data, textStatus, jqXHR) {
+        console.log(data);
+      }
+    );
   },
 
 
@@ -224,6 +234,11 @@ browserSupportFileUpload: function() {
           {buttonstuff}
         </div>);
     } else if(this.state.pageView===2) {
+      var names = this.state.dataArray.map(function(individual) {
+        return individual.Characteristics.Undergrad;
+      })
+      console.log(names);
+      this.sendSchoolNames(names);
       dataView=(
         <div>
         <h2>Visitor Information</h2>

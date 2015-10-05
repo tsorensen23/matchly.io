@@ -5,6 +5,7 @@ var app = express();
 var userController = require('./controllers/userController');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var schoolController = require('./controllers/schoolController');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -32,6 +33,7 @@ app.get('/match', userController.rumble);
 app.get('/getAvailableData',userController.getAvailableData);
 app.post('/headerOrder',userController.getHeaderData);
 app.post('/updateHeaderOrder',userController.updateHeaderOrder);
+app.post('/checkschools', schoolController.checkSchools);
 
 app.use(function(err, req, res, next){
   console.error('route error', err);
