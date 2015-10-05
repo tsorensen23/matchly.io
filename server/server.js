@@ -5,6 +5,7 @@ var app = express();
 var userController = require('./controllers/userController');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
+var schoolController = require('./controllers/schoolController');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
