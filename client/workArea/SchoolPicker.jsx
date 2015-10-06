@@ -12,6 +12,7 @@ var SchoolPicker = React.createClass({
       complete: function(jqXHR, textStatus) {
         // callback
       },
+
       success: function(data, textStatus, jqXHR) {
         var schools = data.result.map(function(school) {
           return school.schoolName;
@@ -19,7 +20,7 @@ var SchoolPicker = React.createClass({
 
         this.setState({schools: schools});
       }.bind(this),
-      error: function (jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         // TODO sam implemen a real endpoint that saves and logs client side errors
         console.warn('There was an error', errorThrown);
       }
@@ -31,22 +32,52 @@ var SchoolPicker = React.createClass({
     for (var name in this.props.possible) {
       if (!this.props.possible[name]) {
         output.push(
-            <div key={name} >
-              {name}
-              <Typeahead 
-                options={this.state.schools} 
-                maxVisible={10}
-              />
-            </div>
+            <TypeAheadWrapper schools={this.state.schools} name={name} key={name} />
             );
       }
+      // if statement for when we get more than two results for a certain alias
     }
+
     return (
         <div>
           {output}
         </div>
         );
 
+  }
+});
+var TypeAheadWrapper = React.createClass({
+  logger: function(string) {
+    console.log(`the key is ${this.props.name}, amnd the user selected ${string}`);
+    $.ajax({
+      url: 'schoolmatch',
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({ alias: this.props.name, school: string}),
+      complete: function(jqXHR, textStatus) {
+        // callback
+      },
+      success: function(data, textStatus, jqXHR) {
+        // success callback
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // error callback
+      }
+    });
+  },
+
+  render: function() {
+    return (
+        <div>
+          {this.props.name}
+          <Typeahead
+            options={this.props.schools}
+            maxVisible={10}
+            onOptionSelected={this.logger}
+          />
+        </div>
+        );
   }
 })
 
