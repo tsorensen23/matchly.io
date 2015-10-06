@@ -13,15 +13,15 @@ var DataParser = {
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender
+        Gender: gender,
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: email
+        Email: email,
       };
       this.MatchInfo = {
-        Section: section
+        Section: section,
       };
     }
 
@@ -112,12 +112,12 @@ var DataParser = {
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender
+        Gender: gender,
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: null
+        Email: null,
       };
       this.MatchInfo = {
         'Class Visit Time': classVisitTime,
@@ -125,7 +125,7 @@ var DataParser = {
         matchScore: -1,
         matchIndex: null,
         matchedOn: null,
-        matchCount: 0
+        matchCount: 0,
       };
     }
 

@@ -8,40 +8,39 @@ var Route = Router.Route;
 var App = React.createClass({
 
   render: function() {
-    var appScope=this;
     return (
       <div>
         <RouteHandler/>
       </div>
     );
-  }
+  },
 });
 
 var LoginWrapper = React.createClass({
-  render: function () {
+  render: function() {
     return (
         <Login setState={this.setState} />
     );
-  }
+  },
 });
 var LoginRedirect = React.createClass({
-  render: function(){
-    window.location='#/login';
+  render: function() {
+    window.location = '#/login';
     return null;
-  }
+  },
 });
 
 //these are the routes, they determine which component will be
 //loaded for each url
 var routes = (
-  <Route handler={App}>
-    <Route path="" handler={LoginRedirect} />
-    <Route path="register" handler={Register}/>
-    <Route path="login" handler={LoginWrapper}/>
+  <Route handler = {App}>
+    <Route path='' handler={LoginRedirect} />
+    <Route path='register' handler={Register}/>
+    <Route path='login' handler={LoginWrapper}/>
   </Route>
 );
 
 var RouteHandler = Router.RouteHandler;
-Router.run(routes, Router.HashLocation, function(Root){
+Router.run(routes, Router.HashLocation, function(Root) {
   React.render(<Root/>, document.body);
 });

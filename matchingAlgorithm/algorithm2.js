@@ -1,30 +1,33 @@
 var clone = require('clone');
 var Match = require('./Match.js');
 var MATCH_KEYS = require('./matchly-io-keys.js');
-var currentMatches={};
+var currentMatches = {};
 var Rumble = {
   calculatematchScore:function(visitor,host) {
-    if(!(visitor._id in currentMatches)) {
-      currentMatches[visitor._id]={};
-      }
-    if(!(host._id in currentMatches[visitor._id])) {
-      var match = currentMatches[visitor._id][host._id] = new Match(MATCH_KEYS);
-      match.calculatematchScore(visitor,host);
+    if (!(visitor._id in currentMatches)) {
+      currentMatches[visitor._id] = {};
     }
+
+    if (!(host._id in currentMatches[visitor._id])) {
+      var match = currentMatches[visitor._id][host._id] = new Match(MATCH_KEYS);
+      match.calculatematchScore(visitor, host);
+    }
+
     return currentMatches[visitor._id][host._id];
   },
 
   determineQuadrant: function(visitor,host,constraintObject) {
     var hostMatched;
     var classFull;
-    var section=host.MatchInfo.Section;
-    var classVisitNumber=visitor.MatchInfo.classVisitNumber.toString();
-    var sectionVisit=section+classVisitNumber;
-    if(host.MatchInfo[classVisitNumber].matchIndex===null) {
-      hostMatched='notMatched';
+    var section = host.MatchInfo.Section;
+    var classVisitNumber = visitor.MatchInfo.classVisitNumber.toString();
+    var sectionVisit = section + classVisitNumber;
+    if (host.MatchInfo[classVisitNumber].matchIndex === null) {
+      hostMatched = 'notMatched';
     } else {
       hostMatched = 'matched';
     }
+
     if (constraintObject[sectionVisit].availableSpots > 0) {
       classFull = 'NotFull';
     } else {
@@ -38,7 +41,7 @@ var Rumble = {
   SpecificClass:function(visitor, host) {
     var section = host.MatchInfo.Section;
     var sectionNumber = visitor.MatchInfo.classVisitNumber;
-    var specificClass=section+sectionNumber;
+    var specificClass = section + sectionNumber;
     return specificClass;
 
   },
@@ -54,15 +57,15 @@ var Rumble = {
   visitorHostParings: function(visitorArray,hostArray) {
     function Match(
       visitorFirstName,
-      visitorLastName, 
-      hostFirstName, 
+      visitorLastName,
+      hostFirstName,
       hostLastName,
-      hostEmail, 
-      section, 
-      visitTime, 
-      matchCount, 
-      Citizenship, 
-      City, 
+      hostEmail,
+      section,
+      visitTime,
+      matchCount,
+      Citizenship,
+      City,
       Employer,
       Gender,
       Industry,
@@ -117,11 +120,11 @@ var Rumble = {
     });
 
     matches.unshift(new Match(
-      'Visitor ', 
+      'Visitor ',
       '',
       'Host ',
       '',
-      'Host Email ', 
+      'Host Email ',
       'Section ',
       'Lecture ',
       'Match Count ',
@@ -177,7 +180,7 @@ var Rumble = {
   },
 
   rumble: function(visitorArray, hostArray, constraintObject) {
-    // visitorArray=clone(visitorArray);
+    // visitorArray = clone(visitorArray);
 
     var notMatchedFullCount = 0;
 
@@ -236,7 +239,7 @@ var Rumble = {
           var classNumber = visitorArray[i].MatchInfo.classVisitNumber;
 
           //here I think we want classVisitNumber, because we're matching.
-          var counterif=0;
+          var counterif = 0;
           var found = false;
           for (var k = 0; k < hostArray.length; k++) {
             var currentMatchObject = this.calculatematchScore(visitorArray[i], hostArray[k]);
@@ -262,9 +265,10 @@ var Rumble = {
             if (currentScore > hostCurrentmatchScore) {
               currentHostScoreCheck = true;
             }
-            if (currentVisitorScoreCheck===true && 
-              currentHostScoreCheck===true  &&  
-              classAvailableCheck===true) {
+
+            if (currentVisitorScoreCheck === true &&
+              currentHostScoreCheck === true  &&
+              classAvailableCheck === true) {
               counterif++;
               found = true;
               bestmatchScore = currentScore;
@@ -272,7 +276,8 @@ var Rumble = {
               bestCount = currentCount;
               bestMatchedOn = currentMatchedOn;
             }//closes currentScore>bestmatchScore
-          }//closes var j =0; j<hostArray.length; j++
+          }//closes var j =0; j < hostArray.length; j++
+
           var visitor = visitorArray[i];
           var host = hostArray[bestMatchIndex];
 
@@ -283,20 +288,25 @@ var Rumble = {
           var quadrant = this.determineQuadrant(visitor, host, constraintObject);
           switch (quadrant) {
             case 'matchedFull':
+
               //pick up old match info
               var originalMatchIndex = hostArray[bestMatchIndex].MatchInfo[classNumber].matchIndex;
+
               //unmatch original Match
               visitorArray[originalMatchIndex].MatchInfo.matchIndex = null;
               visitorArray[originalMatchIndex].MatchInfo.matchScore = -1;
+
               //assign host to new visitor
               visitorArray[i].MatchInfo.matchIndex = bestMatchIndex;
               visitorArray[i].MatchInfo.matchScore = bestmatchScore;
               visitorArray[i].MatchInfo.matchCount = bestCount;
               visitorArray[i].MatchInfo.matchedOn = bestMatchedOn;
+
               //matched on and match count
               //assign new visitor to host
               hostArray[bestMatchIndex].MatchInfo[classNumber].matchIndex = i;
               hostArray[bestMatchIndex].MatchInfo[classNumber].matchScore = bestmatchScore;
+
               //assign both to class
               constraintObject[specificClass].matches[hostEmail] = {
                 hostIndex: bestMatchIndex,
@@ -304,6 +314,7 @@ var Rumble = {
                 visitorIndex: i,
                 matchScore: bestmatchScore,
               };
+
               //determine lowest score
               var lowestScore = 10000000000;
               for (var match in constraintObject[specificClass].matches) {
@@ -314,6 +325,7 @@ var Rumble = {
                   constraintObject[specificClass].lowestIndex = lowestIndex;
                 }
               }
+
               // returnObject.push(clone(constraintObject));
               break;
             case 'matchedNotFull':
@@ -336,11 +348,12 @@ var Rumble = {
               hostArray[bestMatchIndex].MatchInfo[classNumber].matchScore = bestmatchScore;
 
               //assign both to class
-              var worstmatchScore=constraintObject[specificClass].worstmatchScore;
+              var worstmatchScore = constraintObject[specificClass].worstmatchScore;
+
               //determine if we are the new low match score
-              if(bestmatchScore<worstmatchScore) {
-                constraintObject[specificClass].lowestScore=bestmatchScore;
-                constraintObject[specificClass].lowestIndex=hostEmail;
+              if (bestmatchScore < worstmatchScore) {
+                constraintObject[specificClass].lowestScore = bestmatchScore;
+                constraintObject[specificClass].lowestIndex = hostEmail;
               }
 
               constraintObject[specificClass].matches[hostEmail] = {
@@ -436,11 +449,12 @@ var Rumble = {
               hostArray[bestMatchIndex].MatchInfo[classNumber].matchScore = bestmatchScore;
 
               //assign both to class
-              var lowestScore=constraintObject[specificClass].lowestScore;
+              var lowestScore = constraintObject[specificClass].lowestScore;
+
               //check if new addition to class is the lowest score
-              if(bestmatchScore<lowestScore){
-                constraintObject[specificClass].lowestScore=bestmatchScore;
-                constraintObject[specificClass].lowestIndex=hostEmail;  
+              if (bestmatchScore < lowestScore) {
+                constraintObject[specificClass].lowestScore = bestmatchScore;
+                constraintObject[specificClass].lowestIndex = hostEmail;
 
               }
 
@@ -461,18 +475,19 @@ var Rumble = {
       }//close first for loop
       // break;
     }//while loop
+
     var visitorHostParings = this.visitorHostParings(visitorArray, hostArray, constraintObject);
     visitorHostParings = this.SortReturnObject(visitorHostParings);
     var sectionReport = this.SectionReport(constraintObject, originalCapacity);
 
     //add section report and make it work
     //also fix the sort function!!!!
-    currentMatches={};
+    currentMatches = {};
     return visitorHostParings;
-  }//close rumble
+  },//close rumble
 };
 
 //to do:
-//add worst matchScore=-1 and worst match index=null to constraintObject
+//add worst matchScore = -1 and worst match index = null to constraintObject
 //add if statement to matching to determin if you are the best match for the host and better than the worst match in the class or is there room
 module.exports = Rumble;

@@ -34,11 +34,11 @@ var LoginWrapper = React.createClass({
 //loaded for each url
 var routes = (
   <Route handler={App}>
-    <Route path="" handler={CheckLogin}/>
-    <Route path="register" handler={Register}/>
-    <Route path="about" handler={About}/>
-    <Route path="login" handler={LoginWrapper}/>
-    <Route path="home" handler={HomeWrapper}/>
+    <Route path='' handler={CheckLogin}/>
+    <Route path='register' handler={Register}/>
+    <Route path='about' handler={About}/>
+    <Route path='login' handler={LoginWrapper}/>
+    <Route path='home' handler={HomeWrapper}/>
   </Route>
 );
 
@@ -47,7 +47,6 @@ var RouteHandler = Router.RouteHandler;
 var App = React.createClass({
 
   render: function() {
-    var appScope = this;
     return (
       <div>
         <h1>App</h1>

@@ -5,29 +5,33 @@ var Login = React.createClass({
     console.log('register fire');
     window.location = '/#/register';
   },
+
   handler: function(event) {
     event.preventDefault();
     var userName = React.findDOMNode(this.refs.username).value;
     var password = React.findDOMNode(this.refs.password).value;
     var profileObject = {
       username: userName,
-      password: password
+      password: password,
     };
+
     $.ajax({
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(profileObject),
       url: '/userLogin',
       success: function(data) {
-            window.location = '/#/home';
-          }
+        window.location = '/#/home';
+      },
     });
   },
+
   keyDown: function(event) {
     if (event.key === 'Enter') {
       this.handler(event);
     }
   },
+
   render: function() {
     return (
       <div>
@@ -44,7 +48,7 @@ var Login = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = Login;

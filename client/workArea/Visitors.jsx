@@ -1,9 +1,9 @@
-var React=require('react');
+var React = require('react');
 
-var Visitor=React.createClass({
-  render:function(){
-  console.log(this.props.visitor,'visitor');
-    return(
+var Visitor = React.createClass({
+  render:function() {
+    console.log(this.props.visitor, 'visitor');
+    return (
       <tr>
         <td>
           {this.props.visitor.visitorName}
@@ -52,7 +52,7 @@ var Visitor=React.createClass({
         </td>
       </tr>
     );
-  }
+  },
 });
 
-module.exports=Visitor;
+module.exports = Visitor;

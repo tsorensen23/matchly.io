@@ -18,6 +18,7 @@ var Home = React.createClass({
       previousHeaders: null,
     };
   },
+
   componentDidMount: function() {
     this.getAvailableData();
     this.retrieveLastHeaderOrder();
@@ -32,7 +33,7 @@ var Home = React.createClass({
       data: JSON.stringify(headerObject),
       success: function(data) {
         this.setState({ previousHeaders: data });
-      }.bind(this)
+      }.bind(this),
     });
   },
 
@@ -46,9 +47,10 @@ var Home = React.createClass({
       url: '/getAvailableData',
       success: function(data) {
         this.setState({availableData: data[0]});
-      }.bind(this)
+      }.bind(this),
     });
   },
+
   exportCSV: function(matchData) {
     var a = document.createElement('a');
     a.href = 'data:application/csv;charset=utf-8,' + encodeURIComponent(matchData);
@@ -57,18 +59,23 @@ var Home = React.createClass({
     document.body.appendChild(a);
     a.click();
   },
+
   setName: function(name) {
     this.setState({name: name});
   },
+
   setMatchData: function(data) {
     this.setState({matchData: data});
   },
+
   setIndexNumber: function(number) {
     this.setState({indexNumber: number});
   },
+
   setWorkArea: function(number) {
     this.setState({workNumber: number});
   },
+
   render: function() {
     // console.log('previous headers',this.state.previousHeaders);
     var workArea = <div></div>;
