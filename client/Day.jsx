@@ -1,19 +1,19 @@
-var React=require('react');
+var React = require('react');
 
-var Day=React.createClass({
+var Day = React.createClass({
   handleClick:function() {
     this.props.setIndexNumber(this.props.index);
   },
-  render:function(){
+
+  render:function() {
     // console.log('day fires');
     // console.log(this.props.index);
-    return(
+    return (
       <div onClick={this.handleClick}>
-
         {this.props.day}
       </div>
     );
-  }
+  },
 });
 
-module.exports=Day;
+module.exports = Day;

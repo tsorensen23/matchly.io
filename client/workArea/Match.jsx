@@ -1,50 +1,54 @@
-var React=require('react');
-var Visitor=require('./Visitors.jsx');
-var Loading=require('./Loading.jsx');
+var React = require('react');
+var Visitor = require('./Visitors.jsx');
+var Loading = require('./Loading.jsx');
 var ProgressButton = require('react-progress-button');
 
 var Match = React.createClass({
-  match:function(){
+  match:function() {
     // console.log(this.props,'props');
-    var self=this;
+    var _this = this;
+
     // this.props
     this.refs.button.loading();
     $.ajax({
       method: 'GET',
       url: '/match',
       success: function(data) {
-        console.log("data after get request", data);
-        // console.log(self, 'self');
-        self.props.setMatchData(data);
-        self.refs.button.success();
+        console.log('data after get request', data);
+
+        // console.log(_this, '_this');
+        _this.props.setMatchData(data);
+        _this.refs.button.success();
       },
+
       error: function(resp) {
-        self.refs.button.error();
-      }
+        _this.refs.button.error();
+      },
     });
   },
 
-  exportToCSV:function(){
+  exportToCSV:function() {
     this.props.exportCSV(this.props.matchData.csv);
   },
 
-  render:function(){
-    var data=[];
-    if(this.props.matchData!==null){
+  render:function() {
+    var data = [];
+    if (this.props.matchData !== null) {
       // console.log('if statement fires');
       // console.log(this.props.matchData.array,'matchData');
-      data=this.props.matchData.array.map(function(visitor){
+      data = this.props.matchData.array.map(function(visitor) {
         return (<Visitor visitor={visitor} />);
       });
     }
-    return(
+
+    return (
         <div id='workBox'>
-          <div id="nav">
+          <div id='nav'>
             <div id='tabs'>
               <ul>
-                <li id="match" onClick={this.props.setWorkArea.bind(this,0)}>MATCH</li>
-                <li id="available" onClick={this.props.setWorkArea.bind(this,1)}>AVAILABLE</li>
-                <li id="upload" onClick={this.props.setWorkArea.bind(this,2)}>UPLOAD</li>
+                <li id='match' onClick={this.props.setWorkArea.bind(this, 0)}>MATCH</li>
+                <li id='available' onClick={this.props.setWorkArea.bind(this, 1)}>AVAILABLE</li>
+                <li id='upload' onClick={this.props.setWorkArea.bind(this, 2)}>UPLOAD</li>
               </ul>
             </div>
           </div>
@@ -58,7 +62,7 @@ var Match = React.createClass({
             <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
             <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
           </div>
-          <div id="loading">
+          <div id='loading'>
           </div>
           <div id='data'>
             <table className='minorPadding'>{data}</table>
@@ -66,7 +70,7 @@ var Match = React.createClass({
         </div>
 
     );
-  }
+  },
 });
 
-module.exports=Match;
+module.exports = Match;

@@ -21,7 +21,7 @@ function scripts(input, output) {
     debug: true,
     cache: {},
     packageCache: {},
-    fullPaths: true
+    fullPaths: true,
   });
   var watcher = watchify(bundler);
 
@@ -37,6 +37,7 @@ function scripts(input, output) {
       .pipe(gulp.dest('./build/'));
       console.log('Updated!', (Date.now() - updateStart) + 'ms');
     })
+
     // Create the initial bundle when starting the task
     .bundle()
     .on('error', function(err) {
@@ -47,10 +48,10 @@ function scripts(input, output) {
 }
 
 function serve() {
- nodemon({
-   script: './server/server.js',
-   "ignore": ["client/*.js", "build/*.js"]
- });
+  nodemon({
+    script: './server/server.js',
+    ignore: ['client/*.js', 'build/*.js'],
+  });
 }
 
 gulp.task('default', ['browserify', 'serve']);

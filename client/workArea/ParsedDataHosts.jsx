@@ -1,9 +1,9 @@
-var React=require('react');
+var React = require('react');
 
-var ParsedDataHosts=React.createClass({
-  render:function(){
+var ParsedDataHosts = React.createClass({
+  render:function() {
     console.log(this.props.data);
-    return(
+    return (
       <div>
         <h3 className='host'>First: {this.props.data.Contact.First}</h3>
         <h3 className='host'>Last: {this.props.data.Contact.Last}</h3>
@@ -20,8 +20,7 @@ var ParsedDataHosts=React.createClass({
         <h3 className='host'>State: {this.props.data.Characteristics.State}</h3>
       </div>
     );
-  }
+  },
 });
 
-
-module.exports=ParsedDataHosts;
+module.exports = ParsedDataHosts;
