@@ -107,7 +107,7 @@ Fuzzy.prototype.matchOnAcronyms = function(word) {
   return poss;
 };
 
-Fuzzy.prototype.matchOnSplits = function(word) {
+Fuzzy.prototype.matchOnSplits = function(words) {
   var poss = [];
   var splits = words.split(' ');
   splits.forEach(function(word) {
