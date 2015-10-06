@@ -10,8 +10,8 @@ gulp.task('browserify', compileScripts)
     .task('serve', serve);
 
 function compileScripts() {
-  scripts('./main.js','bundle.js');
-  scripts('./login.jsx','login-bundle.js');
+  scripts('./main.jsx', 'bundle.js');
+  scripts('./Login.jsx', 'login-bundle.js');
 }
 
 function scripts(input, output) {
