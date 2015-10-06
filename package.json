@@ -34,6 +34,7 @@
     "react-progress-button": "^1.1.0",
     "react-router": "^0.13.x",
     "react-style": "^0.5.5",
+    "react-typeahead": "^1.1.4",
     "reactify": "^1.1.1",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "^1.1.0",

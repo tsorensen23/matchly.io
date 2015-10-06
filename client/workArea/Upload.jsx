@@ -4,6 +4,7 @@ var ParsedDataHosts = require('./ParsedDataHosts.jsx');
 var DataParser = require('./DataParser.jsx');
 var EditableTableView = require('../generic/EditableTableView.jsx');
 var ButtonList = require('./ButtonList.jsx');
+var SchoolPicker = require('./SchoolPicker.jsx');
 var visitorHeaders = [
   'Contact.First',
   'Contact.Last',
@@ -126,12 +127,10 @@ var Upload = React.createClass({
       complete: function(jqXHR, textStatus) {},
 
       success: function(data, textStatus, jqXHR) {
-        console.log('completed successfully');
-
         // newNames is coming back
         // { got: [poss1, poss2] }
-        console.log('lets see the data', data);
         this.setState({possible: data, pageView: 2});
+
       }.bind(this),
 
       error: function(jqXHR, textStatus, errorThrown) {
@@ -226,7 +225,7 @@ var Upload = React.createClass({
       url: url,
       success: function(data) {
         alert('Success!');
-      }.bind(this),
+      }.bind(this)
     });
   },
 
@@ -262,18 +261,12 @@ var Upload = React.createClass({
           {buttonstuff}
         </div>);
     } else if (this.state.pageView === 2) {
-      var lists = this.state.possible.map(function(possibility, index) {
-        return (<li key={index}>{possibility.poss[0]}</li>);
-      });
-
       dataView = (
-        <div>
-          <ul>
-            {lists}
-          </ul>
-          <button onClick={this.togglePageView}>Next Page</button>
-        </div>
-      );
+          <div>
+            <SchoolPicker possible={this.state.possible} />
+          </div>
+          );
+
     } else if (this.state.pageView === 3) {
       dataView = (
         <div>
