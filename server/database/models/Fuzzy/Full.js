@@ -36,10 +36,6 @@ Full.pre('save', function(obj,next) {
   );
 });
 
-Full.methods.toString = function() {
-  return this.value;
-};
-
 Full.virtual('acronym').get(function() {
   return words.split(' ').reduce(function(prev,word) {
     if (IGNORED.indexOf(word.toLowerCase()) > -1) return prev;
@@ -48,4 +44,4 @@ Full.virtual('acronym').get(function() {
   }, '');
 });
 
-module.exports = db.model('Full', Full);
+module.exports = db.model('Full', Full, 'Full');

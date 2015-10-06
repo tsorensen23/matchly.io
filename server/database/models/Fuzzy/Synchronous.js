@@ -4,7 +4,11 @@ function Fuzzy(travisLoveList) {
   this.acronyms = {};
   this.splits = {};
   this.fulls = [];
+  // console.log('travisLoveList',travisLoveList);
   travisLoveList.forEach(this.addFull.bind(this));
+  // console.log('acronyms',this.acronyms);
+  // console.log('splits',this.splits);
+
 }
 
 Fuzzy.prototype.addFull = function(words) {
@@ -63,6 +67,7 @@ Fuzzy.prototype.getFull = function(word) {
   for (i = 0, l = fs.length; i < l; i++) {
     if (word.toUpperCase() === fs[i].toUpperCase()) {
       ret.found = fs[i];
+      ret.poss.push(fs[i]);
       break;
     }
   }
