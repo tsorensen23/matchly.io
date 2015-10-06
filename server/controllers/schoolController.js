@@ -1,9 +1,11 @@
-var Fuzzy = require('../database/models/Fuzzy/Synchronous')
+var Fuzzy = require('../database/models/Fuzzy/Synchronous');
+var Full = require('../database/models/Fuzzy/Full');
+
 module.exports.checkSchools = function(req, res, next) {
-  var list = new Fuzzy(req.body.names);
-  var output = {
-    acronyms: list.acronyms,
-    fulls: list.fulls
-  };
-  res.json(output);
+  Full.find({}, function(err,travisLoveList) {
+    if (err) return next(err);
+    var list = new Fuzzy(travisLoveList);
+    var newNames = req.body.names.map(list.getFull.bind(list));
+    res.json(newNames);
+  });
 };
