@@ -60,7 +60,7 @@ var ButtonList = React.createClass({
       this.state.fields,
       this.state.categories,
       prevHeaders,
-      matchedFields,
+      matchedFields
     );
     this.setState({matchedFields:matchedFields});
   },

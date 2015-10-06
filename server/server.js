@@ -37,7 +37,7 @@ app.get('/getAvailableData', matchController.getAvailableData);
 app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 
-app.post('/checkschools', schoolController.checkSchools);
+app.post('/checkschools', schoolController.checkAlias);
 
 app.use(function(err, req, res, next) {
   console.error('route error', err);
