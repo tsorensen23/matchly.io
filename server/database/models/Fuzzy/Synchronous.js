@@ -73,11 +73,11 @@ Fuzzy.prototype.getFull = function(word) {
   var splitsMatch = this.matchOnSplits(word);
   ret.poss = ret.poss.concat(splitsMatch);
 
-  return poss;
+  return ret;
 };
 
 Fuzzy.prototype.matchOnAcronyms = function(word) {
-  var ret = {found: void 0, poss:[]};
+  var ret = {found: void 0};
   var wAcronym = this.acronym(word);
 
   if (wAcronym in this.acronyms) {
@@ -104,6 +104,7 @@ Fuzzy.prototype.matchOnAcronyms = function(word) {
     }
   }
 
+  ret.poss = poss;
   return poss;
 };
 
