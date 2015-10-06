@@ -46,6 +46,9 @@ var Upload = React.createClass({
     if(this.state.pageView === 1){
       return this.setState({pageView:2});      
     }
+    if(this.state.pageView === 2){
+      return this.setState({pageView:3});      
+    }
     return this.setState({pageView: 0});
   },
   populateIndividualArray:function(array) {
@@ -87,17 +90,6 @@ var Upload = React.createClass({
         console.log('data', data);
         this.setState({uploadedData:data.data});
         this.setState({fields: data.meta.fields});
-        // console.log('gulp is working');
-        // document.getElementById("confirm-button").disabled = false;
-        // this.setState({data: data});
-        // if(this.state.hostOrVisitor==='visitor') {
-        //   //figure out what to do with returned data
-        //   // console.log('visitor fires');
-        //   this.setState({dataArray: DataParser.parseDataVisitor(data, this.state.fields)});
-        // } else {
-        //   // console.log('host fires');
-        //   this.setState({dataArray: DataParser.parseDataHost(data)});
-        // }
       }.bind(this));
       reader.readAsText(data[0]);
       this.togglePageView();
@@ -108,11 +100,10 @@ var Upload = React.createClass({
     var data = DataParser.parseDataVisitor(this.state.uploadedData, headers);
     console.log(data);
       this.setState({dataArray: data});
-
-        // } else {
-        //   // console.log('host fires');
-        //   this.setState({dataArray: DataParser.parseDataHost(data)});
-        // }
+      var names = data.map(function(individual) {
+        return individual.Characteristics.Undergrad;
+      });
+      this.sendSchoolNames(names);
   },
   sendSchoolNames: function(array){
     var payload = {"names": array};
@@ -125,8 +116,12 @@ var Upload = React.createClass({
       complete: function (jqXHR, textStatus) {
       },
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
-      },
+        console.log('completed successfully');
+        // newNames is coming back
+        // { got: [poss1, poss2] }
+        console.log('lets see the data', data);
+        this.setState({possible: data, pageView: 2});
+      }.bind(this),
       error: function (jqXHR, textStatus, errorThrown) {
         // error callback
       }
@@ -241,11 +236,18 @@ browserSupportFileUpload: function() {
           {buttonstuff}
         </div>);
     } else if(this.state.pageView===2) {
-      var names = this.state.dataArray.map(function(individual) {
-        return individual.Characteristics.Undergrad;
-      })
-      console.log(names);
-      this.sendSchoolNames(names);
+        var lists = this.state.possible.map(function (possibility, index) {
+          return (<li key={index}>{possibility.poss[0]}</li>);
+        });
+      dataView = (
+          <div>
+            <ul>
+              {lists}
+            </ul>
+            <button onClick={this.togglePageView}>Next Page</button>
+          </div>
+      );
+    } else if(this.state.pageView === 3) {
       dataView=(
         <div>
         <h2>Visitor Information</h2>
