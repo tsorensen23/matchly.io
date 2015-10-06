@@ -138,4 +138,8 @@ Fuzzy.prototype.matchOnSplits = function(words) {
   return poss;
 };
 
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+}
+
 module.exports = Fuzzy;
