@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var Acronym = require('./Acronym');
 var Splits = require('./Splits');
 var IGNORED = require('./ignored-words');
+var db = require('../../connection');
 
 var Full = new Schema({
   value: { type: String, index: true, unique: true,},

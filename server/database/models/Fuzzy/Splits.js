@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var db = require('../../connection');
 var Schema = mongoose.Schema;
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
