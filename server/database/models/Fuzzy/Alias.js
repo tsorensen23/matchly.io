@@ -5,7 +5,7 @@ var db = require('../../connection');
 
 var Alias = new Schema({
   value: {type:String, index:true, unique:true,},
-  full: {type:ObjectId, ref: 'Full',},
+  full: {type:[ObjectId], ref: 'Full',},
 });
 
 Alias.methods.toString = function() {

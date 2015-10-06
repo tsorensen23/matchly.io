@@ -6,35 +6,35 @@ var IGNORED = require('./ignored-words');
 var db = require('../../connection');
 
 var Full = new Schema({
-  value: { type: String, index: true, unique: true,},
+  value: { type: String, index: true, unique: true},
   permanentAcronym: { type: String, },
 });
 
-Full.pre('save', function(obj,next) {
-  if (!this.isNew) return next();
-  Acronym.update(
-    {value: obj.acronym,},
-    {$push:{fulls:obj._id},},
-    {upsert: true,},
-    next
-  );
-});
+// Full.pre('save', function(obj,next) {
+//   if (!this.isNew) return next();
+//   Acronym.update(
+//     {value: obj.acronym,},
+//     {$push:{fulls:obj._id},},
+//     {upsert: true,},
+//     next
+//   );
+// });
 
-Full.pre('save', function(obj,next) {
-  if (!this.isNew) return next();
-  var splits = obj.value.split(' ').filter(function(str) {
-    return IGNORED.indexOf(word.toLowerCase()) > -1;
-  }).map(function(str) {
-    return {value:str};
-  });
+// Full.pre('save', function(obj,next) {
+//   if (!this.isNew) return next();
+//   var splits = obj.value.split(' ').filter(function(str) {
+//     return IGNORED.indexOf(word.toLowerCase()) > -1;
+//   }).map(function(str) {
+//     return {value:str};
+//   });
 
-  Splits.update(
-    splits,
-    {$push:{fulls:obj._id},},
-    {upsert: true,},
-    next
-  );
-});
+  // Splits.update(
+  //   splits,
+  //   {$push:{fulls:obj._id},},
+  //   {upsert: true,},
+  //   next
+  // );
+// });
 
 Full.virtual('acronym').get(function() {
   return words.split(' ').reduce(function(prev,word) {

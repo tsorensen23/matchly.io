@@ -57,6 +57,7 @@ Fuzzy.prototype.acronym = function(words) {
 // RETURNS {found:String, poss:[String]}
 Fuzzy.prototype.getFull = function(word) {
   word = this.scrub(word);
+  console.log('scrub word return',word);
   var fs = this.fulls;
   var i;
   var l;

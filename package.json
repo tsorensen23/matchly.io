@@ -7,6 +7,7 @@
     "test": "./node_modules/mocha/bin/mocha -R nyan spec/ --watch"
   },
   "dependencies": {
+    "async": "^1.4.2",
     "babelify": "^6.3.0",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^2.10.0",
