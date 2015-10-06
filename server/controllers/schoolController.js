@@ -71,6 +71,34 @@ module.exports.checkSchools = function(req, res, next) {
   });
 };
 
+module.exports.schoolMatch = function(req, res, next) {
+
+  // obj comes is an { alias: String, schoolname: String }
+  // find or create an alias for the alias, and set its schoolId to the id of the schoolname.
+  Alias.findOne({value: req.body.alias}, function(err, alias) {
+    if (err) {
+      return next(err);
+    }
+
+    if (!alias || alias.length === 0) {
+      alias = new Alias({value: req.body.alias});
+    }
+
+    School.findOne({name: req.body.school}, function(err, school) {
+      console.log('School was found!', school);
+      console.log('alias is', alias);
+      if (err) {
+        return next(err);
+      }
+
+      alias.schoolId.push(school.id);
+      alias.save();
+      res.json(alias);
+    });
+
+  });
+};
+
 module.exports.addAlias = function(req, res, next) {
   var alias = req.post.alias;
   var full = req.post.full;
