@@ -14,7 +14,7 @@ var LoginForm = React.createClass({
         </div>
       </form>
     );
-  },
+  }
 });
 
 module.exports = LoginForm;

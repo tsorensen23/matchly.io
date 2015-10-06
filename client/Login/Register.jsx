@@ -22,7 +22,7 @@ var Register = React.createClass({
         emailAddress: emailAddress,
         username: username,
         password: password,
-        matchlycookie: document.cookie,
+        matchlycookie: document.cookie
       };
       console.log(profileObject, 'profile profileObject');
       $.ajax({
@@ -38,7 +38,7 @@ var Register = React.createClass({
           } else {
             window.location = '/#/';
           }
-        }.bind(this),
+        }.bind(this)
       });
     }
   },
@@ -84,7 +84,7 @@ var Register = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
 });
 

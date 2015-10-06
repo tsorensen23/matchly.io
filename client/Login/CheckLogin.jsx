@@ -22,12 +22,12 @@ var CheckLogin = React.createClass({
           window.location = '/#/login';
         }
 
-      }.bind(this),
+      }.bind(this)
     });
 
     console.log(document.cookie, 'matchlycookie console');
     return (<div></div>);
-  },
+  }
 
 });
 

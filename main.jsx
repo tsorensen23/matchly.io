@@ -1,63 +1,58 @@
 var React = require('react');
 
-var Login = require('./client/Login.jsx');
-var Register = require('./client/Register.jsx');
+var Login = require('./client/Login/Login.jsx');
+var Register = require('./client/Login/Register.jsx');
 var Home = require('./client/Home.jsx');
-var CheckLogin = require('./client/CheckLogin.jsx');
+var App = require('./client/App.jsx');
 
-var Router = require('react-router');
-var Route = Router.Route;
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var Redirect = ReactRouter.Redirect;
 
 var About = React.createClass({
   render: function() {
     return (<h2>About</h2>);
-  },
+  }
 });
 
 var HomeWrapper = React.createClass({
   render: function() {
     return (
-        <Home setIndexNumber={this.setIndexNumber} />
+      <Home setIndexNumber={this.setIndexNumber} />
     );
-  },
-});
-
-var LoginWrapper = React.createClass({
-  render: function() {
-    return (
-        <Login setState={this.setState} />
-    );
-  },
+  }
 });
 
 //these are the routes, they determine which component will be
 //loaded for each url
-var routes = (
-  <Route handler={App}>
-    <Route path='' handler={CheckLogin}/>
-    <Route path='register' handler={Register}/>
-    <Route path='about' handler={About}/>
-    <Route path='login' handler={LoginWrapper}/>
-    <Route path='home' handler={HomeWrapper}/>
-  </Route>
-);
 
-var RouteHandler = Router.RouteHandler;
+var User = require('./client/Stores/UserStore');
 
-var App = React.createClass({
+var createHashHistory = require('history/lib/createHashHistory');
 
-  render: function() {
-    return (
-      <div>
-        <h1>App</h1>
-        <h2>Hello {this.state.name}</h2>
-        <RouteHandler/>
-      </div>
-    );
-  },
+User.getUser(function(err, user) {
+  if (err) {
+    return window.location = '/login';
+  }
+
+  if (!user) {
+    return window.location = '/login';
+  }
+
+  React.render(
+    <Router history={createHashHistory()} createElement={function(Component,props) {
+        return <Component user={user} {...props} />;
+      }}>
+      <Route component={App} >
+        <Redirect from='/' to='/home' />
+        <Route path='register' component={Register}/>
+        <Route path='about' component={About}/>
+        <Route path='login' component={Login}/>
+        <Route path='home' component={HomeWrapper}/>
+      </Route>
+    </Router>,
+
+    document.getElementById('main')
+  );
 });
-
-Router.run(routes, Router.HashLocation, function(Root) {
-  React.render(<Root/>, document.getElementById('main'));
-});
-
