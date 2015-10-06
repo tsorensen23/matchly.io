@@ -86,7 +86,7 @@ var Upload = React.createClass({
   fileupload: function(event) {
     event.preventDefault();
     console.log('file upload called');
-    if (document.getElementById('txtFileUpload').files.length = 0) {
+    if (document.getElementById('txtFileUpload').files.length === 0) {
       alert('no file selected');
     } else {
       this.setState({hostOrVisitor: this.determineHostOrVisitor()});
