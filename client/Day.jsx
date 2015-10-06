@@ -6,8 +6,6 @@ var Day = React.createClass({
   },
 
   render:function() {
-    // console.log('day fires');
-    // console.log(this.props.index);
     return (
       <div onClick={this.handleClick}>
         {this.props.day}

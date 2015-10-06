@@ -41,7 +41,6 @@ var Upload = React.createClass({
   },
 
   togglePageView: function() {
-    // console.log('toggle is called');
     if (this.state.pageView === 0) {
       return this.setState({pageView:1});
     }
@@ -86,7 +85,6 @@ var Upload = React.createClass({
 
   fileupload: function(event) {
     event.preventDefault();
-    console.log('file upload called');
     if (document.getElementById('txtFileUpload').files.length === 0) {
       alert('no file selected');
     } else {
@@ -95,7 +93,6 @@ var Upload = React.createClass({
       var reader = new FileReader();
       reader.addEventListener('load', function(event) {
         data = Papa.parse(event.target.result, {header:true});
-        console.log('data', data);
         this.setState({uploadedData:data.data});
         this.setState({fields: data.meta.fields});
       }.bind(this));
@@ -105,9 +102,7 @@ var Upload = React.createClass({
   },
 
   callDataParser: function(headers) {
-    console.log('called dataparser');
     var data = DataParser.parseDataVisitor(this.state.uploadedData, headers);
-    console.log(data);
     this.setState({dataArray: data});
     var names = data.map(function(individual) {
       return individual.Characteristics.Undergrad;
@@ -169,10 +164,8 @@ var Upload = React.createClass({
   fieldsChanger: function(array) {
     // this function is passed down into the button and called when the user reorganizes the headers
     // this function takes an array of category names and sets the data array state to that array
-    // console.log('fields changer array:', array);
     var data = {School:'Darden'};
     array.forEach(function(object) {
-      // console.log('object',object);
       data[object.category] = object.value;
     });
 
@@ -182,7 +175,6 @@ var Upload = React.createClass({
       data: JSON.stringify(data),
       url: '/updateHeaderOrder',
       success: function(data) {
-        console.log(data);
       },
     });
 
@@ -196,13 +188,10 @@ var Upload = React.createClass({
       if (this.state.hostOrVisitor === 'visitor') {
 
         //figure out what to do with returned data
-        // console.log('visitor fires');
         // var data =DataParser.parseDataVisitor(data, array);
         // this.setState({dataArray: data});
-        // console.dir(data);
       } else {
 
-        // console.log('host fires');
         // this.setState({dataArray: DataParser.parseDataHost(data)});
       }
     }.bind(this));
@@ -234,14 +223,12 @@ var Upload = React.createClass({
       return obj.value;
     });
 
-    console.log('headersChanger', array);
     this.setState({headers:array});
     this.callDataParser(array);
 
   },
 
   render: function() {
-    console.log('dataArray', this.state.dataArray);
     if (this.state.fields) {
       var buttonstuff = (<ButtonList
       fields={this.state.fields}

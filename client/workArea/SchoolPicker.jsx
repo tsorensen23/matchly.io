@@ -1,13 +1,5 @@
 var React = require('react');
 var Typeahead = require('react-typeahead').Typeahead;
-//React.render(
-  //<Typeahead
-    //options={['John', 'Paul', 'George', 'Ringo']}
-    //maxVisible={2}
-  ///>
-//);
-
-
 var SchoolPicker = React.createClass({
   getInitialState: function() {
   return {schools: []};
@@ -18,11 +10,9 @@ var SchoolPicker = React.createClass({
       type: 'get',
       dataType: 'json',
       complete: function(jqXHR, textStatus) {
-        console.log('ajax call finished');
         // callback
       },
       success: function(data, textStatus, jqXHR) {
-        //console.log(data.result);
         var schools = data.result.map(function(school) {
           return school.schoolName;
         });
@@ -30,13 +20,13 @@ var SchoolPicker = React.createClass({
         this.setState({schools: schools});
       }.bind(this),
       error: function (jqXHR, textStatus, errorThrown) {
-        console.warn('Htere was an error', errorThrown);
+        // TODO sam implemen a real endpoint that saves and logs client side errors
+        console.warn('There was an error', errorThrown);
       }
     });
   },
 
   render: function() {
-    console.log(this.state.schools);
     var output = [];
     for (var name in this.props.possible) {
       if (!this.props.possible[name]) {

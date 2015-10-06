@@ -2,7 +2,6 @@ var React = require('react');
 
 var ParsedDataVisitors = React.createClass({
   render:function() {
-    console.log('visitor data: ', this.props.data);
     return (
       <div>
         <h3 className='visitor'>Contact Information</h3>

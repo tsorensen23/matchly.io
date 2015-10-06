@@ -66,7 +66,6 @@ var ButtonList = React.createClass({
   },
 
   callFieldsChange: function() {
-    console.log('matchedFields in button list', this.state.matchedFields);
     this.props.fieldsChanger(this.state.matchedFields);
     this.props.headersChanger(this.state.matchedFields);
     this.props.togglePageView();
@@ -155,7 +154,6 @@ var ButtonList = React.createClass({
   },
 
   render: function() {
-    console.log('matchedFields', this.state.matchedFields);
     var fieldButtons = this.state.fields.map(function(object, index) {
       return (
         <Button
