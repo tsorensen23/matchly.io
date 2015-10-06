@@ -18,6 +18,7 @@ Fuzzy.prototype.addFull = function(words) {
 
   var splits = words.split(' ');
   splits.forEach(function(word) {
+    if (IGNORED.indexOf(word.toLowerCase()) === -1) return;
     if (!(word in this.splits)) {
       this.splits[word] = [];
     }
@@ -72,6 +73,23 @@ Fuzzy.prototype.getFull = function(word) {
 
   var splitsMatch = this.matchOnSplits(word);
   ret.poss = ret.poss.concat(splitsMatch);
+
+  ret.poss = this.removeDuplicates(ret.poss);
+
+  return ret;
+};
+
+Fuzzy.prototype.removeDuplicates = function(ari) {
+  var poss = {};
+  ari.forEach(function(word) {
+    if (!(word in poss)) poss[word] = 0;
+    poss[word]++;
+  });
+
+  var ret = Object.keys(poss);
+  ret.sort(function(a,b) {
+    return poss[b] - poss[a];
+  });
 
   return ret;
 };

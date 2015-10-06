@@ -22,7 +22,9 @@ Full.pre('save', function(obj,next) {
 
 Full.pre('save', function(obj,next) {
   if (!this.isNew) return next();
-  var splits = obj.value.split(' ').map(function(str) {
+  var splits = obj.value.split(' ').filter(function(str) {
+    return IGNORED.indexOf(word.toLowerCase()) > -1;
+  }).map(function(str) {
     return {value:str};
   });
 
