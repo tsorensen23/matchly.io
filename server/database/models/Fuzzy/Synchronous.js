@@ -49,7 +49,7 @@ Fuzzy.prototype.acronym = function(words) {
   }, '');
 };
 
-// RETURNS String if found, ARRAY if not found
+// RETURNS {found:String, poss:[String]}
 Fuzzy.prototype.getFull = function(word) {
   word = this.scrub(word);
   var fs = this.fulls;
