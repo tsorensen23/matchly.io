@@ -51,27 +51,48 @@ Fuzzy.prototype.acronym = function(words) {
 
 // RETURNS String if found, ARRAY if not found
 Fuzzy.prototype.getFull = function(word) {
-  word = this.scub(word);
+  word = this.scrub(word);
   var fs = this.fulls;
   var i;
   var l;
 
+  var ret = {found:void 0,poss:[]};
+
   // Exists or not
   for (i = 0, l = fs.length; i < l; i++) {
-    if (word.toUpperCase() === fs[i].toUpperCase()) return fs[i];
+    if (word.toUpperCase() === fs[i].toUpperCase()) {
+      ret.found = fs[i];
+      break;
+    }
   }
 
+  var acryMatch = this.matchOnAcronyms(word);
+  if (!ret.found) ret.found = acryMatch.found;
+  ret.poss = ret.poss.concat(acryMatch.poss);
+
+  var splitsMatch = this.matchOnSplits(word);
+  ret.poss = ret.poss.concat(splitsMatch);
+
+  return poss;
+};
+
+Fuzzy.prototype.matchOnAcronyms = function(word) {
+  var ret = {found: void 0, poss:[]};
   var wAcronym = this.acronym(word);
 
   if (wAcronym in this.acronyms) {
-    if (this.acronyms[wAcronym].length === 1)
-      return this.acronyms[wAcronym][0];
-    return this.acronyms[wAcronym];
+    if (this.acronyms[wAcronym].length === 1) {
+      ret.found = this.acronyms[wAcronym][0];
+    }
+
+    ret.poss.push.apply(ret.poss, this.acronyms[wAcronym]);
   }
 
   var poss = [];
   var keys = Object.keys(this.acronyms);
   for (i = 0, l = keys.length; i < l; i++) {
+    if (wAcronym === keys[i]) continue;
+
     if (new RegExp('^' + escapeRegExp(keys[i])).test(wAcronym)) {
       poss.push.apply(poss, this.acronyms[keys[i]]);
       continue;
@@ -83,6 +104,17 @@ Fuzzy.prototype.getFull = function(word) {
     }
   }
 
+  return poss;
+};
+
+Fuzzy.prototype.matchOnSplits = function(word) {
+  var poss = [];
+  var splits = words.split(' ');
+  splits.forEach(function(word) {
+    if (word in this.splits) {
+      poss.push.apply(poss, this.splits[word]);
+    }
+  }.bind(this));
   return poss;
 };
 
