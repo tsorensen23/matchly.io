@@ -104,7 +104,7 @@ Fuzzy.prototype.matchOnAcronyms = function(word) {
       ret.found = this.acronyms[wAcronym][0];
     }
 
-    poss.push.apply(ret.poss, this.acronyms[wAcronym]);
+    poss.push.apply(poss, this.acronyms[wAcronym]);
   }
 
   var keys = Object.keys(this.acronyms);
