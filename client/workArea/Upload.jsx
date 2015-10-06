@@ -236,8 +236,8 @@ browserSupportFileUpload: function() {
           {buttonstuff}
         </div>);
     } else if(this.state.pageView===2) {
-        var lists = this.state.possible.map(function (possibility) {
-          return (<li>{possibility.poss}</li>);
+        var lists = this.state.possible.map(function (possibility, index) {
+          return (<li key={index}>{possibility.poss[0]}</li>);
         });
       dataView = (
           <div>
