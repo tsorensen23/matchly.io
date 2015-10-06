@@ -9,3 +9,8 @@ module.exports.checkSchools = function(req, res, next) {
     res.json(newNames);
   });
 };
+
+module.exports.addAlias = function(req, res, next) {
+  var alias = req.post.alias;
+  var full = req.post.full;
+};

@@ -1,10 +1,10 @@
 
 var IGNORED = require('./ignored-words');
-function Fuzzy(list) {
+function Fuzzy(travisLoveList) {
   this.acronyms = {};
   this.splits = {};
   this.fulls = [];
-  list.forEach(this.addFull.bind(this));
+  travisLoveList.forEach(this.addFull.bind(this));
 }
 
 Fuzzy.prototype.addFull = function(words) {
@@ -19,6 +19,7 @@ Fuzzy.prototype.addFull = function(words) {
   var splits = words.split(' ');
   splits.forEach(function(word) {
     if (IGNORED.indexOf(word.toLowerCase()) === -1) return;
+    word = word.toLowerCase();
     if (!(word in this.splits)) {
       this.splits[word] = [];
     }
@@ -31,7 +32,7 @@ Fuzzy.prototype.addFull = function(words) {
 
 Fuzzy.prototype.scrub = function(words) {
   return words
-    .replace(/\W/, ' ')
+    .replace(/[^\w\s]/, ' ')
     .replace(/\s+/, ' ')
     .replace(/^\s|\s$/, '');
 };
@@ -39,15 +40,14 @@ Fuzzy.prototype.scrub = function(words) {
 Fuzzy.prototype.acronym = function(words) {
   return words.split(' ').reduce(function(prev,word) {
     if (IGNORED.indexOf(word.toLowerCase()) > -1) return prev;
-    if (word.charAt(0).toUpperCase() !== word.charAt(0)) return prev;
-    for (var i = 1, l = word.length; i < l; i++) {
-      if (word.charAt(1).toUpperCase() !== word.charAt(1)) {
+    for (var i = 0, l = word.length; i < l; i++) {
+      if (word.charAt(i).toUpperCase() !== word.charAt(i)) {
         return prev + word.charAt(0);
       }
     }
 
     return prev + word;
-  }, '');
+  }, '').toUpperCase();
 };
 
 // RETURNS {found:String, poss:[String]}
@@ -74,12 +74,12 @@ Fuzzy.prototype.getFull = function(word) {
   var splitsMatch = this.matchOnSplits(word);
   ret.poss = ret.poss.concat(splitsMatch);
 
-  ret.poss = this.removeDuplicates(ret.poss);
+  ret.poss = this.removeDuplicatesAndSortByRank(ret.poss);
 
   return ret;
 };
 
-Fuzzy.prototype.removeDuplicates = function(ari) {
+Fuzzy.prototype.removeDuplicatesAndSortByRank = function(ari) {
   var poss = {};
   ari.forEach(function(word) {
     if (!(word in poss)) poss[word] = 0;
@@ -96,6 +96,7 @@ Fuzzy.prototype.removeDuplicates = function(ari) {
 
 Fuzzy.prototype.matchOnAcronyms = function(word) {
   var ret = {found: void 0};
+  var poss = [];
   var wAcronym = this.acronym(word);
 
   if (wAcronym in this.acronyms) {
@@ -103,10 +104,9 @@ Fuzzy.prototype.matchOnAcronyms = function(word) {
       ret.found = this.acronyms[wAcronym][0];
     }
 
-    ret.poss.push.apply(ret.poss, this.acronyms[wAcronym]);
+    poss.push.apply(ret.poss, this.acronyms[wAcronym]);
   }
 
-  var poss = [];
   var keys = Object.keys(this.acronyms);
   for (i = 0, l = keys.length; i < l; i++) {
     if (wAcronym === keys[i]) continue;
@@ -130,6 +130,7 @@ Fuzzy.prototype.matchOnSplits = function(words) {
   var poss = [];
   var splits = words.split(' ');
   splits.forEach(function(word) {
+    word = word.toLowerCase();
     if (word in this.splits) {
       poss.push.apply(poss, this.splits[word]);
     }

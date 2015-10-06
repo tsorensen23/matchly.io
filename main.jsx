@@ -10,7 +10,7 @@ var Route = Router.Route;
 
 var About = React.createClass({
   render: function() {
-    return <h2>About</h2>;
+    return (<h2>About</h2>);
   },
 });
 
@@ -55,7 +55,7 @@ var App = React.createClass({
         <RouteHandler/>
       </div>
     );
-  }
+  },
 });
 
 Router.run(routes, Router.HashLocation, function(Root) {
