@@ -93,7 +93,7 @@ module.exports.schoolMatch = function(req, res, next) {
 
       alias.schoolId.push(school.id);
       alias.save();
-      res.json(alias);
+      res.json({alias: alias, schoolname: school.name});
     });
 
   });

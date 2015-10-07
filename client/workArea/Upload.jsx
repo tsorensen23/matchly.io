@@ -222,10 +222,8 @@ var Upload = React.createClass({
     array = array.map(function(obj) {
       return obj.value;
     });
-
     this.setState({headers:array});
     this.callDataParser(array);
-
   },
 
   render: function() {
@@ -248,9 +246,20 @@ var Upload = React.createClass({
           {buttonstuff}
         </div>);
     } else if (this.state.pageView === 2) {
+      function possibleHandler(alias, trueName) {
+        var dataArray = this.state.dataArray;
+        dataArray.forEach(function(element){
+          if(element.Characteristics.Undergrad === alias){
+            element.Characteristics.Undergrad = trueName;
+          }
+        })
+        var possible = this.state.possible;
+        possible.splice(possible.indexOf(alias), 1);
+        this.setState({dataArray: dataArray, possible: possible});
+      }
       dataView = (
           <div>
-            <SchoolPicker possible={this.state.possible} />
+            <SchoolPicker possible={this.state.possible} possibleHandler={possibleHandler} />
           </div>
           );
 
