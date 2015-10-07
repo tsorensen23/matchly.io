@@ -38,14 +38,22 @@ app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
-app.get('/schools', schoolController.getSchools)
-
+app.get('/schools', schoolController.getSchools);
 
 app.use(function(err, req, res, next) {
   console.error('route error', err.stack);
   next(err);
 });
 
-app.listen(process.env.PORT || 3000, function() {
+var Server = require('http').Server;
+
+var server = new Server(app);
+
+server.listen(process.env.PORT || 3000, function() {
   console.log('listening and running');
+  if(process.send) process.send('ready');
 });
+
+server.express = app;
+
+module.exports = server;

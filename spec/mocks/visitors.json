@@ -1,5 +1,5 @@
-{
-  "_id" : ObjectId("5612ed2b3c7202f74596db1b"),
+[{
+  "_id" : "5612ed2b3c7202f74596db1b",
   "MatchInfo" : {
     "Class Visit Time" : "800",
     "classVisitNumber" : "1"
@@ -23,7 +23,7 @@
   "__v" : 0
 },
 {
-  "_id" : ObjectId("5612ed2b3c7202f74596db1c"),
+  "_id" : "5612ed2b3c7202f74596db1c",
   "MatchInfo" : {
     "Class Visit Time" : "800",
     "classVisitNumber" : "1"
@@ -47,7 +47,7 @@
   "__v" : 0
 },
 {
-  "_id" : ObjectId("5612ed2b3c7202f74596db1d"),
+  "_id" : "5612ed2b3c7202f74596db1d",
   "MatchInfo" : {
     "Class Visit Time" : "800",
     "classVisitNumber" : "1"
@@ -69,4 +69,4 @@
     "Gender" : "Male"
   },
   "__v" : 0
-}
+}]

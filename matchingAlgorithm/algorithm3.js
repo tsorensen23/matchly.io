@@ -119,7 +119,7 @@ var Rumble = {
     return bestMatch;
   },
 
-  rumble: function(visitorArray, hostArray, constraintObject) {
+  validateTotalAvailable: function(visitorArray, constraintObject) {
     var totalAvailableSpots = {};
     for (var i = 1; i < 4; i++) {
       var total = 0;
@@ -134,7 +134,7 @@ var Rumble = {
     }
 
     var unMatchedVisitors = visitorArray.map(function(a) {
-      totalAvailableSpots[a.classVisitNumber]--;
+      totalAvailableSpots[a.MatchInfo.classVisitNumber]--;
       return a;
     });
 
@@ -144,6 +144,12 @@ var Rumble = {
         throw totalAvailableSpots;
       }
     }
+
+    return unMatchedVisitors;
+  },
+
+  rumble: function(visitorArray, hostArray, constraintObject) {
+    var unMatchedVisitors = this.validateTotalAvailable(visitorArray, constraintObject);
 
     while (unMatchedVisitors.length) {
       var curVisitor = unMatchedVisitors.shift();

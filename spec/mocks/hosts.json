@@ -1,7 +1,8 @@
-{
-  "_id" : ObjectId("56141e95157b9a2a64ab3a72"),
+[{
+  "_id" : "56141e95157b9a2a64ab3a72",
   "MatchInfo" : {
-    "matchesDone" : 0
+    "matchesDone" : 0,
+    "Section": "A"
   },
   "Contact" : {
     "First" : "Katie",
@@ -22,9 +23,10 @@
   "__v" : 0
 },
 {
-  "_id" : ObjectId("56141e95157b9a2a64ab3a73"),
+  "_id" : "56141e95157b9a2a64ab3a73",
   "MatchInfo" : {
-    "matchesDone" : 0
+    "matchesDone" : 0,
+    "Section": "B"
   },
   "Contact" : {
     "First" : "Dylan",
@@ -45,9 +47,10 @@
   "__v" : 0
 },
 {
-  "_id" : ObjectId("56141e95157b9a2a64ab3a75"),
+  "_id" : "56141e95157b9a2a64ab3a75",
   "MatchInfo" : {
-    "matchesDone" : 0
+    "matchesDone" : 0,
+    "Section": "C"
   },
   "Contact" : {
     "First" : "German",
@@ -66,4 +69,4 @@
     "Gender" : "Male"
   },
   "__v" : 0
-}
+}]

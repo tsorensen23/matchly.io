@@ -32,6 +32,7 @@ var Available = React.createClass({
         };
       }
     }
+
     $.ajax({
       method: 'POST',
       contentType: 'application/json',
@@ -44,7 +45,7 @@ var Available = React.createClass({
   },
 
   render:function() {
-    var self = this;
+    var _this = this;
     return (
       <div id='classAvailable'>
         <form onSubmit={this.sendClassConstraints}>
@@ -71,8 +72,8 @@ var Available = React.createClass({
                     type='number'
                     className={cur + ' sections'}
                     defaultValue={
-                      self.state.availableData ?
-                        self.state.availableData[cur].availableSpots
+                      _this.state.availableData ?
+                        _this.state.availableData[cur].availableSpots
                       :
                         0
                     }
