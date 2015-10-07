@@ -1,0 +1,72 @@
+{
+  "_id" : ObjectId("5612ed2b3c7202f74596db1b"),
+  "MatchInfo" : {
+    "Class Visit Time" : "800",
+    "classVisitNumber" : "1"
+  },
+  "Contact" : {
+    "First" : "Will",
+    "Last" : "Bowron",
+    "Email" : null
+  },
+  "Characteristics" : {
+    "Military" : "None",
+    "Country" : "United States",
+    "Citizenship" : "United States",
+    "Undergrad" : "Rhodes College",
+    "Employer" : "Red Diamond, Inc.",
+    "Industry" : "Food Services/Lodging",
+    "City" : "Birmingham",
+    "State" : "AL",
+    "Gender" : "Male"
+  },
+  "__v" : 0
+},
+{
+  "_id" : ObjectId("5612ed2b3c7202f74596db1c"),
+  "MatchInfo" : {
+    "Class Visit Time" : "800",
+    "classVisitNumber" : "1"
+  },
+  "Contact" : {
+    "First" : "Abhishek",
+    "Last" : "Desai",
+    "Email" : null
+  },
+  "Characteristics" : {
+    "Military" : "None",
+    "Country" : "United States",
+    "Citizenship" : "India",
+    "Undergrad" : "Seth G.S.Medical College, University of Maharashtra, India",
+    "Employer" : "RehabCare Group East Inc",
+    "Industry" : "Pharma/Biotech/Healthcare",
+    "City" : "Rockville",
+    "State" : "MD",
+    "Gender" : "Male"
+  },
+  "__v" : 0
+},
+{
+  "_id" : ObjectId("5612ed2b3c7202f74596db1d"),
+  "MatchInfo" : {
+    "Class Visit Time" : "800",
+    "classVisitNumber" : "1"
+  },
+  "Contact" : {
+    "First" : "Xuanyuan",
+    "Last" : "DU",
+    "Email" : null
+  },
+  "Characteristics" : {
+    "Military" : "None",
+    "Country" : "China",
+    "Citizenship" : "China",
+    "Undergrad" : "Nanchang University",
+    "Employer" : "Naton Medical",
+    "Industry" : "Pharma/Biotech/Healthcare",
+    "City" : "Beijing",
+    "State" : "Beijing",
+    "Gender" : "Male"
+  },
+  "__v" : 0
+}
