@@ -97,7 +97,6 @@ var Upload = React.createClass({
 
   fileupload: function(event) {
     event.preventDefault();
-<<<<<<< HEAD
     this.refs.readableFile.read(function(err,data) {
       if (err) return alert(err);
 
@@ -105,20 +104,6 @@ var Upload = React.createClass({
       this.setState({uploadedData:data.data});
       this.setState({fields: data.meta.fields});
       this.setState({hostOrVisitor: this.determineHostOrVisitor()});
-=======
-    if (document.getElementById('txtFileUpload').files.length === 0) {
-      alert('no file selected');
-    } else {
-      this.setState({hostOrVisitor: this.determineHostOrVisitor()});
-      var data = document.getElementById('txtFileUpload').files;
-      var reader = new FileReader();
-      reader.addEventListener('load', function(event) {
-        data = Papa.parse(event.target.result, {header:true});
-        this.setState({uploadedData:data.data});
-        this.setState({fields: data.meta.fields});
-      }.bind(this));
-      reader.readAsText(data[0]);
->>>>>>> 20acf9a213334de8840da56418c3678269b94b33
       this.togglePageView();
 
     });
@@ -195,12 +180,8 @@ var Upload = React.createClass({
       data: JSON.stringify(data),
       url: '/updateHeaderOrder',
       success: function(data) {
-<<<<<<< HEAD
         console.log(data);
       }
-=======
-      },
->>>>>>> 20acf9a213334de8840da56418c3678269b94b33
     });
 
     var data = document.getElementById('txtFileUpload').files;
