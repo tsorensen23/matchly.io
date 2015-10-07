@@ -32,15 +32,12 @@ var Available = React.createClass({
         };
       }
     }
-
-    console.log(dataObject, 'dataObject');
     $.ajax({
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(dataObject),
       url: '/availability',
       success: function(data) {
-        console.log(data, 'data');
         alert('success!');
       }.bind(this)
     });

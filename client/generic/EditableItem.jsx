@@ -12,7 +12,6 @@ module.exports = React.createClass({
   },
 
   modifyInput: function(event) {
-    console.log(event.target.value);
     mpath.set(this.props.name, event.target.value, this.props.object);
   },
 

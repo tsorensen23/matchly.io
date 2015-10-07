@@ -38,7 +38,6 @@ var ButtonList = React.createClass({
   },
 
   callFieldsChange: function() {
-    console.log('matchedFields in button list', this.state.matchedFields);
     this.props.fieldsChanger(this.state.matchedFields);
     this.props.headersChanger(this.state.matchedFields);
     this.props.togglePageView();
@@ -60,12 +59,17 @@ var ButtonList = React.createClass({
   },
 
   render: function() {
+<<<<<<< HEAD
     console.log('matchedFields', this.state.matchedFields);
 
     var matchedButtons = [];
     var categoryButtons = this.props.store.required.map(function(name, index) {
 
       matchedButtons.push(
+=======
+    var fieldButtons = this.state.fields.map(function(object, index) {
+      return (
+>>>>>>> 20acf9a213334de8840da56418c3678269b94b33
         <Button
           colorChange={this.changeColor}
           color={this.state.colors[index]}

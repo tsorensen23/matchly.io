@@ -1,13 +1,5 @@
 var React = require('react');
 var Typeahead = require('react-typeahead').Typeahead;
-//React.render(
-  //<Typeahead
-    //options={['John', 'Paul', 'George', 'Ringo']}
-    //maxVisible={2}
-  ///>
-//);
-
-
 var SchoolPicker = React.createClass({
   getInitialState: function() {
   return {schools: []};
@@ -18,45 +10,76 @@ var SchoolPicker = React.createClass({
       type: 'get',
       dataType: 'json',
       complete: function(jqXHR, textStatus) {
-        console.log('ajax call finished');
         // callback
       },
+
       success: function(data, textStatus, jqXHR) {
-        //console.log(data.result);
         var schools = data.result.map(function(school) {
           return school.schoolName;
         });
 
         this.setState({schools: schools});
       }.bind(this),
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.warn('Htere was an error', errorThrown);
+      error: function(jqXHR, textStatus, errorThrown) {
+        // TODO sam implemen a real endpoint that saves and logs client side errors
+        console.warn('There was an error', errorThrown);
       }
     });
   },
 
   render: function() {
-    console.log(this.state.schools);
     var output = [];
     for (var name in this.props.possible) {
       if (!this.props.possible[name]) {
         output.push(
-            <div key={name} >
-              {name}
-              <Typeahead 
-                options={this.state.schools} 
-                maxVisible={10}
-              />
-            </div>
+            <TypeAheadWrapper schools={this.state.schools} name={name} key={name} />
             );
       }
+      // if statement for when we get more than two results for a certain alias
     }
+
     return (
         <div>
           {output}
         </div>
         );
 
+  }
+});
+var TypeAheadWrapper = React.createClass({
+  logger: function(string) {
+    console.log(`the key is ${this.props.name}, amnd the user selected ${string}`);
+    $.ajax({
+      url: 'schoolmatch',
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify({ alias: this.props.name, school: string}),
+      complete: function(jqXHR, textStatus) {
+        // callback
+      },
+      success: function(data, textStatus, jqXHR) {
+        this.props.possibleHandler(data.value, data.schoolname);
+
+        // success callback
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        // error callback
+      }
+    });
+  },
+
+  render: function() {
+    return (
+        <div>
+          {this.props.name}
+          <Typeahead
+            options={this.props.schools}
+            maxVisible={10}
+            onOptionSelected={this.logger}
+          />
+        </div>
+        );
   }
 })
 

@@ -2,7 +2,7 @@ var Schema = require('mongoose').Schema;
 var db = require('../connection');
 
 var AliasSchema = new Schema({
-  Value: { type: String },
+  value: { type: String },
   schoolId: { type: [Schema.ObjectId] }
 });
 

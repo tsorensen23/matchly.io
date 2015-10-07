@@ -64,8 +64,10 @@ Match.prototype.toClientObject = function() {
     var visitor = _this.visitor;
     var host = _this.host;
 
-    returnObject.visitorName = visitor.Contact.First + ' ' + visitor.Contact.Last;
-    returnObject.hostName = host.Contact.First + ' ' + host.Contact.Last;
+    returnObject.visitorFirstName = visitor.Contact.First; 
+    returnObject.visitorLastName = visitor.Contact.Last;
+    returnObject.hostFirstName = host.Contact.First;
+    returnObject.hostLastName = host.Contact.Last;
     returnObject.hostEmail = host.Contact.Email;
     returnObject.section = host.MatchInfo.Section;
     returnObject.visitTime = visitor.MatchInfo['Class Visit Time'];

@@ -38,10 +38,11 @@ app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 
 app.post('/checkschools', schoolController.checkAlias);
+app.post('/schoolmatch', schoolController.schoolMatch);
 
 app.use(function(err, req, res, next) {
-  console.error('route error', err);
-  next();
+  console.error('route error', err.stack);
+  next(err);
 });
 
 app.listen(process.env.PORT || 3000);

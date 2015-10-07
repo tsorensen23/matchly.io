@@ -7,6 +7,7 @@ var Link = require('react-router').Link;
 var Home = React.createClass({
 
   render: function() {
+<<<<<<< HEAD
     return (<div>
             <h1 id='header'>MATCHLY</h1>
             <div id='workArea'>
@@ -26,6 +27,8 @@ var Home = React.createClass({
           </div>);
 
     // console.log('previous headers',this.state.previousHeaders);
+=======
+>>>>>>> 20acf9a213334de8840da56418c3678269b94b33
     var workArea = <div></div>;
     var workNumber = this.state.workNumber;
     if (workNumber === 0) {
