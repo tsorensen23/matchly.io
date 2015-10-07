@@ -80,7 +80,10 @@ describe('SchoolsController', function() {
         }
 
         expect(response.statusCode).to.eq(200);
-        expect(b).to.eql('56145d4fdd75372612b572c2');
+        expect('Duquesne University' in b).to.eql(true);
+        expect(typeof b['Duquesne University']).to.eql('string');
+        expect(b['Duquesne University']).to.eql('Duquesne University');
+
         done();
       });
     });

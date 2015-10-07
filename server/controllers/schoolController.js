@@ -8,13 +8,11 @@ var School = db.School;
 var Alias = db.Alias;
 
 module.exports.checkAlias = function(req, res, next) {
-  console.log(req.body);
 
   // response will be a JSON object with the string the user wrote, and the mapping that we have, if its null then no watch was found and ask user to input a new school
   var output = {};
   async.each(req.body.names, function(v, next) {
     Alias.findOne({value: v}, function(err, alias) {
-      console.log(alias);
       if (err) {
         return next(err);
       }
@@ -24,16 +22,21 @@ module.exports.checkAlias = function(req, res, next) {
         return next();
       }
 
-      School.find({_id: alias.schoolId}, function(err, school) {
+      if (alias.schoolId.length > 1) {
+        output[v] = alias.schoolId;
+        return next();
+      }
+
+      School.find({_id: {$in: alias.schoolId}}, function(err, schools) {
         if (err) {
           return next(err);
         }
 
-        if (school) {
-          output[v] = school.name;
-        }
-
-        if (!school) {
+        if (schools.length === 1) {
+          output[v] = schools[0].name;
+        } else if (schools.length > 1) {
+          output[v] = schools.map(function(s) { return s.name; });
+        }else if (school.length === 0) {
           output[v] = null;
         }
 
@@ -43,7 +46,7 @@ module.exports.checkAlias = function(req, res, next) {
   }, function(error) {
 
     if (error) {
-      res.send(error);
+      return next(error);
     }
 
     res.json(output);
@@ -93,7 +96,7 @@ module.exports.schoolMatch = function(req, res, next) {
         return next(err);
       }
 
-      alias.schoolId.push(school.id);
+      if (alias.schoolId.indexOf(school.id) === -1) alias.schoolId.push(school.id);
       alias.save();
       res.json({alias: alias, schoolname: school.name});
     });

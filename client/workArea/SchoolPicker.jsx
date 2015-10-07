@@ -6,7 +6,7 @@ var SchoolPicker = React.createClass({
   },
   componentDidMount: function() {
     $.ajax({
-      url: 'https://sheetsu.com/apis/9e9f4f71',
+      url: '/schools',
       type: 'get',
       dataType: 'json',
       complete: function(jqXHR, textStatus) {
