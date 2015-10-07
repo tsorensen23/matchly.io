@@ -2,7 +2,6 @@ var React = require('react');
 
 var ParsedDataHosts = React.createClass({
   render:function() {
-    console.log(this.props.data);
     return (
       <div>
         <h3 className='host'>First: {this.props.data.Contact.First}</h3>

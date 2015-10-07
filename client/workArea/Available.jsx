@@ -8,27 +8,24 @@ var Available = React.createClass({
     var dataObject = {};
     for (var i = 0, l = SECTIONS.length; i < l; i++) {
       for (var ii = 0, ll = TIMES.length; ii < ll; ii++) {
-        var cur = SECTIONS[i] + (ii+1);
+        var cur = SECTIONS[i] + (ii + 1);
         dataObject[cur] = {
           availableSpots: parseInt($('.' + cur)),
           lowestIndex: null,
           matches: {
-            exists: 'yes',
-          },
+            exists: 'yes'
+          }
         };
       }
     }
-
-    console.log(dataObject, 'dataObject');
     $.ajax({
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(dataObject),
       url: '/availability',
       success: function(data) {
-        console.log(data, 'data');
         alert('success!');
-      }.bind(this),
+      }.bind(this)
     });
   },
 
@@ -66,7 +63,7 @@ var Available = React.createClass({
                 return (<tr>
                   <h3 className='row-title sections'>{time}</h3>
                   {SECTIONS.map(function(letter) {
-                    var cur = letter + (i+1);
+                    var cur = letter + (i + 1);
                     return (<input required
                       type='number'
                       className={cur + ' sections'}
@@ -81,7 +78,7 @@ var Available = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 module.exports = Available;

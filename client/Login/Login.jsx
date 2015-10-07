@@ -12,7 +12,7 @@ var Login = React.createClass({
     var password = React.findDOMNode(this.refs.password).value;
     var profileObject = {
       username: userName,
-      password: password,
+      password: password
     };
 
     $.ajax({
@@ -22,7 +22,7 @@ var Login = React.createClass({
       url: '/userLogin',
       success: function(data) {
         window.location = '/#/home';
-      },
+      }
     });
   },
 
@@ -41,14 +41,14 @@ var Login = React.createClass({
         </div>
         <div id='loginContainer'>
           <div id='credentials'>
-                <h3>Username: <input onKeyDown={this.keyDown} ref='username' id='userName' type='text' /></h3>
-                <h3>Password: <input onKeyDown={this.keyDown} ref='password' id='password' type='password' /></h3>
-                <LoginForm handler={this.handler} register={this.register}/>
+            <h3>Username: <input onKeyDown={this.keyDown} ref='username' id='userName' type='text' /></h3>
+            <h3>Password: <input onKeyDown={this.keyDown} ref='password' id='password' type='password' /></h3>
+            <LoginForm handler={this.handler} register={this.register}/>
           </div>
         </div>
       </div>
     );
-  },
+  }
 });
 
 module.exports = Login;

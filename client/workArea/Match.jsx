@@ -14,8 +14,6 @@ var Match = React.createClass({
       method: 'GET',
       url: '/match',
       success: function(data) {
-        console.log('data after get request', data);
-
         // console.log(_this, '_this');
         _this.props.setMatchData(data);
         _this.refs.button.success();
