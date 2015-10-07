@@ -6,10 +6,16 @@ var Visitor = React.createClass({
     return (
       <tr>
         <td>
-          {this.props.visitor.visitorName}
+          {this.props.visitor.visitorFirstName}
         </td>
         <td>
-          {this.props.visitor.hostName}
+          {this.props.visitor.visitorLasttName}
+        </td>
+        <td>
+          {this.props.visitor.hostFirstName}
+        </td>
+        <td>
+          {this.props.visitor.hostLastName}
         </td>
         <td>
           {this.props.visitor.hostEmail}
