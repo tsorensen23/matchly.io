@@ -1,8 +1,6 @@
 var React = require('react');
 
-var ReadableFile = require('../generic/ReadableFile');
-
-var CATEGORIES = require('../Stores/Categories');
+var ReadableFile = require('../../generic/ReadableFile.jsx');
 
 var Upload = React.createClass({
   getInitialState: function() {
@@ -20,8 +18,7 @@ var Upload = React.createClass({
       this.props.currentStore.create(
         this.state.hostOrVisitor,
         data,
-        {School: 'Darden'},
-        CATEGORIES
+        {School: 'Darden'}
       );
 
     });

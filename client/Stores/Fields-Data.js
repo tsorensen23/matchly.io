@@ -18,7 +18,7 @@ function StatefulFields(type, data, school) {
 
   this.school = school;
 
-  var requested = category.requested;
+  var requested = Categories[this.type].requested;
   var matched = this.matched = {};
   var available = this.available = data.meta.fields;
 
@@ -40,7 +40,7 @@ function StatefulFields(type, data, school) {
         if (ii === fields.length) matched[req] = void 0;
       });
 
-      this.emit('header-updated', this);
+      this.emit('ready-for-header', this);
     }.bind(this)
   });
 
@@ -48,6 +48,10 @@ function StatefulFields(type, data, school) {
 
 StatefulFields.prototype = Object.create(EE.prototype);
 StatefulFields.prototype.constructor = StatefulFields;
+
+StatefulFields.prototype.getRealHeaders = function() {
+  return Categories[this.type].realHeaders;
+};
 
 StatefulFields.prototype.setHeader = function(requiredKey, availableKey) {
   var matched = Object.keys(this.matched);
@@ -60,6 +64,7 @@ StatefulFields.prototype.setHeader = function(requiredKey, availableKey) {
 };
 
 StatefulFields.prototype.confirmHeaders = function() {
+  this.emit('please-wait', this);
 
   this.matched.School = this.school.School;
 
@@ -113,4 +118,29 @@ StatefulFields.prototype.confirmHeaders = function() {
 
   });
 
+};
+
+StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
+  var dataArray = this.data;
+  dataArray.forEach(function(element) {
+    if (element.Characteristics.Undergrad === alias) {
+      element.Characteristics.Undergrad = trueName;
+    }
+  });
+
+  var possible = this.possible;
+  possible.splice(possible.indexOf(alias), 1);
+  this.emit('ready-for-fuzzy', this);
+};
+
+StatefulFields.prototype.finish = function() {
+  $.ajax({
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(this.data),
+    url: Catagories[this.type].url,
+    success: function(data) {
+      this.emit('finished', this);
+    }.bind(this)
+  });
 };
