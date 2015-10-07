@@ -1,9 +1,10 @@
 var React = require('react');
 
-var Login = require('./client/Login/Login.jsx');
-var Register = require('./client/Login/Register.jsx');
 var Home = require('./client/Home.jsx');
-var App = require('./client/App.jsx');
+
+var Match = require('./client/workArea/Match.jsx');
+var Available = require('./client/workArea/Available.jsx');
+var Upload = require('./client/workArea/Upload.jsx');
 
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
@@ -13,14 +14,6 @@ var Redirect = ReactRouter.Redirect;
 var About = React.createClass({
   render: function() {
     return (<h2>About</h2>);
-  }
-});
-
-var HomeWrapper = React.createClass({
-  render: function() {
-    return (
-      <Home setIndexNumber={this.setIndexNumber} />
-    );
   }
 });
 
@@ -44,12 +37,11 @@ User.getUser(function(err, user) {
     <Router history={createHashHistory()} createElement={function(Component,props) {
         return <Component user={user} {...props} />;
       }}>
-      <Route component={App} >
-        <Redirect from='/' to='/home' />
-        <Route path='register' component={Register}/>
-        <Route path='about' component={About}/>
-        <Route path='login' component={Login}/>
-        <Route path='home' component={HomeWrapper}/>
+      <Route component={Home} >
+        <Redirect from='/' to='/match' />
+        <Route path='match' component={Match} />
+        <Route path='upload' component={Upload} />
+        <Route path='available' component={Available} />
       </Route>
     </Router>,
 

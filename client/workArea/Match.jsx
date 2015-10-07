@@ -3,7 +3,13 @@ var Visitor = require('./Visitors.jsx');
 var Loading = require('./Loading.jsx');
 var ProgressButton = require('react-progress-button');
 
+var exportToCSV = require('../generic/exportCSV.js');
+
 var Match = React.createClass({
+  getInitialState: function() {
+    return {matchData:null};
+  },
+
   match:function() {
     // console.log(this.props,'props');
     var _this = this;
@@ -17,23 +23,23 @@ var Match = React.createClass({
         console.log('data after get request', data);
 
         // console.log(_this, '_this');
-        _this.props.setMatchData(data);
+        _this.setState({matchData:data});
         _this.refs.button.success();
       },
 
       error: function(resp) {
         _this.refs.button.error();
-      },
+      }
     });
   },
 
   exportToCSV:function() {
-    this.props.exportCSV(this.props.matchData.csv);
+    exportToCSV('match-data', this.state.matchData.csv);
   },
 
   render:function() {
     var data = [];
-    if (this.props.matchData !== null) {
+    if (this.props.matchData) {
       // console.log('if statement fires');
       // console.log(this.props.matchData.array,'matchData');
       data = this.props.matchData.array.map(function(visitor) {
@@ -42,35 +48,25 @@ var Match = React.createClass({
     }
 
     return (
-        <div id='workBox'>
-          <div id='nav'>
-            <div id='tabs'>
-              <ul>
-                <li id='match' onClick={this.props.setWorkArea.bind(this, 0)}>MATCH</li>
-                <li id='available' onClick={this.props.setWorkArea.bind(this, 1)}>AVAILABLE</li>
-                <li id='upload' onClick={this.props.setWorkArea.bind(this, 2)}>UPLOAD</li>
-              </ul>
-            </div>
-          </div>
-          <div id='workArea'>
-            <div id='list-of-visitors'>
+      <div>
+        <div id='workArea'>
+          <div id='list-of-visitors'>
 
-            </div>
-            <div id='schedule'>
+          </div>
+          <div id='schedule'>
 
-            </div>
-            <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
-            <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
           </div>
-          <div id='loading'>
-          </div>
-          <div id='data'>
-            <table className='minorPadding'>{data}</table>
-          </div>
+          <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
+          <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
         </div>
-
+        <div id='loading'>
+        </div>
+        <div id='data'>
+          <table className='minorPadding'>{data}</table>
+        </div>
+      </div>
     );
-  },
+  }
 });
 
 module.exports = Match;

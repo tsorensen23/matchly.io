@@ -13,15 +13,15 @@ var DataParser = {
         Industry: industry,
         City: city,
         State: state,
-        Gender: gender,
+        Gender: gender
       };
       this.Contact = {
         First: first,
         Last: last,
-        Email: email,
+        Email: email
       };
       this.MatchInfo = {
-        Section: section,
+        Section: section
       };
     }
 
@@ -66,12 +66,12 @@ var DataParser = {
     return modifiedDataArray;
   },
 
-  parseDataVisitor: function(dataObject, fields) {
+  parseDataVisitor: function(dataObject, map) {
     var dataArray = dataObject;
     var modifiedDataArray = [];
-    function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, classVisitTime) {
+    function Individual(obj) {
       var classVisitNumber;
-      classVisitTime = classVisitTime.trim();
+      classVisitTime = obj[fields['Class Visit Time']].trim();
       classVisitTime = classVisitTime.replace(/\./g, '');
       classVisitTime = classVisitTime.toUpperCase();
 
@@ -104,20 +104,20 @@ var DataParser = {
       }
 
       this.Characteristics = {
-        Military: military,
-        Country: country,
-        Citizenship: citizenship,
-        Undergrad: undergrad,
-        Employer: employer,
-        Industry: industry,
-        City: city,
-        State: state,
-        Gender: gender,
+        Military: obj[fields.Military],
+        Country: obj[fields.Country],
+        Citizenship: obj[fields.Citizenship],
+        Undergrad: obj[fields.Undergrad],
+        Employer: obj[fields.Employer],
+        Industry: obj[fields.Industry],
+        City: obj[fields.City],
+        State: obj[fields.State],
+        Gender: obj[fields.Gender]
       };
       this.Contact = {
-        First: first,
-        Last: last,
-        Email: null,
+        First: obj[fields.First],
+        Last: obj[fields.Last],
+        Email: null
       };
       this.MatchInfo = {
         'Class Visit Time': classVisitTime,
@@ -125,42 +125,14 @@ var DataParser = {
         matchScore: -1,
         matchIndex: null,
         matchedOn: null,
-        matchCount: 0,
+        matchCount: 0
       };
     }
 
-    for (var i = 0; i < dataArray.length; i++) {
-      var milStatusKey = fields[0];
-      var CountryKey = fields[1];
-      var CitizenshipKey = fields[2];
-      var UndergraduateKey = fields[3];
-      var EmployerKey = fields[4];
-      var IndustryKey = fields[5];
-      var CityKey = fields[6];
-      var StateKey = fields[7];
-      var FirstKey = fields[8];
-      var LastKey = fields[9];
-      var GenderKey = fields[10];
-      var classVisitTimeKey = fields[11];
-      var data = new Individual(
-        dataArray[i][milStatusKey],
-        dataArray[i][CountryKey],
-        dataArray[i][CitizenshipKey],
-        dataArray[i][UndergraduateKey],
-        dataArray[i][EmployerKey],
-        dataArray[i][IndustryKey],
-        dataArray[i][CityKey],
-        dataArray[i][StateKey],
-        dataArray[i][FirstKey],
-        dataArray[i][LastKey],
-        dataArray[i][GenderKey],
-        dataArray[i][classVisitTimeKey]
-        );
-      modifiedDataArray.push(data);
-    }
-
-    return modifiedDataArray;
-  },
+    return dataArray.map(function(obj) {
+      return new Individual(dataArray[i]);
+    });
+  }
 };
 
 module.exports = DataParser;

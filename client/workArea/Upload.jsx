@@ -5,19 +5,10 @@ var DataParser = require('./DataParser.jsx');
 var EditableTableView = require('../generic/EditableTableView.jsx');
 var ButtonList = require('./ButtonList.jsx');
 var SchoolPicker = require('./SchoolPicker.jsx');
-var visitorHeaders = [
-  'Contact.First',
-  'Contact.Last',
-  'MatchInfo.Class Visit Time',
-  'Characteristics.Military',
-  'Characteristics.Country',
-  'Characteristics.Citizenship',
-  'Characteristics.Undergrad',
-  'Characteristics.Employer',
-  'Characteristics.Industry',
-  'Characteristics.City',
-  'Characteristics.State',
-];
+
+var ReadableFile = require('../generic/ReadableFile');
+
+var CATEGORIES = require('../Stores/Categories');
 
 var Upload = React.createClass({
   getInitialState: function() {
@@ -31,8 +22,21 @@ var Upload = React.createClass({
       fields: null,
       headers: [],
       uploadedData:null,
-      visitorCategories: ['Military', 'Country', 'Citizenship', 'Undergrad', 'Employer', 'Industry', 'City', 'State', 'First', 'Last', 'Gender', 'Class Visit Time'],
+      visitorCategories: ['Military', 'Country', 'Citizenship', 'Undergrad', 'Employer', 'Industry', 'City', 'State', 'First', 'Last', 'Gender', 'Class Visit Time']
     };
+  },
+
+  componentWillMount: function() {
+    var headerObject = {School: 'Darden'};
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      url: '/headerOrder',
+      data: JSON.stringify(headerObject),
+      success: function(data) {
+        this.setState({ previousHeaders: data });
+      }.bind(this)
+    });
   },
 
   componentDidMount: function() {
@@ -83,25 +87,27 @@ var Upload = React.createClass({
       */
     }
   },
+  uploadChange: function(err, data) {
+    if (error) return alert(err);
+
+    data = Papa.parse(data, {header:true});
+    this.setState({uploadedData:data.data});
+    this.setState({fields: data.meta.fields});
+    this.togglePageView();
+  },
 
   fileupload: function(event) {
     event.preventDefault();
-    console.log('file upload called');
-    if (document.getElementById('txtFileUpload').files.length === 0) {
-      alert('no file selected');
-    } else {
+    this.refs.readableFile.read(function(err,data) {
+      if (err) return alert(err);
+
+      data = Papa.parse(data, {header:true});
+      this.setState({uploadedData:data.data});
+      this.setState({fields: data.meta.fields});
       this.setState({hostOrVisitor: this.determineHostOrVisitor()});
-      var data = document.getElementById('txtFileUpload').files;
-      var reader = new FileReader();
-      reader.addEventListener('load', function(event) {
-        data = Papa.parse(event.target.result, {header:true});
-        console.log('data', data);
-        this.setState({uploadedData:data.data});
-        this.setState({fields: data.meta.fields});
-      }.bind(this));
-      reader.readAsText(data[0]);
       this.togglePageView();
-    }
+
+    });
   },
 
   callDataParser: function(headers) {
@@ -135,7 +141,7 @@ var Upload = React.createClass({
 
       error: function(jqXHR, textStatus, errorThrown) {
         // error callback
-      },
+      }
 
     });
   },
@@ -162,9 +168,6 @@ var Upload = React.createClass({
     return isCompatible;
   },
 
-  toggleSubmit: function() {
-    document.getElementById('submitButton').disabled = false;
-  },
 
   fieldsChanger: function(array) {
     // this function is passed down into the button and called when the user reorganizes the headers
@@ -183,7 +186,7 @@ var Upload = React.createClass({
       url: '/updateHeaderOrder',
       success: function(data) {
         console.log(data);
-      },
+      }
     });
 
     var data = document.getElementById('txtFileUpload').files;
@@ -240,14 +243,27 @@ var Upload = React.createClass({
 
   },
 
+  setHostVisitor: function(e) {
+    this.setState({hostOrVisitor:e.target.value});
+    document.getElementById('submitButton').disabled = false;
+  },
+
+  setHasFile: function(e) {
+    this.setState({hasFile:e.hasFile()});
+  },
+
+  uploadDisabled: function() {
+    return this.state.hostOrVisitor && this.state.hasFile;
+  },
+
   render: function() {
     console.log('dataArray', this.state.dataArray);
     if (this.state.fields) {
       var buttonstuff = (<ButtonList
       fields={this.state.fields}
       fieldsChanger={this.fieldsChanger}
-      categories={this.state.visitorCategories}
-      previousHeaders={this.props.previousHeaders}
+      categories={CATEGORIES}
+      previousHeaders={this.state.previousHeaders}
       togglePageView={this.togglePageView}
       headersChanger={this.headersChanger}
       callDataParser={this.callDataParser}/>);
@@ -280,34 +296,26 @@ var Upload = React.createClass({
     }
 
     return (
-      <div id='Upload-box'>
-        <div id='nav'>
-          <div id='tabs'>
-            <ul>
-              <li id='match' onClick={this.props.setWorkArea.bind(this, 0)}>MATCH</li>
-              <li id='available' onClick={this.props.setWorkArea.bind(this, 1)}>AVAILABLE</li>
-              <li id='upload' onClick={this.props.setWorkArea.bind(this, 2)}>UPLOAD</li>
-            </ul>
-          </div>
-        </div>
-          <div id='uploadForm'>
+      <div>
+        <div id='uploadForm'>
           <form id='file-form' onSubmit={this.fileupload}>
             <div id='radio-buttons'>
-              <input type='radio' name='hostOrVisitor' onClick={this.toggleSubmit} value='host' required> Hosts</input>
+              <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='host' required> Hosts</input>
               <br></br>
-              <input type='radio' name='hostOrVisitor' onClick={this.toggleSubmit} value='visitor'> Visitors</input>
+              <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='visitor'> Visitors</input>
             </div>
+            <ReadableFile accept='.csv' name='File Upload' />
             <div id='dvImportSegments' class='fileupload '>
                 <legend>Upload your CSV File</legend>
-                <input type='file' name='File Upload' id='txtFileUpload' accept='.csv' />
+                <ReadableFile accept='.csv' name='File Upload' onChange={this.setHasFile} ref='readableFile'/>
             </div>
             <input id='submitButton' type='submit'></input>
-          </form>
-          </div>
-            {dataView}
+        </form>
+        </div>
+        {dataView}
       </div>
     );
-  },
+  }
 });
 
 module.exports = Upload;

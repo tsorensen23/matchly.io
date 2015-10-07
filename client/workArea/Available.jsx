@@ -3,6 +3,20 @@ var SECTIONS = ['A','B','C','D','E'];
 var TIMES = ['8:00','10:00','11:45'];
 
 var Available = React.createClass({
+  getInitialState: function() {
+    return {availableData: void 0};
+  },
+
+  componentWillMount: function() {
+    $.ajax({
+      method: 'GET',
+      url: '/getAvailableData',
+      success: function(data) {
+        this.setState({availableData: data[0]});
+      }.bind(this)
+    });
+  },
+
   sendClassConstraints:function() {
 
     var dataObject = {};
@@ -33,52 +47,45 @@ var Available = React.createClass({
   },
 
   render:function() {
+    var self = this;
     return (
-      <div id='available-box'>
-        <div id='date'>
-        </div>
-        <div id='nav'>
-          <div id='tabs'>
-            <ul>
-              <li id='match' onClick={this.props.setWorkArea.bind(this, 0)}>MATCH</li>
-              <li id='available' onClick={this.props.setWorkArea.bind(this, 1)}>AVAILABLE</li>
-              <li id='upload' onClick={this.props.setWorkArea.bind(this, 2)}>UPLOAD</li>
-            </ul>
-        </div>
-        </div>
-        <div id='classAvailable'>
-          <form onSubmit={this.sendClassConstraints}>
-            <table>
-                <div id='topRow'>
-                <tr>
-                  <div id='topRowTitles'>
-                    {
-                      [<h3 className='sections'></h3>]
-                      .concat(SECTIONS.map(function(letter) {
-                        return <h3 className='sections'>{letter}</h3>;
-                      }))
-                    }
-                  </div>
-                </tr>
+      <div id='classAvailable'>
+        <form onSubmit={this.sendClassConstraints}>
+          <table>
+              <div id='topRow'>
+              <tr>
+                <div id='topRowTitles'>
+                  {
+                    [<h3 className='sections'></h3>]
+                    .concat(SECTIONS.map(function(letter) {
+                      return <h3 className='sections'>{letter}</h3>;
+                    }))
+                  }
                 </div>
-              <br></br>
-              {TIMES.map(function(time,i) {
-                return (<tr>
-                  <h3 className='row-title sections'>{time}</h3>
-                  {SECTIONS.map(function(letter) {
-                    var cur = letter + (i + 1);
-                    return (<input required
-                      type='number'
-                      className={cur + ' sections'}
-                      defaultValue={this.props.availableData[cur].availableSpots}
-                    />);
-                  })}
-                </tr>);
-              })}
-            </table>
-            <input id='updateButton' type='submit' value='Update'></input>
-          </form>
-        </div>
+              </tr>
+              </div>
+            <br></br>
+            {TIMES.map(function(time,i) {
+              return (<tr>
+                <h3 className='row-title sections'>{time}</h3>
+                {SECTIONS.map(function(letter) {
+                  var cur = letter + (i + 1);
+                  return (<input required
+                    type='number'
+                    className={cur + ' sections'}
+                    defaultValue={
+                      self.state.availableData ?
+                        self.state.availableData[cur].availableSpots
+                      :
+                        0
+                    }
+                  />);
+                })}
+              </tr>);
+            })}
+          </table>
+          <input id='updateButton' type='submit' value='Update'></input>
+        </form>
       </div>
     );
   }
