@@ -8,16 +8,18 @@ var School = db.School;
 var Alias = db.Alias;
 
 module.exports.checkAlias = function(req, res, next) {
+  console.log(req.body);
 
   // response will be a JSON object with the string the user wrote, and the mapping that we have, if its null then no watch was found and ask user to input a new school
   var output = {};
   async.each(req.body.names, function(v, next) {
-    Alias.find({value: v}, function(err, alias) {
+    Alias.findOne({value: v}, function(err, alias) {
+      console.log(alias);
       if (err) {
         return next(err);
       }
 
-      if (alias.length === 0) {
+      if (!alias) {
         output[v] = null;
         return next();
       }
@@ -97,6 +99,16 @@ module.exports.schoolMatch = function(req, res, next) {
     });
 
   });
+};
+
+module.exports.getSchools = function(req, res, next) {
+  School.find({}, function(err, data){
+    data = data.map(function(school) {
+      return school.name;
+    });
+
+    res.json(data);
+  })
 };
 
 module.exports.addAlias = function(req, res, next) {

@@ -34,7 +34,9 @@ function StatefulFields(type, data, school) {
       requested.forEach(function(req) {
         var previousHeaderString = prevHeads[req];
         for (var i = 0; i < available.length; i++) {
-          if (available[i] !== previousHeaderString) continue;
+          if (available[i] !== previousHeaderString) {
+            continue ;
+          }
           _this.setHeader(req, available[i]);
           break;
         }

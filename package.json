@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./server/server.js",
-    "test": "./node_modules/mocha/bin/mocha -R nyan spec/ --watch"
+    "test": "./node_modules/mocha/bin/mocha -R nyan spec/ -s 1000 -t 3000"
   },
   "dependencies": {
     "async": "^1.4.2",
