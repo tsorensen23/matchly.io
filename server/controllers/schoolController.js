@@ -36,7 +36,7 @@ module.exports.checkAlias = function(req, res, next) {
           output[v] = schools[0].name;
         } else if (schools.length > 1) {
           output[v] = schools.map(function(s) { return s.name; });
-        }else if (school.length === 0) {
+        }else if (schools.length === 0) {
           output[v] = null;
         }
 

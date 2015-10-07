@@ -2,7 +2,7 @@ var React = require('react');
 
 var Upload = require('./Uploads/FirstEntry.jsx');
 var ButtonList = require('./Uploads/ButtonList.jsx');
-var SchoolPicker = require('./SchoolPicker.jsx');
+var SchoolPicker = require('./Uploads/SchoolPicker/index.jsx');
 var DoubleCheck = require('./Uploads/DoubleCheck.jsx');
 
 var FieldsStore = require('../Stores/Fields-Data');

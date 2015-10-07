@@ -35,8 +35,9 @@ function StatefulFields(type, data, school) {
         var previousHeaderString = prevHeads[req];
         for (var i = 0; i < available.length; i++) {
           if (available[i] !== previousHeaderString) {
-            continue ;
+            continue;
           }
+
           _this.setHeader(req, available[i]);
           break;
         }
@@ -132,15 +133,36 @@ StatefulFields.prototype.confirmHeaders = function() {
 
 StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   var dataArray = this.data;
+  var possible = this.possible;
+
+  $.ajax({
+    url: 'schoolmatch',
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({ alias: alias, school: trueName}),
+    complete: function(jqXHR, textStatus) {
+      // callback
+    },
+
+    success: function(data, textStatus, jqXHR) {
+      possible[alias] = trueName;
+      this.emit('ready-for-fuzzy', this);
+
+      // success callback
+    }.bind(this),
+
+    error: function(jqXHR, textStatus, errorThrown) {
+      // error callback
+    }
+  });
+
   dataArray.forEach(function(element) {
     if (element.Characteristics.Undergrad === alias) {
       element.Characteristics.Undergrad = trueName;
     }
   });
 
-  var possible = this.possible;
-  possible.splice(possible.indexOf(alias), 1);
-  this.emit('ready-for-fuzzy', this);
 };
 
 StatefulFields.prototype.finish = function() {
