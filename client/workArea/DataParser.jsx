@@ -66,12 +66,12 @@ var DataParser = {
     return modifiedDataArray;
   },
 
-  parseDataVisitor: function(dataObject, map) {
+  parseDataVisitor: function(dataObject, hashMap) {
     var dataArray = dataObject;
     var modifiedDataArray = [];
     function Individual(obj) {
       var classVisitNumber;
-      classVisitTime = obj[fields['Class Visit Time']].trim();
+      var classVisitTime = obj[hashMap['Class Visit Time']].trim();
       classVisitTime = classVisitTime.replace(/\./g, '');
       classVisitTime = classVisitTime.toUpperCase();
 
@@ -104,19 +104,19 @@ var DataParser = {
       }
 
       this.Characteristics = {
-        Military: obj[fields.Military],
-        Country: obj[fields.Country],
-        Citizenship: obj[fields.Citizenship],
-        Undergrad: obj[fields.Undergrad],
-        Employer: obj[fields.Employer],
-        Industry: obj[fields.Industry],
-        City: obj[fields.City],
-        State: obj[fields.State],
-        Gender: obj[fields.Gender]
+        Military: obj[hashMap.Military],
+        Country: obj[hashMap.Country],
+        Citizenship: obj[hashMap.Citizenship],
+        Undergrad: obj[hashMap.Undergrad],
+        Employer: obj[hashMap.Employer],
+        Industry: obj[hashMap.Industry],
+        City: obj[hashMap.City],
+        State: obj[hashMap.State],
+        Gender: obj[hashMap.Gender]
       };
       this.Contact = {
-        First: obj[fields.First],
-        Last: obj[fields.Last],
+        First: obj[hashMap.First],
+        Last: obj[hashMap.Last],
         Email: null
       };
       this.MatchInfo = {
@@ -130,7 +130,7 @@ var DataParser = {
     }
 
     return dataArray.map(function(obj) {
-      return new Individual(dataArray[i]);
+      return new Individual(obj);
     });
   }
 };

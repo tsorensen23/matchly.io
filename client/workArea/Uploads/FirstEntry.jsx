@@ -14,14 +14,13 @@ var Upload = React.createClass({
     event.preventDefault();
     this.refs.readableFile.read(function(err,data) {
       if (err) return alert(err);
-
-      this.props.currentStore.create(
+      this.props.Store.createStore(
         this.state.hostOrVisitor,
         data,
         {School: 'Darden'}
       );
 
-    });
+    }.bind(this));
   },
 
   browserSupportFileUpload: function() {
@@ -53,8 +52,7 @@ var Upload = React.createClass({
           <br></br>
           <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='visitor'> Visitors</input>
         </div>
-        <ReadableFile accept='.csv' name='File Upload' />
-        <div id='dvImportSegments' class='fileupload '>
+        <div id='dvImportSegments' className='fileupload' >
             <legend>Upload your CSV File</legend>
             <ReadableFile accept='.csv' name='File Upload' onChange={this.setHasFile} ref='readableFile'/>
         </div>

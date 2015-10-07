@@ -22,7 +22,8 @@ var ButtonList = React.createClass({
       requiredValue: null,
       categoriesDisabled: true,
       matchedFieldsDisabled: false,
-      fieldsDisabled: true
+      fieldsDisabled: true,
+      colors: colors
     });
   },
 
@@ -38,9 +39,7 @@ var ButtonList = React.createClass({
   },
 
   callFieldsChange: function() {
-    this.props.fieldsChanger(this.state.matchedFields);
-    this.props.headersChanger(this.state.matchedFields);
-    this.props.togglePageView();
+    this.props.store.confirmHeaders()
   },
 
   //changeColor takes a componenets index
@@ -62,7 +61,7 @@ var ButtonList = React.createClass({
     console.log('matchedFields', this.state.matchedFields);
 
     var matchedButtons = [];
-    var categoryButtons = this.props.store.required.map(function(name, index) {
+    var categoryButtons = this.props.store.getRequired().map(function(name, index) {
       matchedButtons.push(
         <Button
           colorChange={this.changeColor}

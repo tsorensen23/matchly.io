@@ -4,7 +4,7 @@ var React = require('react');
 module.exports = React.createClass({
 
   read: function(next) {
-    if (document.getElementById('txtFileUpload').files.length === 0) {
+    if (React.findDOMNode(this).files.length === 0) {
       return next(new Error('no file selected'));
     }
 

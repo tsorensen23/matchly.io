@@ -62,7 +62,8 @@ var TypeAheadWrapper = React.createClass({
         this.props.possibleHandler(data.value, data.schoolname);
 
         // success callback
-      },
+      }.bind(this),
+
       error: function(jqXHR, textStatus, errorThrown) {
         // error callback
       }

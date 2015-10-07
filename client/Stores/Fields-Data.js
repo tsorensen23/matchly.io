@@ -12,6 +12,8 @@ ee.createStore = function(type, data, school) {
 
 function StatefulFields(type, data, school) {
   EE.call(this);
+  this.type = type;
+  console.log(type);
   data = Papa.parse(data, {header:true});
 
   this.rawData = data.data;
@@ -37,7 +39,9 @@ function StatefulFields(type, data, school) {
           break;
         }
 
-        if (ii === fields.length) matched[req] = void 0;
+        if (i === available.length) {
+          matched[req] = void 0;
+        }
       });
 
       this.emit('ready-for-header', this);
@@ -55,12 +59,16 @@ StatefulFields.prototype.getRealHeaders = function() {
 
 StatefulFields.prototype.setHeader = function(requiredKey, availableKey) {
   var matched = Object.keys(this.matched);
-  if (this.matched[required]) {
-    this.available.push(this.matched[required]);
+  if (this.matched[requiredKey]) {
+    this.available.push(this.matched[requiredKey]);
   }
 
-  this.matched[required] = availableKey;
+  this.matched[requiredKey] = availableKey;
   this.available.splice(this.available.indexOf(availableKey), 1);
+};
+
+StatefulFields.prototype.getRequired = function() {
+  return Categories[this.type].requested;
 };
 
 StatefulFields.prototype.confirmHeaders = function() {
@@ -80,8 +88,8 @@ StatefulFields.prototype.confirmHeaders = function() {
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
-    data: JSON.stringify(data),
     url: '/updateHeaderOrder',
+    data: JSON.stringify(this.matched),
     success: function(data) {
       console.log('called dataparser');
       isReady();
@@ -90,9 +98,9 @@ StatefulFields.prototype.confirmHeaders = function() {
 
   delete this.matched.School;
 
-  this.data = Categories[type].parser(this.rawData, this.matched);
+  this.data = Categories[this.type].parser(this.rawData, this.matched);
 
-  var names = data.map(function(individual) {
+  var names = this.data.map(function(individual) {
     return individual.Characteristics.Undergrad;
   });
 
