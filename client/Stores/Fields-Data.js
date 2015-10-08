@@ -75,6 +75,10 @@ StatefulFields.prototype.getRequired = function() {
   return Categories[this.type].requested;
 };
 
+StatefulFields.prototype.getStaticKeys = function() {
+  return Categories[this.type].staticKeys;
+};
+
 StatefulFields.prototype.confirmHeaders = function() {
   this.emit('please-wait', this);
 
@@ -208,12 +212,12 @@ StatefulFields.prototype.finishFuzzy = function() {
   this.emit('ready-for-confirmation', this);
 };
 
-StatefulFields.prototype.finish = function() {
+StatefulFields.prototype.finish = function(statics) {
   this.emit('please-wait', this);
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
-    data: JSON.stringify(this.data),
+    data: JSON.stringify({statics: statics, data: this.data}),
     url: Categories[this.type].url,
     success: function(data) {
       this.emit('finished', this);

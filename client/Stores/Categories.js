@@ -1,11 +1,12 @@
 var DataParser = require('../workArea/DataParser.jsx');
 
-function LoadOut(type, url, requestedHeaders, realHeaders, parser) {
+function LoadOut(type, url, requestedHeaders, realHeaders, parser, staticProperties) {
   this.type = type;
   this.url = url;
   this.requested = requestedHeaders;
   this.realHeaders = realHeaders;
   this.parser = parser;
+  this.staticKeys = staticProperties;
 };
 
 module.exports = {
@@ -33,8 +34,12 @@ module.exports = {
     'Characteristics.Employer',
     'Characteristics.Industry',
     'Characteristics.City',
-    'Characteristics.State'
-  ], DataParser.parseDataVisitor),
+    'Characteristics.State',
+    'Characteristics.Gender'
+  ],
+  DataParser.parseDataVisitor,
+  [{path:'MatchInfo.visitDate', label:'Visit Date', type:'Date'}]
+  ),
   host: new LoadOut('host', '/submithosts', [
     'First',
     'Last',
@@ -47,7 +52,8 @@ module.exports = {
     'Employer',
     'Industry',
     'City',
-    'State'
+    'State',
+    'Gender'
   ], [
     'Contact.First',
     'Contact.Last',
@@ -60,6 +66,7 @@ module.exports = {
     'Characteristics.Employer',
     'Characteristics.Industry',
     'Characteristics.City',
-    'Characteristics.State'
+    'Characteristics.State',
+    'Characteristics.Gender'
   ], DataParser.parseDataHost)
 };

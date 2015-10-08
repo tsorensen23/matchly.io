@@ -23,7 +23,8 @@ var visitorSchema = new Schema({
   },
   MatchInfo: {
     'Class Visit Time': {type: String},
-    classVisitNumber: {type: String}
+    classVisitNumber: {type: String},
+    visitDate: {type:String}
   }
 });
 

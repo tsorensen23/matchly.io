@@ -1,6 +1,8 @@
 var React = require('react');
 
 var EditableTableView = require('../../generic/EditableTableView.jsx');
+var UnknownInput = require('../../generic/UnknownInput');
+
 
 var VisitorInformation = React.createClass({
   getInitialState: function() {
@@ -10,7 +12,11 @@ var VisitorInformation = React.createClass({
   },
 
   submitData: function() {
-    this.props.store.finish();
+    var statics = {};
+    this.props.store.getStaticKeys().forEach(function(value) {
+      statics[value.path] = this.refs[value.path].getValue();
+    }.bind(this));
+    this.props.store.finish(statics);
   },
 
   captialize: function(name) {
@@ -24,6 +30,10 @@ var VisitorInformation = React.createClass({
     return (
       <div>
         <h2>{} Information</h2>
+        <div>{this.props.store.getStaticValues().map(function(sValue) {
+          return <div>{sValue.label}: <UnknownInput type={sValue.type} ref={sValue.path} /></div>;
+        })}</div>
+
         <div id='array-of-individuals'>
           <EditableTableView headers={this.props.store.getRealHeaders()} items={this.props.store.data} />
         </div>

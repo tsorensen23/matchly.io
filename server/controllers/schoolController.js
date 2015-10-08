@@ -19,7 +19,12 @@ module.exports.checkAlias = function(req, res, next) {
 
       if (!alias) {
         output[v] = null;
-        return next();
+        return School.findOne({name: v}, function(err, school) {
+          if (err) return next(err);
+          if (!school) return next();
+          output[v] = school.name;
+          Alias.create({value: v, schoolId: [school]}, next);
+        });
       }
 
       School.find({_id: {$in: alias.schoolId}}, function(err, schools) {
@@ -100,13 +105,14 @@ module.exports.schoolMatch = function(req, res, next) {
 };
 
 module.exports.getSchools = function(req, res, next) {
-  School.find({}, function(err, data){
+  School.find({}, function(err, data) {
+    if (err) return next(err);
     data = data.map(function(school) {
       return school.name;
     });
 
     res.json(data);
-  })
+  });
 };
 
 module.exports.addAlias = function(req, res, next) {

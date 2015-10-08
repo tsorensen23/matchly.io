@@ -8,7 +8,7 @@ var Button = React.createClass({
   handleClick: function() {
     // return the new color?
     this.setState({opacity: '1.0'});
-    this.props.colorChange(data);
+    this.props.colorChange(this.props.data);
   },
 
   render: function() {
@@ -27,7 +27,7 @@ var Button = React.createClass({
           type='button'
           onClick={this.handleClick}
           className='btn' >
-          {this.props.data}
+          {this.props.display}
         </button>
       </div>
     );

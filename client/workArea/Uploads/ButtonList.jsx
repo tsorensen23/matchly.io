@@ -69,7 +69,8 @@ var ButtonList = React.createClass({
           disabled={this.state.matchedFieldsDisabled}
           key={index}
           index={index}
-          data={this.props.store.matched[name]}
+          data={name}
+          display={this.props.store.matched[name]}
         />
       );
       return (
@@ -80,6 +81,7 @@ var ButtonList = React.createClass({
           key={index}
           index={index}
           data={name}
+          display={name}
         />
       );
     }.bind(this));
@@ -93,6 +95,7 @@ var ButtonList = React.createClass({
           key={index}
           index={index}
           data={name}
+          display={name}
         />
       );
     }.bind(this));

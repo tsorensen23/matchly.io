@@ -1,7 +1,7 @@
 var DataParser = {
 
   parseDataHost: function(dataObject) {
-    var dataArray = dataObject.data;
+    var dataArray = dataObject;
     var modifiedDataArray = [];
     function Individual(military, country, citizenship, undergrad, employer, industry, city, state, first, last, gender, email, section) {
       this.Characteristics = {
@@ -38,7 +38,7 @@ var DataParser = {
         dataArray[i].State,
         dataArray[i].Preferred,
         dataArray[i].Last,
-        dataArray[i].Sex,
+        dataArray[i].Gender,
         dataArray[i].Email,
         dataArray[i].Section
         );

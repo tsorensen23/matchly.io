@@ -10,7 +10,7 @@ var MultipleValueWrapper = React.createClass({
   render: function() {
     return (
       <div>
-        <b>{this.props.name} : {this.props.person}</b>
+        <b>{this.props.name} : {this.props.person}</b> <br />
         <select onChange={this.logger}>{[
           <option selected disabled hidden value='' >Select One</option>
         ].concat(this.props.schools.map(function(school) {
