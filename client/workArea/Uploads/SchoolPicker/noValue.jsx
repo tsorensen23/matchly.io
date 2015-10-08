@@ -12,7 +12,7 @@ var TypeAheadWrapper = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.name}
+        <b>{this.props.person} : {this.props.name}</b>
         <Typeahead
           options={this.props.schools}
           maxVisible={10}

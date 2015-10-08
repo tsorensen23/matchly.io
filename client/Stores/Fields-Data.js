@@ -13,7 +13,6 @@ ee.createStore = function(type, data, school) {
 function StatefulFields(type, data, school) {
   EE.call(this);
   this.type = type;
-  console.log(type);
   data = Papa.parse(data, {header:true});
 
   this.rawData = data.data;
@@ -94,7 +93,6 @@ StatefulFields.prototype.confirmHeaders = function() {
     url: '/updateHeaderOrder',
     data: JSON.stringify(this.matched),
     success: function(data) {
-      console.log('called dataparser');
       isReady();
     }
   });
@@ -103,7 +101,9 @@ StatefulFields.prototype.confirmHeaders = function() {
 
   this.data = Categories[this.type].parser(this.rawData, this.matched);
 
+  var individuals = {};
   var names = this.data.map(function(individual) {
+    individuals[individual.Characteristics.Undergrad] = `${individual.Contact.First} ${individual.Contact.Last}`;
     return individual.Characteristics.Undergrad;
   });
 
@@ -120,6 +120,7 @@ StatefulFields.prototype.confirmHeaders = function() {
       // newNames is coming back
       // { got: [poss1, poss2] }
       this.possible = data;
+      this.individuals = individuals;
       isReady();
     }.bind(this),
 

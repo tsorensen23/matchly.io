@@ -11,7 +11,7 @@ var MultipleValueWrapper = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.name}
+        <b>{this.props.name} : {this.props.person}</b>
         <select onChange={this.logger}>{this.props.schools.map(function(school) {
           return <option value={school}>{school}</option>;
         })}</select>

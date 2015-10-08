@@ -50,6 +50,7 @@ var UploadRouter = React.createClass({
       case 1: return <ButtonList store={this.state.store}/>;
       case 2: return <SchoolPicker
           possible={this.state.store.possible}
+          individuals={this.state.store.individuals}
           possibleHandler={this.state.store.doneWithSchool.bind(this.state.store)}
         />;
       case 3: return <DoubleCheck store={this.state.store} />;

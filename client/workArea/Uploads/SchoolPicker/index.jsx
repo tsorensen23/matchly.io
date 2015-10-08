@@ -31,6 +31,8 @@ var SchoolPicker = React.createClass({
   render: function() {
     var output = [];
     var possible = this.props.possible;
+    var individuals = this.props.individuals;
+
     var possHandler = this.props.possibleHandler;
     var schools = this.state.schools;
 
@@ -42,16 +44,18 @@ var SchoolPicker = React.createClass({
       }).map(function(name) {
         if (!possible[name]) {
           return <NoValuePicker
-            possibleHandler={possHandler}
-            schools={schools}
-            name={name} key={name}
-          />;
+                  possibleHandler={possHandler}
+                  schools={schools}
+                  person={individuals[name]}
+                  name={name} key={name}
+                />;
         }
 
         if (Array.isArray(possible[name])) {
           return <MultipleValuePicker
             possibleHandler={possHandler}
             schools={possible[name]}
+            person={individuals[name]}
             name={name} key={name}
           />;
         }
