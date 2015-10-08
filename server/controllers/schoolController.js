@@ -22,11 +22,6 @@ module.exports.checkAlias = function(req, res, next) {
         return next();
       }
 
-      if (alias.schoolId.length > 1) {
-        output[v] = alias.schoolId;
-        return next();
-      }
-
       School.find({_id: {$in: alias.schoolId}}, function(err, schools) {
         if (err) {
           return next(err);

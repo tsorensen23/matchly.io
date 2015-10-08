@@ -4,7 +4,7 @@ var Upload = require('./Uploads/FirstEntry.jsx');
 var ButtonList = require('./Uploads/ButtonList.jsx');
 var SchoolPicker = require('./Uploads/SchoolPicker/index.jsx');
 var DoubleCheck = require('./Uploads/DoubleCheck.jsx');
-
+var Loading = require('./Loading.jsx');
 var FieldsStore = require('../Stores/Fields-Data');
 
 var UploadRouter = React.createClass({
@@ -35,8 +35,7 @@ var UploadRouter = React.createClass({
         _this.setState({pageView: 3});
       });
 
-      store.on('finish', function() {
-        console.log('finish stor');
+      store.on('finished', function() {
         alert('finish');
         _this.setState({pageView: 0, store: void 0});
       });
@@ -49,12 +48,13 @@ var UploadRouter = React.createClass({
       case 0: return <Upload Store={FieldsStore}/>;
       case 1: return <ButtonList store={this.state.store}/>;
       case 2: return <SchoolPicker
+          store={this.state.store}
           possible={this.state.store.possible}
           individuals={this.state.store.individuals}
           possibleHandler={this.state.store.doneWithSchool.bind(this.state.store)}
         />;
       case 3: return <DoubleCheck store={this.state.store} />;
-      default: return <img href='/assets/loading.gif' />;
+      default: return <Loading />;
     };
   }
 });

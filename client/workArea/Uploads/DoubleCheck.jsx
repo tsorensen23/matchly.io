@@ -3,6 +3,11 @@ var React = require('react');
 var EditableTableView = require('../../generic/EditableTableView.jsx');
 
 var VisitorInformation = React.createClass({
+  getInitialState: function() {
+    return {
+      opacity: 1
+    };
+  },
 
   submitData: function() {
     this.props.store.finish();
@@ -20,7 +25,7 @@ var VisitorInformation = React.createClass({
       <div>
         <h2>{} Information</h2>
         <div id='array-of-individuals'>
-          <EditableTableView headers={this.props.store.realHeaders()} items={this.props.store.data} />
+          <EditableTableView headers={this.props.store.getRealHeaders()} items={this.props.store.data} />
         </div>
         <input id='confirm-button' type='button' value='Confirm Data' onClick={this.submitData}></input>
       </div>

@@ -1,5 +1,6 @@
 var EE = require('events').EventEmitter;
 
+var async = require('async');
 var Categories = require('./Categories.js');
 
 var ee = new EE();
@@ -13,6 +14,7 @@ ee.createStore = function(type, data, school) {
 function StatefulFields(type, data, school) {
   EE.call(this);
   this.type = type;
+  console.log(type);
   data = Papa.parse(data, {header:true});
 
   this.rawData = data.data;
@@ -76,65 +78,95 @@ StatefulFields.prototype.getRequired = function() {
 StatefulFields.prototype.confirmHeaders = function() {
   this.emit('please-wait', this);
 
-  this.matched.School = this.school.School;
+  async.parallel([
+    function(next) {
 
-  var schoolNames;
+      var payload = JSON.parse(JSON.stringify(this.matched));
+      payload.School = this.school.School;
+      $.ajax({
+        method: 'POST',
+        contentType: 'application/json',
+        url: '/updateHeaderOrder',
+        data: JSON.stringify(this.matched),
+        success: function(data) {
+          console.log('called dataparser');
+          next();
+        },
 
-  var numCalls = 0;
-  var isReady = (function() {
-    numCalls++;
-    if (numCalls < 2) return;
-    this.emit('ready-for-fuzzy', this);
-  }).bind(this);
+        error: function(jqXHR, textStatus, errorThrown) {
+          next(errorThrown);
+        }
+      });
 
-  $.ajax({
-    method: 'POST',
-    contentType: 'application/json',
-    url: '/updateHeaderOrder',
-    data: JSON.stringify(this.matched),
-    success: function(data) {
-      isReady();
-    }
-  });
-
-  delete this.matched.School;
-
-  this.data = Categories[this.type].parser(this.rawData, this.matched);
-
-  var individuals = {};
-  var names = this.data.map(function(individual) {
-    individuals[individual.Characteristics.Undergrad] = `${individual.Contact.First} ${individual.Contact.Last}`;
-    return individual.Characteristics.Undergrad;
-  });
-
-  var payload = {names: names};
-  $.ajax({
-    url: '/checkschools',
-    type: 'POST',
-    dataType: 'json',
-    contentType: 'application/json',
-    data: JSON.stringify(payload),
-    complete: function(jqXHR, textStatus) {},
-
-    success: function(data, textStatus, jqXHR) {
-      // newNames is coming back
-      // { got: [poss1, poss2] }
-      this.possible = data;
-      this.individuals = individuals;
-      isReady();
     }.bind(this),
+    function(next) {
+      var schoolNames;
 
-    error: function(jqXHR, textStatus, errorThrown) {
-      // error callback
-    }
+      delete this.matched.School;
 
-  });
+      this.data = Categories[this.type].parser(this.rawData, this.matched);
+      var individuals = {};
+
+      var names = this.data.map(function(individual) {
+        individuals[individual.Characteristics.Undergrad] = `${individual.Contact.First} ${individual.Contact.Last}`;
+        return individual.Characteristics.Undergrad;
+      });
+
+      var payload = {names: names};
+      $.ajax({
+        url: '/checkschools',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        complete: function(jqXHR, textStatus) {},
+
+        success: function(data, textStatus, jqXHR) {
+          // newNames is coming back
+          // { got: [poss1, poss2] }
+          this.possible = data;
+          this.individuals = individuals;
+          next();
+        }.bind(this),
+
+        error: function(jqXHR, textStatus, errorThrown) {
+          next(errorThrown);
+        }
+
+      });
+    }.bind(this),
+    function(next) {
+      $.ajax({
+        url: '/schools',
+        type: 'get',
+        dataType: 'json',
+        complete: function(jqXHR, textStatus) {
+          // callback
+        },
+
+        success: function(data, textStatus, jqXHR) {
+          this.availableSchools = data;
+          next();
+        }.bind(this),
+        error: function(jqXHR, textStatus, errorThrown) {
+          // TODO sam implemen a real endpoint that saves and logs client side errors
+          console.warn('There was an error', errorThrown);
+          next(errorThrown);
+        }
+      });
+    }.bind(this)
+
+  ], function(err) {
+    if (err) throw err;
+    this.emit('ready-for-fuzzy', this);
+  }.bind(this));
 
 };
 
 StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   var dataArray = this.data;
   var possible = this.possible;
+  this.emit('please-wait', this);
 
   $.ajax({
     url: 'schoolmatch',
@@ -154,6 +186,7 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }.bind(this),
 
     error: function(jqXHR, textStatus, errorThrown) {
+
       // error callback
     }
   });
@@ -166,12 +199,22 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
 
 };
 
+StatefulFields.prototype.resetSchool = function(alias) {
+  this.possible[alias] = null;
+  this.emit('ready-for-fuzzy', this);
+};
+
+StatefulFields.prototype.finishFuzzy = function() {
+  this.emit('ready-for-confirmation', this);
+};
+
 StatefulFields.prototype.finish = function() {
+  this.emit('please-wait', this);
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(this.data),
-    url: Catagories[this.type].url,
+    url: Categories[this.type].url,
     success: function(data) {
       this.emit('finished', this);
     }.bind(this)
