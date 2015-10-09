@@ -18,7 +18,7 @@ var MultipleValueWrapper = React.createClass({
             <ul className="dropdown-menu">
             {[
             ].concat(this.props.schools.map(function(school) {
-              return <li><a onClick={this.logger.bind(this, school)} href="#">{school}</a></li>
+              return <li><a onClick={this.logger.bind(this, school)}>{school}</a></li>
             }.bind(this)))}
             </ul>
         </div>

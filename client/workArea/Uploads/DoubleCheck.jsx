@@ -26,11 +26,12 @@ var VisitorInformation = React.createClass({
 
   render: function() {
     var opacity = this.state.opacity || '0.9';
+    var staticKeys = this.props.store.getStaticKeys();
 
     return (
       <div>
-        <h2>{} Information</h2>
-        <div>{this.props.store.getStaticKeys().map(function(sValue) {
+        <h2>Information</h2>
+        <div>{staticKeys.map(function(sValue) {
           return <div>{sValue.label}: <UnknownInput type={sValue.type} ref={sValue.path} /></div>;
         })}</div>
 

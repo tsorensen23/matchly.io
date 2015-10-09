@@ -6,7 +6,7 @@ function LoadOut(type, url, requestedHeaders, realHeaders, parser, staticPropert
   this.requested = requestedHeaders;
   this.realHeaders = realHeaders;
   this.parser = parser;
-  this.staticKeys = staticProperties;
+  this.staticKeys = staticProperties || [];
 };
 
 module.exports = {

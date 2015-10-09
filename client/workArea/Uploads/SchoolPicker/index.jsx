@@ -57,15 +57,18 @@ var SchoolPicker = React.createClass({
           }
         </div>
         <div className="col-md-8">
-          <table className="table table-condensed" style={{display:'inline-block', verticalAlign:'top'}} >{
-            valued.map(function(name) {
-              return <HasValue
-                  possibleHandler={resetHandler}
-                  school={possible[name]}
-                  name={name} key={name}
-                />;
-            })
-          }
+          <table className="table table-condensed" style={{display:'inline-block', verticalAlign:'top'}} >
+            <tbody>
+            {
+              valued.map(function(name) {
+                return <HasValue
+                    possibleHandler={resetHandler}
+                    school={possible[name]}
+                    name={name} key={name}
+                  />;
+              })
+            }
+        </tbody>
           </table>
         </div>
       </div>

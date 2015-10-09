@@ -36,7 +36,7 @@ var AddExceptionDay = React.createClass({
     var newArray = host.MatchInfo.exceptionDate.slice();
     var index = this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
     if (index === -1) {
-      newArray.push(date);
+      newArray.push(this.props.date);
     } else {
       newArray.splice(index, 1);
     }
@@ -47,18 +47,26 @@ var AddExceptionDay = React.createClass({
   render:function() {
     var toggleHost = this.toggleHost;
     return (
-      <ul>{this.props.hosts.map(function(host) {
+        <div>
+        <h2> Now select the hosts who will be available on that date</h2>
+      <table className="table table-condensed">{this.props.hosts.map(function(host) {
         var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
         var contact = host.Contact;
         return (
-          <li display={{backgroundColor: isAvailable ? 'green' : 'red'}}>
-            <span>{contact.First} {contact.Last}</span>
-            <button onClick={toggleHost.bind(this, host)}>
-              {isAvailable ? 'Available' : 'Not available'} on Date
-            </button>
-          </li>
+          <tr style={{'backgroundColor': isAvailable ? '#2ecc71' : '#E26A6A', 'fontSize': '1.1em'}}>
+            <td style={{'verticalAlign': 'center'}}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
+            <td style={{'verticalAlign': 'center'}}><b>{contact.First}</b></td>
+            <td style={{'verticalAlign': 'center'}}><b> {contact.Last}</b></td>
+            <td style={{'textAlign': 'right', 'verticalAlign': 'center'}}>
+              <button className={`btn`}  style={{'width': '200', 'padding': '4'}} onClick={toggleHost.bind(this, host)}>
+                {isAvailable ? 'Make Unavailable' : 'Make Available'} on Date
+              </button>
+            </td>
+          </tr>
         );
-      }.bind(this))}</ul>
+      }.bind(this))}
+      </table>
+      </div>
     );
   }
 });
