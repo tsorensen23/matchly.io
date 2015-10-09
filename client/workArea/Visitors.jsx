@@ -29,31 +29,31 @@ var Visitor = React.createClass({
           {this.props.visitor.matchCount}
         </td>
         <td>
-          {this.props.visitor.Citizenship.toString()}
+          { this.props.Citizenship ?  this.props.visitor.Citizenship.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.City.toString()}
+          {this.props.visitor.City ? this.props.visitor.City.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Employer.toString()}
+          {this.props.visitor.Employer ? this.props.visitor.Employer.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Gender.toString()}
+          {this.props.visitor.Gender ? this.props.visitor.Gender.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Industry.toString()}
+          {this.props.visitor.Industry ? this.props.visitor.Industry.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Military.toString()}
+          {this.props.visitor.Military ? this.props.visitor.Military.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.State.toString()}
+          {this.props.visitor.State ? this.props.visitor.State.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Undergrad.toString()}
+          {this.props.visitor.Undergrad ? this.props.visitor.Undergrad.toString() : ''}
         </td>
         <td>
-          {this.props.visitor.Country.toString()}
+          {this.props.visitor.Country ? this.props.visitor.Country.toString() : ''}
         </td>
       </tr>
     );

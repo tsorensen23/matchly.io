@@ -23,8 +23,8 @@ var Match = React.createClass({
       url: '/match?date=' + this.props.date,
       success: function(data) {
         // console.log(_this, '_this');
-        _this.setState({matchData:data});
-        if(data.array.length === 1){
+        _this.setState({ matchData: data});
+        if (data.array.length === 1){
           alert('There were no visitors found!');
           _this.refs.button.error();
         } else {
@@ -44,14 +44,13 @@ var Match = React.createClass({
 
   render:function() {
     var data = [];
-    if (this.props.matchData) {
+    if (this.state.matchData) {
       // console.log('if statement fires');
-      // console.log(this.props.matchData.array,'matchData');
-      data = this.props.matchData.array.map(function(visitor) {
+      // console.log(this.state.matchData.array,'matchData');
+      data = this.state.matchData.array.map(function(visitor) {
         return (<Visitor visitor={visitor} />);
       });
     }
-
     return (
       <div>
         <div id='workArea'>
@@ -68,9 +67,13 @@ var Match = React.createClass({
         <div id='loading'>
         </div>
         <div id='data'>
-          <table className='minorPadding'>{data}</table>
+          <table className='minorPadding'>
+            <tbody>
+                {data}
+            </tbody>        
+          </table>
         </div>
-      </div>
+        </div>
     );
   }
 });
