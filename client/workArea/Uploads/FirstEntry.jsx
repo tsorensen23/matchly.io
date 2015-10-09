@@ -4,7 +4,7 @@ var path = require('path');
 var ReadableFile = require('../../generic/ReadableFile.jsx');
 var insertGlobal = require('../../generic/insertGlobal');
 insertGlobal('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
-insertGlobal('papaparse.min.js');
+insertGlobal('/assets/papaparse.min.js');
 
 var Upload = React.createClass({
   getInitialState: function() {

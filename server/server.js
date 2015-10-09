@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var schoolController = require('./controllers/schoolController');
 var crudController = require('./controllers/crudController');
+var stdUIController = require('./controllers/stdUIController');
+var path = require('path');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -22,9 +24,25 @@ app.use(cookieParser());
 //   }
 //   next();
 // });
-app.get('/', userController.authorizationCheck);
-app.get('/login', userController.loginHTML);
-app.use(express.static(__dirname + './../'));
+app.use(function(req, res, next) {
+  if (req.method.toLowerCase() !== 'get') return next();
+  if (path.extname(req.path)) return next();
+  if (/\/$/.test(req.path)) return next();
+  res.redirect(req.path + '/');
+});
+
+app.use(userController.authorizationCheck);
+app.use('/login', stdUIController('login'));
+app.use(function(req, res, next) {
+  if (!req.user) {
+    return res.redirect('/login');
+  }
+
+  next();
+});
+
+app.use('/', stdUIController('home'));
+app.use('/assets', express.static(__dirname + './../assets'));
 app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/checkLogin', userController.cookieCheck);
 app.post('/registerUser', userController.registerUser);

@@ -10,8 +10,8 @@ gulp.task('browserify', compileScripts)
     .task('serve', serve);
 
 function compileScripts() {
-  scripts('./main.jsx', 'bundle.js');
-  scripts('./Login.jsx', 'login-bundle.js');
+  scripts('./client/home/router.jsx', 'home-bundle.js');
+  scripts('./client/login/router.jsx', 'login-bundle.js');
 }
 
 function scripts(input, output) {
@@ -22,7 +22,7 @@ function scripts(input, output) {
     debug: true,
     cache: {},
     packageCache: {},
-    fullPaths: true,
+    fullPaths: true
   });
   var watcher = watchify(bundler);
 
