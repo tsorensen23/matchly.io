@@ -47,13 +47,18 @@ var Upload = React.createClass({
   render: function() {
     return (
       <form id='file-form' onSubmit={this.fileupload}>
-        <div id='radio-buttons'>
-          <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='host' required> Hosts</input>
-          <br></br>
-          <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='visitor'> Visitors</input>
-        </div>
         <div id='dvImportSegments' className='fileupload' >
             <legend>Upload your CSV File</legend>
+          <div id='radio-buttons'>
+            <label>
+              <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='host' required /> Hosts
+            </label>
+            <br></br>
+            <label>
+              <input type='radio' name='hostOrVisitor' onClick={this.setHostVisitor} value='visitor' /> Visitors
+            </label>
+          </div>
+          <hr />
             <ReadableFile accept='.csv' name='File Upload' onChange={this.setHasFile} ref='readableFile'/>
         </div>
         <input id='submitButton' type='submit' disabled={this.uploadDisabled()}></input>
