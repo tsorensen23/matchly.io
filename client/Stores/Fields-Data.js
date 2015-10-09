@@ -8,8 +8,8 @@ var ee = new EE();
 
 module.exports = ee;
 
-ee.createStore = function(type, data, school) {
-  this.emit('new-Store', new StatefulFields(type, data, school));
+ee.createStore = function(type, data, fields, school) {
+  this.emit('new-Store', new StatefulFields(type, data, fields, school));
 };
 
 function StatefulFields(type, data, fields, school) {

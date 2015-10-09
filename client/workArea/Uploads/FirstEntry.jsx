@@ -17,18 +17,12 @@ var Upload = React.createClass({
 
   fileupload: function(event) {
     event.preventDefault();
-    this.refs.readableFile.read(function(err,data) {
-      if (err) return alert(err);
-      switch (path.extension(this.refs.readableFile.fileName())) {
-        case '.csv':
-      }
-      this.props.Store.createStore(
-        this.state.hostOrVisitor,
-        data,
-        {School: 'Darden'}
-      );
-
-    }.bind(this));
+    this.props.Store.createStore(
+      this.state.hostOrVisitor,
+      this.state.fileData,
+      this.state.fields,
+      {School: 'Darden'}
+    );
   },
 
   browserSupportFileUpload: function() {
@@ -58,12 +52,13 @@ var Upload = React.createClass({
   setHasFile: function(e) {
     if (!e.hasFile()) return this.setState({fileData: null});
     this.refs.readableFile.read(function(err,data) {
-      var ext = path.extension(this.refs.readableFile.fileName());
+      var ext = path.extname(this.refs.readableFile.getFileName());
+      console.log(ext);
       if (ext === '.csv') {
         data = Papa.parse(data, {header:true});
         return this.setState({
           possibleSheets: null,
-          fileData:data,
+          fileData:data.data,
           fields: data.meta.fields
         });
       }
@@ -81,7 +76,7 @@ var Upload = React.createClass({
   },
 
   uploadDisabled: function() {
-    return this.state.hostOrVisitor && this.state.fileData;
+    return !(this.state.hostOrVisitor && this.state.fileData);
   },
 
   render: function() {
@@ -99,7 +94,7 @@ var Upload = React.createClass({
             </label>
           </div>
           <hr />
-          <ReadableFile accept='.xlsx .xls .csv' name='File Upload' onChange={this.setHasFile} ref='readableFile'/>
+          <ReadableFile accept='.xlsx, .xls, .csv' name='File Upload' onChange={this.setHasFile} ref='readableFile'/>
           <ul>{this.state.possibleSheets ? this.state.possibleSheets.map(function(sheet) {
             return <li><input type='radio' name='possibleSheet' onClick={this.setSheet.bind(this, sheet)} value={sheet} required /> {sheet} </li>;
           }.bind(this)) : null}</ul>

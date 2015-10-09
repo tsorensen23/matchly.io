@@ -17,7 +17,7 @@ module.exports = React.createClass({
   },
 
   getFileName: function() {
-    return React.findDOMNode(this).files[0];
+    return React.findDOMNode(this).files[0].name;
   },
 
   hasFile: function() {
