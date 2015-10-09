@@ -8,7 +8,7 @@ var Visitor = React.createClass({
           {this.props.visitor.visitorFirstName}
         </td>
         <td>
-          {this.props.visitor.visitorLasttName}
+          {this.props.visitor.visitorLastName}
         </td>
         <td>
           {this.props.visitor.hostFirstName}

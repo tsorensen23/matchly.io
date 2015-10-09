@@ -47,6 +47,7 @@ var Match = React.createClass({
     if (this.state.matchData) {
       // console.log('if statement fires');
       // console.log(this.state.matchData.array,'matchData');
+      this.state.matchData.array.shift();
       data = this.state.matchData.array.map(function(visitor) {
         return (<Visitor visitor={visitor} />);
       });
@@ -67,10 +68,31 @@ var Match = React.createClass({
         <div id='loading'>
         </div>
         <div id='data'>
-          <table className='minorPadding'>
+          <table className='table table-condensed minorPadding'>
+            <thead>
+              <tr>
+                <th>Visitor First Name</th>
+                <th>Visitor Last Name</th>
+                <th>Host First Name</th>
+                <th>Host Last Name</th>
+                <th>Host Email</th>
+                <th>Section</th>
+                <th>Visit Time</th>
+                <th>MatchCount</th>
+                <th>Gender</th>
+                <th>State</th>
+                <th>City</th>
+                <th>Industry</th>
+                <th>Employer</th>
+                <th>Undergrad</th>
+                <th>Citizenship</th>
+                <th>Country</th>
+                <th>Military</th>
+              </tr>
+            </thead>
             <tbody>
                 {data}
-            </tbody>        
+            </tbody>
           </table>
         </div>
         </div>
