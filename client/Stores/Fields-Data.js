@@ -12,19 +12,18 @@ ee.createStore = function(type, data, school) {
   this.emit('new-Store', new StatefulFields(type, data, school));
 };
 
-function StatefulFields(type, data, school) {
+function StatefulFields(type, data, fields, school) {
   EE.call(this);
   this.type = type;
   console.log(type);
-  data = Papa.parse(data, {header:true});
 
-  this.rawData = data.data;
+  this.rawData = data;
 
   this.school = school;
 
   var requested = Categories[this.type].requested;
   var matched = this.matched = {};
-  var available = this.available = data.meta.fields;
+  var available = this.available = fields;
 
   var _this = this;
   $.ajax({
