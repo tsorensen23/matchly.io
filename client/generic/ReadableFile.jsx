@@ -16,15 +16,19 @@ module.exports = React.createClass({
     reader.readAsText(data[0]);
   },
 
+  getFileName: function() {
+    return React.findDOMNode(this).files[0];
+  },
+
   hasFile: function() {
     return React.findDOMNode(this).files.length > 0;
   },
 
-  getFileData: function() {
+  onChange: function() {
     if (this.props.onChange) this.props.onChange(this);
   },
 
   render: function() {
-    return (<input type='file' name={this.props.name} onChange={this.changed} accept={this.props.accept} />);
+    return (<input type='file' name={this.props.name} onChange={this.onChange} accept={this.props.accept} />);
   }
 });
