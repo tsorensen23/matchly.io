@@ -22,13 +22,15 @@ module.exports = {
     var VisitorData;
     var HostData;
     var AvailabiltyConstraint;
-    Visitor.find({}, function(err, data) {
+    var date = req.query.date;
+
+    Visitor.find({'MatchInfo.visitDate':date}, function(err, data) {
       if (err) {
         return res.send(err);
       }
 
       VisitorData = data;
-      Host.find({}, function(err, data) {
+      Host.find({'MatchInfo.exceptionDate':{ $not: {$elemMatch: date} } }, function(err, data) {
         if (err) {
           return res.send(err);
         }
@@ -54,7 +56,7 @@ module.exports = {
 
             var dataObject = {
               csv:data,
-              array:RumbleData,
+              array:RumbleData
             };
             res.send(dataObject);
           });
@@ -130,7 +132,7 @@ module.exports = {
         Industry: null,
         City: null,
         State: null,
-        Gender: null,
+        Gender: null
       };
       headers.create(headersModel, function(err, data) {
         if (err) {
@@ -147,6 +149,6 @@ module.exports = {
       if (err) return err;
       res.send(data);
     });
-  },
+  }
 
 };

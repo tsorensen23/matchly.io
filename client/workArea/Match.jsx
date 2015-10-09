@@ -5,6 +5,8 @@ var ProgressButton = require('react-progress-button');
 
 var exportToCSV = require('../generic/exportCSV.js');
 
+var HostChooser = require('./DateException/HostChooser');
+
 var Match = React.createClass({
   getInitialState: function() {
     return {matchData:null};
@@ -54,6 +56,7 @@ var Match = React.createClass({
           <div id='schedule'>
 
           </div>
+          <HostChooser date={} />
           <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
           <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
         </div>
