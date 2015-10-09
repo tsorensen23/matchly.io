@@ -222,7 +222,7 @@ StatefulFields.prototype.finish = function(statics) {
   this.emit('please-wait', this);
   this.data.forEach(function(item) {
     for (var i in statics) {
-      mpath(i, statics[i], item);
+      mpath.set(i, statics[i], item);
     }
   });
 

@@ -23,8 +23,9 @@ var Available = React.createClass({
     for (var i = 0, l = SECTIONS.length; i < l; i++) {
       for (var ii = 0, ll = TIMES.length; ii < ll; ii++) {
         var cur = SECTIONS[i] + (ii + 1);
+        var spots =  parseInt($('.' + cur).val());
         dataObject[cur] = {
-          availableSpots: parseInt($('.' + cur)),
+          availableSpots: spots,
           lowestIndex: null,
           matches: {
             exists: 'yes'

@@ -37,7 +37,11 @@ var MatchIndex = React.createClass({
     }
 
     return (
-      <div>{display}</div>
+        <div>
+
+          <h2> Select a date that you would like to match on </h2>
+          {display}
+      </div>
     );
   }
 });

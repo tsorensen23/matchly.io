@@ -18,11 +18,12 @@ module.exports = {
     });
   },
 
-  rumble:function(req, res) {
+  rumble:function(req, res, next) {
     var VisitorData;
     var HostData;
     var AvailabiltyConstraint;
-    var date = req.query.date;
+    var date = new Date(parseInt(req.query.date));
+
 
     Visitor.find({'MatchInfo.visitDate':date}, function(err, data) {
       if (err) {
@@ -30,15 +31,15 @@ module.exports = {
       }
 
       VisitorData = data;
-      Host.find({'MatchInfo.exceptionDate':{ $not: {$elemMatch: date} } }, function(err, data) {
+      Host.find({'MatchInfo.exceptionDate':{ $not: { $all: [date]} } }, function(err, data) {
         if (err) {
-          return res.send(err);
+          return next(err);
         }
 
         HostData = data;
         Availability.findOne({}).lean().exec(function(err, data) {
           if (err) {
-            return res.send(err);
+            return next(err);
           }
 
           AvailabiltyConstraint = data;
@@ -46,12 +47,12 @@ module.exports = {
           try {
             RumbleData = Rumble.rumble(VisitorData, HostData, AvailabiltyConstraint);
           } catch (error) {
-            return res.send(error);
+            return next(error);
           }
 
           var csvStream = csv.writeToString(RumbleData, function(err, data) {
             if (err) {
-              res.send(err);
+              return next(err);
             }
 
             var dataObject = {
@@ -93,13 +94,18 @@ module.exports = {
   },
 
   submitvisitors: function(req,res, next) {
+    console.log(req.body);
+    req.body = req.body.map(function(visitor) {
+      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      return visitor;
+    });
 
     Visitor.find({}).remove().exec(function(err, data) {
       if (err) {
         return res.send(err);
       }
 
-      Visitor.create(req.body.data, function(err, data) {
+      Visitor.create(req.body, function(err, data) {
         if (err) {
           return res.send(err);
         }

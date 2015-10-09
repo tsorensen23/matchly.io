@@ -20,11 +20,16 @@ var Match = React.createClass({
     this.refs.button.loading();
     $.ajax({
       method: 'GET',
-      url: '/match',
+      url: '/match?date=' + this.props.date,
       success: function(data) {
         // console.log(_this, '_this');
         _this.setState({matchData:data});
-        _this.refs.button.success();
+        if(data.array.length === 1){
+          alert('There were no visitors found!');
+          _this.refs.button.error();
+        } else {
+          _this.refs.button.success();
+        }
       },
 
       error: function(resp) {

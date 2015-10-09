@@ -141,7 +141,7 @@ var Rumble = {
     for (var i = 1; i < 4; i++) {
       if (totalAvailableSpots[i] < 0) {
         totalAvailableSpots.type = 'total available lecture spots';
-        throw totalAvailableSpots;
+        throw new Error(totalAvailableSpots);
       }
     }
 
