@@ -1,6 +1,7 @@
 var EE = require('events').EventEmitter;
 
 var async = require('async');
+var mpath = require('mpath');
 var Categories = require('./Categories.js');
 
 var ee = new EE();
@@ -214,10 +215,16 @@ StatefulFields.prototype.finishFuzzy = function() {
 
 StatefulFields.prototype.finish = function(statics) {
   this.emit('please-wait', this);
+  this.data.forEach(function(item) {
+    for (var i in statics) {
+      mpath(i, statics[i], item);
+    }
+  });
+
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
-    data: JSON.stringify({statics: statics, data: this.data}),
+    data: JSON.stringify(this.data),
     url: Categories[this.type].url,
     success: function(data) {
       this.emit('finished', this);

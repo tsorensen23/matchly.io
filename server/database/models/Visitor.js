@@ -25,7 +25,8 @@ var visitorSchema = new Schema({
     'Class Visit Time': {type: String},
     classVisitNumber: {type: String},
     visitDate: {type: Date}
-  }
+  },
+  schoolCode: {type: Schema.Types.ObjectId, ref: 'School'}
 });
 
 // var virtual = visitorSchema.virtual('match');

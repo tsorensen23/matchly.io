@@ -1,4 +1,8 @@
 var hosts = void 0;
+var EE = require('events').EventEmitter;
+var ee = new EE();
+
+module.exports = ee;
 
 module.exports.getAll = function(next) {
   if (hosts) return setTimeout(function() { next(void 0, hosts); }, 1);
@@ -32,7 +36,7 @@ module.exports.set = function(host, next) {
         data[i] = host[i];
       }
 
-      next(void 0, hosts);
+      ee.emit('hosts-updated', hosts);
     }.bind(this),
 
     error: function(jqXHR, textStatus, errorThrown) {

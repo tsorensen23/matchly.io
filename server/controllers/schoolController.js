@@ -119,3 +119,13 @@ module.exports.addAlias = function(req, res, next) {
   var alias = req.post.alias;
   var full = req.post.full;
 };
+
+module.exports.middleWare = function(req, res, next) {
+  if (true) {
+    console.log('TODO: implement schoolcodes');
+    if (!req.crudExtra) req.crudExtra = {};
+    return next();
+  }
+  req.crudExtra.schoolCode = req.user.schoolCode;
+  next();
+};

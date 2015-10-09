@@ -1,11 +1,11 @@
 var React = require('react');
-var Visitor = require('./Visitors.jsx');
-var Loading = require('./Loading.jsx');
+var Visitor = require('../Visitors.jsx');
+var Loading = require('../Loading.jsx');
 var ProgressButton = require('react-progress-button');
 
-var exportToCSV = require('../generic/exportCSV.js');
+var exportToCSV = require('../../generic/exportCSV.js');
 
-var HostChooser = require('./DateException/HostChooser');
+var HostChooser = require('../DateException/HostChooser');
 
 var Match = React.createClass({
   getInitialState: function() {
@@ -56,7 +56,7 @@ var Match = React.createClass({
           <div id='schedule'>
 
           </div>
-          <HostChooser date={} />
+          <HostChooser date={this.props.date} hosts={this.props.hosts} />
           <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
           <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
         </div>

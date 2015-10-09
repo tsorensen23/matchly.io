@@ -2,7 +2,7 @@ var React = require('react');
 
 var Home = require('./client/Home.jsx');
 
-var Match = require('./client/workArea/Match.jsx');
+var Match = require('./client/workArea/Match');
 var Available = require('./client/workArea/Available.jsx');
 var Upload = require('./client/workArea/Upload.jsx');
 

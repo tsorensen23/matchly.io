@@ -22,8 +22,9 @@ var hostSchema = new Schema({
   MatchInfo: {
     matchesDone:{type:Number,default:0},
     Section: {type: String},
-    exceptionDate: [{type:Number}]
-  }
+    exceptionDate: [{type:Date}]
+  },
+  schoolCode: {type: Schema.Types.ObjectId, ref: 'School'}
 });
 var virtual = hostSchema.virtual('match');
 

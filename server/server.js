@@ -7,6 +7,7 @@ var userController = require('./controllers/userController');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var schoolController = require('./controllers/schoolController');
+var crudController = require('./controllers/crudController');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -39,9 +40,11 @@ app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
+app.use('/hosts', schoolController.middleWare, crudController('hostProfile'));
+app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
 
 app.use(function(err, req, res, next) {
-  console.error('route error', err.stack);
+  console.error('route error', err.message, err.stack);
   next(err);
 });
 

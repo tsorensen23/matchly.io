@@ -11,7 +11,7 @@ module.exports = React.createClass({
   handleChange: function(v) {
     var digested;
     switch (this.props.type.toLowerCase()) {
-      case 'date': digested = moment(v); break;
+      case 'date': digested = moment(v).toString(); break;
       default: digested = v;
     }
 
