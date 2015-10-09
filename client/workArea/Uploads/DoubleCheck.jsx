@@ -1,7 +1,7 @@
 var React = require('react');
 
 var EditableTableView = require('../../generic/EditableTableView.jsx');
-var UnknownInput = require('../../generic/UnknownInput');
+var UnknownInput = require('../../generic/UnknownInput.jsx');
 
 
 var VisitorInformation = React.createClass({
@@ -30,7 +30,7 @@ var VisitorInformation = React.createClass({
     return (
       <div>
         <h2>{} Information</h2>
-        <div>{this.props.store.getStaticValues().map(function(sValue) {
+        <div>{this.props.store.getStaticKeys().map(function(sValue) {
           return <div>{sValue.label}: <UnknownInput type={sValue.type} ref={sValue.path} /></div>;
         })}</div>
 

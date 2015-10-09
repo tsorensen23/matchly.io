@@ -93,13 +93,17 @@ module.exports = {
   },
 
   submitvisitors: function(req,res, next) {
-    console.log('visitor', Visitor);
+    req.body.visitors = req.body.data.map(function(visitor) {
+      visitor.MatchInfo.visitDate = req.body.statics['MatchInfo.visitDate'];
+      return visitor;
+    });
+
     Visitor.find({}).remove().exec(function(err, data) {
       if (err) {
         return res.send(err);
       }
 
-      Visitor.create(req.body, function(err, data) {
+      Visitor.create(req.body.visitors, function(err, data) {
         if (err) {
           return res.send(err);
         }

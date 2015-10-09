@@ -29,7 +29,7 @@ var SchoolPicker = React.createClass({
     return (
       <div>
         <div>
-          <button onClick={finished} >Schools are Finished</button>
+          <button className="btn btn-success" onClick={finished} >Schools are Finished</button>
         </div>
         <div style={{display:'inline-block', verticalAlign:'top'}} >{
           needUpdate.map(function(name) {
