@@ -8,10 +8,17 @@ var HasValueWrapper = React.createClass({
 
   render: function() {
     return (
-      <div>
-        {this.props.name}: {this.props.school}
-        <button onClick={this.changeValue} >Change Value</button>
-      </div>
+        <tr>
+        <td>
+          {this.props.name}
+        </td>
+        <td>
+          {this.props.school}
+        </td>
+        <td>
+        <button className="btn btn-default" onClick={this.changeValue} >Change Value</button>
+        </td>
+        </tr>
     );
   }
 });

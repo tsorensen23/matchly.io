@@ -171,6 +171,11 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   var dataArray = this.data;
   var possible = this.possible;
   this.emit('please-wait', this);
+  if(!alias || !trueName){
+    console.error('doneWithSchool called with too few arguments');
+    console.log(alias, trueName);
+    return void 0;
+  }
 
   $.ajax({
     url: 'schoolmatch',
@@ -190,6 +195,7 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }.bind(this),
 
     error: function(jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
 
       // error callback
     }

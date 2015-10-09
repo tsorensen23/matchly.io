@@ -27,42 +27,49 @@ var SchoolPicker = React.createClass({
     });
 
     return (
-      <div>
-        <div>
-          <button className="btn btn-success" onClick={finished} >Schools are Finished</button>
+      <div style={{"marginTop": "20"}}>
+        <div className="row">
+          <div style={{"width": "200", "margin": "0 auto"}}>
+            <button style={{"fontSize": "1.2em"}}  className="btn btn-success" onClick={finished} >Schools are Finished</button>
+          </div>
         </div>
-        <div style={{display:'inline-block', verticalAlign:'top'}} >{
-          needUpdate.map(function(name) {
-            if (!possible[name]) {
-              return <NoValuePicker
-                possibleHandler={possHandler}
-                schools={schools}
-                person={individuals[name]}
-                name={name} key={name}
-              />;
-            }
+        <div className="row">
+          <div className="col-md-4" style={{display:'inline-block', verticalAlign:'top'}} >{
+            needUpdate.map(function(name) {
+              if (!possible[name]) {
+                return <NoValuePicker
+                  possibleHandler={possHandler}
+                  schools={schools}
+                  person={individuals[name]}
+                  name={name} key={name}
+                />;
+              }
 
-            if (Array.isArray(possible[name])) {
-              return <MultipleValuePicker
-                possibleHandler={possHandler}
-                schools={possible[name]}
-                person={individuals[name]}
-                name={name} key={name}
-              />;
-            }
-          })
-        }</div>
-        <div style={{display:'inline-block', verticalAlign:'top'}} >{
-          valued.map(function(name) {
-            console.log(name);
-            return <HasValue
-                possibleHandler={resetHandler}
-                school={possible[name]}
-                name={name} key={name}
-              />;
-          })
-        }</div>
+              if (Array.isArray(possible[name])) {
+                return <MultipleValuePicker
+                  possibleHandler={possHandler}
+                  schools={possible[name]}
+                  person={individuals[name]}
+                  name={name} key={name}
+                />;
+              }
+            })
+          }
+        </div>
+        <div className="col-md-8">
+          <table className="table table-condensed" style={{display:'inline-block', verticalAlign:'top'}} >{
+            valued.map(function(name) {
+              return <HasValue
+                  possibleHandler={resetHandler}
+                  school={possible[name]}
+                  name={name} key={name}
+                />;
+            })
+          }
+          </table>
+        </div>
       </div>
+    </div>
     );
 
   }
