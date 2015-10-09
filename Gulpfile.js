@@ -18,6 +18,7 @@ function scripts(input, output) {
   var bundler = browserify({
     entries: [input],
     transform: [babelify], // We want to convert JSX to normal javascript
+    extensions: ['.jsx'],
     debug: true,
     cache: {},
     packageCache: {},
