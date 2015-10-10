@@ -3,15 +3,13 @@ var SECTIONS = ['A','B','C','D','E'];
 var TIMES = ['8:00','10:00','11:45'];
 var myEE = require('../stores/AvailabilityStore');
 var Available = React.createClass({
-  componentWillMount: function() {
-  },
   componentDidMount: function() {
     this.myEE = new myEE();
     this.myEE.on('update state', function(state) {
       this.setState({availableData: state});
     }.bind(this))
   
-  }
+  },
   getInitialState: function() {
     return {availableData: void 0};
   },

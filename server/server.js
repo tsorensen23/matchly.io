@@ -34,8 +34,10 @@ app.use(function(req, res, next) {
 app.use(userController.authorizationCheck);
 app.use('/login', stdUIController('login'));
 app.use(function(req, res, next) {
-  if (!req.user) {
-    return res.redirect('/login');
+  if (process.env['NODE_ENV'] != 'DEVELOPMENT') {
+    if (!req.user) {
+      return res.redirect('/login');
+    }
   }
 
   next();
