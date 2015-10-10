@@ -7,6 +7,12 @@ var Available = React.createClass({
     return {availableData: void 0};
   },
 
+  changeHandler: function(cur) {
+    var currState = this.state.availableData;
+    currState[cur].availableSpots = this.refs[cur].getDOMNode().value;
+    this.setState({availableData: currState});
+  },
+
   componentWillMount: function() {
     $.ajax({
       method: 'GET',
@@ -69,15 +75,12 @@ var Available = React.createClass({
                 <h3 className='row-title sections'>{time}</h3>
                 {SECTIONS.map(function(letter) {
                   var cur = letter + (i + 1);
-                  return (<input required
+                  return (<input required="true"
                     type='number'
                     className={cur + ' sections'}
-                    defaultValue={
-                      _this.state.availableData ?
-                        _this.state.availableData[cur].availableSpots
-                      :
-                        0
-                    }
+                    ref={cur}
+                    onChange= {_this.changeHandler.bind(_this, cur)}
+                    value={_this.state.availableData ? _this.state.availableData[cur].availableSpots : 0}
                   />);
                 })}
               </tr>);
