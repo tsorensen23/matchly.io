@@ -51,7 +51,8 @@ function scripts(input, output) {
 function serve() {
   nodemon({
     script: './server/server.js',
-    ignore: ['client/*.js', 'build/*.js']
+    ignore: ['client/*.js', 'build/*.js'],
+    env: { 'NODE_ENV': 'DEVELOPMENT'}
   });
 }
 
