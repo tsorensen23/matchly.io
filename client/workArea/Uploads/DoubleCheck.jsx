@@ -3,7 +3,6 @@ var React = require('react');
 var EditableTableView = require('../../generic/EditableTableView.jsx');
 var UnknownInput = require('../../generic/UnknownInput.jsx');
 
-
 var VisitorInformation = React.createClass({
   getInitialState: function() {
     return {

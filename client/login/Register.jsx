@@ -36,7 +36,7 @@ var Register = React.createClass({
             console.log(data);
             alert('registration failed, please try again');
           } else {
-            window.location = '/#/';
+            window.location = '/';
           }
         }.bind(this)
       });
@@ -53,32 +53,36 @@ var Register = React.createClass({
         <div id='registerBox'>
             <div id='registerInput'>
                 <table>
-                  <tr>
-                    <h3>School Registration Code: <input id='schoolCode' type='text' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>First Name: <input id='firstName' type='text' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>Last Name: <input id='lastName' type='text' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>Email Address: <input id='emailAddress' type='email' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>Username: <input id='username' type='text' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>Password: <input id='password' type='password' required /></h3>
-                  </tr>
-                  <tr>
-                    <h3>Confirm Password: <input id='confirmPassword' type='password' required /></h3>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <h3>School Registration Code: <input id='schoolCode' type='text' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>First Name: <input id='firstName' type='text' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>Last Name: <input id='lastName' type='text' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>Email Address: <input id='emailAddress' type='email' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>Username: <input id='username' type='text' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>Password: <input id='password' type='password' required /></h3>
+                    </tr>
+                    <tr>
+                      <h3>Confirm Password: <input id='confirmPassword' type='password' required /></h3>
+                    </tr>
+                  </tbody>
                 </table>
                 <table>
+                  <tbody>
                   <tr>
                     <button id='submitRegister' type='submit' onClick={this.handleRegister}>Register</button>
                   </tr>
+                  </tbody>
                 </table>
             </div>
         </div>

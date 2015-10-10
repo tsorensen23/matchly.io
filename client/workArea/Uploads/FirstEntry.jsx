@@ -6,6 +6,8 @@ var insertGlobal = require('../../generic/insertGlobal');
 insertGlobal('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
 insertGlobal('/assets/papaparse.min.js');
 
+var work = require('webworkify');
+
 var Upload = React.createClass({
   getInitialState: function() {
     return {
@@ -13,6 +15,14 @@ var Upload = React.createClass({
       fileData: null,
       hostOrVisitor: null
     };
+  },
+
+  componentWillMount: function() {
+    this.worker = work(require('./csvParser.js'));
+    this.worker.addEventListener('message', function(ev) {
+      console.log(ev.data);
+      this.setState(ev.data);
+    }.bind(this));
   },
 
   fileupload: function(event) {
@@ -39,38 +49,17 @@ var Upload = React.createClass({
   },
 
   setSheet: function(sheetname) {
-    var data = Papa.parse(
-      XLSX.utils.sheet_to_csv(this.state.sheets[sheetname]),
-      {header: true}
-    );
-    this.setState({
-      fileData:data,
-      fields: data.meta.fields
-    });
+    this.worker.sendMessage({event:'setSheet', sheet:sheetname});
   },
 
   setHasFile: function(e) {
     if (!e.hasFile()) return this.setState({fileData: null});
     this.refs.readableFile.read(function(err,data) {
-      var ext = path.extname(this.refs.readableFile.getFileName());
-      console.log(ext);
-      if (ext === '.csv') {
-        data = Papa.parse(data, {header:true});
-        return this.setState({
-          possibleSheets: null,
-          fileData:data.data,
-          fields: data.meta.fields
-        });
-      }
-
-      var workbook = XLSX.read(data, {type: 'binary'});
-      this.setState({sheets: workbook.Sheets});
-      if (workbook.SheetNames.length === 1) {
-        this.setState({possibleSheets: null});
-        return this.setSheet(workbook.SheetNames[0]);
-      }
-
-      this.setState({possibleSheets: workbook.SheetNames});
+      if (err) throw err;
+      this.worker.postMessage({
+        filename:this.refs.readableFile.getFileName(),
+        data:data
+      });
 
     }.bind(this));
   },
