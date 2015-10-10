@@ -1,10 +1,10 @@
 var React = require('react');
 
-var Home = require('./client/Home.jsx');
+var Home = require('../Home.jsx');
 
-var Match = require('./client/workArea/Match');
-var Available = require('./client/workArea/Available.jsx');
-var Upload = require('./client/workArea/Upload.jsx');
+var Match = require('../workArea/Match');
+var Available = require('../workArea/Available.jsx');
+var Upload = require('../workArea/Upload.jsx');
 
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
@@ -20,7 +20,7 @@ var About = React.createClass({
 //these are the routes, they determine which component will be
 //loaded for each url
 
-var User = require('./client/Stores/UserStore');
+var User = require('../Stores/UserStore');
 
 var createHashHistory = require('history/lib/createHashHistory');
 

@@ -1,9 +1,10 @@
 var React = require('react');
 var LoginForm = require('./LoginForm.jsx');
+var history = require('./history');
+
 var Login = React.createClass({
   register: function() {
-    console.log('register fire');
-    window.location = '/#/register';
+    history.replaceState(null, '/register');
   },
 
   handler: function(event) {
@@ -21,7 +22,7 @@ var Login = React.createClass({
       data: JSON.stringify(profileObject),
       url: '/userLogin',
       success: function(data) {
-        window.location = '/#/home';
+        window.location = '/';
       }
     });
   },

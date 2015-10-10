@@ -12,28 +12,26 @@ module.exports = {
     });
   },
 
-  loginHTML:function(req, res) {
-    res.sendFile(__dirname + '/../../index.html');
-  },
-
   authorizationCheck: function(req,res, next) {
     if (!req.cookies) {
-      return res.redirect('/login.html');
+      return next();
     }
 
     if (!req.cookies.matchlycookie) {
-      return res.redirect('/login.html');
+      return next();
     }
 
     var cookie = req.cookies.matchlycookie;
     User.findOne({matchlycookie: cookie}, function(err, data) {
       if (err) {
         return res.send(err);
-      } else if (data === null) {
-        return res.redirect('/login.html');
       }
 
-      // res.send(data);
+      if (!data) {
+        return next();
+      }
+
+      req.user = data;
       next();
     });
   },
