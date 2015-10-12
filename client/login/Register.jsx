@@ -29,7 +29,7 @@ var Register = React.createClass({
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(profileObject),
-        url: '/registerUser',
+        url: '/registerUser/',
         success: function(data) {
           console.log('data', data);
           if (data.errors !== undefined) {

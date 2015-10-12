@@ -20,7 +20,7 @@ var Login = React.createClass({
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(profileObject),
-      url: '/userLogin',
+      url: '/userLogin/',
       success: function(data) {
         window.location = '/';
       }

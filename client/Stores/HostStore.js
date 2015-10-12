@@ -8,7 +8,7 @@ module.exports.getAll = function(next) {
   if (hosts) return setTimeout(function() { next(void 0, hosts); }, 1);
 
   $.ajax({
-    url: '/hosts',
+    url: '/hosts/',
     type: 'GET',
     dataType: 'json',
     contentType: 'application/json',

@@ -20,7 +20,7 @@ module.exports = function(url) {
     if (cached) return setTimeout(function() { next(void 0, cached); }, 1);
 
     $.ajax({
-      url: url,
+      url: url + '/',
       type: 'GET',
       dataType: 'json',
       contentType: 'application/json',
