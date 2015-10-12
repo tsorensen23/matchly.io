@@ -59,7 +59,7 @@ module.exports = {
               csv:data,
               array:RumbleData
             };
-            res.send(dataObject);
+            res.json(dataObject);
           });
         });
       });
