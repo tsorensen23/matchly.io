@@ -62,16 +62,24 @@ module.exports.employerMatch = function(req, res, next) {
     if(!alias || alias.length === 0 ) {
       alias = new EmployerAlias({value: req.body.alias});
     }
-    if(alias) {
-      Employer.find({name: req.body.employer}, function(err, employer) {
-        if(err) return next(err);
-        if(alias.employerIDs.indexOf(employer.id) === -1) {
-          alias.employerIDs.push(employer.id);
-          alias.save();
-          res.json({alias: alias, employerName: employer.name});
-        }
+        Employer.find({name: req.body.school}, function(err, employer) {
+          if(err) return next(err);
+          if(employer || employer.length != 0) {
+            if(alias.employerIDs.indexOf(employer[0].id) === -1) {
+              alias.employerIDs.push(employer[0].id);
+              alias.save();
+            } 
+            res.json({alias: alias, employerName: employer.name});
+          } else {
+            Employer.find({name: req.body.alias}, function(err, data) {
+              if(err) return next(err);
+              if(alias.employerIDs.indexOf(employer.id) === -1) {
+                alias.employerIDs.push(employer.id);
+                alias.save();
+                res.json({alias: alias, employerName: data.name});
+              }
+            });
+          }
       });
-    }
   });
-
 }

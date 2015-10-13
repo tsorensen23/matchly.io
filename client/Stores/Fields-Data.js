@@ -145,24 +145,31 @@ StatefulFields.prototype.confirmHeaders = function() {
       });
     }.bind(this),
     function(next) {
-      $.ajax({
-        url: '/schools',
-        type: 'get',
-        dataType: 'json',
-        complete: function(jqXHR, textStatus) {
-          // callback
-        },
+      var storage = localStorage.getItem('schools');
+      if(storage){
+        this.availableSchools = storage.split(',')
+        next();
+      } else {
+        $.ajax({
+          url: '/schools',
+          type: 'get',
+          dataType: 'json',
+          complete: function(jqXHR, textStatus) {
+            // callback
+          },
 
-        success: function(data, textStatus, jqXHR) {
-          this.availableSchools = data;
-          next();
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          // TODO sam implemen a real endpoint that saves and logs client side errors
-          console.warn('There was an error', errorThrown);
-          next(errorThrown);
-        }
-      });
+          success: function(data, textStatus, jqXHR) {
+            this.availableSchools = data;
+            localStorage.setItem('schools', data);
+            next();
+          }.bind(this),
+          error: function(jqXHR, textStatus, errorThrown) {
+            // TODO sam implemen a real endpoint that saves and logs client side errors
+            console.warn('There was an error', errorThrown);
+            next(errorThrown);
+          }
+        });
+      }
     }.bind(this),
       function(next) {
         $.ajax({
@@ -311,8 +318,8 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
     },
 
     success: function(data, textStatus, jqXHR) {
-      possible[alias] = trueName;
-      this.emit('ready-for-fuzzy', this);
+      this.possibleEmployers[alias] = trueName;
+      this.emit('ready-for-employer-fuzzy', this);
 
       // success callback
     }.bind(this),
