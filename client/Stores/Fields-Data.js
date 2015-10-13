@@ -128,7 +128,7 @@ StatefulFields.prototype.confirmHeaders = function() {
         success: function(data, textStatus, jqXHR) {
           // newNames is coming back
           // { got: [poss1, poss2] }
-          this.possible = data;
+          this.possibleSchools = data;
           this.individuals = individuals;
           next();
         }.bind(this),
@@ -158,6 +158,23 @@ StatefulFields.prototype.confirmHeaders = function() {
           next(errorThrown);
         }
       });
+    }.bind(this),
+    function(next) {
+      $.ajax({
+        url: '/industries/',
+        type: 'GET',
+        dataType: 'json',
+        complete: function (jqXHR, textStatus) {
+        },
+        success: function (data, textStatus, jqXHR) {
+          this.availableIndustries = data;
+          next();
+        }.bind(this),
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.warn('There was an error', errorThrown);
+            next(errorThrown);
+        }
+      });
     }.bind(this)
 
   ], function(err) {
@@ -169,7 +186,7 @@ StatefulFields.prototype.confirmHeaders = function() {
 
 StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   var dataArray = this.data;
-  var possible = this.possible;
+  var possible = this.possibleSchools;
   this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
@@ -210,8 +227,16 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {
-  this.possible[alias] = null;
+  this.possibleSchools[alias] = null;
   this.emit('ready-for-fuzzy', this);
+};
+
+StatefulFields.prototype.finishFuzzySchools = function() {
+  this.emit('ready-for-industry-fuzzy');
+};
+
+StatefulFields.prototype.finishFuzzyIndustries = function() {
+  this.emit('ready-for-confirmation');
 };
 
 StatefulFields.prototype.finishFuzzy = function() {
@@ -235,4 +260,50 @@ StatefulFields.prototype.finish = function(statics) {
       this.emit('finished', this);
     }.bind(this)
   });
+};
+StatefulFields.prototype.doneWithIndustry = function(alias, trueName) {
+  var dataArray = this.data;
+  var possible = this.possibleSchools;
+  this.emit('please-wait', this);
+  if(!alias || !trueName){
+    console.error('doneWithSchool called with too few arguments');
+    console.log(alias, trueName);
+    return void 0;
+  }
+
+  $.ajax({
+    url: 'indsutrymatch',
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({ alias: alias, school: trueName}),
+    complete: function(jqXHR, textStatus) {
+      // callback
+    },
+
+    success: function(data, textStatus, jqXHR) {
+      possible[alias] = trueName;
+      this.emit('ready-for-fuzzy', this);
+
+      // success callback
+    }.bind(this),
+
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error(errorThrown);
+
+      // error callback
+    }
+  });
+
+  dataArray.forEach(function(element) {
+    if (element.Characteristics.Undergrad === alias) {
+      element.Characteristics.Undergrad = trueName;
+    }
+  });
+
+};
+
+StatefulFields.prototype.resetSchool = function(alias) {
+  this.possibleSchools[alias] = null;
+  this.emit('ready-for-fuzzy', this);
 };

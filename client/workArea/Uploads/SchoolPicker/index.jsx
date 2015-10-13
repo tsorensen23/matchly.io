@@ -14,7 +14,7 @@ var SchoolPicker = React.createClass({
     var possHandler = this.props.possibleHandler;
     var resetHandler = this.props.store.resetSchool.bind(this.props.store);
     var schools = this.props.store.availableSchools;
-    var finished = this.props.store.finishFuzzy.bind(this.props.store);
+    var finished = this.props.store.finishFuzzySchools.bind(this.props.store);
 
     var valued = [];
 

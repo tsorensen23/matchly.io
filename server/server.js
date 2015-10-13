@@ -49,7 +49,6 @@ app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/checkLogin', userController.cookieCheck);
 app.post('/registerUser', userController.registerUser);
 app.post('/userLogin', userController.checkLogin);
-
 app.post('/submithosts', matchController.submithosts);
 app.post('/submitvisitors', matchController.submitvisitors);
 app.post('/availability', matchController.availability);
@@ -60,6 +59,7 @@ app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
+app.use('/employers', crudController('employer'));
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
 
