@@ -2,7 +2,16 @@ var Match = require('./Match.js');
 var MATCH_KEYS = require('./matchly-io-keys.js');
 var memoizeMatches = {};
 var Rumble = {
-  calculatematchScore:function(visitor,host) {
+
+  prepForSaving: function(match, date) {
+    var visitor = match.visitor;
+    var host = match.host;
+
+    visitor.MatchInfo.matchHost = host;
+    host.MatchInfo.matches = {date:date, visitor:visitor};
+  },
+
+  calculatematchScore:function(visitor, host) {
     //if the visitor has not been meoized yet, make their object
     if (!(visitor._id in memoizeMatches)) {
       memoizeMatches[visitor._id] = {};
@@ -18,50 +27,19 @@ var Rumble = {
     return memoizeMatches[visitor._id][host._id];
   },
 
-  visitorHostPairings: function(visitorArray) {
-
-    var matches = visitorArray.map(function(visitor) {
-      var host = visitor.match.host;
-      host.MatchInfo.matchesDone++;
-
-      //the below commmented out code has classVisitNumber as opposed to Class Visit time.  I think we want time because the matching is already done and we're just returning the data to the user.
-      // var m = new Match(visitor.Contact.First,visitor.Contact.Last,host.Contact.First,host.Contact.Last,host.Contact.Email,host.MatchInfo.Section,visitor.MatchInfo.classVisitNumber,visitor.MatchInfo.matchScore,visitor.MatchInfo.matchCount,visitor.MatchInfo.matchedOn.Citizenship,visitor.MatchInfo.matchedOn.City,visitor.MatchInfo.matchedOn.Employer,visitor.MatchInfo.matchedOn.Gender,visitor.MatchInfo.matchedOn.Industry,visitor.MatchInfo.matchedOn.Military,visitor.MatchInfo.matchedOn.State,visitor.MatchInfo.matchedOn.Undergrad,visitor.MatchInfo.matchedOn.Country);
-      var match = visitor.match.toClientObject();
-
-      return match;
-    });
-
-    var headerObject = {
-
-      visitorName:'Visitor',
-      hostName:'Host',
-      hostEmail:'Host Email',
-      section:'Section',
-      visitTime:'Lecture',
-      matchCount:'Match Count'
-
-      //this loops through the keys and determines what we are matched on
-    };
-
-    for (var i = 0; i < MATCH_KEYS.length; i++) {
-      headerObject[MATCH_KEYS[i]] = MATCH_KEYS[i].toString();
-    }
-
-    matches.unshift(headerObject);
-    return matches;
-  },
+  visitorHostPairings: require('./table-render.js'),
 
   SortReturnObject: function(returnObject) {
-    returnObject = returnObject.sort(function(a,b) {
+    returnObject = returnObject.sort(function(a, b) {
       return a.sectionTime - b.sectionTime;
     });
 
     return returnObject;
   },
 
-  SectionReport:function(constraintObject,originalCapacity) {
+  SectionReport:function(constraintObject, originalCapacity) {
     //this is not working it is giving incorrect numbers for visitors
-    var sections = ['A','B','C','D','E'];
+    var sections = ['A', 'B', 'C', 'D', 'E'];
     var classVisitorNumbers = [];
     for (var l = 0; l < sections.length; l++) {
       for (var m = 1; m < 4; m++) {
@@ -123,7 +101,7 @@ var Rumble = {
     var totalAvailableSpots = {};
     for (var i = 1; i < 4; i++) {
       var total = 0;
-      var SectionLetters = ['A','B','C','D','E'];
+      var SectionLetters = ['A', 'B', 'C', 'D', 'E'];
       for (var j = 0; j < SectionLetters.length; j++) {
         var currentLecture = constraintObject[SectionLetters[j] + i];
         total += currentLecture.availableSpots;
@@ -148,7 +126,7 @@ var Rumble = {
     return unMatchedVisitors;
   },
 
-  rumble: function(visitorArray, hostArray, constraintObject) {
+  rumble: function(visitorArray, hostArray, constraintObject, date) {
     var unMatchedVisitors = this.validateTotalAvailable(visitorArray, constraintObject);
 
     while (unMatchedVisitors.length) {
@@ -194,7 +172,7 @@ var Rumble = {
       curConstraint.matches.push(bestMatch);
 
       //make sure that the lowest score is the last element in the array
-      curConstraint.matches.sort(function(a,b) {
+      curConstraint.matches.sort(function(a, b) {
         return b.score - a.score;
       });
 
@@ -202,15 +180,12 @@ var Rumble = {
       curVisitor.match = bestMatch;
     }//while loop closes
 
-    var visitorHostPairings = this.visitorHostPairings(visitorArray);
-    visitorHostPairings = this.SortReturnObject(visitorHostPairings);
-
-    // var sectionReport = this.SectionReport(constraintObject, originalCapacity);
-
-    //add section report and make it work
-    //also fix the sort function!!!!
     memoizeMatches = {};
-    return visitorHostPairings;
+
+    return visitorArray.map(function(vis) {
+      vis.match.date = date;
+      return vis.match;
+    });
   }//close rumble
 };
 

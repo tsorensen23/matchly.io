@@ -24,19 +24,26 @@ module.exports = {
     var AvailabiltyConstraint;
     var date = new Date(parseInt(req.query.date));
 
-
-    Visitor.find({'MatchInfo.visitDate':date}, function(err, data) {
+    Host.find({
+      'MatchInfo.exceptionDate':{ $not: { $all: [date]} },
+      'MatchInfo.matches': {$not: { $elemMatch: {date: date}} }
+    }, function(err, data) {
       if (err) {
-        return res.send(err);
+        return next(err);
       }
 
-      VisitorData = data;
-      Host.find({'MatchInfo.exceptionDate':{ $not: { $all: [date]} } }, function(err, data) {
+      HostData = data;
+
+      Visitor.find({
+        'MatchInfo.visitDate':date,
+        'MatchInfo.matchHost': null
+      }, function(err, data) {
         if (err) {
-          return next(err);
+          return res.send(err);
         }
 
-        HostData = data;
+        VisitorData = data;
+
         Availability.findOne({}).lean().exec(function(err, data) {
           if (err) {
             return next(err);
@@ -50,16 +57,30 @@ module.exports = {
             return next(error);
           }
 
-          var csvStream = csv.writeToString(RumbleData, function(err, data) {
-            if (err) {
-              return next(err);
-            }
+          RumbleData.forEach(function(match) {
+            Rumble.prepForSaving(match, date);
+          });
 
-            var dataObject = {
-              csv:data,
-              array:RumbleData
-            };
-            res.json(dataObject);
+          Visitor.update(VisitorData, function(err, res) {
+            if (err) return next(err);
+
+            Host.update(HostData, function(err, res) {
+              if (err) return next(err);
+              var visitorHostPairings = Rumble.visitorHostPairings(RumbleData);
+              visitorHostPairings = Rumble.SortReturnObject(visitorHostPairings);
+
+              var csvStream = csv.writeToString(RumbleData, function(err, data) {
+                if (err) {
+                  return next(err);
+                }
+
+                var dataObject = {
+                  csv:data,
+                  array:RumbleData
+                };
+                res.json(dataObject);
+              });
+            });
           });
         });
       });
@@ -93,7 +114,7 @@ module.exports = {
     });
   },
 
-  submitvisitors: function(req,res, next) {
+  submitvisitors: function(req, res, next) {
     console.log(req.body);
     req.body = req.body.map(function(visitor) {
       visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);

@@ -24,7 +24,8 @@ var visitorSchema = new Schema({
   MatchInfo: {
     'Class Visit Time': {type: String},
     classVisitNumber: {type: String},
-    visitDate: {type: Date}
+    visitDate: {type: Date},
+    matchHost: {type: Schema.Types.ObjectId, ref: 'hostProfile'}
   },
   schoolCode: {type: Schema.Types.ObjectId, ref: 'School'}
 });

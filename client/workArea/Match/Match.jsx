@@ -52,6 +52,7 @@ var Match = React.createClass({
         return (<Visitor visitor={visitor} />);
       });
     }
+
     return (
       <div>
         <div id='workArea'>
@@ -61,7 +62,7 @@ var Match = React.createClass({
           <div id='schedule'>
 
           </div>
-          <HostChooser date={this.props.date} hosts={this.props.hosts} />
+          <HostChooser date={this.props.date} />
           <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
           <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
         </div>

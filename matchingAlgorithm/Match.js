@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-function Match(keys,visitor,host) {
+function Match(keys, visitor, host) {
   this.count = 0;
   this.score = 0;
   this.matchedOn = {};
@@ -17,7 +17,7 @@ Match.Schema = {
   matchedOn:{type:Object},
   visitor:{type:mongoose.Schema.Types.ObjectId},
   host:{type:mongoose.Schema.Types.ObjectId},
-  constraintKey:{type:String},
+  constraintKey:{type:String}
 };
 
 Match.prototype.calculatematchScore = function() {
@@ -64,7 +64,7 @@ Match.prototype.toClientObject = function() {
     var visitor = _this.visitor;
     var host = _this.host;
 
-    returnObject.visitorFirstName = visitor.Contact.First; 
+    returnObject.visitorFirstName = visitor.Contact.First;
     returnObject.visitorLastName = visitor.Contact.Last;
     returnObject.hostFirstName = host.Contact.First;
     returnObject.hostLastName = host.Contact.Last;

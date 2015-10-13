@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
 app.use(userController.authorizationCheck);
 app.use('/login', stdUIController('login'));
 app.use(function(req, res, next) {
-  if (process.env['NODE_ENV'] != 'DEVELOPMENT') {
+  if (process.env.NODE_ENV != 'DEVELOPMENT') {
     if (!req.user) {
       return res.redirect('/login');
     }
@@ -60,7 +60,7 @@ app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
-app.use('/hosts', schoolController.middleWare, crudController('hostProfile'));
+app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
 
 app.use(function(err, req, res, next) {
@@ -74,7 +74,7 @@ var server = new Server(app);
 
 server.listen(process.env.PORT || 3000, function() {
   console.log('listening and running');
-  if(process.send) process.send('ready');
+  if (process.send) process.send('ready');
 });
 
 server.express = app;

@@ -27,11 +27,13 @@ module.exports = function(url) {
       data: query,
       success: function(data, textStatus, jqXHR) {
         cached = data;
-        next(void 0, data);
+        if (next) return next(void 0, cached);
+        else ee.emit(name + '-updated', cached);
       }.bind(this),
 
       error: function(jqXHR, textStatus, errorThrown) {
-        next(errorThrown);
+        if (next) next(errorThrown);
+        else ee.emit('error', errorThrown);
       }
 
     });
@@ -49,12 +51,29 @@ module.exports = function(url) {
           item[i] = data[i];
         }
 
-        console.log(name, '-updated');
         ee.emit(name + '-updated', cached);
       }.bind(this),
 
       error: function(jqXHR, textStatus, errorThrown) {
         ee.emit('error', errorThrown);
+      }
+
+    });
+  };
+
+  ee.run = function(suburl, values, next) {
+    $.ajax({
+      url: url + '/' + suburl,
+      type: 'POST',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(values),
+      success: function(data, textStatus, jqXHR) {
+        next(void 0, data);
+      },
+
+      error: function(jqXHR, textStatus, errorThrown) {
+        next(errorThrown);
       }
 
     });

@@ -10,30 +10,22 @@ var HostStore = CrudStore('hosts');
 var MatchIndex = React.createClass({
   getInitialState: function() {
     return {
-      date: void 0,
-      hosts: void 0,
-      visitors: void 0
+      date: void 0
     };
+  },
+
+  componentWillMount: function() {
   },
 
   handleChange: function(date) {
     var _this = this;
-    HostStore.getAll({}, function(err, hosts) {
-      if (err) return console.error(err);
-      VisitorStore.getAll({'MatchInfo.visitDate': date.toString()}, function(err, visitors) {
-        _this.setState({date:date, visitors: visitors, hosts: hosts});
-      });
-    });
+    this.setState({date:date});
   },
 
   render:function() {
     var display = [<DatePicker selected={this.state.date} onChange={this.handleChange} />];
     if (this.state.date) {
-      display.push(<Match
-        date={this.state.date}
-        hosts={this.state.hosts}
-        visitors={this.state.visitors}
-      />);
+      display.push(<Match date={this.state.date} />);
     }
 
     return (

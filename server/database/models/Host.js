@@ -20,9 +20,19 @@ var hostSchema = new Schema({
     Email: {type: String}
   },
   MatchInfo: {
-    matchesDone:{type:Number,default:0},
+    matchesDone:{
+      type:Number,
+      default:0
+    },
     Section: {type: String},
-    exceptionDate: [{type:Date}]
+    exceptionDate: [{type:Date}],
+    matches: [{
+      type:Date,
+      visitor:{
+        type: Schema.Types.ObjectId,
+        ref: 'visitorProfile'
+      }
+    }]
   },
   schoolCode: {type: Schema.Types.ObjectId, ref: 'School'}
 });
