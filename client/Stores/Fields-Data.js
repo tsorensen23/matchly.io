@@ -254,10 +254,11 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }
   });
 
-  dataArray.forEach(function(element) {
+  this.data = dataArray.map(function(element) {
     if (element.Characteristics.Undergrad === alias) {
       element.Characteristics.Undergrad = trueName;
     }
+    return element;
   });
 
 };
@@ -331,12 +332,12 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
     }
   });
 
-  dataArray.forEach(function(element) {
-    if (element.Characteristics.Undergrad === alias) {
-      element.Characteristics.Undergrad = trueName;
+  this.data = dataArray.forEach(function(element) {
+    if (element.Characteristics.Employer === alias) {
+      element.Characteristics.Employer = trueName;
     }
+    return element
   });
-
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {

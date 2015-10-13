@@ -58,9 +58,6 @@ var UploadRouter = React.createClass({
           possibleHandler={this.state.store.doneWithSchool.bind(this.state.store)}
         />;
       case 3: 
-        if(this.state.store) {
-          console.log('posssibleemployers', this.state.store.possibleEmployers);
-        }
         return <EmployerPicker
               store={this.state.store}
               possible={this.state.store.possibleEmployers}
