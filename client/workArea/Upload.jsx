@@ -7,7 +7,7 @@ var DoubleCheck = require('./Uploads/DoubleCheck.jsx');
 var Loading = require('./Loading.jsx');
 var FieldsStore = require('../Stores/Fields-Data');
 
-var IndustryPicker = require('./Uploads/IndustryPicker/index.jsx');
+// var IndustryPicker = require('./Uploads/IndustryPicker/index.jsx');
 var UploadRouter = React.createClass({
   getInitialState: function() {
     return {

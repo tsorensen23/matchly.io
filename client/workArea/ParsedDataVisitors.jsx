@@ -19,7 +19,7 @@ var ParsedDataVisitors = React.createClass({
         <h3 className='visitor'>State: {this.props.data.Characteristics.State}</h3>
       </div>
     );
-  },
+  }
 });
 
 module.exports = ParsedDataVisitors;

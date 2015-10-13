@@ -1,14 +1,15 @@
 var Match = require('./Match.js');
 var MATCH_KEYS = require('./matchly-io-keys.js');
 var memoizeMatches = {};
+var moment = require('moment');
 var Rumble = {
 
   prepForSaving: function(match, date) {
     var visitor = match.visitor;
     var host = match.host;
 
-    visitor.MatchInfo.matchHost = host;
-    host.MatchInfo.matches = {date:date, visitor:visitor};
+    visitor.MatchInfo.matchHost = host._id;
+    host.MatchInfo.matches.push({date: visitor.MatchInfo.visitDate, visitor:visitor._id});
   },
 
   calculatematchScore:function(visitor, host) {
@@ -183,7 +184,6 @@ var Rumble = {
     memoizeMatches = {};
 
     return visitorArray.map(function(vis) {
-      vis.match.date = date;
       return vis.match;
     });
   }//close rumble

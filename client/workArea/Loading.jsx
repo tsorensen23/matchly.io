@@ -9,7 +9,7 @@ var Loading = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 module.exports = Loading;

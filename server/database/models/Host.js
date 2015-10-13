@@ -27,7 +27,7 @@ var hostSchema = new Schema({
     Section: {type: String},
     exceptionDate: [{type:Date}],
     matches: [{
-      type:Date,
+      date:Date,
       visitor:{
         type: Schema.Types.ObjectId,
         ref: 'visitorProfile'

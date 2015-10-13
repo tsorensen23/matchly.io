@@ -3,6 +3,8 @@ var Visitor = require('../Visitors.jsx');
 var Loading = require('../Loading.jsx');
 var ProgressButton = require('react-progress-button');
 
+var HostStore = require('../../Stores/CrudStore')('hosts');
+
 var exportToCSV = require('../../generic/exportCSV.js');
 
 var HostChooser = require('../DateException/HostChooser');
@@ -24,10 +26,12 @@ var Match = React.createClass({
       success: function(data) {
         // console.log(_this, '_this');
         _this.setState({ matchData: data});
-        if (data.array.length === 1) {
+        if (data.array.length === 0) {
+          console.log(data.array);
           alert('There were no visitors found!');
           _this.refs.button.error();
         } else {
+          HostStore.getAll({});
           _this.refs.button.success();
         }
       },
@@ -48,6 +52,7 @@ var Match = React.createClass({
       // console.log('if statement fires');
       // console.log(this.state.matchData.array,'matchData');
       this.state.matchData.array.shift();
+      console.log('matchData', this.state.matchData);
       data = this.state.matchData.array.map(function(visitor) {
         return (<Visitor visitor={visitor} />);
       });

@@ -56,12 +56,12 @@ module.exports = function(modelName) {
     for (var i in req.crudExtra) {
       obj[i] = req.crudExtra;
     }
-    console.log(obj);
+
     for (var i in obj) {
       mpath.set(i, obj[i], req.doc);
     }
 
-    req.doc.save(function(err,doc) {
+    req.doc.save(function(err, doc) {
       if (err) return next(err);
       res.send(doc);
     });

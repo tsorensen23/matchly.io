@@ -19,7 +19,7 @@ var ParsedDataHosts = React.createClass({
         <h3 className='host'>State: {this.props.data.Characteristics.State}</h3>
       </div>
     );
-  },
+  }
 });
 
 module.exports = ParsedDataHosts;

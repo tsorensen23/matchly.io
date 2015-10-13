@@ -17,7 +17,6 @@ module.exports = function(url) {
   var ee = new EE();
 
   ee.getAll = function(query, next) {
-    if (cached) return setTimeout(function() { next(void 0, cached); }, 1);
 
     $.ajax({
       url: url + '/',
@@ -27,7 +26,7 @@ module.exports = function(url) {
       data: query,
       success: function(data, textStatus, jqXHR) {
         cached = data;
-        if (next) return next(void 0, cached);
+        if (next) next(void 0, cached);
         else ee.emit(name + '-updated', cached);
       }.bind(this),
 
@@ -64,10 +63,10 @@ module.exports = function(url) {
   ee.run = function(suburl, values, next) {
     $.ajax({
       url: url + '/' + suburl,
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
       contentType: 'application/json',
-      data: JSON.stringify(values),
+      data: values,
       success: function(data, textStatus, jqXHR) {
         next(void 0, data);
       },

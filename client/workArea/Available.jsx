@@ -1,15 +1,16 @@
 var React = require('react');
-var SECTIONS = ['A','B','C','D','E'];
-var TIMES = ['8:00','10:00','11:45'];
-var myEE = require('../stores/AvailabilityStore');
+var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
+var TIMES = ['8:00', '10:00', '11:45'];
+var MyEE = require('../Stores/AvailabilityStore');
 var Available = React.createClass({
   componentDidMount: function() {
-    this.myEE = new myEE();
+    this.myEE = new MyEE();
     this.myEE.on('update state', function(state) {
       this.setState({availableData: state});
-    }.bind(this))
-  
+    }.bind(this));
+
   },
+
   getInitialState: function() {
     return {availableData: void 0};
   },
@@ -17,6 +18,7 @@ var Available = React.createClass({
   changeHandler: function(cur) {
     this.myEE.setValue(cur, this.refs[cur].getDOMNode().value);
   },
+
   sendClassConstraints:function() {
     this.myEE.postData();
   },
@@ -40,12 +42,12 @@ var Available = React.createClass({
               </tr>
               </div>
             <br></br>
-            {TIMES.map(function(time,i) {
+            {TIMES.map(function(time, i) {
               return (<tr>
                 <h3 className='row-title sections'>{time}</h3>
                 {SECTIONS.map(function(letter) {
                   var cur = letter + (i + 1);
-                  return (<input required="true"
+                  return (<input required='true'
                     type='number'
                     className={cur + ' sections'}
                     ref={cur}

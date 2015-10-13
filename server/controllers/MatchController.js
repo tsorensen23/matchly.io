@@ -5,6 +5,7 @@ var Availability = db.Availability;
 var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv = require('fast-csv');
+var async = require('async');
 
 module.exports = {
 
@@ -61,13 +62,20 @@ module.exports = {
             Rumble.prepForSaving(match, date);
           });
 
-          Visitor.update(VisitorData, function(err, res) {
-            if (err) return next(err);
+          async.each(VisitorData, function(visitor, n) {
+            visitor.save(n);
+          },
 
-            Host.update(HostData, function(err, res) {
+          function(err) {
+            if (err) return next(err);
+            async.each(HostData, function(host, n) {
+              host.save(n);
+            },
+
+            function(err) {
               if (err) return next(err);
-              var visitorHostPairings = Rumble.visitorHostPairings(RumbleData);
-              visitorHostPairings = Rumble.SortReturnObject(visitorHostPairings);
+              RumbleData = Rumble.visitorHostPairings(RumbleData);
+              RumbleData = Rumble.SortReturnObject(RumbleData);
 
               var csvStream = csv.writeToString(RumbleData, function(err, data) {
                 if (err) {

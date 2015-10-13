@@ -57,7 +57,7 @@ var Visitor = React.createClass({
         </td>
       </tr>
     );
-  },
+  }
 });
 
 module.exports = Visitor;
