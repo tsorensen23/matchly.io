@@ -17,7 +17,8 @@ Match.Schema = {
   matchedOn:{type:Object},
   visitor:{type:mongoose.Schema.Types.ObjectId},
   host:{type:mongoose.Schema.Types.ObjectId},
-  constraintKey:{type:String}
+  constraintKey:{type:String},
+  date:{type:Date}
 };
 
 Match.prototype.calculatematchScore = function() {

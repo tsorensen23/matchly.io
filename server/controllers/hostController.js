@@ -1,18 +1,34 @@
 var Router = require('express').Router;
 var Host = require('../database/models/Host');
 var Visitor = require('../database/models/Visitor');
+var Availability = require('../database/models/Availability');
+var async = require('async');
 
 var router = new Router();
 
 router.get('/exception-date', function(req, res, next) {
   var date = new Date(req.query.date).toString();
-  var shouldBeFree = req.query.onoff === 'false';
+  var hasException = req.query.onoff === 'false';
   var hostid = req.query.host;
-  console.log('QUERY: ', req.query, date, shouldBeFree, hostid);
-  Host.findById(hostid, function(err, host) {
-    if (err) return next(err);
-    if (!host) return next(new Error('the host does not exist'));
-    if (shouldBeFree) {
+  console.log('QUERY: ', req.query, date, hasException, hostid);
+
+  var updated = {};
+
+  var host;
+  var visitor;
+  async.series([
+    function(next) {
+      Host.findById(hostid, function(err, foundHost) {
+        if (err) return next(err);
+        if (!foundHost) return next(new Error('the host does not exist'));
+        host = foundHost;
+        next();
+      });
+    },
+
+    function(next) {
+      // If we shouldn't be free, go to the next function
+      if (!hasException) return next();
       var array = host.MatchInfo.exceptionDate;
       for (var i = 0, l = array.length; i < l; i++) {
         if (array[i].toString() === date) {
@@ -20,60 +36,89 @@ router.get('/exception-date', function(req, res, next) {
         }
       }
 
-      if (i === l) return next(new Error('This host is already free'));
+      if (i === l) {
+        return next(new Error('This host is already free'));
+      }
+
       array.splice(i, 1);
-      return host.save(function(err, ret) {
+      host.save(function(err, ret) {
         if (err) return next(err);
-        res.send(ret);
+        updated.hosts = [ret];
+        res.send({update:updated});
       });
-    }
+    },
 
-    if (!host.MatchInfo.matches) host.MatchInfo.matches = [];
+    function(next) {
+      if (!host.MatchInfo.matches) host.MatchInfo.matches = [];
 
-    var array = host.MatchInfo.exceptionDate;
+      var array = host.MatchInfo.exceptionDate;
 
-    for (var i = 0, l = array.length; i < l; i++) {
-      if (array[i].toString() === date) {
-        break;
+      for (var i = 0, l = array.length; i < l; i++) {
+        if (array[i].toString() === date) {
+          break;
+        }
       }
-    }
 
-    if (i !== l) return next(new Error('This host is already taken on this date'));
+      if (i !== l) return next(new Error('This host is already taken on this date'));
 
-    array.push(date);
+      array.push(date);
 
-    var matchArray = host.MatchInfo.matches;
-    for (var i = 0, l = matchArray.length; i < l; i++) {
-      if (matchArray[i].date.toString() === date) {
-        break;
+      var matchArray = host.MatchInfo.matches;
+      for (var i = 0, l = matchArray.length; i < l; i++) {
+        if (matchArray[i].date.toString() === date) {
+          break;
+        }
       }
-    }
 
-    if (i === l) return host.save(function(err, ret) {
-      if (err) return next(err);
-      res.send(ret);
-    });
-
-    var visitorId = matchArray.splice(i, 1)[0].visitor;
-
-    console.log(visitorId, host._id);
-
-    Visitor.findOne({'MatchInfo.matchHost':host._id}, function(err, visitor) {
-      if (err) return next(err);
-      if (!visitor) return next(new Error('visitor was not found'));
-      console.log('found visitor');
-      visitor.MatchInfo.matchHost = null;
-      visitor.save(function(err, visitor) {
+      host.save(function(err, ret) {
         if (err) return next(err);
-        console.log('visitor update', visitor);
-        host.save(function(err, ret) {
+        updated.hosts = [ret];
+
+        // If we have a matchfound, do the next function
+        visitor = i;
+        if (i < l) return next();
+        res.send({update:updated});
+      });
+
+    },
+
+    function(next) {
+      var visitorId = host.MatchInfo.matches.splice(visitor, 1)[0].visitor;
+
+      console.log(visitorId, host._id);
+      Visitor.findOneAndUpdate(
+        {_id:visitorId},
+        {'MatchInfo.matchHost':null},
+        function(err, visitorObj) {
           if (err) return next(err);
-          console.log('host save');
-          res.send(ret);
+          if (visitor.nModified === 0)
+            return next(new Error('visitor was not found'));
+          updated.visitors = [visitorObj];
+          visitor = visitorObj;
+          next();
+        }
+      );
+    },
+
+    function(next) {
+      var updateKey = host.MatchInfo.Section + visitor.MatchInfo.classVisitNumber;
+
+      Availability.findOne({}, updateKey + '.matches', function(err, array) {
+        if (err) return next(err);
+        var toUpdate = {};
+
+        toUpdate[updateKey + '.matches'] = array[updateKey].matches.filter(function(item) {
+          return item.visitor !== visitor._id;
+        });
+
+        Availability.findOneAndUpdate({}, toUpdate, function(err, availability) {
+          if (err) return next(err);
+          updated.availabilities = [availability];
+          res.send({update:updated});
         });
       });
-    });
-  });
+    }
+  ], next);
 });
 
 router.use(require('./crudController')('hostProfile'));

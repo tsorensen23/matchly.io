@@ -25,71 +25,92 @@ module.exports = {
     var AvailabiltyConstraint;
     var date = new Date(parseInt(req.query.date));
 
-    Host.find({
-      'MatchInfo.exceptionDate':{ $not: { $all: [date]} },
-      'MatchInfo.matches': {$not: { $elemMatch: {date: date}} }
-    }, function(err, data) {
-      if (err) {
-        return next(err);
-      }
+    async.parallel([
+      function(next) {
+        Host.find({
+          'MatchInfo.exceptionDate': {$not: {$all: [date]} }
+        }, function(err, data) {
+          if (err) {
+            return next(err);
+          }
 
-      HostData = data;
+          HostData = data;
+          next();
+        });
+      },
 
-      Visitor.find({
-        'MatchInfo.visitDate':date,
-        'MatchInfo.matchHost': null
-      }, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
+      function(next) {
+        console.log('date: ', date, typeof date, date instanceof Date);
+        Visitor.find(
+          {'MatchInfo.visitDate': date},
+          function(err, data) {
+          if (err) {
+            return next(err);
+          }
 
-        VisitorData = data;
+          console.log('visitors: ', data);
 
+          VisitorData = data;
+          next();
+        });
+      },
+
+      function(next) {
         Availability.findOne({}).lean().exec(function(err, data) {
           if (err) {
             return next(err);
           }
 
           AvailabiltyConstraint = data;
-          var RumbleData;
-          try {
-            RumbleData = Rumble.rumble(VisitorData, HostData, AvailabiltyConstraint);
-          } catch (error) {
-            return next(error);
+          next();
+        });
+      }
+    ], function(err) {
+      if (err) return next(err);
+      var RumbleData;
+      try {
+        RumbleData = Rumble.rumble(
+          VisitorData,
+          HostData,
+          AvailabiltyConstraint,
+          date
+        );
+      } catch (error) {
+        return next(error);
+      }
+
+      async.parallel([
+        async.each.bind(async, VisitorData, function(visitor, n) {
+          visitor.save(n);
+        }),
+
+        async.each.bind(async, HostData, function(host, n) {
+          host.save(n);
+        }),
+
+        Availability.update.bind(
+          Availability,
+          {_id:AvailabiltyConstraint},
+          AvailabiltyConstraint
+        )
+      ], function(err) {
+        if (err) {
+          return next(err);
+        }
+
+        RumbleData = Rumble.visitorHostPairings(RumbleData);
+        RumbleData = Rumble.SortReturnObject(RumbleData);
+
+        var csvStream = csv.writeToString(RumbleData, function(err, data) {
+          if (err) {
+            return next(err);
           }
 
-          RumbleData.forEach(function(match) {
-            Rumble.prepForSaving(match, date);
-          });
-
-          async.each(VisitorData, function(visitor, n) {
-            visitor.save(n);
-          },
-
-          function(err) {
-            if (err) return next(err);
-            async.each(HostData, function(host, n) {
-              host.save(n);
-            },
-
-            function(err) {
-              if (err) return next(err);
-              RumbleData = Rumble.visitorHostPairings(RumbleData);
-              RumbleData = Rumble.SortReturnObject(RumbleData);
-
-              var csvStream = csv.writeToString(RumbleData, function(err, data) {
-                if (err) {
-                  return next(err);
-                }
-
-                var dataObject = {
-                  csv:data,
-                  array:RumbleData
-                };
-                res.json(dataObject);
-              });
-            });
-          });
+          var dataObject = {
+            csv:data,
+            array:RumbleData
+          };
+          res.json(dataObject);
         });
       });
     });

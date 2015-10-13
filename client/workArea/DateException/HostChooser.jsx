@@ -13,6 +13,7 @@ var AddExceptionDay = React.createClass({
 
   componentWillMount: function() {
     this.hostListener = function(hosts) {
+      console.log(hosts);
       this.setState({hosts:hosts.sort(function(a, b) {
         return a.Contact.Last.localeCompare(b.Contact.Last);
       })});
@@ -47,8 +48,6 @@ var AddExceptionDay = React.createClass({
       date: this.props.date.toString(),
       host: host._id,
       onoff: onoff
-    }, function(error) {
-      HostStore.getAll({});
     });
   },
 
@@ -66,10 +65,15 @@ var AddExceptionDay = React.createClass({
         }
 
         if (host.MatchInfo.matches.length) console.log('matches', host.MatchInfo.matches);
-        var takenIndex = this.findIndex(host.MatchInfo.matchDates, this.props.date);
-        var isTaken = -1 !== takenIndex;
 
-        var onoff = isTaken || isAvailable;
+        var takenIndex = -1;
+        var isTaken = false;
+        if (isAvailable) {
+          takenIndex = this.findIndex(host.MatchInfo.matchDates, this.props.date);
+          isTaken = -1 !== takenIndex;
+        }
+
+        var onoff = isAvailable;
 
         var contact = host.Contact;
         return (

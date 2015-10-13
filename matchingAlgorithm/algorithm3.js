@@ -9,7 +9,11 @@ var Rumble = {
     var host = match.host;
 
     visitor.MatchInfo.matchHost = host._id;
-    host.MatchInfo.matches.push({date: visitor.MatchInfo.visitDate, visitor:visitor._id});
+    host.MatchInfo.matches.push({
+      date: visitor.MatchInfo.visitDate,
+      visitor:visitor._id
+    });
+    return match;
   },
 
   calculatematchScore:function(visitor, host) {
@@ -82,7 +86,11 @@ var Rumble = {
       var length = curConstraint.matches.length;
 
       // If our room is full
-      if (length >= curConstraint.availableSpots) {
+      if (length > curConstraint.availableSpots) {
+        throw new Error('length should never get bigger than available spots');
+      }
+
+      if (length == curConstraint.availableSpots) {
 
         // If we are not bigger than the lowest
         // Its expected to be sorted by score (do a binary insert whenever we are adding)
@@ -127,7 +135,32 @@ var Rumble = {
     return unMatchedVisitors;
   },
 
-  rumble: function(visitorArray, hostArray, constraintObject, date) {
+  rumble: function(unfilteredVisitorArray, unfilteredHostArray, constraintObject, date) {
+    var hostMap = {};
+    var hostArray = unfilteredHostArray.filter(function(host) {
+      if (host.MatchInfo.matches.some(function(match) {
+        return match.date.toString() === date.toString();
+      })) {
+
+        hostMap[host._id] = host;
+        return false;
+      }
+
+      return true;
+    });
+
+    var visitorArray = unfilteredVisitorArray.filter(function(visitor) {
+      if (!!visitor.MatchInfo.matchHost) {
+        var host = hostMap[visitor.MatchInfo.matchHost];
+        var match = new Match(MATCH_KEYS, visitor, host);
+        host.match = match;
+        visitor.match = match;
+        return false;
+      }
+
+      return true;
+    });
+
     var unMatchedVisitors = this.validateTotalAvailable(visitorArray, constraintObject);
 
     while (unMatchedVisitors.length) {
@@ -148,11 +181,14 @@ var Rumble = {
 
         // Remove the match from the constraints
         var oldConstraint = constraintObject[oldMatch.constraintKey];
-        for (var i = 0; i < oldConstraint.matches.length; i++) {
+        for (var i = 0, l = oldConstraint.matches.length; i < l; i++) {
           if (oldConstraint.matches[i] !== oldMatch) continue;
-
           oldConstraint.matches.splice(i, 1);
           break;
+        }
+
+        if (i === l) {
+          throw new Error('we did not unset the match');
         }
       }
 
@@ -183,8 +219,8 @@ var Rumble = {
 
     memoizeMatches = {};
 
-    return visitorArray.map(function(vis) {
-      return vis.match;
+    return unfilteredVisitorArray.map(function(vis) {
+      return Rumble.prepForSaving(vis.match, date);;
     });
   }//close rumble
 };
