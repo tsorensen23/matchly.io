@@ -15,7 +15,6 @@ ee.createStore = function(type, data, fields, school) {
 function StatefulFields(type, data, fields, school) {
   EE.call(this);
   this.type = type;
-  console.log(type);
 
   this.rawData = data;
 
@@ -91,7 +90,6 @@ StatefulFields.prototype.confirmHeaders = function() {
     return individual.Characteristics.Undergrad;
   });
   var employerAliases = this.data.map(function(individual) {
-    console.log(individual.Characteristics.Employer);
     individualsEmployers[individual.Characteristics.Employer] = `${individual.Contact.First} ${individual.Contact.Last}`;
     return individual.Characteristics.Employer;
   });
@@ -106,7 +104,6 @@ StatefulFields.prototype.confirmHeaders = function() {
         url: '/updateHeaderOrder',
         data: JSON.stringify(this.matched),
         success: function(data) {
-          console.log('called dataparser');
           next();
         },
 
@@ -226,7 +223,6 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
-    console.log(alias, trueName);
     return void 0;
   }
 
@@ -287,7 +283,6 @@ StatefulFields.prototype.finish = function(statics) {
       mpath.set(i, statics[i], item);
     }
   });
-
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
@@ -304,7 +299,6 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
   this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
-    console.log(alias, trueName);
     return void 0;
   }
 

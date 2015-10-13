@@ -3,9 +3,7 @@ var url = require('url');
 var insertGlobal = require('../../generic/insertGlobal');
 
 module.exports = function(self) {
-  console.log(self.location.hostname);
   var host = url.parse(self.location.toString());
-  console.log(host.protocol + '//' + host.host + '/assets/papaparse.min.js');
   insertGlobal('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
   insertGlobal(host.protocol + '//' + host.host + '/assets/papaparse.min.js');
 

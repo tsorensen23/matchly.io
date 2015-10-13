@@ -99,7 +99,6 @@ var DataParser = {
         classVisitNumber = '3';
         classVisitTime = 1145;
       } else {
-        console.log('classVisitTime ', classVisitTime);
         console.warn('classvisitTime freakout');
       }
 

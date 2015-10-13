@@ -8,7 +8,6 @@ var HasValue = require('./hasValue.jsx');
 var EmployerPicker = React.createClass({
   render: function() {
     var output = [];
-    console.log(this.props);
     var possible = this.props.possible;
     var individuals = this.props.individuals;
 
@@ -22,7 +21,6 @@ var EmployerPicker = React.createClass({
     var needUpdate = Object.keys(possible).filter(function(name) {
       if (!possible[name]) return true;
       if (Array.isArray(possible[name])) return true;
-      console.log('finished');
       valued.push(name);
       return false;
     });

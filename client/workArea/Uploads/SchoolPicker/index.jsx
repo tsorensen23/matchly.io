@@ -21,7 +21,6 @@ var SchoolPicker = React.createClass({
     var needUpdate = Object.keys(possible).filter(function(name) {
       if (!possible[name]) return true;
       if (Array.isArray(possible[name])) return true;
-      console.log('finished');
       valued.push(name);
       return false;
     });

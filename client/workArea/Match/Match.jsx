@@ -17,7 +17,6 @@ var Match = React.createClass({
   match: function (e) {
     e.preventDefault()
 
-    // console.log(this.props,'props');
     var _this = this;
 
     // this.props
@@ -26,10 +25,8 @@ var Match = React.createClass({
       method: 'GET',
       url: '/match/?date=' + this.props.date,
       success: function(data) {
-        // console.log(_this, '_this');
         _this.setState({ matchData: data});
         if (data.array.length === 0) {
-          console.log(data.array);
           alert('There were no visitors found!');
           _this.refs.button.error();
         } else {
@@ -51,10 +48,7 @@ var Match = React.createClass({
   render:function() {
     var data = [];
     if (this.state.matchData) {
-      // console.log('if statement fires');
-      // console.log(this.state.matchData.array,'matchData');
       this.state.matchData.array.shift();
-      console.log('matchData', this.state.matchData);
       data = this.state.matchData.array.map(function(visitor) {
         return (<Visitor visitor={visitor} />);
       });

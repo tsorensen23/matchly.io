@@ -26,7 +26,6 @@ module.exports = TypeAheadWrapper;
 
 var Custom = React.createClass({
   optionSelectedHandler: function(e) {
-    console.log('target locked captain', e.target);
     var option = e.target.innerHTML;
     this.props.onOptionSelected(option)
   },
@@ -61,7 +60,6 @@ SwitchComponent = React.createClass({
         // callback
       },
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
         // success callback
       },
       error: function (jqXHR, textStatus, errorThrown) {

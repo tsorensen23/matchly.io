@@ -32,7 +32,6 @@ var ButtonList = React.createClass({
       return obj.value;
     });
 
-    console.log('headersChanger', array);
     this.setState({headers:array});
     this.callDataParser(array);
 
@@ -58,8 +57,6 @@ var ButtonList = React.createClass({
   },
 
   render: function() {
-    console.log('matchedFields', this.state.matchedFields);
-
     var matchedButtons = [];
     var categoryButtons = this.props.store.getRequired().map(function(name, index) {
       matchedButtons.push(
