@@ -146,8 +146,8 @@ StatefulFields.prototype.confirmHeaders = function() {
     }.bind(this),
     function(next) {
       var storage = localStorage.getItem('schools');
-      if(storage){
-        this.availableSchools = storage.split(',')
+      if (storage){
+        this.availableSchools = storage.split(',');
         next();
       } else {
         $.ajax({
