@@ -1,11 +1,13 @@
 var path = require('path');
 var url = require('url');
+var insertGlobal = require('../../generic/insertGlobal');
+
 module.exports = function(self) {
   console.log(self.location.hostname);
-  var host = url.parse(self.location.toString().substring(5));
+  var host = url.parse(self.location.toString());
   console.log(host.protocol + '//' + host.host + '/assets/papaparse.min.js');
-  self.importScripts(host.protocol + '//' + host.host + '/assets/papaparse.min.js');
-  self.importScripts('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
+  insertGlobal('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
+  insertGlobal(host.protocol + '//' + host.host + '/assets/papaparse.min.js');
 
   var sheets;
   var possibleSheets;
@@ -23,7 +25,7 @@ module.exports = function(self) {
   }
 
   self.addEventListener('message', function(ev) {
-    if (ev.type === 'setSheet') return setSheet(ev.sheet)
+    if (ev.type === 'setSheet') return setSheet(ev.sheet);
     var filename = ev.data.filename;
     var data = ev.data.data;
     var ext = path.extname(filename);

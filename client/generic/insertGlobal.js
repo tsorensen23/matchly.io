@@ -1,4 +1,8 @@
 module.exports = function(url, type) {
+  if (typeof self !== 'undefined' && typeof window === 'undefined') {
+    return self.importScript(url);
+  }
+
   if (!type) type = 'js';
   var head = document.head;
   var child;

@@ -2,11 +2,10 @@ var React = require('react');
 var path = require('path');
 
 var ReadableFile = require('../../generic/ReadableFile.jsx');
-var insertGlobal = require('../../generic/insertGlobal');
-insertGlobal('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.core.min.js');
-insertGlobal('/assets/papaparse.min.js');
 
-var work = require('webworkify');
+var work = require('../../generic/WorkerShim');
+
+var worker = work(require('./csvParser'));
 
 var Upload = React.createClass({
   getInitialState: function() {
@@ -18,7 +17,7 @@ var Upload = React.createClass({
   },
 
   componentWillMount: function() {
-    this.worker = work(require('./csvParser.js'));
+    this.worker = worker;
     this.worker.addEventListener('message', function(ev) {
       console.log(ev.data);
       this.setState(ev.data);
@@ -54,7 +53,7 @@ var Upload = React.createClass({
 
   setHasFile: function(e) {
     if (!e.hasFile()) return this.setState({fileData: null});
-    this.refs.readableFile.read(function(err,data) {
+    this.refs.readableFile.read(function(err, data) {
       if (err) throw err;
       this.worker.postMessage({
         filename:this.refs.readableFile.getFileName(),
