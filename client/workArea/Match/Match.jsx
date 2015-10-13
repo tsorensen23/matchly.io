@@ -14,7 +14,9 @@ var Match = React.createClass({
     return {matchData:null};
   },
 
-  match:function() {
+  match: function (e) {
+    e.preventDefault()
+
     // console.log(this.props,'props');
     var _this = this;
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var School = require('../server/database/db').School;
 var request = require('request');
 
