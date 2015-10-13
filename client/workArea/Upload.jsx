@@ -28,12 +28,13 @@ var UploadRouter = React.createClass({
       });
 
       store.on('ready-for-fuzzy', function() {
-        _this.setState({pageView: 2});
+        _this.setState({pageView: 2 });
       });
 
-      store.on('ready-for-industry-fuzzy', function() {
+      store.on('ready-for-employer-fuzzy', function() {
         _this.setState({pageView: 3});
       });
+
       store.on('ready-for-confirmation', function() {
         _this.setState({pageView: 4});
       });
