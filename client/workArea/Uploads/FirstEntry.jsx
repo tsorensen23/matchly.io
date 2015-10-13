@@ -19,7 +19,6 @@ var Upload = React.createClass({
   componentWillMount: function() {
     this.worker = worker;
     this.worker.addEventListener('message', function(ev) {
-      console.log(ev.data);
       this.setState(ev.data);
     }.bind(this));
   },

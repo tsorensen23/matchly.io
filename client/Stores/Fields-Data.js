@@ -15,7 +15,6 @@ ee.createStore = function(type, data, fields, school) {
 function StatefulFields(type, data, fields, school) {
   EE.call(this);
   this.type = type;
-  console.log(type);
 
   this.rawData = data;
 
@@ -82,6 +81,18 @@ StatefulFields.prototype.getStaticKeys = function() {
 StatefulFields.prototype.confirmHeaders = function() {
   this.emit('please-wait', this);
 
+  this.data = Categories[this.type].parser(this.rawData, this.matched);
+  var individuals = {};
+  var individualsEmployers = {};
+
+  var schoolAliases = this.data.map(function(individual) {
+    individuals[individual.Characteristics.Undergrad] = `${individual.Contact.First} ${individual.Contact.Last}`;
+    return individual.Characteristics.Undergrad;
+  });
+  var employerAliases = this.data.map(function(individual) {
+    individualsEmployers[individual.Characteristics.Employer] = `${individual.Contact.First} ${individual.Contact.Last}`;
+    return individual.Characteristics.Employer;
+  });
   async.parallel([
     function(next) {
 
@@ -93,7 +104,6 @@ StatefulFields.prototype.confirmHeaders = function() {
         url: '/updateHeaderOrder',
         data: JSON.stringify(this.matched),
         success: function(data) {
-          console.log('called dataparser');
           next();
         },
 
@@ -108,21 +118,13 @@ StatefulFields.prototype.confirmHeaders = function() {
 
       delete this.matched.School;
 
-      this.data = Categories[this.type].parser(this.rawData, this.matched);
-      var individuals = {};
 
-      var names = this.data.map(function(individual) {
-        individuals[individual.Characteristics.Undergrad] = `${individual.Contact.First} ${individual.Contact.Last}`;
-        return individual.Characteristics.Undergrad;
-      });
-
-      var payload = {names: names};
       $.ajax({
         url: '/checkschools',
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
-        data: JSON.stringify(payload),
+        data: JSON.stringify({names: schoolAliases}),
         complete: function(jqXHR, textStatus) {},
 
         success: function(data, textStatus, jqXHR) {
@@ -140,34 +142,65 @@ StatefulFields.prototype.confirmHeaders = function() {
       });
     }.bind(this),
     function(next) {
-      $.ajax({
-        url: '/schools',
-        type: 'get',
-        dataType: 'json',
-        complete: function(jqXHR, textStatus) {
-          // callback
-        },
+      var storage = localStorage.getItem('schools');
+      if (storage){
+        this.availableSchools = storage.split(',');
+        next();
+      } else {
+        $.ajax({
+          url: '/schools',
+          type: 'get',
+          dataType: 'json',
+          complete: function(jqXHR, textStatus) {
+            // callback
+          },
 
-        success: function(data, textStatus, jqXHR) {
-          this.availableSchools = data;
-          next();
-        }.bind(this),
-        error: function(jqXHR, textStatus, errorThrown) {
-          // TODO sam implemen a real endpoint that saves and logs client side errors
-          console.warn('There was an error', errorThrown);
-          next(errorThrown);
-        }
-      });
+          success: function(data, textStatus, jqXHR) {
+            this.availableSchools = data;
+            localStorage.setItem('schools', data);
+            next();
+          }.bind(this),
+          error: function(jqXHR, textStatus, errorThrown) {
+            // TODO sam implemen a real endpoint that saves and logs client side errors
+            console.warn('There was an error', errorThrown);
+            next(errorThrown);
+          }
+        });
+      }
     }.bind(this),
+      function(next) {
+        $.ajax({
+          url: 'checkemployers',
+          type: 'POST',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({employers: employerAliases}),
+          complete: function (jqXHR, textStatus) {
+            // callback
+          },
+          success: function (data, textStatus, jqXHR) {
+            this.possibleEmployers = data;
+            this.individualsEmployers = individualsEmployers;
+            next();
+            // success callback
+          }.bind(this),
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.warn('There was an error', errorThrown);
+            console.error(textStatus);
+            next(errorThrown);
+            // error callback
+          }
+        });
+      }.bind(this),
     function(next) {
       $.ajax({
-        url: '/industries/',
+        url: '/employers/',
         type: 'GET',
         dataType: 'json',
         complete: function (jqXHR, textStatus) {
         },
         success: function (data, textStatus, jqXHR) {
-          this.availableIndustries = data;
+          this.availableEmployers = data;
           next();
         }.bind(this),
         error: function (jqXHR, textStatus, errorThrown) {
@@ -190,7 +223,6 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
-    console.log(alias, trueName);
     return void 0;
   }
 
@@ -218,10 +250,11 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }
   });
 
-  dataArray.forEach(function(element) {
+  this.data = dataArray.map(function(element) {
     if (element.Characteristics.Undergrad === alias) {
       element.Characteristics.Undergrad = trueName;
     }
+    return element;
   });
 
 };
@@ -232,10 +265,10 @@ StatefulFields.prototype.resetSchool = function(alias) {
 };
 
 StatefulFields.prototype.finishFuzzySchools = function() {
-  this.emit('ready-for-industry-fuzzy');
+  this.emit('ready-for-employer-fuzzy');
 };
 
-StatefulFields.prototype.finishFuzzyIndustries = function() {
+StatefulFields.prototype.finishFuzzyEmployers = function() {
   this.emit('ready-for-confirmation');
 };
 
@@ -250,7 +283,6 @@ StatefulFields.prototype.finish = function(statics) {
       mpath.set(i, statics[i], item);
     }
   });
-
   $.ajax({
     method: 'POST',
     contentType: 'application/json',
@@ -261,18 +293,17 @@ StatefulFields.prototype.finish = function(statics) {
     }.bind(this)
   });
 };
-StatefulFields.prototype.doneWithIndustry = function(alias, trueName) {
+StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
   var dataArray = this.data;
   var possible = this.possibleSchools;
   this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
-    console.log(alias, trueName);
     return void 0;
   }
 
   $.ajax({
-    url: 'indsutrymatch',
+    url: 'employermatch',
     type: 'POST',
     dataType: 'json',
     contentType: 'application/json',
@@ -282,8 +313,8 @@ StatefulFields.prototype.doneWithIndustry = function(alias, trueName) {
     },
 
     success: function(data, textStatus, jqXHR) {
-      possible[alias] = trueName;
-      this.emit('ready-for-fuzzy', this);
+      this.possibleEmployers[alias] = trueName;
+      this.emit('ready-for-employer-fuzzy', this);
 
       // success callback
     }.bind(this),
@@ -295,15 +326,21 @@ StatefulFields.prototype.doneWithIndustry = function(alias, trueName) {
     }
   });
 
-  dataArray.forEach(function(element) {
-    if (element.Characteristics.Undergrad === alias) {
-      element.Characteristics.Undergrad = trueName;
+  this.data = dataArray.forEach(function(element) {
+    if (element.Characteristics.Employer === alias) {
+      element.Characteristics.Employer = trueName;
     }
+    return element
   });
-
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {
   this.possibleSchools[alias] = null;
   this.emit('ready-for-fuzzy', this);
 };
+
+StatefulFields.prototype.resetEmployer = function(alias) {
+  this.possibleEmployers[alias] = null;
+  this.emit('ready-for-employer-fuzzy', this);
+};
+

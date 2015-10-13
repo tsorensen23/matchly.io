@@ -144,7 +144,6 @@ module.exports = {
   },
 
   submitvisitors: function(req, res, next) {
-    console.log(req.body);
     req.body = req.body.map(function(visitor) {
       visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
       return visitor;

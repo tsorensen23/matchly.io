@@ -1,4 +1,6 @@
-var Employer = require('../server/database/db').Industry;
+#!/usr/bin/env node
+
+var Employer = require('../server/database/db').Employer;
 var request = require('request');
 
 var URL = 'https://sheetsu.com/apis/7100adf4';

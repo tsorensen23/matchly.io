@@ -3,7 +3,6 @@ var Typeahead = require('react-typeahead').Typeahead;
 
 var TypeAheadWrapper = React.createClass({
   logger: function(string) {
-    console.log(`the key is ${this.props.name}, amnd the user selected ${string}`);
     var name = this.props.name;
     var school = string;
     this.props.possibleHandler(name, school);

@@ -5,16 +5,16 @@ var NoValuePicker = require('./noValue.jsx');
 var MultipleValuePicker = require('./multipleValues.jsx');
 var HasValue = require('./hasValue.jsx');
 
-var SchoolPicker = React.createClass({
+var EmployerPicker = React.createClass({
   render: function() {
     var output = [];
     var possible = this.props.possible;
     var individuals = this.props.individuals;
 
     var possHandler = this.props.possibleHandler;
-    var resetHandler = this.props.store.resetSchool.bind(this.props.store);
-    var schools = this.props.store.availableSchools;
-    var finished = this.props.store.finishFuzzySchools.bind(this.props.store);
+    var resetHandler = this.props.store.resetEmployer.bind(this.props.store);
+    var schools = this.props.store.availableEmployers;
+    var finished = this.props.store.finishFuzzyEmployers.bind(this.props.store);
 
     var valued = [];
 
@@ -29,7 +29,7 @@ var SchoolPicker = React.createClass({
       <div style={{"marginTop": "20"}}>
         <div className="row">
           <div style={{"width": "200", "margin": "0 auto"}}>
-            <button style={{"fontSize": "1.2em"}}  className="btn btn-success" onClick={finished} >Schools are Finished</button>
+            <button style={{"fontSize": "1.2em"}}  className="btn btn-success" onClick={finished} >Industries are Finished</button>
           </div>
         </div>
         <div className="row">
@@ -77,4 +77,4 @@ var SchoolPicker = React.createClass({
   }
 });
 
-module.exports = SchoolPicker;
+module.exports = EmployerPicker;

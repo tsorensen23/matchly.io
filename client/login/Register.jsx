@@ -24,16 +24,13 @@ var Register = React.createClass({
         password: password,
         matchlycookie: document.cookie
       };
-      console.log(profileObject, 'profile profileObject');
       $.ajax({
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(profileObject),
         url: '/registerUser/',
         success: function(data) {
-          console.log('data', data);
           if (data.errors !== undefined) {
-            console.log(data);
             alert('registration failed, please try again');
           } else {
             window.location = '/';
