@@ -1,4 +1,5 @@
 var React = require('react');
+var Typeahead = require('react-typeahead').Typeahead;
 var Event = require('events');
 class TypeAheadEE extends Event.EventEmitter{
   constructor() {
@@ -13,7 +14,6 @@ class TypeAheadEE extends Event.EventEmitter{
 }
 
 var store = new TypeAheadEE();
-var Typeahead = require('react-typeahead').Typeahead;
 var SwitchComponent;
 var TypeAheadWrapper = React.createClass({
   getInitialState: function() {
@@ -34,7 +34,7 @@ var TypeAheadWrapper = React.createClass({
         <b>{this.props.person} : {this.props.name}</b>
         <Typeahead
           ref='typeahead'
-          onKeyDown={this.changeHandler}
+          onKeyUp={this.changeHandler}
           customListComponent={Custom}
           options={this.props.schools}
           maxVisible={10}
@@ -45,7 +45,6 @@ var TypeAheadWrapper = React.createClass({
   }
 });
 
-module.exports = TypeAheadWrapper;
 
 var Custom = React.createClass({
   optionSelectedHandler: function(e) {
@@ -64,11 +63,10 @@ var Custom = React.createClass({
   }
 });
 
-SwitchComponent = React.createClass({
+var SwitchComponent = React.createClass({
   componentWillMount: function() {
     store.on('clicked', function() {
       var type = store.get();
-      console.log('user clicked', type);
       this.setState({default: type});
     }.bind(this));
   },
@@ -83,6 +81,7 @@ SwitchComponent = React.createClass({
   },
 
   addItem: function(e) {
+    e.preventDefault();
     var newEmployer = React.findDOMNode(this.refs.newName).value;
     $.ajax({
       url: 'employers',
@@ -102,8 +101,7 @@ SwitchComponent = React.createClass({
     });
     this.props.onOptionSelected(newEmployer);
   },
-  handler() {
-    
+  handler: function () {
     this.setState({default: React.findDOMNode(this.refs.newName).value});
   },
   render: function() {
@@ -117,4 +115,5 @@ SwitchComponent = React.createClass({
       );
   }
 
-})
+});
+module.exports = TypeAheadWrapper;
