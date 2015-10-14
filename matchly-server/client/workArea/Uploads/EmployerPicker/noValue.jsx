@@ -79,7 +79,9 @@ var SwitchComponent = React.createClass({
     store.emit('clicked');
     this.setState({clicked: true});
   },
-
+  componentDidUpdate: function() {
+    React.findDOMNode(this.refs.newName).focus();
+  },
   addItem: function(e) {
     e.preventDefault();
     var newEmployer = React.findDOMNode(this.refs.newName).value;
