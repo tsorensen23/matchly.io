@@ -84,7 +84,6 @@ function scripts(input, output) {
       console.log('Error with compiling components', err.message);
     })
     .pipe(source(output))
-    .pipe(uglify())
     .pipe(gulp.dest('./build/'));
 }
 
