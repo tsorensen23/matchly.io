@@ -23,7 +23,7 @@ module.exports = {
     var VisitorData;
     var HostData;
     var AvailabiltyConstraint;
-    var date = new Date(parseInt(req.query.date));
+    var date = req.query.date ? new Date(parseInt(req.query.date)) : new Date();
 
     async.parallel([
       function(next) {

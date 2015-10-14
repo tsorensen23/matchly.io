@@ -6,7 +6,7 @@ html, body, h1, h2, h3, h4, p, div, ul, li, a {
   padding: 0;
   border: 0;
   margin: 0;
-  font-size: 100%
+  font-size: 100%;
   font-family: "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 200;
   list-style: none;
@@ -197,7 +197,7 @@ button {
 }
 
 .day{
-  margin: 5px,5px,5px,5px;
+  margin: 5px;
 }
 #array-of-individuals{
 overflow:scroll;

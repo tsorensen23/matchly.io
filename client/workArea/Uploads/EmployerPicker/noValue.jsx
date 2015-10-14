@@ -1,7 +1,29 @@
 var React = require('react');
+var Event = require('events');
+class TypeAheadEE extends Event.EventEmitter{
+  constructor() {
+    super();
+  }
+  update(string) {
+    this.store = string;
+  }
+  get() {
+    return this.store;
+  }
+}
+
+var store = new TypeAheadEE();
 var Typeahead = require('react-typeahead').Typeahead;
 var SwitchComponent;
 var TypeAheadWrapper = React.createClass({
+  getInitialState: function() {
+    return {typed: void 0};
+  },
+  changeHandler: function(e) {
+    // var typed = React.findDOMNode(this.refs.typeahead).childNodes[0].value;
+    var typed = e.target.value;
+    store.update(typed);
+  },
   logger: function(string) {
     this.props.possibleHandler(this.props.name, string);
   },
@@ -12,6 +34,7 @@ var TypeAheadWrapper = React.createClass({
         <b>{this.props.person} : {this.props.name}</b>
         <Typeahead
           ref='typeahead'
+          onKeyDown={this.changeHandler}
           customListComponent={Custom}
           options={this.props.schools}
           maxVisible={10}
@@ -36,18 +59,29 @@ var Custom = React.createClass({
     return(
         <ul>
           {output}
-          <SwitchComponent testprop="hi" onOptionSelected={this.props.onOptionSelected} />
+          <SwitchComponent  onOptionSelected={this.props.onOptionSelected} />
         </ul>);
   }
 });
 
 SwitchComponent = React.createClass({
-  getInitialState: function() {
-    return{clicked: false};
+  componentWillMount: function() {
+    store.on('clicked', function() {
+      var type = store.get();
+      console.log('user clicked', type);
+      this.setState({default: type});
+    }.bind(this));
   },
+
+  getInitialState: function() {
+    return {clicked: false, type: void 0};
+  },
+
   switcher: function() {
+    store.emit('clicked');
     this.setState({clicked: true});
   },
+
   addItem: function(e) {
     var newEmployer = React.findDOMNode(this.refs.newName).value;
     $.ajax({
@@ -68,13 +102,17 @@ SwitchComponent = React.createClass({
     });
     this.props.onOptionSelected(newEmployer);
   },
+  handler() {
+    
+    this.setState({default: React.findDOMNode(this.refs.newName).value});
+  },
   render: function() {
     if(!this.state.clicked) {
       return <li onClick={this.switcher}>Add a new employer</li>;
     }
     return( 
       <form onSubmit={this.addItem}>
-        <input ref='newName' type="text" />
+        <input value={this.state.default} onChange={this.handler} ref='newName' type="text" />
       </form>
       );
   }
