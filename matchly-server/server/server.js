@@ -15,6 +15,8 @@ var Employer = require('./database/db').Employer;
 
 app.use(morgan('combined'));
 app.use(cookieParser());
+app.disable('x-powered-by');
+app.disable('etag')
 
 // app.use(function(req, res, next) {
 //   if(req.cookies.matchlycookie===undefined) {
@@ -34,7 +36,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(userController.authorizationCheck);
-app.use('/login', stdUIController('Login'));
+app.use('/login', stdUIController('login'));
 app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/userLogin', userController.checkLogin);
 app.use('/assets', express.static(__dirname + './../assets'));

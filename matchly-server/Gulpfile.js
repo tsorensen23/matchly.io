@@ -42,7 +42,7 @@ gulp.task('build', function() {
   .on('error', function(err) {
     console.log('error with compiling components', err.message);
   })
-  .pipe(source('Login-bundle.js'))
+  .pipe(source('login-bundle.js'))
   .pipe(buffer())
   .pipe(uglify())
   .pipe(gulp.dest('./build/'));
@@ -50,7 +50,7 @@ gulp.task('build', function() {
 
 function compileScripts() {
   scripts('./client/home/router.jsx', 'home-bundle.js');
-  scripts('./client/login/router.jsx', 'Login-bundle.js');
+  scripts('./client/login/router.jsx', 'login-bundle.js');
 }
 
 function scripts(input, output) {
