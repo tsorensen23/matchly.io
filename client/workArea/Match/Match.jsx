@@ -42,7 +42,7 @@ var Match = React.createClass({
   },
 
   exportToCSV:function() {
-    exportToCSV('match-data', this.state.matchData.csv);
+    exportToCSV('match-data', this.state.matchData.array);
   },
 
   render:function() {

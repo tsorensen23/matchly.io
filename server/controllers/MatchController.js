@@ -100,20 +100,12 @@ module.exports = {
 
         RumbleData = Rumble.visitorHostPairings(RumbleData);
         RumbleData = Rumble.SortReturnObject(RumbleData);
-
-        var csvStream = csv.writeToString(RumbleData, function(err, data) {
-          if (err) {
-            return next(err);
-          }
-
-          var dataObject = {
-            csv:data,
-            array:RumbleData
-          };
+        var dataObject = {
+          array:RumbleData
+        };
           res.json(dataObject);
         });
       });
-    });
   },
 
   availability:function(req, res) {
