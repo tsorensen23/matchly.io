@@ -29,7 +29,7 @@ var EmployerPicker = React.createClass({
       <div style={{"marginTop": "20"}}>
         <div className="row">
           <div style={{"width": "200", "margin": "0 auto"}}>
-            <button style={{"fontSize": "1.2em"}}  className="btn btn-success" onClick={finished} >Industries are Finished</button>
+            <button style={{"fontSize": "1.2em"}}  className="btn btn-success" onClick={finished} >Employees are Finished</button>
           </div>
         </div>
         <div className="row">
