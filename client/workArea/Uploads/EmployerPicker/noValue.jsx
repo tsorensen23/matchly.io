@@ -49,6 +49,7 @@ module.exports = TypeAheadWrapper;
 
 var Custom = React.createClass({
   optionSelectedHandler: function(e) {
+    e.preventDefault();
     var option = e.target.innerHTML;
     this.props.onOptionSelected(option)
   },
