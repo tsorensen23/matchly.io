@@ -17,8 +17,8 @@ var TableView = React.createClass({
           return <td>{name}</td>;
         })}</tr>
       </thead>
-      <tbody>{_this.props.items.map(function(item) {
-        return (<tr>{
+      <tbody>{_this.props.items.map(function(item, index) {
+        return (<tr key={index}>{
           _this.props.headers.map(function(key) {
             return <td><EditableItem object={item} name={key} /></td>;
           })

@@ -30,8 +30,8 @@ var VisitorInformation = React.createClass({
     return (
       <div>
         <h2>Information</h2>
-        <div>{staticKeys.map(function(sValue) {
-          return <div>{sValue.label}: <UnknownInput type={sValue.type} ref={sValue.path} /></div>;
+        <div>{staticKeys.map(function(sValue, index) {
+          return <div>{sValue.label}: <UnknownInput type={sValue.type} key={index} ref={sValue.path} /></div>;
         })}</div>
 
         <div id='array-of-individuals'>

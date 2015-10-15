@@ -100,25 +100,27 @@ var ButtonList = React.createClass({
     return (
       <div>
         <div className='row'>
-          <div className='col-md-2 col-md-offset-2'>
+          <div className='col-xs-3 col-xs-offset-2'>
             <h1>Categories we need</h1>
           </div>
-          <div className='col-md-2 col-md-offset-1'>
-            <h1>Headers we got</h1>
-          </div>
-          <div className='col-md-2'>
-            <input id='confirm-button' type='button' value='Field Change' onClick={this.callFieldsChange}></input>
+          <div className='col-xs-3 col-xs-offset-1'>
+            <h1>Headers we received</h1>
           </div>
         </div>
         <div className='row'>
-          <div className='col-md-2 col-md-offset-2'>
+          <div className='col-xs-2 col-xs-offset-2'>
             {categoryButtons}
           </div>
-          <div className='col-md-2 col-md-offset-2'>
+          <div className='col-xs-2 col-xs-offset-2'>
             {matchedButtons}
           </div>
-          <div className='col-md-2 col-md-offset-1'>
+          <div className='col-xs-2 col-xs-offset-1'>
             {fieldButtons}
+          </div>
+        </div>
+        <div className="row">
+          <div className='col-xs-12'>
+            <input id='confirm-button' className="center" type='button' value='Field Change' onClick={this.callFieldsChange}></input>
           </div>
         </div>
       </div>
