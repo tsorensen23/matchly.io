@@ -15,6 +15,8 @@ var Employer = require('./database/db').Employer;
 
 app.use(morgan('combined'));
 app.use(cookieParser());
+app.disable('x-powered-by');
+app.disable('etag')
 
 // app.use(function(req, res, next) {
 //   if(req.cookies.matchlycookie===undefined) {
@@ -30,11 +32,14 @@ app.use(function(req, res, next) {
   if (req.method.toLowerCase() !== 'get') return next();
   if (path.extname(req.path)) return next();
   if (/\/$/.test(req.path)) return next();
-  res.redirect(req.path + '/');
+  next();
 });
 
 app.use(userController.authorizationCheck);
 app.use('/login', stdUIController('login'));
+app.use(bodyParser.json({limit:1024 * 1024 * 20}));
+app.post('/userLogin', userController.checkLogin);
+app.use('/assets', express.static(__dirname + './../assets'));
 app.use(function(req, res, next) {
   if (process.env.NODE_ENV != 'DEVELOPMENT') {
     if (!req.user) {
@@ -46,11 +51,8 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', stdUIController('home'));
-app.use('/assets', express.static(__dirname + './../assets'));
-app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/checkLogin', userController.cookieCheck);
 app.post('/registerUser', userController.registerUser);
-app.post('/userLogin', userController.checkLogin);
 app.post('/submithosts', matchController.submithosts);
 app.post('/submitvisitors', matchController.submitvisitors);
 app.post('/availability', matchController.availability);

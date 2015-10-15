@@ -1,0 +1,10 @@
+nginx: 
+  build: matchly-nginx
+  links:
+    - matchly:matchly
+  ports:
+    - "80:80"
+matchly:
+  build: matchly-server
+  ports:
+    - "3000"

@@ -5,9 +5,48 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
 
 gulp.task('browserify', compileScripts)
     .task('serve', serve);
+gulp.task('build', function() {
+
+  browserify({
+    entries: ['./client/home/router.jsx'],
+    transform: [babelify], // we want to convert jsx to normal javascript
+    extensions: ['.jsx'],
+    debug: true,
+    cache: {},
+    packagecache: {},
+    fullpaths: true
+  })
+  .bundle()
+  .on('error', function(err) {
+    console.log('error with compiling components', err.message);
+  })
+  .pipe(source('home-bundle.js'))
+  .pipe(buffer())
+  .pipe(uglify())
+  .pipe(gulp.dest('./build/'));
+  browserify({
+    entries: ['./client/login/router.jsx'],
+    transform: [babelify], // we want to convert jsx to normal javascript
+    extensions: ['.jsx'],
+    debug: true,
+    cache: {},
+    packagecache: {},
+    fullpaths: true
+  })
+  .bundle()
+  .on('error', function(err) {
+    console.log('error with compiling components', err.message);
+  })
+  .pipe(source('login-bundle.js'))
+  .pipe(buffer())
+  .pipe(uglify())
+  .pipe(gulp.dest('./build/'));
+});
 
 function compileScripts() {
   scripts('./client/home/router.jsx', 'home-bundle.js');
