@@ -314,8 +314,13 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
 
     success: function(data, textStatus, jqXHR) {
       this.possibleEmployers[alias] = trueName;
+      this.data = this.data.map(function(element) {
+        if (element.Characteristics.Employer === alias) {
+          element.Characteristics.Employer = trueName;
+        }
+        return element
+      });
       this.emit('ready-for-employer-fuzzy', this);
-
       // success callback
     }.bind(this),
 

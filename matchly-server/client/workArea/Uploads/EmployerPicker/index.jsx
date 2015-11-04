@@ -73,7 +73,6 @@ var EmployerPicker = React.createClass({
       </div>
     </div>
     );
-
   }
 });
 
