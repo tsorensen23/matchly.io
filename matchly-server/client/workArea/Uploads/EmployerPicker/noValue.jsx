@@ -68,7 +68,7 @@ var SwitchComponent = React.createClass({
   componentWillMount: function() {
     store.on('clicked', function() {
       var type = store.get();
-      this.setState({default: type});
+      this.setState({text: type});
     }.bind(this));
   },
 
@@ -78,10 +78,9 @@ var SwitchComponent = React.createClass({
 
   switcher: function() {
     store.emit('clicked');
-    this.setState({clicked: true});
-  },
-  componentDidUpdate: function() {
-    React.findDOMNode(this.refs.newName).focus();
+    this.setState({clicked: true}, function(){
+      React.findDOMNode(this.refs.newName).select();
+    });
   },
   addItem: function(e) {
     e.preventDefault();
@@ -105,15 +104,23 @@ var SwitchComponent = React.createClass({
     this.props.onOptionSelected(newEmployer);
   },
   handler: function () {
-    this.setState({default: React.findDOMNode(this.refs.newName).value});
+    this.setState({text: React.findDOMNode(this.refs.newName).value});
   },
   render: function() {
     if(!this.state.clicked) {
-      return <li onClick={this.switcher}>Add a new employer</li>;
+      return <li style={{
+    backgroundColor: "dodgerblue",
+    color: "white",
+    paddingLeft: "80px",
+    borderRadius: "10px",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    cursor: "pointer"
+}} onClick={this.switcher}>Add a new employer</li>;
     }
     return( 
       <form onSubmit={this.addItem}>
-        <input value={this.state.default} onChange={this.handler} ref='newName' type="text" />
+        <input autoFocus value={this.state.text} onChange={this.handler} ref='newName' type="text" />
       </form>
       );
   }

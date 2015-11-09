@@ -12,7 +12,7 @@ var MultipleValueWrapper = React.createClass({
         <b>{this.props.name} : {this.props.person}</b> <br />
           <div className="btn-group">
             <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select a School 
+              Select an Employer 
               <span className="caret"></span>
             </button>
             <ul className="dropdown-menu">
