@@ -10,7 +10,6 @@ router.get('/exception-date', function(req, res, next) {
   var date = new Date(req.query.date).toString();
   var hasException = req.query.onoff === 'false';
   var hostid = req.query.host;
-  console.log('QUERY: ', req.query, date, hasException, hostid);
 
   var updated = {};
 
@@ -85,7 +84,6 @@ router.get('/exception-date', function(req, res, next) {
     function(next) {
       var visitorId = host.MatchInfo.matches.splice(visitor, 1)[0].visitor;
 
-      console.log(visitorId, host._id);
       Visitor.findOneAndUpdate(
         {_id:visitorId},
         {'MatchInfo.matchHost':null},

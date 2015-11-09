@@ -40,7 +40,6 @@ module.exports = {
       },
 
       function(next) {
-        console.log('date: ', date, typeof date, date instanceof Date);
         Visitor.find(
           {'MatchInfo.visitDate': date},
           function(err, data) {
@@ -48,7 +47,6 @@ module.exports = {
             return next(err);
           }
 
-          console.log('visitors: ', data);
 
           VisitorData = data;
           next();

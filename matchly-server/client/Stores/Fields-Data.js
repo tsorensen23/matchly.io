@@ -65,7 +65,6 @@ StatefulFields.prototype.setHeader = function(requiredKey, availableKey) {
   if (this.matched[requiredKey]) {
     this.available.push(this.matched[requiredKey]);
   }
-
   this.matched[requiredKey] = availableKey;
   this.available.splice(this.available.indexOf(availableKey), 1);
 };
@@ -102,7 +101,7 @@ StatefulFields.prototype.confirmHeaders = function() {
         method: 'POST',
         contentType: 'application/json',
         url: '/updateHeaderOrder',
-        data: JSON.stringify(this.matched),
+        data: JSON.stringify(payload),
         success: function(data) {
           next();
         },
@@ -117,8 +116,6 @@ StatefulFields.prototype.confirmHeaders = function() {
       var schoolNames;
 
       delete this.matched.School;
-
-
       $.ajax({
         url: '/checkschools',
         type: 'POST',

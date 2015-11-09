@@ -1,5 +1,4 @@
 var DataParser = {
-
   parseDataHost: function(dataObject) {
     var dataArray = dataObject;
     var modifiedDataArray = [];
