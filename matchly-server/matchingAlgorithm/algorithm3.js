@@ -11,12 +11,12 @@ var Rumble = {
     visitor.MatchInfo.matchHost = host._id;
     host.MatchInfo.matches.push({
       date: visitor.MatchInfo.visitDate,
-      visitor:visitor._id
+      visitor: visitor._id
     });
     return match;
   },
 
-  calculatematchScore:function(visitor, host) {
+  calculatematchScore: function(visitor, host) {
     //if the visitor has not been meoized yet, make their object
     if (!(visitor._id in memoizeMatches)) {
       memoizeMatches[visitor._id] = {};
@@ -42,7 +42,7 @@ var Rumble = {
     return returnObject;
   },
 
-  SectionReport:function(constraintObject, originalCapacity) {
+  SectionReport: function(constraintObject, originalCapacity) {
     //this is not working it is giving incorrect numbers for visitors
     var sections = ['A', 'B', 'C', 'D', 'E'];
     var classVisitorNumbers = [];
@@ -63,7 +63,6 @@ var Rumble = {
     var bestMatch = null;
     for (var j = 0; j < hostArray.length; j++) {
       var curHost = hostArray[j];
-
       var match = this.calculatematchScore(curVisitor, curHost);
       if (!match.isBetterThan(bestMatch)) { // If we already have a best match
         continue;
@@ -90,7 +89,7 @@ var Rumble = {
         throw new Error('length should never get bigger than available spots');
       }
 
-      if (length == curConstraint.availableSpots) {
+      if (length === curConstraint.availableSpots) {
 
         // If we are not bigger than the lowest
         // Its expected to be sorted by score (do a binary insert whenever we are adding)
@@ -128,7 +127,7 @@ var Rumble = {
     for (var i = 1; i < 4; i++) {
       if (totalAvailableSpots[i] < 0) {
         totalAvailableSpots.type = 'total available lecture spots';
-        throw new Error(totalAvailableSpots);
+        throw new Error(JSON.stringify(totalAvailableSpots));
       }
     }
 
@@ -141,11 +140,9 @@ var Rumble = {
       if (host.MatchInfo.matches.some(function(match) {
         return match.date.toString() === date.toString();
       })) {
-
         hostMap[host._id] = host;
         return false;
       }
-
       return true;
     });
 

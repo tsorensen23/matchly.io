@@ -6,6 +6,7 @@ var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv = require('fast-csv');
 var async = require('async');
+var mpath = require('mpath');
 
 module.exports = {
 
@@ -135,6 +136,15 @@ module.exports = {
 
   submitvisitors: function(req, res, next) {
     req.body = req.body.map(function(visitor) {
+      if(visitor.MatchInfo['Class Visit Time'] === '8:00'){
+        visitor.MatchInfo.classVisitNumber = 1;
+      }
+      if(visitor.MatchInfo['Class Visit Time'] === '10:00'){
+        visitor.MatchInfo.classVisitNumber = 2;
+      }
+      if(visitor.MatchInfo['Class Visit Time'] === '11:45'){
+        visitor.MatchInfo.classVisitNumber = 3;
+      }
       visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
       return visitor;
     });
