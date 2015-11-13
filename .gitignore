@@ -1,4 +1,5 @@
 node_modules
+deploy.sh
 .DS_STORE
 build/
 *.log
