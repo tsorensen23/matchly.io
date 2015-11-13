@@ -75,26 +75,13 @@ var DataParser = {
       classVisitTime = classVisitTime.toUpperCase();
 
       // TODO factor this into a helper function
-      if (classVisitTime === '8:00' ||
-        classVisitTime === '8:00 AM' ||
-        classVisitTime === '08:00 AM' ||
-        classVisitTime === '8:00:00 AM' ||
-        classVisitTime === '800' ||
-        classVisitTime === '800 AM') {
+      if (/0?8\:?00.*/.test(classVisitTime)) {
         classVisitNumber = '1';
         classVisitTime = 800;
-      } else if (classVisitTime === '10:00' ||
-        classVisitTime === '10:00 AM' ||
-        classVisitTime === '10:00:00 AM' ||
-        classVisitTime === '1000' ||
-        classVisitTime === '1000 AM') {
+      } else if (/10\:?00.*/.test(classVisitTime)) {
         classVisitTime = 1000;
         classVisitNumber = '2';
-      } else if (classVisitTime === '11:45' ||
-        classVisitTime === '11:45 AM' ||
-        classVisitTime === '11:45:00 AM' ||
-        classVisitTime === '11045' ||
-        classVisitTime === '1145AM') {
+      } else if (/11\:?45.*/.test(classVisitTime)) {
         classVisitNumber = '3';
         classVisitTime = 1145;
       } else {

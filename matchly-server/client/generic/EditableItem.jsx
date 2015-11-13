@@ -30,7 +30,7 @@ module.exports = React.createClass({
     var bgColor = 'inherit';
     var color = 'inherit';
     if(this.props.name === 'MatchInfo.Class Visit Time'){
-      if(!/\d{0,2}\:\d\d.*/.test(mpath.get(this.props.name, this.props.object))){
+      if(!/\d{0,2}\:?\d\d.*/.test(mpath.get(this.props.name, this.props.object))){
         bgColor = '#C0392B';
         color = 'white';
       } 

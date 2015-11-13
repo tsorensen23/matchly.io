@@ -136,18 +136,20 @@ module.exports = {
 
   submitvisitors: function(req, res, next) {
     req.body = req.body.map(function(visitor) {
-      if(visitor.MatchInfo['Class Visit Time'] === '8:00'){
+      if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
         visitor.MatchInfo.classVisitNumber = 1;
-      }
-      if(visitor.MatchInfo['Class Visit Time'] === '10:00'){
+        visitor.MatchInfo['Class Visit Time'] = 800;
+      } else if (/10\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
         visitor.MatchInfo.classVisitNumber = 2;
-      }
-      if(visitor.MatchInfo['Class Visit Time'] === '11:45'){
+        visitor.MatchInfo['Class Visit Time'] = 1000;
+      } else if (/11\:?45.*/.test(visitor.MatchInfo['Class Visit Time'])) {
         visitor.MatchInfo.classVisitNumber = 3;
+        visitor.MatchInfo['Class Visit Time'] = 1145;
       }
       visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
       return visitor;
     });
+    
 
     Visitor.find({}).remove().exec(function(err, data) {
       if (err) {
