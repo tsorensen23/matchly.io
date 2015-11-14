@@ -1,5 +1,4 @@
 import React from 'react';
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 class ImportTableBodyCell extends React.Component{
   constructor(props){
