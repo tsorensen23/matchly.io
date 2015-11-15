@@ -7,6 +7,8 @@ var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
+var webpack = require('webpack');
+var gutil = require('gutil');
 
 gulp.task('browserify', compileScripts)
     .task('serve', serve);
@@ -48,9 +50,14 @@ gulp.task('build', function() {
   .pipe(gulp.dest('./build/'));
 });
 
+var devCompiler = webpack(require('./webpack.config.js'));
 function compileScripts() {
-  scripts('./client/home/router.jsx', 'home-bundle.js');
-  scripts('./client/login/router.jsx', 'login-bundle.js');
+	devCompiler.run(function(err, stats) {
+		if(err) throw new gutil.PluginError("webpack:build", err);
+		gutil.log("[webpack:build]", stats.toString({
+			colors: true
+		}));
+	});
 }
 
 function scripts(input, output) {
