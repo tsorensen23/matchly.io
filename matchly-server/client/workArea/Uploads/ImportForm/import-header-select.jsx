@@ -4,6 +4,7 @@ class ImportHeaderSelect extends React.Component {
   constructor(props){
     super(props);
     this.state = {hitSave: false};
+    this.props.collumnStores[this.props.title].starter = Object.keys(this.props.store.rawData[0])[this.props.index];
   }
   select(e) {
     this.props.store.matched[this.props.title] = {finished: true, userGiven: e.target.value};
@@ -23,9 +24,9 @@ class ImportHeaderSelect extends React.Component {
     return (
         <div>
         <span style={{color: 'tomato'}}>(unmatched column)</span>
-        <select onChange={this.select.bind(this)}>
+        <select defaultValue={Object.keys(this.props.store.rawData[0])[this.props.index]} onChange={this.select.bind(this)}>
           {Object.keys(this.props.store.rawData[0]).map((option, index) =>{
-                return (<option key={index} >{option}</option>);
+                  return (<option key={index} >{option}</option>);
             })}
         </select>
         <button onClick={this.finished.bind(this)} className="btn btn-primary">Save</button>

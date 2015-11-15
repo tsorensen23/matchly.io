@@ -5,9 +5,8 @@ class ImportTableBodyRow extends React.Component{
   render(){
     return (
     <tr>
-    {Object.keys(this.props.store.matched).map((v) => {
+    {Object.keys(this.props.store.matched).map((v, index) => {
       return (<ImportTableBodyCell
-                startKey={'blah'}
                 collumnStore={this.props.collumnStores[v]}
                 visitor={this.props.visitor}
               />);

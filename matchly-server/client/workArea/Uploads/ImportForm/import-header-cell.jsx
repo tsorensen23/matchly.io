@@ -25,6 +25,7 @@ class ImportHeaderCell extends React.Component {
       <ImportHeaderSelect
         collumnStores={this.props.collumnStores}
         localStore={this.localStore}
+        index={this.props.index}
         store={this.props.store}
         title={this.props.title}
       />
