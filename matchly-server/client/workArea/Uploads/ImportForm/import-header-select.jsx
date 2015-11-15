@@ -7,7 +7,7 @@ class ImportHeaderSelect extends React.Component {
     this.props.collumnStores[this.props.title].starter = Object.keys(this.props.store.rawData[0])[this.props.index];
   }
   select(e) {
-    this.props.store.matched[this.props.title] = {finished: true, userGiven: e.target.value};
+    this.props.store.matched[this.props.title] = e.target.value;
     this.props.collumnStores[this.props.title].emit('change-value', e.target.value);
     this.setState({userGiven: e.target.value});
   }
