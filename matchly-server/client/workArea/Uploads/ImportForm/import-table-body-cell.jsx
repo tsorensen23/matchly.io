@@ -15,7 +15,7 @@ class ImportTableBodyCell extends React.Component{
   render() {
     console.log(this.state.key, 'rendering a cell');
     return (
-    <td style={{color: this.state.color}} >{this.props.visitor[this.state.key]}</td>);
+    <td  >{this.props.visitor[this.state.key]}</td>);
   }
 }
 export default ImportTableBodyCell;
