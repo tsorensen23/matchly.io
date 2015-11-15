@@ -7,7 +7,7 @@ var HostStore = require('../../Stores/CrudStore')('hosts');
 
 var exportToCSV = require('../../generic/exportCSV.js');
 
-var HostChooser = require('../DateException/HostChooser');
+var HostChooser = require('../DateException/HostChooser.jsx');
 
 var Match = React.createClass({
   getInitialState: function() {

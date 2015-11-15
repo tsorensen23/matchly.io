@@ -7,6 +7,7 @@ var DoubleCheck = require('./Uploads/DoubleCheck.jsx');
 var Loading = require('./Loading.jsx');
 var FieldsStore = require('../Stores/Fields-Data');
 var EmployerPicker = require('./Uploads/EmployerPicker/index.jsx');
+var ImportForm = require('./Uploads/ImportForm/index.jsx');
 var UploadRouter = React.createClass({
   getInitialState: function() {
     return {
@@ -50,7 +51,7 @@ var UploadRouter = React.createClass({
   render: function() {
     switch (this.state.pageView) {
       case 0: return <Upload Store={FieldsStore}/>;
-      case 1: return <ButtonList store={this.state.store}/>;
+      case 1: return <ImportForm store={this.state.store}/>;
       case 2: return <SchoolPicker
           store={this.state.store}
           possible={this.state.store.possibleSchools}
