@@ -2,6 +2,12 @@ import React from 'react';
 import ImportTableBodyRow from './import-table-body-row.jsx';
 
 class ImportTableBody extends React.Component {
+  componentDidMount() {
+    Object.keys(this.props.collumnStores).forEach(function(key){
+      this.props.collumnStores[key].emit('finished');
+    }.bind(this));
+  }
+
   render(){
     return (
       <tbody>
