@@ -16,6 +16,12 @@ class ImportHeaderSelect extends React.Component {
   }
   finished(e){
     this.props.localStore.emit('finished-header', this.state.userGiven);
+    if (this.props.title === 'Undergrad') {
+      this.props.collumnStores[this.props.title].emit('is-school');
+    }
+    if (this.props.title === 'Employer') {
+      this.props.collumnStores[this.props.title].emit('is-employer');
+    }
     this.setState({hitSave: true});
   }
   reset(e){
@@ -39,7 +45,7 @@ class ImportHeaderSelect extends React.Component {
         <button onClick={this.finished.bind(this)} className="btn btn-primary">Save</button>
     </div>
     );
-    }else {
+    } else {
       return (
       <div>
         <p>{this.props.store.matched[this.props.title]}</p>

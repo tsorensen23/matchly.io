@@ -78,7 +78,7 @@ StatefulFields.prototype.getStaticKeys = function() {
 };
 
 StatefulFields.prototype.confirmHeaders = function() {
-  this.emit('please-wait', this);
+  // this.emit('please-wait', this);
 
   this.data = Categories[this.type].parser(this.rawData, this.matched);
   var individuals = {};
@@ -209,7 +209,7 @@ StatefulFields.prototype.confirmHeaders = function() {
 
   ], function(err) {
     if (err) throw err;
-    this.emit('ready-for-fuzzy', this);
+    this.emit('set-headers');
   }.bind(this));
 
 };

@@ -48,6 +48,7 @@
     "morgan": "^1.6.1",
     "mpath": "^0.2.1",
     "passport": "^0.2.2",
+    "react-modal": "^0.5.0",
     "react-select": "0.6.12"
   }
 }

@@ -15,20 +15,21 @@ class ImportHeaderCell extends React.Component {
     }.bind(this));
   }
   render(){
-    return (<td style={{ border: '3px solid', borderColor: this.state.headerSet ? 'green' : 'tomato'}}>
-      <ImportHeaderTitle
-        collumnStores={this.props.collumnStores}
-        localStore={this.localStore}
-        store={this.props.store}
-        title={this.props.title}
-      />
-      <ImportHeaderSelect
-        collumnStores={this.props.collumnStores}
-        localStore={this.localStore}
-        index={this.props.index}
-        store={this.props.store}
-        title={this.props.title}
-      />
+    return (
+      <td style={{ border: '3px solid', borderColor: this.state.headerSet ? 'green' : 'tomato'}}>
+        <ImportHeaderTitle
+          collumnStores={this.props.collumnStores}
+          localStore={this.localStore}
+          store={this.props.store}
+          title={this.props.title}
+        />
+        <ImportHeaderSelect
+          collumnStores={this.props.collumnStores}
+          localStore={this.localStore}
+          index={this.props.index}
+          store={this.props.store}
+          title={this.props.title}
+        />
       </td>);
   }
 }

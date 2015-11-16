@@ -13,7 +13,6 @@ var AddExceptionDay = React.createClass({
 
   componentWillMount: function() {
     this.hostListener = function(hosts) {
-      console.log(hosts);
       this.setState({hosts:hosts.sort(function(a, b) {
         return a.Contact.Last.localeCompare(b.Contact.Last);
       })});

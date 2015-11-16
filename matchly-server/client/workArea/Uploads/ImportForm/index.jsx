@@ -3,13 +3,21 @@ import ImportHeaderRow from './import-header-row.jsx';
 import ImportRow from './import-row.jsx';
 import ImportTableBody from './import-table-body.jsx';
 import {EventEmitter} from 'events';
+import Modal from 'react-modal';
+import ImportTableBodyModalContent from './import-table-modal-content.jsx';
+
+
 
 class ImportForm extends React.Component{
+  constructor(props) {
+    super(props);
+    this.props.store.on('set-headers', function() {
+    }.bind(this));
+  }
   logger() {
     this.props.store.confirmHeaders();
   }
-  render(){
-    console.log(this.props.store.getStaticKeys());
+  render() {
     var collumnStores = {};
     Object.keys(this.props.store.matched).forEach((k) => {
       collumnStores[k] = new EventEmitter();
@@ -27,9 +35,15 @@ class ImportForm extends React.Component{
               collumnStores={collumnStores}
             />
           </table>
-          <button className="btn btn-success" onClick={this.logger.bind(this)}>Done</button>
+          <button
+            className="btn btn-success"
+            onClick={this.logger.bind(this)}>
+            Done
+          </button>
+          <ImportTableBodyModalContent
+            store={this.props.store}
+          />
         </div>);
   }
 }
 module.exports = ImportForm;
-
