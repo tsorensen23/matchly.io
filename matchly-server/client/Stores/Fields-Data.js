@@ -15,6 +15,7 @@ ee.createStore = function(type, data, fields, school) {
 function StatefulFields(type, data, fields, school) {
   EE.call(this);
   this.type = type;
+  this.setMaxListeners(0);
 
   this.rawData = data;
 

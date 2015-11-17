@@ -24,7 +24,7 @@ class ImportForm extends React.Component{
     var collumnStores = {};
     Object.keys(this.props.store.matched).forEach((k) => {
       collumnStores[k] = new EventEmitter();
-      collumnStores[k].setMaxListeners(this.props.store.rawData.length);
+      collumnStores[k].setMaxListeners(0);
     });
     return (
         <div>

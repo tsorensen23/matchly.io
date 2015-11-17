@@ -8,6 +8,7 @@ class ImportHeaderCell extends React.Component {
     super(props);
     this.state = {headerSet: false};
     this.localStore = new FormStore();
+    this.localStore.setMaxListeners(0);
   }
   componentDidMount(){
     this.localStore.on('finished-header', function(){
