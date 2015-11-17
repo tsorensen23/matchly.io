@@ -252,7 +252,12 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }
     return element;
   });
-
+  this.rawData = this.rawData.map(function(element){
+    if (element[this.matched.Undergrad] === alias){
+      element[this.matched.Undergrad] = trueName;
+    }
+    return element;
+  }.bind(this));
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {
@@ -290,7 +295,6 @@ StatefulFields.prototype.finish = function(statics) {
   });
 };
 StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
-  console.log(this.data);
   var dataArray = this.data;
   var possible = this.possibleEmployers;
   this.emit('please-wait', this);
@@ -335,4 +339,3 @@ StatefulFields.prototype.resetEmployer = function(alias) {
   this.possibleEmployers[alias] = null;
   this.emit('ready-for-employer-fuzzy', this);
 };
-

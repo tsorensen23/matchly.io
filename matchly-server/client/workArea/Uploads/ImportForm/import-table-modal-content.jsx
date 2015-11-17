@@ -43,17 +43,17 @@ class ImportTableBodyModalContent extends React.Component {
   }
   handleFinish(e){
     e.preventDefault();
+
     this.props.store.finishFuzzySchools.bind(this.props.store);
     this.setState({
       modalIsOpen: false
     });
     delete this.props.store.possibleSchools[this.state.passedInfo];
     this.props.store.emit('check-state', this.state.passedInfo);
+    this.props.store.emit('visitor-update', this.props.store.rawData);
   }
-
   handleChange(e){
     this.props.store.doneWithSchool(this.state.passedInfo, e.target.value);
-    console.log(this.props.store);
   }
   render() {
     if (this.state.visible) {

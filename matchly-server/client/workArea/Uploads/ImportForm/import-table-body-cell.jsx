@@ -49,7 +49,6 @@ class ImportTableBodyCell extends React.Component{
     }.bind(this));
 
     this.props.store.on('check-state', function(passedInfo){
-      console.log('emitted', passedInfo);
       if(passedInfo === this.props.visitor[this.state.key]){
         this.setState({backgroundColor: green});
       }
@@ -67,7 +66,6 @@ class ImportTableBodyCell extends React.Component{
     this.props.collumnStore.on('change-value', function(newVal){
       this.setState({key: newVal});
     }.bind(this));
-
   }
   render() {
     return (
