@@ -1,5 +1,9 @@
 import React from 'react';
 
+var green = 'green';
+var red = 'red';
+var yellow = 'yellow';
+
 class ImportTableBodyCell extends React.Component{
   constructor(props){
     super(props);
@@ -10,26 +14,26 @@ class ImportTableBodyCell extends React.Component{
       backgroundColor: 'white'
     };
     this.props.store.on('set-headers', function() {
-      if  (Object.keys(this.props.store.possibleEmployers).indexOf(this.props.visitor[this.state.key]) !== -1) {
+      if(Object.keys(this.props.store.possibleEmployers).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedEmployer = this.props.visitor[this.state.key];
         var value = this.props.store.possibleEmployers[passedEmployer];
         if (typeof value === 'string') {
-          this.setState({backgroundColor: 'green'});
+          this.setState({backgroundColor: green});
         } else if (Array.isArray(value)) {
-          this.setState({backgroundColor: 'yellow'});
+          this.setState({backgroundColor: yellow});
         } else {
-          this.setState({backgroundColor: 'red'});
+          this.setState({backgroundColor: red});
         }
       }
       if (Object.keys(this.props.store.possibleSchools).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedSchool = this.props.visitor[this.state.key];
         var value = this.props.store.possibleSchools[passedSchool];
         if (typeof value === 'string') {
-          this.setState({backgroundColor: 'green'});
+          this.setState({backgroundColor: green});
         } else if (Array.isArray(value)) {
-          this.setState({backgroundColor: 'yellow'});
+          this.setState({backgroundColor: yellow});
         } else {
-          this.setState({backgroundColor: 'red'});
+          this.setState({backgroundColor: red});
         }
       }
     }.bind(this));
@@ -42,6 +46,13 @@ class ImportTableBodyCell extends React.Component{
       this.setState({
         employer : true
       });
+    }.bind(this));
+
+    this.props.store.on('check-state', function(passedInfo){
+      console.log('emitted', passedInfo);
+      if(passedInfo === this.props.visitor[this.state.key]){
+        this.setState({backgroundColor: green});
+      }
     }.bind(this));
   }
   fireModal() {

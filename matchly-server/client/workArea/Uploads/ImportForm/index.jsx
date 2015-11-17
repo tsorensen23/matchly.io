@@ -17,6 +17,9 @@ class ImportForm extends React.Component{
   logger() {
     this.props.store.confirmHeaders();
   }
+  handleshit(){
+    this.props.store.emit('ready-for-confirmation');
+  }
   render() {
     var collumnStores = {};
     Object.keys(this.props.store.matched).forEach((k) => {
@@ -43,6 +46,7 @@ class ImportForm extends React.Component{
           <ImportTableBodyModalContent
             store={this.props.store}
           />
+          <button className="btn btn-danger" onClick={this.handleshit.bind(this)}>Mega button</button>
         </div>);
   }
 }

@@ -21,42 +21,69 @@ class ImportTableBodyModalContent extends React.Component {
       passedInfo : '',
     };
     this.props.store.on('open-modal', function(payload) {
-      <ImportTableBodyModalContent />
       this.setState({
-        passedInfo : payload.visitors,
-        school : payload.school,
-        employer : payload.employer
+        passedInfo: payload.visitors,
+        school: payload.school,
+        employer: payload.employer
       });
       this.openModal();
     }.bind(this));
   }
   openModal() {
     this.setState({
-      modalIsOpen : true,
-      visible : true,
+      modalIsOpen: true,
+      visible: true
     });
   }
   closeModal() {
+    this.props.store.finishFuzzySchools.bind(this.props.store);
     this.setState({
-      modalIsOpen : false
+      modalIsOpen: false
     });
+  }
+  handleFinish(e){
+    e.preventDefault();
+    this.props.store.finishFuzzySchools.bind(this.props.store);
+    this.setState({
+      modalIsOpen: false
+    });
+    delete this.props.store.possibleSchools[this.state.passedInfo];
+    this.props.store.emit('check-state', this.state.passedInfo);
+  }
+
+  handleChange(e){
+    this.props.store.doneWithSchool(this.state.passedInfo, e.target.value);
+    console.log(this.props.store);
   }
   render() {
     if (this.state.visible) {
       if (this.state.school) {
-        return(
+        var selectOrNot;
+        if(Array.isArray(this.props.store.possibleSchools[this.state.passedInfo])){
+          selectOrNot =
+
+              (
+               <form onSubmit={this.handleFinish.bind(this)} >
+                 <select onChange={this.handleChange.bind(this)} placeholder="Please Select an Option">
+                  {
+                    this.props.store.possibleSchools[this.state.passedInfo].map((e) => {
+                      return (<option value={e}>{e}</option>);
+                    })
+                  }
+                </select>
+                <input type="submit" value="Submit" />
+              </form>
+              );
+        } else {
+          selectOrNot = <span>test</span>;
+        }
+        return (
           <div>
             <Modal
               isOpen={this.state.modalIsOpen}
               onRequestClose={this.closeModal.bind(this)}
               style={customStyles}>
-              <select>
-                {
-                  this.props.store.possibleSchools[this.state.passedInfo].map((e) => {
-                    return (<option value={e}>{e}</option>);
-                  })
-                }
-              </select>
+              {selectOrNot}
               <button
                 onClick={this.closeModal.bind(this)}>
                   Save
@@ -66,7 +93,7 @@ class ImportTableBodyModalContent extends React.Component {
         );
       }
       if (this.state.employer) {
-        return(
+        return (
           <div>
             <Modal
               isOpen={this.state.modalIsOpen}
@@ -88,7 +115,7 @@ class ImportTableBodyModalContent extends React.Component {
         );
       }
     } else {
-      return <p></p>
+      return <p>hi</p>;
     }
   }
 }

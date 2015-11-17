@@ -217,7 +217,7 @@ StatefulFields.prototype.confirmHeaders = function() {
 StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
   var dataArray = this.data;
   var possible = this.possibleSchools;
-  this.emit('please-wait', this);
+  // this.emit('please-wait', this);
   if(!alias || !trueName){
     console.error('doneWithSchool called with too few arguments');
     return void 0;
@@ -235,7 +235,7 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
 
     success: function(data, textStatus, jqXHR) {
       possible[alias] = trueName;
-      this.emit('ready-for-fuzzy', this);
+      // this.emit('ready-for-fuzzy', this);
 
       // success callback
     }.bind(this),
@@ -262,7 +262,7 @@ StatefulFields.prototype.resetSchool = function(alias) {
 };
 
 StatefulFields.prototype.finishFuzzySchools = function() {
-  this.emit('ready-for-employer-fuzzy');
+  // this.emit('ready-for-employer-fuzzy');
 };
 
 StatefulFields.prototype.finishFuzzyEmployers = function() {
