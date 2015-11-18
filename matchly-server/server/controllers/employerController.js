@@ -44,7 +44,7 @@ module.exports.getEmployers = function(req, res, next) {
     if(err) return next(err);
     var output = data.map(function(employer) {
       return employer.name;
-    }) 
+    })
     res.json(output);
   });
 };
@@ -65,11 +65,15 @@ module.exports.employerMatch = function(req, res, next) {
         Employer.find({name: req.body.school}, function(err, employer) {
           if(err) return next(err);
           if(employer || employer.length != 0) {
-            if(alias.employerIDs.indexOf(employer[0].id) === -1) {
-              alias.employerIDs.push(employer[0].id);
-              alias.save();
-            } 
-            res.json({alias: alias, employerName: employer.name});
+            try {
+              if(alias.employerIDs.indexOf(employer[0].id) === -1) {
+                alias.employerIDs.push(employer[0].id);
+                alias.save();
+              }
+              res.json({alias: alias, employerName: employer.name});
+            } catch(e) {
+              next(e);
+            }
           } else {
             Employer.find({name: req.body.alias}, function(err, data) {
               if(err) return next(err);
