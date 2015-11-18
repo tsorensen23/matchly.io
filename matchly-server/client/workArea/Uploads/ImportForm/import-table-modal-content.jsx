@@ -64,7 +64,9 @@ class ImportTableBodyModalContent extends React.Component {
 
               (
                <form onSubmit={this.handleFinish.bind(this)} >
-                 <select onChange={this.handleChange.bind(this)} placeholder="Please Select an Option">
+                 <select
+                  onChange={this.handleChange.bind(this)}
+                  placeholder="Please Select an Option"  >
                   {
                     this.props.store.possibleSchools[this.state.passedInfo].map((e) => {
                       return (<option value={e}>{e}</option>);
@@ -106,8 +108,7 @@ class ImportTableBodyModalContent extends React.Component {
                   })
                 }
               </select>
-              <button
-                onClick={this.closeModal.bind(this)}>
+              <button onClick={this.closeModal.bind(this)}>
                   Save
               </button>
             </Modal>

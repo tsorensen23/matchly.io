@@ -8,7 +8,7 @@ class ImportTableBodyCell extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      key: this.props.collumnStore.starter,
+      key: this.props.columnStore.starter,
       school: false,
       employer: false,
       backgroundColor: 'white'
@@ -37,12 +37,12 @@ class ImportTableBodyCell extends React.Component{
         }
       }
     }.bind(this));
-    this.props.collumnStore.on('is-school', function(e) {
+    this.props.columnStore.on('is-school', function(e) {
       this.setState({
         school : true
       });
     }.bind(this));
-    this.props.collumnStore.on('is-employer', function(e) {
+    this.props.columnStore.on('is-employer', function(e) {
       this.setState({
         employer : true
       });
@@ -64,7 +64,7 @@ class ImportTableBodyCell extends React.Component{
     this.props.store.emit('open-modal', payload);
   }
   componentDidMount(){
-    this.props.collumnStore.on('change-value', function(newVal){
+    this.props.columnStore.on('change-value', function(newVal){
       this.setState({key: newVal});
     }.bind(this));
 

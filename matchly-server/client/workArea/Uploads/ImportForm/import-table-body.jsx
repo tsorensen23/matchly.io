@@ -3,8 +3,8 @@ import ImportTableBodyRow from './import-table-body-row.jsx';
 
 class ImportTableBody extends React.Component {
   componentDidMount() {
-    Object.keys(this.props.collumnStores).forEach(function(key){
-      this.props.collumnStores[key].emit('finished');
+    Object.keys(this.props.columnStores).forEach(function(key){
+      this.props.columnStores[key].emit('finished');
     }.bind(this));
   }
 
@@ -13,7 +13,7 @@ class ImportTableBody extends React.Component {
       <tbody>
       {this.props.store.rawData.map((visitor) => {
         return (<ImportTableBodyRow
-                collumnStores={this.props.collumnStores}
+                columnStores={this.props.columnStores}
                 store={this.props.store}
                 visitor={visitor}
                />

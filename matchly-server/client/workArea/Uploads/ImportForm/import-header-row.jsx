@@ -2,7 +2,7 @@ import React from 'react';
 import FormStore from './FormStore.js';
 import ImportHeaderCell from './import-header-cell.jsx';
 
-class ImportHeaderRow extends React.Component{
+class ImportHeader extends React.Component{
   constructor(props){
     super(props);
     this.state = { headerSet: false};
@@ -14,7 +14,7 @@ class ImportHeaderRow extends React.Component{
             {Object.keys(this.props.store.matched).map((key , index) =>{
               return (<ImportHeaderCell
                         key={key}
-                        collumnStores={this.props.collumnStores}
+                        columnStores={this.props.columnStores}
                         store={this.props.store}
                         title={key}
                         index={index}
@@ -25,4 +25,4 @@ class ImportHeaderRow extends React.Component{
         );
   }
 }
-export default ImportHeaderRow;
+export default ImportHeader;

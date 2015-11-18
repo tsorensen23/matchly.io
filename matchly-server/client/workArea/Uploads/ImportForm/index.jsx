@@ -1,5 +1,5 @@
 var React = require('react');
-import ImportHeaderRow from './import-header-row.jsx';
+import ImportHeader from './import-header-row.jsx';
 import ImportRow from './import-row.jsx';
 import ImportTableBody from './import-table-body.jsx';
 import {EventEmitter} from 'events';
@@ -21,21 +21,21 @@ class ImportForm extends React.Component{
     this.props.store.emit('ready-for-confirmation');
   }
   render() {
-    var collumnStores = {};
+    var columnStores = {};
     Object.keys(this.props.store.matched).forEach((k) => {
-      collumnStores[k] = new EventEmitter();
-      collumnStores[k].setMaxListeners(0);
+      columnStores[k] = new EventEmitter();
+      columnStores[k].setMaxListeners(0);
     });
     return (
         <div>
           <table>
-            <ImportHeaderRow
+            <ImportHeader
               store={this.props.store}
-              collumnStores={collumnStores}
+              columnStores={columnStores}
             />
             <ImportTableBody
               store={this.props.store}
-              collumnStores={collumnStores}
+              columnStores={columnStores}
             />
           </table>
           <button
