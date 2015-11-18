@@ -15,7 +15,7 @@ class ImportTableBodyCell extends React.Component{
       backgroundColor: 'white'
     };
     this.props.store.on('set-headers', function() {
-var value;
+      var value;
       if(Object.keys(this.props.store.possibleEmployers).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedEmployer = this.props.visitor[this.state.key];
         value = this.props.store.possibleEmployers[passedEmployer];
@@ -38,9 +38,9 @@ var value;
         if (Array.isArray(value)) {
           this.setState({backgroundColor: yellow});
         }
-       if (typeof value === 'string') {
-         this.setState({backgroundColor: green});
-         }      
+        if (typeof value === 'string') {
+          this.setState({backgroundColor: green});
+        }
       }
       var values = Object.keys(this.props.store.possibleEmployers).map(function(key){
         return this.props.store.possibleEmployers[key];
@@ -65,12 +65,14 @@ var value;
     }.bind(this));
   }
   fireModal() {
+    if(this.state.school || this.state.employer){
     var payload = {
       visitors : this.props.visitor[this.state.key],
       school : this.state.school,
       employer : this.state.employer,
     };
     this.props.store.emit('open-modal', this);
+    }
   }
   componentDidMount(){
     this.props.collumnStore.on('change-value', function(newVal){
