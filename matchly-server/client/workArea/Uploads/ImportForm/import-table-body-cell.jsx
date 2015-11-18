@@ -14,26 +14,29 @@ class ImportTableBodyCell extends React.Component{
       backgroundColor: 'white'
     };
     this.props.store.on('set-headers', function() {
+      console.log(this.props.store.possibleEmployers);
       if(Object.keys(this.props.store.possibleEmployers).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedEmployer = this.props.visitor[this.state.key];
         var value = this.props.store.possibleEmployers[passedEmployer];
-        if (typeof value === 'string') {
-          this.setState({backgroundColor: green});
-        } else if (Array.isArray(value)) {
-          this.setState({backgroundColor: yellow});
-        } else {
-          this.setState({backgroundColor: red});
-        }
+         if(Array.isArray(value)) {
+           this.setState({backgroundColor: yellow});
+         }
+         if(value === null) {
+           this.setState({backgroundColor: red});
+         } else {
+           this.setState({backgroundColor: green});
+         }
       }
       if (Object.keys(this.props.store.possibleSchools).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedSchool = this.props.visitor[this.state.key];
         var value = this.props.store.possibleSchools[passedSchool];
-        if (typeof value === 'string') {
-          this.setState({backgroundColor: green});
-        } else if (Array.isArray(value)) {
+        if (Array.isArray(value)) {
           this.setState({backgroundColor: yellow});
-        } else {
+        }
+        if (value === null) {
           this.setState({backgroundColor: red});
+        } else {
+          this.setState({backgroundColor: green});
         }
       }
     }.bind(this));
@@ -47,10 +50,33 @@ class ImportTableBodyCell extends React.Component{
         employer : true
       });
     }.bind(this));
-
-    this.props.store.on('check-state', function(passedInfo){
-      if(passedInfo === this.props.visitor[this.state.key]){
-        this.setState({backgroundColor: green});
+    this.props.store.on('visitor-update', function() {
+      if(Object.keys(this.props.store.possibleEmployers).indexOf(this.props.visitor[this.state.key]) !== -1) {
+        var passedEmployer = this.props.visitor[this.state.key];
+        var value = this.props.store.possibleEmployers[passedEmployer];
+         if(Array.isArray(value)) {
+           this.setState({backgroundColor: yellow});
+         }
+         if(value === null) {
+           console.log(this.props.store.possibleEmployers)
+           console.log(value);
+           console.log(passedEmployer);
+           this.setState({backgroundColor: red});
+         } else {
+           this.setState({backgroundColor: green});
+         }
+      }
+      if (Object.keys(this.props.store.possibleSchools).indexOf(this.props.visitor[this.state.key]) !== -1) {
+        var passedSchool = this.props.visitor[this.state.key];
+        var value = this.props.store.possibleSchools[passedSchool];
+        if (Array.isArray(value)) {
+          this.setState({backgroundColor: yellow});
+        }
+        if (value === null) {
+          this.setState({backgroundColor: red});
+        } else {
+          this.setState({backgroundColor: green});
+        }
       }
     }.bind(this));
   }
@@ -60,7 +86,7 @@ class ImportTableBodyCell extends React.Component{
       school : this.state.school,
       employer : this.state.employer,
     };
-    this.props.store.emit('open-modal', payload);
+    this.props.store.emit('open-modal', this);
   }
   componentDidMount(){
     this.props.collumnStore.on('change-value', function(newVal){

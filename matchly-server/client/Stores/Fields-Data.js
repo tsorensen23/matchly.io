@@ -258,6 +258,7 @@ StatefulFields.prototype.doneWithSchool = function(alias, trueName) {
     }
     return element;
   }.bind(this));
+  this.possibleSchools[alias] = trueName;
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {
@@ -294,12 +295,12 @@ StatefulFields.prototype.finish = function(statics) {
     }.bind(this)
   });
 };
+
+
 StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
-  var dataArray = this.data;
   var possible = this.possibleEmployers;
-  this.emit('please-wait', this);
   if(!alias || !trueName){
-    console.error('doneWithSchool called with too few arguments');
+    console.error('doneWithEmployer called with too few arguments');
     return void 0;
   }
 
@@ -311,8 +312,6 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
     data: JSON.stringify({ alias: alias, school: trueName}),
     success: function(data, textStatus, jqXHR) {
       possible[alias] = trueName;
-      this.emit('ready-for-employer-fuzzy', this);
-      // success callback
     }.bind(this),
 
     error: function(jqXHR, textStatus, errorThrown) {
@@ -321,13 +320,20 @@ StatefulFields.prototype.doneWithEmployer = function(alias, trueName) {
       // error callback
     }
   });
-
-  this.data = dataArray.map(function(element) {
+  this.data = this.data.map(function(element) {
     if (element.Characteristics.Employer === alias) {
       element.Characteristics.Employer = trueName;
     }
     return element;
   });
+
+  this.rawData = this.rawData.map(function(element){
+    if (element[this.matched.Employer] === alias){
+      element[this.matched.Employer] = trueName;
+    }
+    return element;
+  }.bind(this));
+  this.possibleEmployers[alias] = trueName;
 };
 
 StatefulFields.prototype.resetSchool = function(alias) {
