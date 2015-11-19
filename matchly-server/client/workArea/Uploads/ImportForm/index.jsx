@@ -28,7 +28,7 @@ class ImportForm extends React.Component{
     });
     return (
         <div>
-          <table>
+          <table className="table table-condensed">
             <ImportHeader
               store={this.props.store}
               columnStores={columnStores}

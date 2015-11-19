@@ -81,7 +81,7 @@ class ImportTableBodyCell extends React.Component{
   }
   render() {
     return (
-    <td style={{backgroundColor: this.state.backgroundColor}} onClick={this.fireModal.bind(this)}>
+    <td style={{backgroundColor: this.state.backgroundColor, textAlign: 'center'}} onClick={this.fireModal.bind(this)}>
       {this.props.visitor[this.state.key]}
     </td>
     );

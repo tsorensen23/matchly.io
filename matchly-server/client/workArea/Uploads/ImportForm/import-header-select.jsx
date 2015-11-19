@@ -35,15 +35,15 @@ class ImportHeaderSelect extends React.Component {
   render() {
     if(!this.state.hitSave){
     return (
-        <div>
+      <p>
         <span style={{color: 'tomato'}}>(unmatched column)</span>
-        <select defaultValue={this.props.store.matched[this.props.title]} onChange={this.select.bind(this)}>
+        <select style={{width: '75'}} defaultValue={this.props.store.matched[this.props.title]} onChange={this.select.bind(this)}>
           {Object.keys(this.props.store.rawData[0]).map((option, index) =>{
                   return (<option key={index} >{option}</option>);
             })}
         </select>
-        <button onClick={this.finished.bind(this)} className="btn btn-primary">Save</button>
-    </div>
+        <button onClick={this.finished.bind(this)} className="btn-small btn-primary">Save</button>
+    </p>
     );
     } else {
       return (
