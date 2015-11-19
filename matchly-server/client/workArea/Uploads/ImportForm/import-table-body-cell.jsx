@@ -27,7 +27,7 @@ class ImportTableBodyCell extends React.Component{
          }
          if( typeof value === 'string') {
            this.setState({backgroundColor: green});
-         }      
+         }
       }
       if (Object.keys(this.props.store.possibleSchools).indexOf(this.props.visitor[this.state.key]) !== -1) {
         var passedSchool = this.props.visitor[this.state.key];
@@ -81,7 +81,7 @@ class ImportTableBodyCell extends React.Component{
   }
   render() {
     return (
-    <td style={{backgroundColor: this.state.backgroundColor, textAlign: 'center'}} onClick={this.fireModal.bind(this)}>
+    <td style={{backgroundColor: this.state.backgroundColor, border: '1px solid #ccc', verticalAlign: 'middle'}} onClick={this.fireModal.bind(this)}>
       {this.props.visitor[this.state.key]}
     </td>
     );

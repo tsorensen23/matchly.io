@@ -36,7 +36,7 @@ class ImportHeaderSelect extends React.Component {
     if(!this.state.hitSave){
     return (
       <p>
-        <span style={{color: 'tomato'}}>(unmatched column)</span>
+        <span style={{color: 'tomato'}}>(Please Match)</span>
         <select style={{width: '75'}} defaultValue={this.props.store.matched[this.props.title]} onChange={this.select.bind(this)}>
           {Object.keys(this.props.store.rawData[0]).map((option, index) =>{
                   return (<option key={index} >{option}</option>);
