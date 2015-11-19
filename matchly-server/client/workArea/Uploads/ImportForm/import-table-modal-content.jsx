@@ -123,7 +123,7 @@ class ImportTableBodyModalContent extends React.Component {
 	        );
       }
     } else {
-      return <p>hi</p>;
+      return <p style={{display: 'none'}}>hi</p>;
     }
   }
 }

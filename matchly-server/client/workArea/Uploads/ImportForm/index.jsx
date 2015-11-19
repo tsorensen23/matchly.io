@@ -38,15 +38,18 @@ class ImportForm extends React.Component{
               columnStores={columnStores}
             />
           </table>
-          <button
-            className="btn btn-success"
-            onClick={this.logger.bind(this)}>
-            Done
-          </button>
+          <p className="text-center">
+            <button
+              style={{marginRight: '10px'}}
+              className="btn btn-success btn-lg"
+              onClick={this.logger.bind(this)}>
+              Done
+            </button>
+            <button className="btn btn-danger btn-lg" onClick={this.handleshit.bind(this)}>Mega button</button>
+          </p>
           <ImportTableBodyModalContent
             store={this.props.store}
           />
-          <button className="btn btn-danger" onClick={this.handleshit.bind(this)}>Mega button</button>
         </div>);
   }
 }
