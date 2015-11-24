@@ -170,14 +170,13 @@ module.exports = {
   },
 
   getHeaderData: function(req, res) {
-    headers.findOne({ School: req.body.School}, { __v: 0, _id: 0 }, function(err, data) {
+    var start = new Date();
+    headers.findOne({ School: req.body.School}, { __v: 0, _id: 0, School: 0 }, function(err, data) {
       if (err) {
         return res.send(err);
       }
 
       if (data) {
-        delete data._id;
-        delete data.__v;
         return res.json(data);
       }
 

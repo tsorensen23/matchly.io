@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import mpath from 'mpath';
 
 export function startUpload(){
   return { type: 'START_UPLOAD' };
@@ -20,8 +21,25 @@ export function initialParse(rawCSV){
 }
 
 export function finish(){
+  return function(dispatch, getState) {
+    var data = getState().data;
+    var headers = getState().headers;
+    var givenArray = mpath.get('given', headers.data);
+    var neededArray = mpath.get('needed', headers.data)
+    data.forEach(function(dataPoint) {
+      let index = givenArray.indexOf(dataPoint.key)
+      if(index > -1 ) {
+        dispatch(changeKey(headers.data[index].given, headers.data[index].needed));
+        dispatch(changeHeader(headers.data[index].given, headers.data[index].needed));
+      }
+    });
+    dispatch(finishChangingKeys());
+  }
+}
+export function finishChangingKeys() {
   return { type: 'FINISH_HEADER_MATCH' };
 }
+
 export function getHeadersError(error) {
   return { type: 'GET_HEADERS_ERROR', error };
 }
@@ -55,6 +73,9 @@ export function fetchHeaders() {
       dispatch(getHeadersError(err))
     );
   };
+}
+export function updateHeadersError(err) {
+  return { type: 'UPDATE_HEADER_ERROR', err};
 }
 export function updateHeaderOrder(){
   return function(dispatch, getState) {

@@ -47,15 +47,19 @@ function headers(state = initialHeaderState, action){
   switch(action.type) {
     case 'CHANGE_HEADER':
       var index = state.data.map(e => e.needed).indexOf(action.needed);
-      return Object.assign({}, state, {
-        data: [
-        ...state.data.slice(0, index),
-        Object.assign({}, state.data[index], {
-          given: action.given
-        }),
-        ...state.data.slice(index + 1)
-      ]
-      });
+      if(index != -1){
+        return Object.assign({}, state, {
+          data: [
+          ...state.data.slice(0, index),
+          Object.assign({}, state.data[index], {
+            given: action.given
+          }),
+          ...state.data.slice(index + 1)
+        ]
+        });
+      } else {
+        return state;
+      }
     case 'SET_HEADERS':
       return Object.assign({}, state, {
         data: state.data.map(function(header, i){
@@ -77,15 +81,22 @@ function headers(state = initialHeaderState, action){
         return Object.assign({}, state, {
           isFetching: false
         });
-
+    case 'UPDATE_HEADER_ERROR':
+        console.error(action.err);
+        return Object.assign({}, state, {
+          isFetching: false
+        });
     default:
       return state;
   }
 }
-function data(state = [{ key: 'Mstatus', data: []}], action){
+function data(state = [], action){
   switch(action.type) {
     case 'CHANGE_KEY':
-      var index = state.map(e => e.key).indexOf(action.oldKey);
+      var currentKeys = state.map(e =>
+          e.key
+          );
+      var index = currentKeys.indexOf(action.oldKey);
       return [
         ...state.slice(0, index),
         Object.assign({}, state[index], {
@@ -120,7 +131,9 @@ function wholeState(state = {}, action) {
       for(var ii = 0; ii < dataArray.length; ii++) {
         console.log(dataArray[ii].data.length);
        for(var iii = 0; iii < dataArray[ii].data.length; iii++) {
-       newDataArray[iii][dataArray[ii].key] = dataArray[ii].data[iii];
+         if(dataArray[ii].data[iii].length > 0) {
+           newDataArray[iii][dataArray[ii].key] = dataArray[ii].data[iii];
+         }
        }
       }
       return Object.assign({}, state, {

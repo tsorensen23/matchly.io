@@ -6,11 +6,11 @@ class DataTableRow extends React.Component {
     const { visitor } = this.props;
     return (
         <tr>
-          {Object.keys(visitor).map( key =>
+          {Object.keys(visitor).map(function(key) {
               if(visitor[key]){
               (<DataCell data={visitor[key]} />)
               }
-          )}
+                                                  })}
           </tr>
         );
 

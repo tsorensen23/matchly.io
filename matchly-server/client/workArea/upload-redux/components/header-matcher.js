@@ -12,7 +12,6 @@ export default class HeaderMatcher extends React.Component {
           key={index}
           visitors={this.props.visitors.filter(e => e.key === header.given)}
           changeHeader={this.props.changeHeader}
-          changeKey={this.props.changeKey}
         />)
       )}
     </div>

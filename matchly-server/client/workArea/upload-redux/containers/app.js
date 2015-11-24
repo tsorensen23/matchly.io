@@ -17,9 +17,6 @@ class App extends React.Component{
     var options = data.map(e =>
         e.key
         );
-    headers.data.forEach(function(e) {
-      options.push(e.given);
-    });
     options = _.uniq(options);
     var finishHTML;
     if(Array.isArray(this.props.finished)) {
@@ -39,9 +36,6 @@ class App extends React.Component{
             changeHeader={function(needed, given) {
               dispatch(changeHeader(needed, given));
             }}
-            changeKey={function(needed, given) {
-              dispatch(changeKey(needed, given));
-            }}
             options={options}
             visitors={data}
             />
@@ -54,10 +48,6 @@ class App extends React.Component{
           </button>
           <h1>This is the finished shit</h1>
           {finishHTML}
-
-            <button onClick={function() {
-              dispatch(fetchHeaders());
-            }}> CLICK THIS BUTTON</button>
         </div>
         );
   }
