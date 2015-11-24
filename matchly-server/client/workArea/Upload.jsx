@@ -8,6 +8,7 @@ var Loading = require('./Loading.jsx');
 var FieldsStore = require('../Stores/Fields-Data');
 var EmployerPicker = require('./Uploads/EmployerPicker/index.jsx');
 var ImportForm = require('./Uploads/ImportForm/index.jsx');
+import UploadRedux from './upload-redux/index';
 var UploadRouter = React.createClass({
   getInitialState: function() {
     return {
@@ -49,24 +50,7 @@ var UploadRouter = React.createClass({
   },
 
   render: function() {
-    switch (this.state.pageView) {
-      case 0: return <Upload Store={FieldsStore}/>;
-      case 1: return <ImportForm store={this.state.store}/>;
-      case 2: return <SchoolPicker
-          store={this.state.store}
-          possible={this.state.store.possibleSchools}
-          individuals={this.state.store.individuals}
-          possibleHandler={this.state.store.doneWithSchool.bind(this.state.store)}
-        />;
-      case 3: 
-        return <EmployerPicker
-              store={this.state.store}
-              possible={this.state.store.possibleEmployers}
-              individuals={this.state.store.individualsEmployers}
-              possibleHandler={this.state.store.doneWithEmployer.bind(this.state.store)} />;
-      case 4: return <DoubleCheck store={this.state.store} />;
-      default: return <Loading />;
-    };
+    return <UploadRedux />
   }
 });
 

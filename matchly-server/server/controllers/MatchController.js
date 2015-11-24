@@ -169,14 +169,16 @@ module.exports = {
     // res.sendStatus(200);
   },
 
-  getHeaderData:function(req, res) {
-    headers.findOne({School:req.body.School}, function(err, data) {
+  getHeaderData: function(req, res) {
+    headers.findOne({ School: req.body.School}, { __v: 0, _id: 0 }, function(err, data) {
       if (err) {
         return res.send(err);
       }
 
       if (data) {
-        return res.send(data);
+        delete data._id;
+        delete data.__v;
+        return res.json(data);
       }
 
       var headersModel = {
@@ -196,7 +198,7 @@ module.exports = {
           return res.send(err);
         }
 
-        res.send(data);
+        res.json(data);
       });
     });
   },
