@@ -7,7 +7,9 @@ class DataTableRow extends React.Component {
     return (
         <tr>
           {Object.keys(visitor).map( key =>
+              if(visitor[key]){
               (<DataCell data={visitor[key]} />)
+              }
           )}
           </tr>
         );

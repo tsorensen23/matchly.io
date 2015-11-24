@@ -111,15 +111,14 @@ function data(state = [{ key: 'Mstatus', data: []}], action){
 function wholeState(state = {}, action) {
   switch(action.type) {
     case 'FINISH_HEADER_MATCH':
-      var given = state.headers.data.map(function(obj) { return obj.given; });
       var dataArray = state.data;
       var newDataArray = [];
       for (var i = 0; i < dataArray[0].data.length; i++) {
-       var dataObject = {};
-      // dataObject[dataArray[0].key]=dataArray[0].data[i];
-       newDataArray.push(dataObject);
+         var dataObject = {};
+         newDataArray.push(dataObject);
       }
-      for(var ii = 0; ii < newDataArray.length; ii++) {
+      for(var ii = 0; ii < dataArray.length; ii++) {
+        console.log(dataArray[ii].data.length);
        for(var iii = 0; iii < dataArray[ii].data.length; iii++) {
        newDataArray[iii][dataArray[ii].key] = dataArray[ii].data[iii];
        }
