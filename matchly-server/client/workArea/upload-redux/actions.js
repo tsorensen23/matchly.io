@@ -19,6 +19,9 @@ export function parseData(rawCSV){
 export function initialParse(rawCSV){
   dispatch => dispatch(parseData(rawCSV))
 }
+export function removeDataPoint(key){
+  return { type: 'REMOVE_DATA_KEY', key}
+}
 
 export function finish(){
   return function(dispatch, getState) {
@@ -31,7 +34,9 @@ export function finish(){
       if(index > -1 ) {
         dispatch(changeKey(headers.data[index].given, headers.data[index].needed));
         dispatch(changeHeader(headers.data[index].given, headers.data[index].needed));
-      }
+      } else {
+        dispatch(removeDataPoint(dataPoint.key));
+            }
     });
     dispatch(finishChangingKeys());
   }

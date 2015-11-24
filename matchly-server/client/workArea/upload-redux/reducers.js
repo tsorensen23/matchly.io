@@ -114,6 +114,12 @@ function data(state = [], action){
         });
       });
       return initialObj;
+    case 'REMOVE_DATA_KEY': 
+      var index = state.map(e => e.key).indexOf(action.key);
+      return state.filter(e =>
+                  e.key != action.key
+                  )
+
     default:
       return state;
   }
