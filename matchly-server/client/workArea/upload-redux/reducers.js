@@ -46,7 +46,7 @@ var initialHeaderState = {
 function headers(state = initialHeaderState, action){
   switch(action.type) {
     case 'CHANGE_HEADER':
-      var index = state.data.map(e => e.needed).indexOf(action.needed);
+      const index = state.data.map(e => e.needed).indexOf(action.needed);
       if(index != -1){
         return Object.assign({}, state, {
           data: [
