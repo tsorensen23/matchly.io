@@ -27,6 +27,7 @@
     "react-progress-button": "^1.1.0",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc1",
+    "react-select": "^0.6.12",
     "react-style": "^0.5.5",
     "react-typeahead": "1.1.3",
     "reactify": "^1.1.1",

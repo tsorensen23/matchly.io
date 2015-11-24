@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ReadableFile from '../components/readable-file';
-import { startUpload, changeHeader, changeKey, parseData,  setHeaders, finish, fetchHeaders, updateHeaderOrder } from '../actions';
+import { startUpload, getEmployers, changeHeader, changeKey, parseData, getSchools,  setHeaders, finish, fetchHeaders, updateHeaderOrder, changeValue } from '../actions';
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
@@ -13,17 +13,30 @@ class App extends React.Component{
     this.props.dispatch(fetchHeaders());
   }
   render(){
-    const { dispatch, headers, data, upload, finished } = this.props;
+    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches } = this.props;
     var options = data.map(e =>
         e.key
         );
     options = _.uniq(options);
     var finishHTML;
-    if(Array.isArray(this.props.finished)) {
-      finishHTML = (
-          <DataTable finished={this.props.finished} />
+    if(this.props.finished.length > 0) {
+      return (
+          <DataTable
+            getEmployers={() => {
+              dispatch(getEmployers());
+            }}
+            getSchools={ () => {
+              dispatch(getSchools());
+            }}
+            employerMatches={employerMatches}
+            schoolMatches={schoolMatches}
+            finished={this.props.finished}
+            changeValue={(key, oldValue, newValue) => {
+              dispatch(changeValue(key, oldValue, newValue));
+            }}
+          />
           );
-    }
+    } else {
     return (
         <div>
           <FileUpload
@@ -38,18 +51,18 @@ class App extends React.Component{
             }}
             options={options}
             visitors={data}
-            />
+          />
             <button
               onClick={function() {
                 dispatch(updateHeaderOrder());
               }}
             >
               Finish
-          </button>
+            </button>
           <h1>This is the finished shit</h1>
-          {finishHTML}
         </div>
         );
+    }
   }
 }
 

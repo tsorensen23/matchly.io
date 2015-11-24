@@ -86,6 +86,16 @@ function headers(state = initialHeaderState, action){
         return Object.assign({}, state, {
           isFetching: false
         });
+    case 'SET_HEADERSGIVEN_TO_NEEDED':
+        console.log('made it here');
+        return Object.assign({}, state, {
+          data: data.map(function(dp){
+            dp.given = dp.needed;
+            return dp;
+            console.log(dp);
+          })
+        });
+
     default:
       return state;
   }
@@ -114,12 +124,11 @@ function data(state = [], action){
         });
       });
       return initialObj;
-    case 'REMOVE_DATA_KEY': 
+    case 'REMOVE_DATA_KEY':
       var index = state.map(e => e.key).indexOf(action.key);
       return state.filter(e =>
                   e.key != action.key
-                  )
-
+                  );
     default:
       return state;
   }
@@ -144,17 +153,88 @@ function wholeState(state = {}, action) {
       }
       return Object.assign({}, state, {
         finished: newDataArray
+      });
+    default:
+      return state;
+  }
+}
+export default function employerMatches(state = {
+  isFetching: false,
+  lastUpdated: void 0,
+  data: []
+}, action) {
+  switch(action.type) {
+    case 'REQUEST_EMPLOYER_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_EMPLOYER_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: false,
+        lastUpdated: Date.now(),
+        data: action.data
+      });
+    case 'EMPLOYER_MATCH_REQUEST_FAIL':
+      console.error(action.error);
+      return Object.assign({}, state, {
+        isFetching: false
+      });
+    default:
+      return state;
+  }
+}
+export default function schoolMatches(state = {
+  isFetching: false,
+  lastUpdated: void 0,
+  data: []
+}, action) {
+  switch(action.type) {
+    case 'REQUEST_SCHOOL_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_SCHOOL_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: false,
+        lastUpdated: Date.now(),
+        data: action.data
+      })
+    case 'SCHOOL_MATCH_REQUEST_FAIL': 
+      console.error(action.error);
+      return Object.assign({}, state, {
+        isFetching: false
       })
     default:
       return state;
   }
 }
+export default function finished(state = [], action){
+  switch(action.type) {
+    case 'CHANGE_VALUE':
+      var key = action.key;
+      var oldValue = action.oldValue;
+      var newValue = action.newValue;
+      return state.map(function(visitor) {
+        if(visitor[key] == oldValue){
+          var obj = {};
+          obj[key] = newValue;
+          return Object.assign({}, visitor, obj); 
+        }
+        return visitor;
+      })
+    default:
+      return state;
+  }
+}
+
 export default function(state = {}, action = {}) {
   state = wholeState(state, action);
   return {
     upload: upload(state.upload, action),
+    schoolMatches: schoolMatches(state.schoolMatches, action),
+    employerMatches: employerMatches(state.employerMatches, action),
     headers: headers(state.headers, action),
     data: data(state.data, action),
-    finished: state.finished
+    finished: finished(state.finished, action)
   };
 }
