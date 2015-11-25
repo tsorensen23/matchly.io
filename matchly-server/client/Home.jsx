@@ -16,6 +16,7 @@ var Home = React.createClass({
                       <li><Link to='/match'>MATCH</Link></li>
                       <li><Link to='/available'>AVAILABLE</Link></li>
                       <li><Link to='/upload'>UPLOAD</Link></li>
+                      <li><Link to='/calendar'>Calendar</Link></li>
                     </ul>
                   </div>
                 </div>
