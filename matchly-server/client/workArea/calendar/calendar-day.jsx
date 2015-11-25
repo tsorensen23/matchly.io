@@ -1,20 +1,23 @@
 var React = require('react');
+var Link = require('react-router').Link;
 
 var CalendarDay = React.createClass({
-  getInitialState: function() {
-    return {day: 1}
-  },
-  add: function() {
-    this.setState({
-      day: 2
-    });
-  },
+
   render:function() {
-    return (
-      <div onClick={this.add}>
-        {this.state.day}
-      </div>
-    );
+    console.log(this.props);
+    if (this.props.uploaded || this.props.matched) {
+      return (
+        <Link to='/upload'>
+          {this.props.date}
+        </Link>
+      );
+    } else {
+      return (
+        <div>
+            {this.props.date}
+        </div>
+      );
+    }
   }
 });
 
