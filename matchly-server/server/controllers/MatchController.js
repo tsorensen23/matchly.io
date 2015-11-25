@@ -5,6 +5,10 @@ var Availability = db.Availability;
 var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv = require('fast-csv');
+var School = db.School;
+var Alias = db.Alias;
+var Employer = db.Employer;
+var EmployerAlias = db.EmployerAlias;
 var async = require('async');
 var mpath = require('mpath');
 
@@ -118,24 +122,30 @@ module.exports = {
   },
 
   submithosts: function(req, res, next) {
-    //made this a batch upload, have not tested it...
-    Host.find({}).remove().exec(function(err, data) {
-      if (err) {
-        return next(err);
-      }
-
-      Host.create(req.body, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
-
-        res.send(data);
-      });
-    });
-  },
-
-  submitvisitors: function(req, res, next) {
-    req.body = req.body.map(function(visitor) {
+    req.body = req.body.map(function(visitor){
+      var newVis = {};
+      newVis.Characteristics = {
+        Military: visitor.Military,
+        Country: visitor.Country,
+        Citizenship: visitor.Citizenship,
+        Undergrad: visitor.Undergrad,
+        Employer: visitor.Employer,
+        Industry: visitor.Industry,
+        City: visitor.City,
+        State: visitor.State,
+        Gender: visitor.Gender
+      };
+      newVis.Contact = {
+        First: visitor.First,
+        Last: visitor.Last,
+      };
+      newVis.MatchInfo = {
+        'Class Visit Time': visitor['Class Visit Time'],
+        visitDate: visitor.visitDate
+      };
+      return newVis;
+    })
+    var visitors = req.body.map(function(visitor) {
       if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
         visitor.MatchInfo.classVisitNumber = 1;
         visitor.MatchInfo['Class Visit Time'] = 800;
@@ -149,26 +159,146 @@ module.exports = {
       visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
       return visitor;
     });
-    
+    async.map(visitors, function(visitor, done){
+      async.waterfall([
+          function(cb){
 
-    Visitor.find({}).remove().exec(function(err, data) {
-      if (err) {
-        return res.send(err);
-      }
-
-      Visitor.create(req.body, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
-
-        res.send(data);
+        var employer = visitor.Characteristics.Employer;
+        Employer.find({name: employer}, function(err, data) {
+          if(err) return cb(err);
+            if(data.length > 0) {
+              return cb(null, visitor);
+            }
+            EmployerAlias.find({value: employer}, function(err, data){
+              if(err) return cb(err)
+                if(data.length === 0) return cb(null, visitor);
+                Employer.findById(data[0].employerIDs[0], function(err, data){
+                  if(err) return cb(err);
+                    visitor.Characteristics.Employer = data.name;
+                    return cb(null, visitor);
+                });
+            });
+        });
+          },
+          function(visitor, cb) {
+            var school = visitor.Characteristics.Undergrad;
+            School.find({name: visitor.Characteristics.Undergrad}, function(err, data) {
+              if(err) return cb(err);
+                if(data.length > 0) return cb(null, visitor);
+                Alias.findOne({value: school}, function(err, data) {
+                  if(err) return cb(err);
+                    if(data.length === 0) return cb(null, visitor);
+                    School.findById(data.schoolId[0], function(err, data){
+                      if(err) return cb(err);
+                        visitor.Characteristics.Undergrad = data.name;
+                        return cb(null, visitor);
+                    });
+                });
+            });
+          }
+      ],
+      function(err, results) {
+        if(err) return done(err);
+        return done(null, results);
+      });
+    }, function(err, results) {
+      if(err) return next(err);
+      Host.create(results, function(err, visitors) {
+        if(err) return next(err);
+        res.json(visitors);
       });
     });
 
-    //I think this is what was causing the cannot set headers error
-    // res.sendStatus(200);
   },
 
+  submitvisitors: function(req, res, next) {
+    req.body = req.body.map(function(visitor){
+      var newVis = {};
+      newVis.Characteristics = {
+        Military: visitor.Military,
+        Country: visitor.Country,
+        Citizenship: visitor.Citizenship,
+        Undergrad: visitor.Undergrad,
+        Employer: visitor.Employer,
+        Industry: visitor.Industry,
+        City: visitor.City,
+        State: visitor.State,
+        Gender: visitor.Gender
+      };
+      newVis.Contact = {
+        First: visitor.First,
+        Last: visitor.Last,
+      };
+      newVis.MatchInfo = {
+        'Class Visit Time': visitor['Class Visit Time'],
+        visitDate: visitor.visitDate
+      };
+      return newVis;
+    })
+    var visitors = req.body.map(function(visitor) {
+      if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 1;
+        visitor.MatchInfo['Class Visit Time'] = 800;
+      } else if (/10\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 2;
+        visitor.MatchInfo['Class Visit Time'] = 1000;
+      } else if (/11\:?45.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 3;
+        visitor.MatchInfo['Class Visit Time'] = 1145;
+      }
+      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      return visitor;
+    });
+    async.map(visitors, function(visitor, done){
+      async.waterfall([
+          function(cb){
+
+        var employer = visitor.Characteristics.Employer;
+        Employer.find({name: employer}, function(err, data) {
+          if(err) return cb(err);
+            if(data.length > 0) {
+              return cb(null, visitor)
+            }
+            EmployerAlias.find({value: employer}, function(err, data){
+              if(err) return cb(err)
+                if(data.length === 0) return cb(null, visitor);
+                Employer.findById(data[0].employerIDs[0], function(err, data){
+                  if(err) return cb(err);
+                    visitor.Characteristics.Employer = data.name;
+                    return cb(null, visitor);
+                });
+            });
+        });
+          },
+          function(visitor, cb) {
+            var school = visitor.Characteristics.Undergrad;
+            School.find({name: visitor.Characteristics.Undergrad}, function(err, data) {
+              if(err) return cb(err);
+                if(data.length > 0) return cb(null, visitor);
+                Alias.findOne({value: school}, function(err, data) {
+                  if(err) return cb(err);
+                    if(data.length === 0) return cb(null, visitor);
+                    School.findById(data.schoolId[0], function(err, data){
+                      if(err) return cb(err);
+                        visitor.Characteristics.Undergrad = data.name;
+                        return cb(null, visitor);
+                    });
+                });
+            });
+          }
+      ],
+      function(err, results) {
+        if(err) return done(err);
+        return done(null, results);
+      });
+    }, function(err, results) {
+      if(err) next(err);
+      Visitor.create(results, function(err, visitors) {
+        res.json(visitors);
+      });
+    });
+
+  },
   getHeaderData: function(req, res) {
     var start = new Date();
     headers.findOne({ School: req.body.School}, { __v: 0, _id: 0, School: 0 }, function(err, data) {
@@ -194,6 +324,7 @@ module.exports = {
       };
       headers.create(headersModel, function(err, data) {
         if (err) {
+          res.StatusCode(400);
           return res.send(err);
         }
 

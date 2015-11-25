@@ -6,11 +6,18 @@ class DataTableRow extends React.Component {
     const { visitor } = this.props;
     return (
         <tr>
-          {Object.keys(visitor).map(function(key) {
-              if(visitor[key]){
-              (<DataCell data={visitor[key]} />)
-              }
-                                                  })}
+          {Object.keys(visitor).map((key) =>
+              (<DataCell
+                employerMatches={this.props.employerMatches}
+                schoolMatches={this.props.schoolMatches}
+                data={visitor[key]}
+                allSchools={this.props.allSchools}
+                allEmployers={this.props.allEmployers}
+                dataKey={key}
+                addNewAlias={this.props.addNewAlias}
+                changeValue={this.props.changeValue}
+               />)
+            )}
           </tr>
         );
 

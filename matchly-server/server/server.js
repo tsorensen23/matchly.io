@@ -76,9 +76,11 @@ app.post('/employermatch', employerController.employerMatch);
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
+app.post('/hosts', schoolController.middleWare, matchController.submithosts);
+app.post('/visitors', schoolController.middleWare, matchController.submitvisitors);
+
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
-
 app.use(function(err, req, res, next) {
   console.error('route error', err.message, err.stack);
   next(err);

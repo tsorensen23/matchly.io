@@ -1,29 +1,90 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ReadableFile from '../components/readable-file';
-import { startUpload, changeHeader, changeKey, parseData,  setHeaders, finish, fetchHeaders, updateHeaderOrder } from '../actions';
+import {
+  startUpload,
+  setDate,
+  getEmployers,
+  changeHeader,
+  changeKey,
+  parseData,
+  getSchools,
+  getAllSchools,
+  getAllEmployers,
+  setHeaders,
+  finish,
+  fetchHeaders,
+  updateHeaderOrder,
+  changeValue,
+  addNewAlias,
+  uploadData
+} from '../actions';
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
 import _ from 'lodash';
+var DatePicker = require('react-datepicker');
+var moment = require('moment');
 
 class App extends React.Component{
   constructor(props) {
     super(props);
     this.props.dispatch(fetchHeaders());
+    this.props.dispatch(getAllSchools());
+    this.props.dispatch(getAllEmployers());
+    this.state = {
+      date: moment()
+    };
   }
   render(){
-    const { dispatch, headers, data, upload, finished } = this.props;
+    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers } = this.props;
     var options = data.map(e =>
         e.key
         );
     options = _.uniq(options);
     var finishHTML;
-    if(Array.isArray(this.props.finished)) {
-      finishHTML = (
-          <DataTable finished={this.props.finished} />
+    if(this.props.finished.length > 0) {
+      return (
+          <div>
+          <DataTable
+            getEmployers={() => {
+              dispatch(getEmployers());
+            }}
+            getSchools={ () => {
+              dispatch(getSchools());
+            }}
+            employerMatches={employerMatches}
+            schoolMatches={schoolMatches}
+            finished={finished}
+            addNewAlias={(alias, trueValue, employerBool) => {
+              dispatch(addNewAlias(alias, trueValue, employerBool));
+            }}
+            allSchools={allSchools}
+            allEmployers={allEmployers}
+            changeValue={(key, oldValue, newValue) => {
+              dispatch(changeValue(key, oldValue, newValue));
+            }}
+          />
+          <input type="radio" name="hosts-visitors" value="/hosts" />Hosts
+          <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
+          <DatePicker
+            selected={this.state.date}
+            onChange={(date) =>{
+              dispatch(setDate(date));
+            }}
+          />
+          <button
+            onClick={() => {
+              var val = $("input[name='hosts-visitors']:checked").val();
+              console.log(val);
+              dispatch(uploadData(val));
+            }}
+            >
+              Upload
+            </button>
+          </div>
           );
-    }
+    } else {
     return (
         <div>
           <FileUpload
@@ -38,18 +99,18 @@ class App extends React.Component{
             }}
             options={options}
             visitors={data}
-            />
+          />
             <button
               onClick={function() {
                 dispatch(updateHeaderOrder());
               }}
             >
               Finish
-          </button>
+            </button>
           <h1>This is the finished shit</h1>
-          {finishHTML}
         </div>
         );
+    }
   }
 }
 
