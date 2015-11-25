@@ -122,20 +122,93 @@ module.exports = {
   },
 
   submithosts: function(req, res, next) {
-    //made this a batch upload, have not tested it...
-    Host.find({}).remove().exec(function(err, data) {
-      if (err) {
-        return next(err);
+    req.body = req.body.map(function(visitor){
+      var newVis = {};
+      newVis.Characteristics = {
+        Military: visitor.Military,
+        Country: visitor.Country,
+        Citizenship: visitor.Citizenship,
+        Undergrad: visitor.Undergrad,
+        Employer: visitor.Employer,
+        Industry: visitor.Industry,
+        City: visitor.City,
+        State: visitor.State,
+        Gender: visitor.Gender
+      };
+      newVis.Contact = {
+        First: visitor.First,
+        Last: visitor.Last,
+      };
+      newVis.MatchInfo = {
+        'Class Visit Time': visitor['Class Visit Time'],
+        visitDate: visitor.visitDate
+      };
+      return newVis;
+    })
+    var visitors = req.body.map(function(visitor) {
+      if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 1;
+        visitor.MatchInfo['Class Visit Time'] = 800;
+      } else if (/10\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 2;
+        visitor.MatchInfo['Class Visit Time'] = 1000;
+      } else if (/11\:?45.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 3;
+        visitor.MatchInfo['Class Visit Time'] = 1145;
       }
+      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      return visitor;
+    });
+    async.map(visitors, function(visitor, done){
+      async.waterfall([
+          function(cb){
 
-      Host.create(req.body, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
-
-        res.send(data);
+        var employer = visitor.Characteristics.Employer;
+        Employer.find({name: employer}, function(err, data) {
+          if(err) return cb(err);
+            if(data.length > 0) {
+              return cb(null, visitor);
+            }
+            EmployerAlias.find({value: employer}, function(err, data){
+              if(err) return cb(err)
+                if(data.length === 0) return cb(null, visitor);
+                Employer.findById(data[0].employerIDs[0], function(err, data){
+                  if(err) return cb(err);
+                    visitor.Characteristics.Employer = data.name;
+                    return cb(null, visitor);
+                });
+            });
+        });
+          },
+          function(visitor, cb) {
+            var school = visitor.Characteristics.Undergrad;
+            School.find({name: visitor.Characteristics.Undergrad}, function(err, data) {
+              if(err) return cb(err);
+                if(data.length > 0) return cb(null, visitor);
+                Alias.findOne({value: school}, function(err, data) {
+                  if(err) return cb(err);
+                    if(data.length === 0) return cb(null, visitor);
+                    School.findById(data.schoolId[0], function(err, data){
+                      if(err) return cb(err);
+                        visitor.Characteristics.Undergrad = data.name;
+                        return cb(null, visitor);
+                    });
+                });
+            });
+          }
+      ],
+      function(err, results) {
+        if(err) return done(err);
+        return done(null, results);
+      });
+    }, function(err, results) {
+      if(err) return next(err);
+      Host.create(results, function(err, visitors) {
+        if(err) return next(err);
+        res.json(visitors);
       });
     });
+
   },
 
   submitvisitors: function(req, res, next) {
