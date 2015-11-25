@@ -222,10 +222,67 @@ export default function finished(state = [], action){
         }
         return visitor;
       })
+    case 'SET_DATE': 
+      return state.map(function(visitor){
+        visitor.visitDate = action.data;
+        return visitor;
+      });
     default:
       return state;
   }
 }
+
+export default function schools(state = {
+  isFetching: false,
+  lastUpdated: void 0,
+  data: []
+}, action) {
+  switch(action.type) {
+    case 'REQUEST_SCHOOLS':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_SCHOOLS':
+      return Object.assign({}, state, {
+        isFetching: false,
+        lastUpdated: Date.now(),
+        data: action.data
+      });
+    case 'SCHOOL_REQUEST_FAIL':
+      console.error(action.error);
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+    default:
+      return state;
+  }
+}
+export default function employers(state = {
+  isFetching: false,
+  lastUpdated: void 0,
+  data: []
+}, action) {
+  switch(action.type) {
+    case 'REQUEST_EMPLOYERS':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_EMPLOYERS':
+      return Object.assign({}, state, {
+        isFetching: false,
+        lastUpdated: Date.now(),
+        data: action.data
+      });
+    case 'EMPLOYERS_REQUEST_FAIL':
+      console.error(action.error);
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+    default:
+      return state;
+  }
+}
+
 
 export default function(state = {}, action = {}) {
   state = wholeState(state, action);
@@ -235,6 +292,8 @@ export default function(state = {}, action = {}) {
     employerMatches: employerMatches(state.employerMatches, action),
     headers: headers(state.headers, action),
     data: data(state.data, action),
-    finished: finished(state.finished, action)
+    finished: finished(state.finished, action),
+    allSchools: schools(state.allSchools, action),
+    allEmployers: employers(state.allEmployers, action)
   };
 }

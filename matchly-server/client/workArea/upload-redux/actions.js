@@ -105,7 +105,6 @@ export function updateHeaderOrder(){
 }
 
 export function requestEmployerMatch() {
-  console.log('hit the dispatch');
   return { type: 'REQUEST_EMPLOYER_MATCHES' };
 }
 export function receiveEmployers(data){
@@ -118,7 +117,6 @@ export function getEmployers(){
     var body = {
       employers: employers
     };
-    console.log(body);
     return fetch('checkemployers', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -143,11 +141,32 @@ export function getEmployers(){
   };
 }
 export function requestSchoolMatch() {
-  console.log('hit the dispatch');
   return { type: 'REQUEST_SCHOOL_MATCHES' };
 }
 export function receiveSchools(data){
   return { type: 'RECEIVE_SCHOOL_MATCHES', data};
+}
+export function requestAllSchools() {
+  return { type: 'REQUEST_SCHOOLS' }
+}
+export function receiveAllSchools(data) {
+  return { type: 'RECEIVE_SCHOOLS', data }
+}
+export function errorAllSchools(error) {
+  return { type: 'SCHOOL_REQUEST_FAIL', error}
+}
+export function getAllSchools() {
+  return function(dispatch) {
+    dispatch(requestAllSchools());
+    return fetch('schools')
+      .catch(err =>
+        dispatch(errorAllSchools(err))
+      ).then(resp =>
+        resp.json()
+      ).then(data => {
+        dispatch(receiveAllSchools(data))
+      });
+  }
 }
 export function getSchools(){
   return function(dispatch, getState) {
@@ -156,7 +175,6 @@ export function getSchools(){
     var body = {
       names: schools
     };
-    console.log(body);
     return fetch('checkschools', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -180,7 +198,92 @@ export function getSchools(){
     });
   };
 }
+export function requestAllEmployers() {
+  return { type: 'REQUEST_EMPLOYERS' }
+}
+export function receiveAllEmployers(data) {
+  return { type: 'RECEIVE_EMPLOYERS', data }
+}
+export function errorAllEmployers(error) {
+  return { type: 'EMPLOYER_REQUEST_FAIL', error}
+}
+export function getAllEmployers() {
+  return function(dispatch) {
+    dispatch(requestAllEmployers());
+    return fetch('employers')
+      .catch(err =>
+        dispatch(errorAllEmployers(err))
+      ).then(resp =>
+        resp.json()
+      ).then(data => {
+        dispatch(receiveAllEmployers(data))
+      });
+  }
+}
 
 export function changeValue(key, oldValue, newValue){
   return { type: 'CHANGE_VALUE', key, oldValue, newValue };
 }
+export function addNewAlias(alias, trueValue, employerBool){
+  return function(dispatch) {
+    var url = employerBool ? 'employerMatch' : 'schoolMatch';
+    console.log('employerBool is:',employerBool);
+    var body = {
+      alias: alias,
+      trueValue: trueValue
+    };
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((data) => {
+      return data.json();
+    }).then((json) => {
+      console.log('added alias', json);
+    })
+    .catch((err) =>{
+      console.log('error', err);
+    });
+  };
+}
+function successUpload() {
+  return { type: 'SUCCESS_DATA_UPLOAD' };
+}
+function errorUpload(err){
+  console.error(err);
+  return { type: 'ERROR_UPLOAD', err };
+}
+export function setDate(date){
+  return { type: 'SET_DATE', date};
+}
+
+export function uploadData(url){
+  return function(dispatch, getState){
+    var body = getState().finished;
+    var date = new Date();
+    date = date.toISOString();
+    //TODO take this out when the date box works
+    body = body.map((visitor) => {
+      visitor.visitDate = date;
+      return visitor;
+    });
+    console.log(body);
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(resp =>
+      dispatch(successUpload())
+    ).catch(err =>
+      dispatch(errorUpload(err))
+    );
+  };
+}
+

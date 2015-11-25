@@ -11,7 +11,10 @@ class DataTableRow extends React.Component {
                 employerMatches={this.props.employerMatches}
                 schoolMatches={this.props.schoolMatches}
                 data={visitor[key]}
+                allSchools={this.props.allSchools}
+                allEmployers={this.props.allEmployers}
                 dataKey={key}
+                addNewAlias={this.props.addNewAlias}
                 changeValue={this.props.changeValue}
                />)
             )}

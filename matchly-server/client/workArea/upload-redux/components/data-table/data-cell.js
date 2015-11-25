@@ -6,9 +6,13 @@ class DataCell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {clicked: false};
+    this.employer = false;
   }
   handleInput(e){
-    this.props.changeValue(this.props.dataKey, this.props.data, e.target.value);
+    if(this.possibilities.value === null || this.possibilities.value.indexOf(e) === -1){
+      this.props.addNewAlias(this.props.data, e, this.props.dataKey === 'Employer');
+    }
+    this.props.changeValue(this.props.dataKey, this.props.data, e);
     this.state.clicked = !this.state.clicked;
   }
   render() {
@@ -23,7 +27,8 @@ class DataCell extends React.Component {
         var v = this.props.employerMatches.data[i];
         if(v.alias === this.props.data){
           this.possibilities = v;
-          var employer = true;
+          employer = true;
+          this.employer = true;
           if(v.singleMatch){
             singleMatch = true;
           }
@@ -43,7 +48,7 @@ class DataCell extends React.Component {
         var v = this.props.schoolMatches.data[i];
         if(v.alias === this.props.data){
           this.possibilities = v;
-          var school = true;
+          school = true;
           if(v.singleMatch){
             singleMatch = true;
           }
@@ -60,24 +65,39 @@ class DataCell extends React.Component {
     }
     if(multipleMatch && this.state.clicked) {
       return (
-          <Select 
-            value={this.props.data} 
-            onChange={this.handleInput.bind(this)} 
-            ref="select" 
-            multi={true}
-            allowCreate={true}
-            options={this.possibilities.value.map(e =>
-                {value: e, label: e}
-            )}          
-          />
+          <td>
+            <Select
+              value=""
+              onChange={this.handleInput.bind(this)}
+              ref="select"
+              multi={true}
+              allowCreate={true}
+              placeholder="Select..."
+              options={this.possibilities.value.map(e => {
+                  return {value: e, label: e};
+              })}
+            />
+          </td>
           );
     }
     if(noValue && this.state.clicked){
+      var options = this.school ? this.props.allSchools.data : this.props.allEmployers.data;
       return (
-          <Select
-            name={this.props.dataKey}
-            value={this.props.data}
-            options={
+          <td>
+            <Select
+              value=""
+              onChange={this.handleInput.bind(this)}
+              ref="select"
+              multi={true}
+              allowCreate={true}
+              placeholder="Select..."
+              options={options.map(e =>{
+                  return {value: e, label: e};
+              })}
+            />
+          </td>
+          );
+    }
 
 
 

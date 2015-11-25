@@ -5,7 +5,6 @@ import * as actions from '../../actions';
 
 class DataTable extends React.Component{
   render() {
-    console.log(this.props.schoolMatches);
     return (
         <div>
           <table>
@@ -13,9 +12,12 @@ class DataTable extends React.Component{
             {this.props.finished.map(e =>
                 (<DataTableRow
                  visitor={e}
+                 allSchools={this.props.allSchools}
+                 allEmployers={this.props.allEmployers}
                  employerMatches={this.props.employerMatches}
                  schoolMatches={this.props.schoolMatches}
                  changeValue={this.props.changeValue}
+                 addNewAlias={this.props.addNewAlias}
                  />)
             )}
           </table>

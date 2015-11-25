@@ -62,7 +62,7 @@ module.exports.employerMatch = function(req, res, next) {
     if(!alias || alias.length === 0 ) {
       alias = new EmployerAlias({value: req.body.alias});
     }
-        Employer.find({name: req.body.school}, function(err, employer) {
+        Employer.find({name: req.body.trueValue}, function(err, employer) {
           if(err) return next(err);
           if(employer || employer.length != 0) {
             try {
