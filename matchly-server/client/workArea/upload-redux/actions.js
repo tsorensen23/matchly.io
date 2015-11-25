@@ -227,7 +227,6 @@ export function changeValue(key, oldValue, newValue){
 export function addNewAlias(alias, trueValue, employerBool){
   return function(dispatch) {
     var url = employerBool ? 'employerMatch' : 'schoolMatch';
-    console.log('employerBool is:',employerBool);
     var body = {
       alias: alias,
       trueValue: trueValue
@@ -243,7 +242,6 @@ export function addNewAlias(alias, trueValue, employerBool){
     .then((data) => {
       return data.json();
     }).then((json) => {
-      console.log('added alias', json);
     })
     .catch((err) =>{
       console.log('error', err);
@@ -264,14 +262,7 @@ export function setDate(date){
 export function uploadData(url){
   return function(dispatch, getState){
     var body = getState().finished;
-    var date = new Date();
-    date = date.toISOString();
     //TODO take this out when the date box works
-    body = body.map((visitor) => {
-      visitor.visitDate = date;
-      return visitor;
-    });
-    console.log(body);
     return fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),

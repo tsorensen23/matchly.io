@@ -224,7 +224,7 @@ export default function finished(state = [], action){
       })
     case 'SET_DATE': 
       return state.map(function(visitor){
-        visitor.visitDate = action.data;
+        visitor.visitDate = action.date.toISOString();
         return visitor;
       });
     default:
