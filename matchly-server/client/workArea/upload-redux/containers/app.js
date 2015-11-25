@@ -1,12 +1,30 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ReadableFile from '../components/readable-file';
-import { startUpload, getEmployers, changeHeader, changeKey, parseData, getSchools, getAllSchools, getAllEmployers,  setHeaders, finish, fetchHeaders, updateHeaderOrder, changeValue, addNewAlias, uploadData } from '../actions';
+import {
+  startUpload,
+  setDate,
+  getEmployers,
+  changeHeader,
+  changeKey,
+  parseData,
+  getSchools,
+  getAllSchools,
+  getAllEmployers,
+  setHeaders,
+  finish,
+  fetchHeaders,
+  updateHeaderOrder,
+  changeValue,
+  addNewAlias,
+  uploadData
+} from '../actions';
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
 import _ from 'lodash';
-import DatePicker from 'react-datepicker';
+var DatePicker = require('react-datepicker');
+var moment = require('moment');
 
 class App extends React.Component{
   constructor(props) {
@@ -14,6 +32,9 @@ class App extends React.Component{
     this.props.dispatch(fetchHeaders());
     this.props.dispatch(getAllSchools());
     this.props.dispatch(getAllEmployers());
+    this.state = {
+      date: moment()
+    };
   }
   render(){
     const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers } = this.props;
@@ -46,12 +67,12 @@ class App extends React.Component{
           />
           <input type="radio" name="hosts-visitors" value="/hosts" />Hosts
           <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
-          <DatePicker 
-           selected={Date()}
-            onChange={(date){
-              dispatch(setDate(data));
+          <DatePicker
+            selected={this.state.date}
+            onChange={(date) =>{
+              dispatch(setDate(date));
             }}
-            />
+          />
           <button
             onClick={() => {
               var val = $("input[name='hosts-visitors']:checked").val();
