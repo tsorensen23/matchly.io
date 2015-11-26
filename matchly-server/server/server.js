@@ -12,6 +12,7 @@ var employerController = require('./controllers/employerController');
 var stdUIController = require('./controllers/stdUIController');
 var path = require('path');
 var Employer = require('./database/db').Employer;
+var calendarController = require('./controllers/calendarController');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -78,6 +79,7 @@ app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
 app.post('/hosts', schoolController.middleWare, matchController.submithosts);
 app.post('/visitors', schoolController.middleWare, matchController.submitvisitors);
+app.get('/calendar', calendarController.getDates);
 
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
