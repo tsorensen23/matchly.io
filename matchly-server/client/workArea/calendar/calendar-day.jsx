@@ -1,19 +1,48 @@
 var React = require('react');
 var Link = require('react-router').Link;
 
+var styles = {
+  day: {
+    width: '14%',
+    fontSize: '18px',
+    padding: '50px 0',
+    border: '1px solid #111',
+    display: 'inline-block',
+    textAlign: 'center',
+    verticalAlign: 'middle'
+  },
+  matched: {
+    backgroundColor: 'green',
+  },
+  hasData: {
+    backgroundColor: 'yellow'
+  }
+};
+
 var CalendarDay = React.createClass({
 
   render:function() {
-    console.log(this.props);
-    if (this.props.uploaded || this.props.matched) {
+    if (this.props.uploaded) {
       return (
-        <Link to='/upload'>
+        <Link
+          to='/match'
+          style={Object.assign({}, styles.day, styles.hasData)}
+        >
+          {this.props.date}
+        </Link>
+      );
+    } if (this.props.matched) {
+      return (
+        <Link
+          to='/match'
+          style={Object.assign({}, styles.day, styles.matched)}
+        >
           {this.props.date}
         </Link>
       );
     } else {
       return (
-        <div>
+        <div style={styles.day}>
             {this.props.date}
         </div>
       );

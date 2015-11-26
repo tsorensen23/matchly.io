@@ -6,10 +6,10 @@ var CalendarList = React.createClass({
       <div>
         <ul>
           <li>
-            Wednesday, November 25, 2015
+            Wed, 11/25/15
           </li>
           <li>
-            Friday, November 27, 2015
+            Fri, 11/27/15
           </li>
         </ul>
       </div>
