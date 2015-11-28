@@ -10,6 +10,10 @@ export function changeHeader(needed, given){
 export function changeKey(oldKey, newKey){
   return { type: 'CHANGE_KEY', oldKey, newKey}
 }
+
+export function changeKeys(keyArray) {
+  return { type: 'CHANGE_KEYS', keyArray}
+}
 export function setHeaders(given) {
   return { type: 'SET_HEADERS', given }
 }
@@ -36,14 +40,19 @@ export function finish(){
     var givenArray = mpath.get('given', headers.data);
     var neededArray = mpath.get('needed', headers.data);
     var dropKeys = [];
+    var changeKeysArray = [];
     data.forEach(function(dataPoint) {
       let index = givenArray.indexOf(dataPoint.key);
       if(index > -1 ) {
-        dispatch(changeKey(headers.data[index].given, headers.data[index].needed));
+        changeKeysArray.push({
+          oldKey: headers.data[index].given,
+          newKey: headers.data[index].needed
+        });
       } else {
         dropKeys.push(dataPoint.key);
       }
     });
+    dispatch(changeKeys(changeKeysArray));
     dispatch(removeDataPoints(dropKeys));
     dispatch(finishChangingKeys());
     // dispatch(setHeadersGivenToNeeded());

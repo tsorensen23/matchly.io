@@ -113,6 +113,24 @@ function data(state = [], action){
         }),
         ...state.slice(index + 1)
       ];
+    case 'CHANGE_KEYS':
+      var keyArray = action.keyArray;
+      var oldKeys = keyArray.map(e =>
+          e.oldKey
+          );
+      var newKeys = keyArray.map(e =>
+          e.newKey
+          )
+      return state.map(function(datapoint){
+        var index= oldKeys.indexOf(datapoint.key);
+        if(index > -1) {
+          return Object.assign({}, datapoint, {
+            key: newKeys[index]
+          });
+        } else {
+          return datapoint;
+        }
+      });
     case 'PARSE_DATA':
       var initialObj = Object.keys(action.rawCSV[0]).map(function(key){
         return { key: key, data: []};
