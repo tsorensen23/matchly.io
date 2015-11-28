@@ -113,7 +113,10 @@ export function updateHeaderOrder(){
         'Content-Type': 'application/json'
       }
     }).then(resp => {
-      dispatch(finish());
+      return dispatch(finish());
+    }).then( e => {
+      dispatch(getSchools());
+      dispatch(getEmployers());
     });
   };
 }

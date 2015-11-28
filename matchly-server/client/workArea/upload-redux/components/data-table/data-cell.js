@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Select from 'react-select';
 
@@ -7,6 +6,7 @@ class DataCell extends React.Component {
     super(props);
     this.state = {clicked: false};
     this.employer = false;
+    this.school = false;
   }
   handleInput(e){
     if(this.possibilities.value === null || this.possibilities.value.indexOf(e) === -1){
@@ -27,7 +27,6 @@ class DataCell extends React.Component {
         var v = this.props.employerMatches.data[i];
         if(v.alias === this.props.data){
           this.possibilities = v;
-          employer = true;
           this.employer = true;
           if(v.singleMatch){
             singleMatch = true;
@@ -48,7 +47,7 @@ class DataCell extends React.Component {
         var v = this.props.schoolMatches.data[i];
         if(v.alias === this.props.data){
           this.possibilities = v;
-          school = true;
+          this.school = true;
           if(v.singleMatch){
             singleMatch = true;
           }
