@@ -25,6 +25,9 @@ export function removeDataPoint(key){
 export function setHeadersGivenToNeeded(){
   return { type: 'SET_HEADERSGIVEN_TO_NEEDED' }
 }
+export function removeDataPoints(keys){
+  return { type: 'REMOVE_DATA_KEYS', keys}
+}
 
 export function finish(){
   return function(dispatch, getState) {
@@ -32,14 +35,16 @@ export function finish(){
     var headers = getState().headers;
     var givenArray = mpath.get('given', headers.data);
     var neededArray = mpath.get('needed', headers.data);
+    var dropKeys = [];
     data.forEach(function(dataPoint) {
       let index = givenArray.indexOf(dataPoint.key);
       if(index > -1 ) {
         dispatch(changeKey(headers.data[index].given, headers.data[index].needed));
       } else {
-        dispatch(removeDataPoint(dataPoint.key));
+        dropKeys.push(dataPoint.key);
       }
     });
+    dispatch(removeDataPoints(dropKeys));
     dispatch(finishChangingKeys());
     // dispatch(setHeadersGivenToNeeded());
   }

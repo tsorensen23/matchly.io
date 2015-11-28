@@ -92,7 +92,6 @@ function headers(state = initialHeaderState, action){
           data: data.map(function(dp){
             dp.given = dp.needed;
             return dp;
-            console.log(dp);
           })
         });
 
@@ -129,6 +128,14 @@ function data(state = [], action){
       return state.filter(e =>
                   e.key != action.key
                   );
+    case 'REMOVE_DATA_KEYS':
+      return state.filter(function(e) {
+          if(action.keys.indexOf(e.key) > -1) {
+            return false;
+          } else {
+            return true;
+          }
+      });
     default:
       return state;
   }

@@ -6,7 +6,7 @@ export default class DataTableHeaderRow extends React.Component {
           <thead>
             <tr>
               {Object.keys(this.props.visitor).map(key =>
-                  (<th>{key}</th>)
+                  (<th key={key}>{key}</th>)
               )}
             </tr>
           </thead>

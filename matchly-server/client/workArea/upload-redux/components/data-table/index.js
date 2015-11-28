@@ -9,9 +9,10 @@ class DataTable extends React.Component{
         <div>
           <table>
             <DataTableHeaderRow visitor={this.props.finished[0]} />
-            {this.props.finished.map(e =>
+            {this.props.finished.map((e, index) =>
                 (<DataTableRow
                  visitor={e}
+                 key={e + index}
                  allSchools={this.props.allSchools}
                  allEmployers={this.props.allEmployers}
                  employerMatches={this.props.employerMatches}

@@ -18,14 +18,13 @@ var MatchIndex = React.createClass({
   },
 
   handleChange: function(date) {
-    var _this = this;
     this.setState({date:date});
   },
 
   render:function() {
     var display = [<DatePicker selected={this.state.date} onChange={this.handleChange} />];
     if (this.state.date) {
-      display.push(<Match date={this.state.date} />);
+      var matches = (<Match date={this.state.date} />);
     }
 
     return (
@@ -33,6 +32,7 @@ var MatchIndex = React.createClass({
 
           <h2> Select a date that you would like to match on </h2>
           {display}
+          {matches}
       </div>
     );
   }

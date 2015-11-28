@@ -9,8 +9,8 @@ export default class HeaderSelect extends React.Component {
     var d = '';
       if(this.props.visitors.length) {
            d = (<ul>
-              {this.props.visitors[0].data.map( dataPoint =>
-                  (<li>{dataPoint}</li>)
+              {this.props.visitors[0].data.map( (dataPoint, index) =>
+                  (<li key={dataPoint + index}>{dataPoint}</li>)
               )}
             </ul>);
       }
