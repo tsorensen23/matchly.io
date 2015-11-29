@@ -89,14 +89,25 @@ module.exports.schoolMatch = function(req, res, next) {
       alias = new Alias({value: req.body.alias});
     }
 
+    var school;
     School.findOne({name: req.body.trueValue}, function(err, school) {
       if (err) {
         return next(err);
       }
-
-      if (alias.schoolId.indexOf(school.id) === -1) alias.schoolId.push(school.id);
-      alias.save();
-      res.json({alias: alias, schoolname: school.name});
+      if(school){
+        if (alias.schoolId.indexOf(school.id) === -1) ;
+        alias.save();
+        res.json({alias: alias, schoolname: school.name});
+      } else {
+        School.create({name: req.body.trueValue}, function(err, school){
+          if(err){
+            return next(err);
+          }
+          alias.schoolId.push(school.id);
+          alias.save();
+        res.json({alias: alias, schoolname: school.name});
+        })
+      }
     });
 
   });
