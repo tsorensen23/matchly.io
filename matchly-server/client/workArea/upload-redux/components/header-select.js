@@ -15,7 +15,7 @@ export default class HeaderSelect extends React.Component {
             </ul>);
       }
     return (
-        <div style={{display: 'inline-block'}}>
+        <div style={{display: 'table-cell', float: 'left'}}>
           needed:{header.needed}
           <br />
           <select onChange={this.callChangeHeader.bind(this)} value={header.given} >

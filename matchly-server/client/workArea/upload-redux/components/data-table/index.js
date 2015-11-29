@@ -8,11 +8,11 @@ class DataTable extends React.Component{
     return (
         <div>
           <table>
-            <DataTableHeaderRow visitor={this.props.finished[0]} />
+            <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
             {this.props.finished.map((e, index) =>
                 (<DataTableRow
                  visitor={e}
-                 key={e + index}
+                 key={JSON.stringify(e)}
                  allSchools={this.props.allSchools}
                  allEmployers={this.props.allEmployers}
                  employerMatches={this.props.employerMatches}
