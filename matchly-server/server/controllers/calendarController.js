@@ -23,14 +23,19 @@ module.exports.getDates = function(req, res, next){
       });
     },
     function(cb){
-      Host.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { 'MatchInfo.visitDate': 1, _id: 0}, function(err, data) {
+      Host.find({ 'MatchInfo.matches.date': { $lte: endDate, $gte: startDate}}, { 'MatchInfo.matches.date': 1, _id: 0}, function(err, data) {
         if(err){ return cb(err); }
-        var matchedDays = data.map(d =>
-            moment(d.MatchInfo.visitDate).format('YYYY-MM-DD')
+        var matchedDays = data.map(datapoint =>
+            datapoint.MatchInfo.matches.map(match =>
+              moment(match.date).format('YYYY-MM-DD')
+              )
+
             );
+        matchedDays = _.flatten(matchedDays)
         matchedDays = _.uniq(matchedDays, function(date) {
           return date;
         });
+        console.log(matchedDays);
         cb(null, matchedDays);
       });
     }
@@ -44,19 +49,19 @@ module.exports.getDates = function(req, res, next){
       var newDate = moment(arr[arr.length - 1].date).clone().add(1, 'days');
       var visitorIndex = visitorDays.indexOf(newDate.format('YYYY-MM-DD'));
       var matchedIndex = matchedDays.indexOf(newDate.format('YYYY-MM-DD'));
-      if(visitorIndex !== -1) {
-        arr.push({
-          date: visitorDays[visitorIndex],
-          uploaded: true,
-          matched: false
-        });
-      } else if( matchedIndex !== -1) {
+     if( matchedIndex !== -1) {
         arr.push({
           date: matchedDays[matchedIndex],
           uploaded: false,
           matched: true
         });
-      }else {
+      } else if(visitorIndex !== -1 && matchedIndex === -1) {
+        arr.push({
+          date: visitorDays[visitorIndex],
+          uploaded: true,
+          matched: false
+        });
+      } else {
         arr.push({
           date: moment(arr[arr.length - 1].date).clone().add(1, 'days').format('YYYY-MM-DD'),
           matched: false,
