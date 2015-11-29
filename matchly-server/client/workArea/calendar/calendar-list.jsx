@@ -1,16 +1,14 @@
 var React = require('react');
+import CalendarListItem from './calendar-list-item';
 
 var CalendarList = React.createClass({
   render:function() {
     return (
       <div>
         <ul>
-          <li>
-            Wed, 11/25/15
-          </li>
-          <li>
-            Fri, 11/27/15
-          </li>
+        {this.props.calendar.map(datapoint =>
+            (<CalendarListItem calendarEntry={datapoint} />)
+          )}
         </ul>
       </div>
     );

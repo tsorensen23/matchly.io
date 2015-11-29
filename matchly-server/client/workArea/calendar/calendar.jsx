@@ -21,10 +21,10 @@ var styles = {
 
 var Calendar = React.createClass({
   getInitialState: function() {
-    var startDate = moment().startOf("month").format('YYYY-MM-DD');
+    var startDate = moment().startOf("month").add(1, 'day').format('YYYY-MM-DD');
     var endDate = moment().endOf("month").format('YYYY-MM-DD');
     return { 
-      calendar: { isFetching: false, error: '', data: [] },
+      calendar: { isFetching: true, error: '', data: [] },
       startDate: startDate,
       endDate: endDate
     };
@@ -53,10 +53,10 @@ var Calendar = React.createClass({
     return (
       <div style={styles.fullView}>
         <div style={styles.calendarView}>
-          <CalendarMonth calendar={this.state.calendar} />
+          <CalendarMonth calendar={this.state.calendar.data} />
         </div>
         <div style={styles.calendarList}>
-          <CalendarList calendar={this.state.calendar}/>
+          <CalendarList calendar={this.state.calendar.data}/>
         </div>
       </div>
     );
