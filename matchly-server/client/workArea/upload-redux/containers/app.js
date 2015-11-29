@@ -45,7 +45,11 @@ class App extends React.Component{
         );
     options = _.uniq(options);
     var finishHTML;
-    if(this.props.schoolMatches.isFetching || this.props.employerMatches.isFetching || this.props.allSchools.isFetching || this.props.allEmployers.isFetching || this.props.headers.isFetching) {
+    if(this.props.schoolMatches.isFetching || 
+        this.props.employerMatches.isFetching || 
+        this.props.allSchools.isFetching || 
+        this.props.allEmployers.isFetching || 
+        this.props.headers.isFetching) {
       return <Loading />;
     }
     if(this.props.finished.length > 0) {

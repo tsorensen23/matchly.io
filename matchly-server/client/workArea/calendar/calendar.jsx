@@ -1,6 +1,7 @@
 var React = require('react');
-var CalendarMonth = require('./calendar-month.jsx')
+var CalendarMonth = require('./calendar-month.jsx');
 var CalendarList = require('./calendar-list.jsx');
+var moment = require('moment');
 
 var styles = {
   fullView: {
@@ -19,14 +20,43 @@ var styles = {
 };
 
 var Calendar = React.createClass({
-  render:function() {
+  getInitialState: function() {
+    var startDate = moment().startOf("month").format('YYYY-MM-DD');
+    var endDate = moment().endOf("month").format('YYYY-MM-DD');
+    return { 
+      calendar: { isFetching: false, error: '', data: [] },
+      startDate: startDate,
+      endDate: endDate
+    };
+  },
+  componentDidMount: function(){
+    this.setState({calendar: { isFetching: true}});
+    $.ajax({
+      method: 'get',
+      url: '/calendar',
+      data: { startDate: this.state.startDate, endDate: this.state.endDate},
+      complete: () => {
+        this.setState({calendar: {isFetching: false}});
+      },
+      success: (data) => {
+        this.setState({calendar: { data: data }});
+      },
+      error: (err) => {
+        this.setState({calendar: {err: err}});
+      }
+    });
+  },
+  render: function() {
+    if(this.state.calendar.isFetching){
+      return <h1>Loading</h1>;
+    }
     return (
       <div style={styles.fullView}>
         <div style={styles.calendarView}>
-          <CalendarMonth />
+          <CalendarMonth calendar={this.state.calendar} />
         </div>
         <div style={styles.calendarList}>
-          <CalendarList />
+          <CalendarList calendar={this.state.calendar}/>
         </div>
       </div>
     );
