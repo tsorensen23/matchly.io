@@ -330,7 +330,7 @@ export default function employers(state = {
       console.error(action.error);
       return Object.assign({}, state, {
         isFetching: false
-      })
+      });
     default:
       return state;
   }
