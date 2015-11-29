@@ -6,9 +6,11 @@ import * as actions from '../../actions';
 class DataTable extends React.Component{
   render() {
     return (
-        <div>
-          <table>
+        <table>
+          <thead>
             <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
+          </thead>
+          <tbody>
             {this.props.finished.map((e, index) =>
                 (<DataTableRow
                  visitor={e}
@@ -21,16 +23,8 @@ class DataTable extends React.Component{
                  addNewAlias={this.props.addNewAlias}
                  />)
             )}
-          </table>
-          <button
-            onClick={() => {
-              this.props.getEmployers();
-              this.props.getSchools();
-            }}
-          >
-            Click this
-          </button>
-        </div>
+          </tbody>
+        </table>
       );
 
 

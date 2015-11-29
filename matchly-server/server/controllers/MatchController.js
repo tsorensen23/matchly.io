@@ -213,6 +213,7 @@ module.exports = {
   },
 
   submitvisitors: function(req, res, next) {
+    console.log(req.body);
     req.body = req.body.map(function(visitor){
       var newVis = {};
       newVis.Characteristics = {

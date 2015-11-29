@@ -83,6 +83,7 @@ class App extends React.Component{
             }}
           />
           <button
+          className="btn btn-primary"
             onClick={() => {
               var val = $("input[name='hosts-visitors']:checked").val();
               console.log(val);
@@ -97,7 +98,9 @@ class App extends React.Component{
       if(this.props.data.length === 0){
       return (
           <div>
-            <button onClick={() => {
+            <button 
+            className="btn"
+            onClick={() => {
               dispatch(setHosts());
             }}>These are hosts</button>
             <FileUpload
@@ -119,6 +122,7 @@ class App extends React.Component{
                     visitors={data}
                   />
                     <button
+                      className="btn btn-primary"
                       onClick={function() {
                         dispatch(updateHeaderOrder());
                       }}

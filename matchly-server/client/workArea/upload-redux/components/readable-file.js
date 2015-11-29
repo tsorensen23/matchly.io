@@ -30,9 +30,9 @@ class ReadableFile extends React.Component{
 
   render() {
     return (
-        <div>
+        <div style={{display: 'inline-block', margin: '0 auto'}}>
           <input type='file' ref="myFile" name={this.props.name} onChange={this.onChange.bind(this)} accept={this.props.accept} />
-          <button onClick={this.read.bind(this)}>Click</button>
+          <button className="btn btn-primary" onClick={this.read.bind(this)}>Click</button>
         </div>
         );
   }
