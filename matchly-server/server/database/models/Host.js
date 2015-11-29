@@ -24,7 +24,7 @@ var hostSchema = new Schema({
       type:Number,
       default:0
     },
-    Section: {type: String},
+    Section: {type: String, required: true},
     exceptionDate: [{type:Date}],
     matches: [{
       date:Date,

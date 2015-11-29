@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 var School = require('../server/database/db').School;
 var request = require('request');
+School.find({}).remove().exec().then(function() {
 
-var URL = 'https://sheetsu.com/apis/9e9f4f71';
-
+var URL = 'https://sheetsu.com/apis/059b4d69';
 request.get(URL, function(err, resp, data) {
   if (err) {
     throw new Error(err);
@@ -22,3 +22,4 @@ request.get(URL, function(err, resp, data) {
     console.log('done');
   }
 });
+})

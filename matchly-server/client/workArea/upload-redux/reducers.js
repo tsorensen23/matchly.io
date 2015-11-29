@@ -94,6 +94,14 @@ function headers(state = initialHeaderState, action){
             return dp;
           })
         });
+    case 'SET_HOSTS':
+        return Object.assign({}, state, {
+          data: [
+            ...state.data,
+            {needed: 'Email', given: ''},
+            {needed: 'Section', given: ''}
+          ]
+        });
 
     default:
       return state;
@@ -169,7 +177,6 @@ function wholeState(state = {}, action) {
          newDataArray.push(dataObject);
       }
       for(var ii = 0; ii < dataArray.length; ii++) {
-        console.log(dataArray[ii].data.length);
        for(var iii = 0; iii < dataArray[ii].data.length; iii++) {
          if(dataArray[ii].data[iii].length > 0) {
            newDataArray[iii][dataArray[ii].key] = dataArray[ii].data[iii];
@@ -204,6 +211,17 @@ export default function employerMatches(state = {
       return Object.assign({}, state, {
         isFetching: false
       });
+    case 'DROP_EMPLOYER_MATCH':
+      return Object.assign({}, state, {
+        data: state.data.map(employer =>{
+          if(action.employer === employer.alias){
+            employer.singleMatch = true;
+            employer.multipleMatch = false;
+            employer.noValue = false;
+          }
+          return employer;
+        })
+      });
     default:
       return state;
   }
@@ -229,6 +247,17 @@ export default function schoolMatches(state = {
       return Object.assign({}, state, {
         isFetching: false
       })
+    case 'DROP_SCHOOL_MATCH':
+      return Object.assign({}, state, {
+        data: state.data.map(school =>{
+          if(action.school === school.alias){
+            school.singleMatch = true;
+            school.multipleMatch = false;
+            school.noValue = false;
+          }
+          return school;
+        })
+      });
     default:
       return state;
   }

@@ -17,6 +17,7 @@ import {
   updateHeaderOrder,
   changeValue,
   addNewAlias,
+  setHosts,
   uploadData
 } from '../actions';
 import FileUpload from '../components/file-upload';
@@ -87,6 +88,9 @@ class App extends React.Component{
     } else {
     return (
         <div>
+          <button onClick={() => {
+            dispatch(setHosts());
+          }}>These are hosts</button>
           <FileUpload
           uploadFile={fileData =>
             dispatch(parseData(fileData))

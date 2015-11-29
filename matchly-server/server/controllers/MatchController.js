@@ -138,10 +138,11 @@ module.exports = {
       newVis.Contact = {
         First: visitor.First,
         Last: visitor.Last,
+        Email: visitor.Email
       };
       newVis.MatchInfo = {
         'Class Visit Time': visitor['Class Visit Time'],
-        visitDate: visitor.visitDate
+        Section: visitor.Section
       };
       return newVis;
     })
@@ -187,7 +188,7 @@ module.exports = {
                 if(data.length > 0) return cb(null, visitor);
                 Alias.findOne({value: school}, function(err, data) {
                   if(err) return cb(err);
-                    if(data.length === 0) return cb(null, visitor);
+                    if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
                         visitor.Characteristics.Undergrad = data.name;
@@ -277,7 +278,7 @@ module.exports = {
                 if(data.length > 0) return cb(null, visitor);
                 Alias.findOne({value: school}, function(err, data) {
                   if(err) return cb(err);
-                    if(data.length === 0) return cb(null, visitor);
+                    if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
                         visitor.Characteristics.Undergrad = data.name;

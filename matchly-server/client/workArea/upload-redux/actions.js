@@ -10,6 +10,9 @@ export function changeHeader(needed, given){
 export function changeKey(oldKey, newKey){
   return { type: 'CHANGE_KEY', oldKey, newKey}
 }
+export function setHosts() {
+  return { type: 'SET_HOSTS' }
+}
 
 export function changeKeys(keyArray) {
   return { type: 'CHANGE_KEYS', keyArray}
@@ -241,8 +244,15 @@ export function getAllEmployers() {
 export function changeValue(key, oldValue, newValue){
   return { type: 'CHANGE_VALUE', key, oldValue, newValue };
 }
+export function dropEmployerMatch(employer){
+  return { type: 'DROP_EMPLOYER_MATCH', employer};
+}
+export function dropSchoolMatch(school){
+  return { type: 'DROP_SCHOOL_MATCH', school};
+}
+
 export function addNewAlias(alias, trueValue, employerBool){
-  return function(dispatch) {
+  return function(dispatch, getState) {
     var url = employerBool ? 'employerMatch' : 'schoolMatch';
     var body = {
       alias: alias,
@@ -259,6 +269,11 @@ export function addNewAlias(alias, trueValue, employerBool){
     .then((data) => {
       return data.json();
     }).then((json) => {
+      if(employerBool){
+      dispatch(dropEmployerMatch(json.alias.value));
+      } else {
+        dispatch(dropSchoolMatch(json.alias.value));
+      }
     })
     .catch((err) =>{
       console.log('error', err);

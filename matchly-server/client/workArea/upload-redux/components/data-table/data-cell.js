@@ -9,14 +9,14 @@ class DataCell extends React.Component {
     this.school = false;
   }
   handleInput(e){
+    this.props.changeValue(this.props.dataKey, this.props.data, e);
     if(this.possibilities.value === null || this.possibilities.value.indexOf(e) === -1){
       this.props.addNewAlias(this.props.data, e, this.props.dataKey === 'Employer');
     }
-    this.props.changeValue(this.props.dataKey, this.props.data, e);
     this.state.clicked = !this.state.clicked;
   }
   render() {
-    var color;
+
     var singleMatch;
     var multipleMatch;
     var noValue;
@@ -29,14 +29,15 @@ class DataCell extends React.Component {
           this.possibilities = v;
           this.employer = true;
           if(v.singleMatch){
+            this.color = 'white';
             singleMatch = true;
           }
           if(v.multipleMatch) {
-            color = 'yellow';
+            this.color = 'yellow';
             multipleMatch = true;
           }
           if(v.noValue) {
-            color = 'red';
+            this.color = 'red';
             noValue = true;
           }
         }
@@ -49,14 +50,15 @@ class DataCell extends React.Component {
           this.possibilities = v;
           this.school = true;
           if(v.singleMatch){
+            this.color = 'white';
             singleMatch = true;
           }
           if(v.multipleMatch) {
-            color = 'yellow';
+            this.color = 'yellow';
             multipleMatch = true;
           }
           if(v.noValue) {
-            color = 'red';
+            this.color = 'red';
             noValue = true;
           }
         }
@@ -97,13 +99,10 @@ class DataCell extends React.Component {
           </td>
           );
     }
-
-
-
     return (
         <td
           style={{
-            backgroundColor: color
+            backgroundColor: this.color
           }}
           onClick={() =>
             this.setState({clicked: true})
