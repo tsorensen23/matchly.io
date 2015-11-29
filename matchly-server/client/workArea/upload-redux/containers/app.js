@@ -94,36 +94,43 @@ class App extends React.Component{
           </div>
           );
     } else {
-    return (
-        <div>
-          <button onClick={() => {
-            dispatch(setHosts());
-          }}>These are hosts</button>
-          <FileUpload
-          uploadFile={fileData =>
-            dispatch(parseData(fileData))
-          }
-          />
-          <HeaderMatcher
-            headers={headers.data}
-            changeHeader={function(needed, given) {
-              dispatch(changeHeader(needed, given));
-            }}
-            options={options}
-            visitors={data}
-          />
-            <button
-              onClick={function() {
-                dispatch(updateHeaderOrder());
-              }}
-            >
-              Finish
-            </button>
-          <h1>This is the finished shit</h1>
-        </div>
+      if(this.props.data.length === 0){
+      return (
+          <div>
+            <button onClick={() => {
+              dispatch(setHosts());
+            }}>These are hosts</button>
+            <FileUpload
+            uploadFile={fileData =>
+              dispatch(parseData(fileData))
+            }
+            />
+          </div>
+          );
+          } else {
+            return (
+                <div>
+                  <HeaderMatcher
+                    headers={headers.data}
+                    changeHeader={function(needed, given) {
+                      dispatch(changeHeader(needed, given));
+                    }}
+                    options={options}
+                    visitors={data}
+                  />
+                    <button
+                      onClick={function() {
+                        dispatch(updateHeaderOrder());
+                      }}
+                    >
+                      Finish
+                    </button>
+                  <h1>This is the finished shit</h1>
+                </div>
         );
     }
   }
+}
 }
 
 export default connect(function(state){
