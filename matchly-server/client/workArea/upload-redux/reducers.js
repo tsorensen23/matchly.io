@@ -176,13 +176,12 @@ function wholeState(state = {}, action) {
          var dataObject = {};
          newDataArray.push(dataObject);
       }
-      for(var ii = 0; ii < dataArray.length; ii++) {
-       for(var iii = 0; iii < dataArray[ii].data.length; iii++) {
-         if(dataArray[ii].data[iii].length > 0) {
-           newDataArray[iii][dataArray[ii].key] = dataArray[ii].data[iii];
-         }
-       }
-      }
+      dataArray.reduce(function(prev, curr) {
+        return curr.data.map(function(dp, index){
+          prev[index][curr.key] = dp;
+          return prev[index]
+        });
+      }, newDataArray)
       return Object.assign({}, state, {
         finished: newDataArray
       });
