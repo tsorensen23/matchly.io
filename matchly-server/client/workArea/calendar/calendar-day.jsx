@@ -26,6 +26,7 @@ var CalendarDay = React.createClass({
       return (
         <Link
           to='/match'
+          query={{date: this.props.date}}
           style={Object.assign({}, styles.day, styles.hasData)}
         >
           {this.props.date}
@@ -35,6 +36,7 @@ var CalendarDay = React.createClass({
       return (
         <Link
           to='/match'
+          query={{date: this.props.date}}
           style={Object.assign({}, styles.day, styles.matched)}
         >
           {this.props.date}

@@ -1,7 +1,7 @@
 var React = require('react');
 var DatePicker = require('react-datepicker');
 var Match = require('./Match.jsx');
-
+var moment = require('moment');
 var CrudStore = require('../../Stores/CrudStore');
 
 var VisitorStore = CrudStore('visitors');
@@ -10,7 +10,7 @@ var HostStore = CrudStore('hosts');
 var MatchIndex = React.createClass({
   getInitialState: function() {
     return {
-      date: void 0
+      date: moment(this.props.location.query.date)
     };
   },
 
