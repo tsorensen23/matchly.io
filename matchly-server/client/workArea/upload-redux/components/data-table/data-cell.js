@@ -67,7 +67,7 @@ class DataCell extends React.Component {
     if(multipleMatch && this.state.clicked) {
       return (
           <td>
-            {this.props.data}
+            <b>{this.props.data}</b>
             <Select
               value=""
               onChange={this.handleInput.bind(this)}
@@ -86,7 +86,7 @@ class DataCell extends React.Component {
       var options = this.school ? this.props.allSchools.data : this.props.allEmployers.data;
       return (
           <td>
-            {this.props.data}
+            <b>{this.props.data}</b>
             <Select
               value=""
               onChange={this.handleInput.bind(this)}
