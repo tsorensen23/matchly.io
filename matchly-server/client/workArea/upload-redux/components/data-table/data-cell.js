@@ -85,6 +85,7 @@ class DataCell extends React.Component {
       var options = this.school ? this.props.allSchools.data : this.props.allEmployers.data;
       return (
           <td>
+            {this.props.data}
             <Select
               value=""
               onChange={this.handleInput.bind(this)}
