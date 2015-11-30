@@ -20,6 +20,8 @@ function upload(state = false, action){
   switch(action.type){
     case 'START_UPLOAD':
       return true;
+    case 'SUCCESS_DATA_UPLOAD':
+      return false;
     default:
       return false;
   }
@@ -107,6 +109,18 @@ function headers(state = initialHeaderState, action){
       return state;
   }
 }
+function hostsOrVisitors(state, action) {
+  switch(action.type) {
+    case 'SET_HOSTS': 
+      return true;
+    case 'SET_VISITORS':
+      return false;
+    default: 
+      return false;
+  }
+}
+
+    
 function data(state = [], action){
   switch(action.type) {
     case 'CHANGE_KEY':
@@ -340,6 +354,7 @@ export default function employers(state = {
 export default function(state = {}, action = {}) {
   state = wholeState(state, action);
   return {
+    hostsOrVisitors: hostsOrVisitors(state.hostsOrVisitors, action),
     upload: upload(state.upload, action),
     schoolMatches: schoolMatches(state.schoolMatches, action),
     employerMatches: employerMatches(state.employerMatches, action),

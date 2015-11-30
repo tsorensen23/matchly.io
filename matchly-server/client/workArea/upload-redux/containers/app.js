@@ -17,9 +17,11 @@ import {
   updateHeaderOrder,
   changeValue,
   addNewAlias,
+  setVisitors,
   setHosts,
   uploadData
 } from '../actions';
+import ProgressButton from 'react-progress-button'
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
@@ -35,11 +37,11 @@ class App extends React.Component{
     this.props.dispatch(getAllSchools());
     this.props.dispatch(getAllEmployers());
     this.state = {
-      date: moment()
+      date: moment(this.props.location.query.date)
     };
-  }
+  } 
   render(){
-    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers } = this.props;
+    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers, hostsOrVisitors } = this.props;
     var options = data.map(e =>
         e.key
         );
@@ -74,36 +76,29 @@ class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
-          <div style={{
-            width: '40%',
-            margin: '0 auto'
-          }}>
-            <input style={{float: 'left'}} type="radio" name="hosts-visitors" value="/hosts" />Hosts
-            <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
-          <DatePicker
-            selected={this.state.date}
-            onChange={(date) =>{
-              this.setState({date: date});
-              dispatch(setDate(date));
-            }}
-          />
-          </div>
-          <button
+          <ProgressButton ref='button'
           className="btn btn-primary"
             onClick={() => {
-              var val = $("input[name='hosts-visitors']:checked").val();
-              console.log(val);
-              dispatch(uploadData(val));
+              dispatch(setDate(this.state.date));
+              var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
+              dispatch(uploadData(url));
+              //TODO make this real
+              this.refs.button.loading();
+              window.setTimeout(function() {
+                this.refs.button.success();
+                this.props.history.pushState(null, '/match', {date: moment(this.state.date).format('YYYY-MM-DD')});
+              }.bind(this), 1 * 1000)
             }}
             >
               Upload
-            </button>
+            </ProgressButton>
           </div>
           );
     } else {
       if(this.props.data.length === 0){
       return (
           <div>
+            <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
             <button 
             className="btn"
             onClick={() => {

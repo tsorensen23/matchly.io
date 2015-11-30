@@ -13,6 +13,9 @@ export function changeKey(oldKey, newKey){
 export function setHosts() {
   return { type: 'SET_HOSTS' }
 }
+export function setVisitors() {
+  return { type: 'SET_VISITORS' }
+}
 
 export function changeKeys(keyArray) {
   return { type: 'CHANGE_KEYS', keyArray}
@@ -290,9 +293,13 @@ function errorUpload(err){
 export function setDate(date){
   return { type: 'SET_DATE', date};
 }
+export function startUpload(){
+  return { type: 'START_UPLOAD'}
+}
 
 export function uploadData(url){
   return function(dispatch, getState){
+    dispatch(startUpload())
     var body = getState().finished;
     //TODO take this out when the date box works
     return fetch(url, {
