@@ -45,10 +45,10 @@ class App extends React.Component{
         );
     options = _.uniq(options);
     var finishHTML;
-    if(this.props.schoolMatches.isFetching || 
-        this.props.employerMatches.isFetching || 
-        this.props.allSchools.isFetching || 
-        this.props.allEmployers.isFetching || 
+    if(this.props.schoolMatches.isFetching ||
+        this.props.employerMatches.isFetching ||
+        this.props.allSchools.isFetching ||
+        this.props.allEmployers.isFetching ||
         this.props.headers.isFetching) {
       return <Loading />;
     }
@@ -104,7 +104,7 @@ class App extends React.Component{
       if(this.props.data.length === 0){
       return (
           <div>
-            <button 
+            <button
             className="btn"
             onClick={() => {
               dispatch(setHosts());
