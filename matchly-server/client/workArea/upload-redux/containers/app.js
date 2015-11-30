@@ -99,6 +99,7 @@ class App extends React.Component{
               window.setTimeout(function() {
                 console.log('timeout');
                 this.refs.button.success();
+                this.props.history.pushState(null, '/match', {date: moment(this.state.date).format('YYYY-MM-DD')});
               }.bind(this), 1 * 1000)
             }}
             >

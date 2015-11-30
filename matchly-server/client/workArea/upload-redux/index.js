@@ -8,7 +8,7 @@ import store from './store';
 export default class UploadRedux extends React.Component{
   render() {
     return (
-        <App store={store} />
+        <App store={store} history={this.props.history} context={this.props.context}/>
   );
   }
 }
