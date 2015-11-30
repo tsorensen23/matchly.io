@@ -6,7 +6,7 @@ var styles = {
     width: '14%',
     fontSize: '18px',
     padding: '50px 0',
-    border: '1px solid #111',
+    border: '1px solid rgba(212,212,212,0.5)',
     display: 'inline-block',
     textAlign: 'center',
     verticalAlign: 'middle'
