@@ -29,9 +29,7 @@ var MatchIndex = React.createClass({
 
     return (
         <div>
-
-          <h2> Select a date that you would like to match on </h2>
-          {display}
+          <h3>Matching for {moment(this.state.date).format('MM/DD')}</h3>
           {matches}
       </div>
     );

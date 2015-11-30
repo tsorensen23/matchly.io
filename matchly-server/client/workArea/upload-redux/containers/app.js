@@ -17,6 +17,7 @@ import {
   updateHeaderOrder,
   changeValue,
   addNewAlias,
+  setVisitors,
   setHosts,
   uploadData
 } from '../actions';
@@ -40,7 +41,7 @@ class App extends React.Component{
     };
   } 
   render(){
-    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers } = this.props;
+    const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers, hostsOrVisitors } = this.props;
     var options = data.map(e =>
         e.key
         );
@@ -91,13 +92,12 @@ class App extends React.Component{
           <ProgressButton ref='button'
           className="btn btn-primary"
             onClick={() => {
-              var val = $("input[name='hosts-visitors']:checked").val();
               dispatch(setDate(this.state.date));
-              dispatch(uploadData(val));
+              var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
+              dispatch(uploadData(url));
               //TODO make this real
               this.refs.button.loading();
               window.setTimeout(function() {
-                console.log('timeout');
                 this.refs.button.success();
                 this.props.history.pushState(null, '/match', {date: moment(this.state.date).format('YYYY-MM-DD')});
               }.bind(this), 1 * 1000)
@@ -111,7 +111,7 @@ class App extends React.Component{
       if(this.props.data.length === 0){
       return (
           <div>
-            <span>{JSON.stringify(this.props.location.query.date)}</span>
+            <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
             <button 
             className="btn"
             onClick={() => {
