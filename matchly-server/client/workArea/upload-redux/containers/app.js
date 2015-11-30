@@ -20,6 +20,7 @@ import {
   setHosts,
   uploadData
 } from '../actions';
+import ProgressButton from 'react-progress-button'
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
@@ -88,16 +89,21 @@ class App extends React.Component{
             }}
           />
           </div>
-          <button
+          <ProgressButton ref='button'
           className="btn btn-primary"
             onClick={() => {
               var val = $("input[name='hosts-visitors']:checked").val();
-              console.log(val);
               dispatch(uploadData(val));
+              //TODO make this real
+              this.refs.button.loading();
+              window.setTimeout(function() {
+                console.log('timeout');
+                this.refs.button.success();
+              }.bind(this), 1 * 1000)
             }}
             >
               Upload
-            </button>
+            </ProgressButton>
           </div>
           );
     } else {
