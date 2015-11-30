@@ -8,7 +8,7 @@ class DataTableRow extends React.Component {
         <tr>
           {Object.keys(visitor).map((key, index) =>
               (<DataCell
-                key={JSON.stringify(visitor[key]) + index}
+                key={visitor[key] + index}
                 employerMatches={this.props.employerMatches}
                 schoolMatches={this.props.schoolMatches}
                 data={visitor[key]}

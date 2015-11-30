@@ -14,7 +14,7 @@ class DataTable extends React.Component{
             {this.props.finished.map((e, index) =>
                 (<DataTableRow
                  visitor={e}
-                 key={JSON.stringify(e)}
+                 key={e.First + e.Last}
                  allSchools={this.props.allSchools}
                  allEmployers={this.props.allEmployers}
                  employerMatches={this.props.employerMatches}

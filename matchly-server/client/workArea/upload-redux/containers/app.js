@@ -83,6 +83,7 @@ class App extends React.Component{
           <DatePicker
             selected={this.state.date}
             onChange={(date) =>{
+              this.setState({date: date});
               dispatch(setDate(date));
             }}
           />
