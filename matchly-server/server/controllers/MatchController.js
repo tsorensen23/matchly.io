@@ -11,6 +11,7 @@ var Employer = db.Employer;
 var EmployerAlias = db.EmployerAlias;
 var async = require('async');
 var mpath = require('mpath');
+var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js');
 
 module.exports = {
 
@@ -51,8 +52,6 @@ module.exports = {
           if (err) {
             return next(err);
           }
-
-
           VisitorData = data;
           next();
         });
@@ -63,12 +62,19 @@ module.exports = {
           if (err) {
             return next(err);
           }
-
           AvailabiltyConstraint = data;
           next();
         });
       }
     ], function(err) {
+      var availability = availabilityCheck.availabilityCheck(VisitorData, AvailabiltyConstraint);
+      // console.log('just before availabilityCheck');
+      if(!availability.status){
+        var err = new Error('not enough spots');
+        res.status(400).json(availability);
+        return next(err, availability);
+      }
+     
       if (err) return next(err);
       var RumbleData;
       try {

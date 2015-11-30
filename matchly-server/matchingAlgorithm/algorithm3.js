@@ -217,7 +217,7 @@ var Rumble = {
     memoizeMatches = {};
 
     return unfilteredVisitorArray.map(function(vis) {
-      return Rumble.prepForSaving(vis.match, date);;
+      return Rumble.prepForSaving(vis.match, date);
     });
   }//close rumble
 };
