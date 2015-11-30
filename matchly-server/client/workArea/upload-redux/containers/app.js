@@ -74,14 +74,19 @@ class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
-          <input type="radio" name="hosts-visitors" value="/hosts" />Hosts
-          <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
+          <div style={{
+            width: '40%',
+            margin: '0 auto'
+          }}>
+            <input style={{float: 'left'}} type="radio" name="hosts-visitors" value="/hosts" />Hosts
+            <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
           <DatePicker
             selected={this.state.date}
             onChange={(date) =>{
               dispatch(setDate(date));
             }}
           />
+          </div>
           <button
           className="btn btn-primary"
             onClick={() => {
