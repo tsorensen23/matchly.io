@@ -36,9 +36,9 @@ class App extends React.Component{
     this.props.dispatch(getAllSchools());
     this.props.dispatch(getAllEmployers());
     this.state = {
-      date: moment()
+      date: moment(this.props.location.query.date)
     };
-  }
+  } 
   render(){
     const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers } = this.props;
     var options = data.map(e =>
@@ -85,7 +85,6 @@ class App extends React.Component{
             selected={this.state.date}
             onChange={(date) =>{
               this.setState({date: date});
-              dispatch(setDate(date));
             }}
           />
           </div>
@@ -93,6 +92,7 @@ class App extends React.Component{
           className="btn btn-primary"
             onClick={() => {
               var val = $("input[name='hosts-visitors']:checked").val();
+              dispatch(setDate(this.state.date));
               dispatch(uploadData(val));
               //TODO make this real
               this.refs.button.loading();
@@ -111,6 +111,7 @@ class App extends React.Component{
       if(this.props.data.length === 0){
       return (
           <div>
+            <span>{JSON.stringify(this.props.location.query.date)}</span>
             <button 
             className="btn"
             onClick={() => {
