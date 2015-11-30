@@ -22,7 +22,8 @@ var styles = {
 var Calendar = React.createClass({
   getInitialState: function() {
     var startDate = moment().startOf("month").add(1, 'day').format('YYYY-MM-DD');
-    var endDate = moment().endOf("month").format('YYYY-MM-DD');
+    var endDate = moment().endOf("month").add(1, 'day').format('YYYY-MM-DD');
+    console.log(endDate);
     return { 
       calendar: { isFetching: true, error: '', data: [] },
       startDate: startDate,

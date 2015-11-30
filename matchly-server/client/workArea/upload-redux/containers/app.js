@@ -135,7 +135,6 @@ class App extends React.Component{
                     >
                       Finish
                     </button>
-                  <h1>This is the finished shit</h1>
                 </div>
         );
     }
