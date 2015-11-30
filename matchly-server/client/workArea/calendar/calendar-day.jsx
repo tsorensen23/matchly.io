@@ -44,9 +44,13 @@ var CalendarDay = React.createClass({
       );
     } else {
       return (
-        <div style={styles.day}>
+          <Link
+            to='/upload'
+            query={{date: this.props.date}}
+            style={styles.day}
+            >
             {this.props.date}
-        </div>
+            </Link>
       );
     }
   }
