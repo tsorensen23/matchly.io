@@ -76,19 +76,6 @@ class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
-          <div style={{
-            width: '40%',
-            margin: '0 auto'
-          }}>
-            <input style={{float: 'left'}} type="radio" name="hosts-visitors" value="/hosts" />Hosts
-            <input type="radio" name="hosts-visitors" value="/visitors" />Visitors
-          <DatePicker
-            selected={this.state.date}
-            onChange={(date) =>{
-              this.setState({date: date});
-            }}
-          />
-          </div>
           <ProgressButton ref='button'
           className="btn btn-primary"
             onClick={() => {
