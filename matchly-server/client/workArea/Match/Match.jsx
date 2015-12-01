@@ -2,6 +2,7 @@ var React = require('react');
 var Visitor = require('../Visitors.jsx');
 var Loading = require('../Loading.jsx');
 var ProgressButton = require('react-progress-button');
+import UnmatchedVisitors from './unmatched-visitors';
 
 var HostStore = require('../../Stores/CrudStore')('hosts');
 
@@ -68,6 +69,7 @@ var Match = React.createClass({
 
           </div>
           <HostChooser date={this.props.date} />
+          <UnmatchedVisitors date={this.props.date} />
           <ProgressButton className="btn btn-primary" ref='button' onClick={this.match}>MATCH</ProgressButton>
           <div className="text-center" style={{marginTop: '15'}}>
 

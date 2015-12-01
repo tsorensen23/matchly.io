@@ -6,6 +6,7 @@ var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var csv = require('fast-csv');
 var School = db.School;
+var moment = require('moment');
 var Alias = db.Alias;
 var Employer = db.Employer;
 var EmployerAlias = db.EmployerAlias;
@@ -14,6 +15,19 @@ var mpath = require('mpath');
 var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js');
 
 module.exports = {
+  getVisitorsByDate: function(req, res, next){
+    console.log('hit it');
+    console.log(req.query.date);
+    var startDate = moment(req.query.date).subtract(1, 'minute').toDate();
+    console.log(startDate);
+    var endDate = moment(req.query.date).add(1, 'minute').toDate();
+    console.log(endDate);
+    // var date = new Date("2015-11-30T08:00:00.000Z");
+    Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { _id: 0, __v: 0}, function(err, data){
+      res.json(data);
+    });
+
+  },
 
   getAvailableData:function(req, res) {
     Availability.find({}, function(err, data) {

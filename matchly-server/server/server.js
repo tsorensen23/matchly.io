@@ -60,7 +60,7 @@ app.post('/availability', matchController.availability);
 app.get('/match', matchController.rumble);
 app.get('/getAvailableData', matchController.getAvailableData);
 
-app.get('/deleteVisitors', userController.deleteVisitors);
+app.post('/deleteVisitors', userController.deleteVisitors);
 
 app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
@@ -73,6 +73,7 @@ app.post('/employers', employerController.createEmployer);
 //  });
 //  
 //});
+app.get('/visitors', matchController.getVisitorsByDate);
 app.post('/checkemployers', employerController.checkMatch);
 app.post('/employermatch', employerController.employerMatch);
 
