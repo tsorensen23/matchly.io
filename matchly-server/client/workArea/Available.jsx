@@ -37,10 +37,10 @@ var Available = React.createClass({
       var html =  `Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`;
     }
     return (
-      <div className='classAvailable'>
+      <div className='classAvailable container'>
         <h4>{html}</h4>
         <form onSubmit={this.sendClassConstraints}>
-          <div className='topRowTitles' style={{marginLeft: '-60'}}>
+          <div className='topRowTitles'>
             {
               [<span key={113456} className="col-xs-2"></span>]
               .concat(SECTIONS.map(function(letter, index) {
@@ -54,15 +54,11 @@ var Available = React.createClass({
                 <li>
                   <h3 className='row-title sections'>
                     <span
-                      className="pull-left"
-                      style={{
-                        marginRight: '100',
-                        display: 'inline-block'
-                      }}
+                      className="col-xs-2 pull-left text-center"
                     >
                       {time}
                     </span>
-                    <span className="" style={{marginLeft: 15}}>
+                    <span>
                       {SECTIONS.map(function(letter, index) {
                       var cur = letter + (i + 1);
                       return (<input required='true'
