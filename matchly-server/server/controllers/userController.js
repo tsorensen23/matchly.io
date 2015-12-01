@@ -81,6 +81,7 @@ module.exports = {
         }
 
         res.cookie('matchlycookie', hatNumber);
+        req.cookie('matchlycookie', hatNumber);
         res.send();
       });
     });

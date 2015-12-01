@@ -87,6 +87,7 @@ export function fetchHeaders() {
     dispatch(getHeaders());
     return fetch('/headerOrder', {
       method: 'POST',
+      credentials: 'same-origin',
       body: JSON.stringify({school: 'Darden'}),
       headers: {
         'Accept': 'application/json',
@@ -113,6 +114,7 @@ export function updateHeaderOrder(){
     }, {});
     return fetch('updateHeaderOrder', {
       method: 'POST',
+      credentials: 'same-origin',
       body: JSON.stringify(body),
       headers: {
         'Accept': 'application/json',
@@ -143,6 +145,7 @@ export function getEmployers(){
     return fetch('checkemployers', {
       method: 'POST',
       body: JSON.stringify(body),
+      credentials: 'same-origin',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -181,7 +184,9 @@ export function errorAllSchools(error) {
 export function getAllSchools() {
   return function(dispatch) {
     dispatch(requestAllSchools());
-    return fetch('schools')
+    return fetch('schools', { 
+      credentials: 'same-origin'
+    })
       .catch(err =>
         dispatch(errorAllSchools(err))
       ).then(resp =>
@@ -201,6 +206,7 @@ export function getSchools(){
     return fetch('checkschools', {
       method: 'POST',
       body: JSON.stringify(body),
+      credentials: 'same-origin',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -233,7 +239,9 @@ export function errorAllEmployers(error) {
 export function getAllEmployers() {
   return function(dispatch) {
     dispatch(requestAllEmployers());
-    return fetch('employers')
+    return fetch('employers', { 
+      credentials: 'same-origin'
+    })
       .catch(err =>
         dispatch(errorAllEmployers(err))
       ).then(resp =>
@@ -263,6 +271,7 @@ export function addNewAlias(alias, trueValue, employerBool){
     };
     return fetch(url, {
       method: 'POST',
+      credentials: 'same-origin',
       body: JSON.stringify(body),
       headers: {
         'Accept': 'application/json',
@@ -304,6 +313,7 @@ export function uploadData(url){
     //TODO take this out when the date box works
     return fetch(url, {
       method: 'POST',
+      credentials: 'same-origin',
       body: JSON.stringify(body),
       headers: {
         'Accept': 'application/json',

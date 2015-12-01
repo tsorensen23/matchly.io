@@ -27,9 +27,10 @@ function StatefulFields(type, data, fields, school) {
 
   var _this = this;
   $.ajax({
+    url: '/headerOrder',
     method: 'POST',
     contentType: 'application/json',
-    url: '/headerOrder',
+    datatype: 'json',
     data: JSON.stringify(this.school),
     success: function(prevHeads) {
       requested.forEach(function(req) {
@@ -146,7 +147,7 @@ StatefulFields.prototype.confirmHeaders = function() {
         next();
       } else {
         $.ajax({
-          url: '/schools',
+          url: 'schools',
           type: 'get',
           dataType: 'json',
           complete: function(jqXHR, textStatus) {
@@ -192,7 +193,7 @@ StatefulFields.prototype.confirmHeaders = function() {
       }.bind(this),
     function(next) {
       $.ajax({
-        url: '/employers/',
+        url: 'employers/',
         type: 'GET',
         dataType: 'json',
         complete: function (jqXHR, textStatus) {
