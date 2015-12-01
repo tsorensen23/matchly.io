@@ -53,7 +53,13 @@ var Available = React.createClass({
               <ul key={time+i}>
                 <li>
                   <h3 className='row-title sections'>
-                    <span className="pull-left">
+                    <span
+                      className="pull-left"
+                      style={{
+                        marginRight: '100',
+                        display: 'inline-block'
+                      }}
+                    >
                       {time}
                     </span>
                     <span className="" style={{marginLeft: 15}}>
