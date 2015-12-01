@@ -88,15 +88,15 @@ var Match = React.createClass({
                 <th>Section</th>
                 <th>Visit Time</th>
                 <th>MatchCount</th>
-                <th>Gender</th>
-                <th>State</th>
-                <th>City</th>
-                <th>Industry</th>
-                <th>Employer</th>
-                <th>Undergrad</th>
                 <th>Citizenship</th>
-                <th>Country</th>
+                <th>City</th>
+                <th>Employer</th>
+                <th>Gender</th>
+                <th>Industry</th>
                 <th>Military</th>
+                <th>State</th>
+                <th>Undergrad</th>
+                <th>Country</th>
               </tr>
             </thead>
             <tbody>
