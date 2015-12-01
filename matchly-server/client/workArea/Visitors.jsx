@@ -29,7 +29,7 @@ var Visitor = React.createClass({
           {this.props.visitor.matchCount}
         </td>
         <td>
-          { this.props.Citizenship ?  this.props.visitor.Citizenship.toString() : ''}
+          { this.props.visitor.Citizenship ? this.props.visitor.Citizenship.toString() : '' }
         </td>
         <td>
           {this.props.visitor.City ? this.props.visitor.City.toString() : ''}
