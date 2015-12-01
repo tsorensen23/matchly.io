@@ -1,4 +1,5 @@
 var ReactDOM = require('react-dom');
+var React = require('react');
 
 var Login = require('./Login.jsx');
 var Register = require('./Register.jsx');
