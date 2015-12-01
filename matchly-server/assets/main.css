@@ -66,7 +66,16 @@ html, body, h1, h2, h3, h4, p, div, ul, li, a {
 #workArea > .table > .table-condensed > tr {
   margin-bottom: 5px;
 }
-
+.calendar-view a:hover {
+  text-decoration: none;
+  color: green !important
+}
+a.has-data:hover {
+  color: green !important;
+}
+a.has-match:hover {
+  color: yellow !important;
+}
 /*====================================================
 =============== .pb-container styles =================
 ====================================================*/
