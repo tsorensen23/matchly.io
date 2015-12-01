@@ -4,7 +4,6 @@ var Host = db.Host;
 var Availability = db.Availability;
 var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
-var csv = require('fast-csv');
 var School = db.School;
 var moment = require('moment');
 var Alias = db.Alias;
