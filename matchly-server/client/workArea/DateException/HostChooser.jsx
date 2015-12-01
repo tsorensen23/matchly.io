@@ -63,7 +63,7 @@ var AddExceptionDay = React.createClass({
         }}>
           <table className='table table-condensed'>
             <tbody> 
-              {this.state.hosts.map(function(host) {
+              {this.state.hosts.map(function(host, index) {
               var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
               if (!host.MatchInfo.matchDates) {
                 host.MatchInfo.matchDates = host.MatchInfo.matches.map(function(match) {
@@ -84,7 +84,7 @@ var AddExceptionDay = React.createClass({
 
               var contact = host.Contact;
               return (
-                <tr style={{
+                <tr key={contact.First + contact.Last + index} style={{
                     backgroundColor: !isAvailable ? '#E26A6A' : isTaken ? 'yellow' : '#2ecc71',
                     fontSize: '1.1em', borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
                   }}>

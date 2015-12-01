@@ -72,9 +72,9 @@ export default class UnmatchedVisitors extends React.Component {
           </thead>
           <tbody>
 
-          {this.state.visitors.data.map((visitor) => {
+          {this.state.visitors.data.map((visitor, index) => {
             return(
-                <tr>
+                <tr key={visitor.Contact.Last + index}>
                   <td>
                     {visitor.Contact.First} {visitor.Contact.Last}
                   </td>

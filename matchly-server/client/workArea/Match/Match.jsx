@@ -55,7 +55,7 @@ var Match = React.createClass({
     if (this.state.matchData) {
       this.state.matchData.array.shift();
       data = this.state.matchData.array.map(function(visitor) {
-        return (<Visitor visitor={visitor} />);
+        return (<Visitor key={visitor.Contact.Last + visitor.Contact.First} visitor={visitor} />);
       });
     }
 
