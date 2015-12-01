@@ -35,7 +35,6 @@ module.exports.getDates = function(req, res, next){
         matchedDays = _.uniq(matchedDays, function(date) {
           return date;
         });
-        console.log(matchedDays);
         cb(null, matchedDays);
       });
     }
@@ -69,7 +68,6 @@ module.exports.getDates = function(req, res, next){
         });
       }
     }
-    arr.shift();
     arr.pop();
     arr.pop()
     res.json(arr);

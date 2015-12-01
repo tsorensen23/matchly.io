@@ -15,10 +15,7 @@ var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js'
 
 module.exports = {
   getVisitorsByDate: function(req, res, next){
-    console.log('hit it');
-    console.log(req.query.date);
     var startDate = moment(req.query.date).subtract(1, 'minute').toDate();
-    console.log(startDate);
     var endDate = moment(req.query.date).add(1, 'minute').toDate();
     console.log(endDate);
     // var date = new Date("2015-11-30T08:00:00.000Z");

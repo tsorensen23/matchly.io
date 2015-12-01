@@ -40,7 +40,6 @@ module.exports = {
   },
 
   deleteVisitors: function(req, res, next) {
-    console.log('hit it');
     var startDate = moment(req.body.date).subtract(1, 'minute').toDate();
     var endDate = moment(req.body.date).add(1, 'minute').toDate();
     // var date = new Date("2015-11-30T08:00:00.000Z");
