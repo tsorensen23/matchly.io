@@ -21,8 +21,8 @@ var styles = {
 
 var Calendar = React.createClass({
   getInitialState: function() {
-    var startDate = moment().startOf("month").add(1, 'day').format('YYYY-MM-DD');
-    var endDate = moment().endOf("month").add(1, 'day').format('YYYY-MM-DD');
+    var startDate = moment().startOf("month");
+    var endDate = moment().endOf("month");
     console.log(endDate);
     return { 
       calendar: { isFetching: true, error: '', data: [] },
@@ -35,7 +35,7 @@ var Calendar = React.createClass({
     $.ajax({
       method: 'get',
       url: '/calendar',
-      data: { startDate: this.state.startDate, endDate: this.state.endDate},
+      data: { startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString()},
       complete: () => {
         this.setState({calendar: {isFetching: false}});
       },

@@ -24,7 +24,7 @@ var MatchIndex = React.createClass({
   render:function() {
     var display = [<DatePicker selected={this.state.date} onChange={this.handleChange} />];
     if (this.state.date) {
-      var matches = (<Match date={this.state.date} />);
+      var matches = (<Match location={this.props.location} history={this.props.history}  date={this.state.date} />);
     }
 
     return (
