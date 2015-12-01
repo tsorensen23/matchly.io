@@ -66,7 +66,6 @@ module.exports.employerMatch = function(req, res, next) {
         Employer.findOne({name: req.body.trueValue}, function(err, employer) {
           if(err) return next(err);
           if(employer) {
-            console.log(employer);
               if(alias.employerIDs.indexOf(employer.id) === -1) {
                 alias.employerIDs.push(employer.id);
                 alias.save();

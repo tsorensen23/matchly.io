@@ -72,7 +72,6 @@ class DataCell extends React.Component {
               value=""
               onChange={this.handleInput.bind(this)}
               ref="select"
-              multi={true}
               allowCreate={true}
               placeholder="Select..."
               options={this.possibilities.value.map(e => {
@@ -91,7 +90,6 @@ class DataCell extends React.Component {
               value=""
               onChange={this.handleInput.bind(this)}
               ref="select"
-              multi={true}
               allowCreate={true}
               placeholder="Select..."
               options={options.map(e =>{

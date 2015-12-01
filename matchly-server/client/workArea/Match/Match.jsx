@@ -37,6 +37,9 @@ var Match = React.createClass({
 
       error: function(resp) {
         _this.refs.button.error();
+        var data = resp.responseJSON;
+
+        alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  $data.lecture3Spots} in Lecture 4`);
       }
     });
   },
