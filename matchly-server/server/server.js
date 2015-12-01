@@ -60,11 +60,13 @@ app.post('/availability', matchController.availability);
 app.get('/match', matchController.rumble);
 app.get('/getAvailableData', matchController.getAvailableData);
 
+app.get('/deleteVisitors', userController.deleteVisitors);
+
 app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 
 app.get('/employers', employerController.getEmployers);
-app.post('/employers', employerController.createEmployer)
+app.post('/employers', employerController.createEmployer);
 //app.get('/employers', function(req, res) {
 //  Employer.find({}, function(err, data) {
 //   res.json(data); 
