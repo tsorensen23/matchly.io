@@ -1,3 +1,4 @@
+var ReactDOM = require('react-dom');
 var React = require('react');
 
 var Home = require('../Home.jsx');
@@ -34,7 +35,7 @@ User.getUser(function(err, user) {
     return window.location = '/login';
   }
 
-  React.render(
+  ReactDOM.render(
     <Router history={createHashHistory()} createElement={function(Component,props) {
         return <Component user={user} {...props} />;
       }}>

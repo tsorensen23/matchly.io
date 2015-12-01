@@ -69,7 +69,7 @@ var AddExceptionDay = React.createClass({
               });
             }
 
-            if (host.MatchInfo.matches.length) console.log('matches', host.MatchInfo.matches);
+            // if (host.MatchInfo.matches.length) console.log('matches', host.MatchInfo.matches);
 
             var takenIndex = -1;
             var isTaken = false;
