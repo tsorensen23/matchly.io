@@ -42,46 +42,100 @@ var Register = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <h1 id='header'>MATCHLY</h1>
-        <div id='tabs'>
-          <h4>Welcome! Please register...</h4>
+      <div style={{marginTop: '20'}}>
+        <div style={{lineHeight: '1.4'}}>
+          <h2>Welcome! <br />Please Register</h2>
         </div>
-        <div id='registerBox'>
-            <div id='registerInput'>
-                <table>
-                  <tbody>
-                    <tr>
-                      <h3>School Registration Code: <input id='schoolCode' type='text' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>First Name: <input id='firstName' type='text' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>Last Name: <input id='lastName' type='text' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>Email Address: <input id='emailAddress' type='email' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>Username: <input id='username' type='text' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>Password: <input id='password' type='password' required /></h3>
-                    </tr>
-                    <tr>
-                      <h3>Confirm Password: <input id='confirmPassword' type='password' required /></h3>
-                    </tr>
-                  </tbody>
-                </table>
-                <table>
-                  <tbody>
-                  <tr>
-                    <button id='submitRegister' type='submit' onClick={this.handleRegister}>Register</button>
-                  </tr>
-                  </tbody>
-                </table>
-            </div>
+        <div className="col-xs-6 col-xs-offset-3 text-left">
+          <table>
+            <tbody>
+              <tr>
+                <h3>School Registration Code:
+                  <input
+                    id='schoolCode'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>First Name:
+                  <input
+                    id='firstName'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>Last Name:
+                  <input
+                    id='lastName'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>Email Address:
+                  <input
+                    id='emailAddress'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>Username:
+                  <input
+                    id='username'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>Password:
+                  <input
+                    id='password'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+              <tr>
+                <h3>Confirm Password:
+                  <input
+                    id='confirmPassword'
+                    type='text'
+                    style={{float: 'right'}}
+                    required
+                  />
+                </h3>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <tbody>
+              <tr>
+                <button
+                  id='submitRegister'
+                  type='submit'
+                  onClick={this.handleRegister}
+                  className="btn btn-success btn-block"
+                  style={{marginTop: '20'}}
+                >
+                  Register
+                </button>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );

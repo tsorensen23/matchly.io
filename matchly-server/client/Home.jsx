@@ -11,7 +11,7 @@ var Home = React.createClass({
         <div className="row">
           <div className="col-xs-12 navigation">
             <div className="col-xs-5">
-              <h1>MATCHLY.IO</h1>
+              <h1><a href="/">MATCHLY.IO</a></h1>
             </div>
             <div className="col-xs-7">
               <ul className="pull-right">
