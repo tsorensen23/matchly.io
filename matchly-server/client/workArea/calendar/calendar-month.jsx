@@ -81,7 +81,7 @@ var CalendarMonth = React.createClass({
     }
     console.log(this.props);
     return (
-      <div>
+      <div className="row">
         {calendarDays}
       </div>
     );

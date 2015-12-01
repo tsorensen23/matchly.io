@@ -4,8 +4,8 @@ export default React.createClass({
   render: function(){
     var calendarEntry = this.props.calendarEntry;
     return (
-      <li>
-        {moment(calendarEntry.date).format('MM-DD')}
+      <li style={{marginLeft: '20'}}>
+        {moment(calendarEntry.date).format('MMM Do' + ', ' + 'YYYY')}
         {() =>
           calendarEntry.matched ? 'Matched' : ''
         }

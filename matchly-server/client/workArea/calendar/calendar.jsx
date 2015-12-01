@@ -3,28 +3,12 @@ var CalendarMonth = require('./calendar-month.jsx');
 var CalendarList = require('./calendar-list.jsx');
 var moment = require('moment');
 
-var styles = {
-  fullView: {
-    margin: '20px 0'
-  },
-  calendarView: {
-    width: '85%',
-    float: 'left',
-    display: 'block'
-  },
-  calendarList: {
-    width: '15%',
-    float: 'left',
-    display: 'block'
-  }
-};
-
 var Calendar = React.createClass({
   getInitialState: function() {
     var startDate = moment().startOf("month");
     var endDate = moment().endOf("month");
     console.log(endDate);
-    return { 
+    return {
       calendar: { isFetching: true, error: '', data: [] },
       startDate: startDate,
       endDate: endDate
@@ -52,12 +36,22 @@ var Calendar = React.createClass({
       return <h1>Loading</h1>;
     }
     return (
-      <div style={styles.fullView}>
-        <div style={styles.calendarView}>
-          <CalendarMonth calendar={this.state.calendar.data} />
+      <div style={{margin: '20px 0'}} className="calendar-view">
+        <div
+          className="col-xs-10"
+          style={{
+            border: '1px solid #ccc',
+            overflow: 'hidden'
+          }}
+        >
+          <CalendarMonth
+            calendar={this.state.calendar.data}
+          />
         </div>
-        <div style={styles.calendarList}>
-          <CalendarList calendar={this.state.calendar.data}/>
+        <div className="col-xs-2">
+          <CalendarList
+            calendar={this.state.calendar.data}
+          />
         </div>
       </div>
     );
