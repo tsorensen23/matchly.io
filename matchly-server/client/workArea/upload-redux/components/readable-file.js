@@ -31,7 +31,7 @@ class ReadableFile extends React.Component{
   render() {
     return (
       <div>
-        <div class="form-group">
+        <div className="form-group">
           <label for="inputFile">
             Please Upload Your Visitor file
           </label>
