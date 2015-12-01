@@ -15,8 +15,8 @@ var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js'
 
 module.exports = {
   getVisitorsByDate: function(req, res, next){
-    var startDate = moment(req.query.date).subtract(1, 'minute').toDate();
-    var endDate = moment(req.query.date).add(1, 'minute').toDate();
+    var startDate = moment.utc(req.query.date).subtract(1, 'minute').toDate();
+    var endDate = moment.utc(req.query.date).add(1, 'minute').toDate();
     console.log(endDate, 'endDate');
     console.log(startDate, 'startDate');
     // var date = new Date("2015-11-30T08:00:00.000Z");
@@ -174,7 +174,7 @@ module.exports = {
         visitor.MatchInfo.classVisitNumber = 3;
         visitor.MatchInfo['Class Visit Time'] = 1145;
       }
-      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      visitor.MatchInfo.visitDate = moment.utc(visitor.MatchInfo.visitDate).toDate();
       return visitor;
     });
     async.map(visitors, function(visitor, done){
@@ -230,7 +230,6 @@ module.exports = {
   },
 
   submitvisitors: function(req, res, next) {
-    console.log(req.body);
     req.body = req.body.map(function(visitor){
       var newVis = {};
       newVis.Characteristics = {
@@ -265,7 +264,7 @@ module.exports = {
         visitor.MatchInfo.classVisitNumber = 3;
         visitor.MatchInfo['Class Visit Time'] = 1145;
       }
-      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
     async.map(visitors, function(visitor, done){

@@ -40,8 +40,8 @@ module.exports = {
   },
 
   deleteVisitors: function(req, res, next) {
-    var startDate = moment(req.body.date).subtract(1, 'minute').toDate();
-    var endDate = moment(req.body.date).add(1, 'minute').toDate();
+    var startDate = moment.utc(req.body.date).subtract(1, 'minute').toDate();
+    var endDate = moment.utc(req.body.date).add(1, 'minute').toDate();
     // var date = new Date("2015-11-30T08:00:00.000Z");
     
     Visitors.find({'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}).remove(function(err, data){

@@ -7,14 +7,14 @@ var moment = require('moment');
 var async = require('async');
 
 module.exports.getDates = function(req, res, next){
-  let startDate = moment(req.query.startDate).subtract(1, 'minute').toDate();
-  let endDate = moment(req.query.endDate).add(1, 'minute').toDate();
+  let startDate = moment.utc(req.query.startDate).subtract(1, 'minute').toDate();
+  let endDate = moment.utc(req.query.endDate).add(1, 'minute').toDate();
   // search db for visitors
   async.parallel([function(cb){
       Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { 'MatchInfo.visitDate': 1, _id: 0}, function(err, data) {
         if(err) { cb(err); }
         var visitorDays = data.map(d =>
-            moment(d.MatchInfo.visitDate).format('YYYY-MM-DD')
+            moment.utc(d.MatchInfo.visitDate).format('YYYY-MM-DD')
             );
         visitorDays = _.uniq(visitorDays, function(date) {
           return date;
@@ -27,7 +27,7 @@ module.exports.getDates = function(req, res, next){
         if(err){ return cb(err); }
         var matchedDays = data.map(datapoint =>
             datapoint.MatchInfo.matches.map(match =>
-              moment(match.date).format('YYYY-MM-DD')
+              moment.utc(match.date).format('YYYY-MM-DD')
               )
 
             );
@@ -43,9 +43,9 @@ module.exports.getDates = function(req, res, next){
     let visitorDays = results[0],
         matchedDays = results[1];
     var arr = [];
-    arr.push({ date: moment(startDate).format('YYYY-MM-DD'), matched: false, uploaded: false});
-    while(moment(arr[arr.length - 1].date) < moment(endDate)) {
-      var newDate = moment(arr[arr.length - 1].date).clone().add(1, 'days');
+    arr.push({ date: moment.utc(startDate).format('YYYY-MM-DD'), matched: false, uploaded: false});
+    while(moment.utc(arr[arr.length - 1].date) < moment.utc(endDate)) {
+      var newDate = moment.utc(arr[arr.length - 1].date).clone().add(1, 'days');
       var visitorIndex = visitorDays.indexOf(newDate.format('YYYY-MM-DD'));
       var matchedIndex = matchedDays.indexOf(newDate.format('YYYY-MM-DD'));
      if( matchedIndex !== -1) {
@@ -62,7 +62,7 @@ module.exports.getDates = function(req, res, next){
         });
       } else {
         arr.push({
-          date: moment(arr[arr.length - 1].date).clone().add(1, 'days').format('YYYY-MM-DD'),
+          date: moment.utc(arr[arr.length - 1].date).clone().add(1, 'days').format('YYYY-MM-DD'),
           matched: false,
           uploaded: false
         });
