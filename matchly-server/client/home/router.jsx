@@ -45,8 +45,6 @@ User.getUser(function(err, user) {
         <Route path='available' component={Available} />
         <Route path='calendar' component={Calendar} />
       </Route>
-    </Router>,
-
-    document.getElementById('main')
+    </Router>, document.getElementById('main')
   );
 });

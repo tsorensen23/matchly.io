@@ -39,7 +39,7 @@ class App extends React.Component{
     this.state = {
       date: moment(this.props.location.query.date)
     };
-  } 
+  }
   render(){
     const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers, hostsOrVisitors } = this.props;
     var options = data.map(e =>
@@ -47,10 +47,10 @@ class App extends React.Component{
         );
     options = _.uniq(options);
     var finishHTML;
-    if(this.props.schoolMatches.isFetching || 
-        this.props.employerMatches.isFetching || 
-        this.props.allSchools.isFetching || 
-        this.props.allEmployers.isFetching || 
+    if(this.props.schoolMatches.isFetching ||
+        this.props.employerMatches.isFetching ||
+        this.props.allSchools.isFetching ||
+        this.props.allEmployers.isFetching ||
         this.props.headers.isFetching) {
       return <Loading />;
     }
@@ -99,7 +99,7 @@ class App extends React.Component{
       return (
           <div>
             <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
-            <button 
+            <button
             className="btn"
             onClick={() => {
               dispatch(setHosts());

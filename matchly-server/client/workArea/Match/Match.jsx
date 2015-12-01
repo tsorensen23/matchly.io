@@ -37,6 +37,9 @@ var Match = React.createClass({
 
       error: function(resp) {
         _this.refs.button.error();
+        var data = resp.responseJSON;
+
+        alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  $data.lecture3Spots} in Lecture 4`);
       }
     });
   },
@@ -64,13 +67,16 @@ var Match = React.createClass({
 
           </div>
           <HostChooser date={this.props.date} />
-          <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
-          <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
+          <ProgressButton className="btn btn-primary" ref='button' onClick={this.match}>MATCH</ProgressButton>
+          <div className="text-center" style={{marginTop: '15'}}>
+
+          <button className="btn btn-info" onClick={this.exportToCSV}>Export Data to CSV File</button>
+          </div>
         </div>
         <div id='loading'>
         </div>
         <div id='data'>
-          <table className='table table-condensed minorPadding'>
+          <table className='table table-condensed'>
             <thead>
               <tr>
                 <th>Visitor First Name</th>

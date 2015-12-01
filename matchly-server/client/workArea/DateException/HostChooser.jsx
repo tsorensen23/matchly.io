@@ -55,7 +55,7 @@ var AddExceptionDay = React.createClass({
     return (
         <div>
         <h2> Now select the hosts who will be available on that date</h2>
-        <div style={{height: '500px', overflowY: 'scroll'}}>
+        <div style={{height: '500px', overflowY: 'scroll', marginBottom: '10', border: '1px solid rgba(100, 100, 100, 0.5)'}}>
           <table className='table table-condensed'>{this.state.hosts.map(function(host) {
             var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
             if (!host.MatchInfo.matchDates) {
@@ -79,16 +79,16 @@ var AddExceptionDay = React.createClass({
             return (
               <tr style={{
                   backgroundColor: !isAvailable ? '#E26A6A' : isTaken ? 'yellow' : '#2ecc71',
-                  fontSize: '1.1em'
+                  fontSize: '1.1em', borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
                 }}>
-                <td style={{verticalAlign: 'center'}}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
-                <td style={{verticalAlign: 'center'}}><b>{contact.First}</b></td>
-                <td style={{verticalAlign: 'center'}}><b> {contact.Last}</b></td>
-                <td style={{verticalAlign: 'center'}}><b>{
+                <td style={{verticalAlign: 'center', textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)', paddingLeft: '5px'}}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
+                <td style={{verticalAlign: 'center', textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'}}><b>{contact.First}</b></td>
+                <td style={{verticalAlign: 'center', textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'}}><b> {contact.Last}</b></td>
+                <td style={{verticalAlign: 'center', textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'}}><b>{
                   isTaken ? 'Has Visitor' : isAvailable ? 'Is Available' : 'Is Unavailable'
                 }</b></td>
                 <td style={{textAlign: 'right', verticalAlign: 'center'}}>
-                  <button className={`btn`}  style={{width: '200', padding: '4'}} onClick={toggleHost.bind(this, host, onoff)}>
+                  <button className={`btn`}  style={{width: '200', padding: '5', margin: '5', color: 'black', textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'}} onClick={toggleHost.bind(this, host, onoff)}>
                     {onoff ? 'Make Unavailable' : 'Make Available'} on Date
                   </button>
                 </td>

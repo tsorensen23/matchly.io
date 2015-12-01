@@ -95,9 +95,11 @@ module.exports.schoolMatch = function(req, res, next) {
         return next(err);
       }
       if(school){
-        if (alias.schoolId.indexOf(school.id) === -1) ;
-        alias.save();
-        res.json({alias: alias, schoolname: school.name});
+        if (alias.schoolId.indexOf(school.id) === -1){
+          alias.schoolId.push(school.id);
+          alias.save();
+          res.json({alias: alias, schoolname: school.name});
+        }
       } else {
         School.create({name: req.body.trueValue}, function(err, school){
           if(err){
