@@ -37,6 +37,7 @@
     "babelify": "^6.3.0",
     "browserify": "^10.2.4",
     "isomorphic-fetch": "^2.2.0",
+    "history": "^1.12.2",
     "es6-promise": "^3.0.2"
   },
   "dependencies": {
@@ -49,7 +50,6 @@
     "envify": "^3.4.0",
     "express": "~4.12.4",
     "hat": "0.0.3",
-    "history": "^1.12.2",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "mongodb": "^2.0.43",
