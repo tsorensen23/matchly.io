@@ -64,13 +64,16 @@ var Match = React.createClass({
 
           </div>
           <HostChooser date={this.props.date} />
-          <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
-          <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
+          <ProgressButton className="btn btn-primary" ref='button' onClick={this.match}>MATCH</ProgressButton>
+          <div className="text-center" style={{marginTop: '15'}}>
+
+          <button className="btn btn-info" onClick={this.exportToCSV}>Export Data to CSV File</button>
+          </div>
         </div>
         <div id='loading'>
         </div>
         <div id='data'>
-          <table className='table table-condensed minorPadding'>
+          <table className='table table-condensed'>
             <thead>
               <tr>
                 <th>Visitor First Name</th>
