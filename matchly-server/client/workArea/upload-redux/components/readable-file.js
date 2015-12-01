@@ -41,7 +41,7 @@ class ReadableFile extends React.Component{
            id="inputFile"
            name={this.props.name}
            onChange={this.onChange.bind(this)}
-           accept={this.props.accept}
+           accept=".csv"
            style={{
              margin: '10px auto',
              width: '250px',
