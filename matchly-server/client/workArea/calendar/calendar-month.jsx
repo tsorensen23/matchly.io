@@ -79,7 +79,6 @@ var CalendarMonth = React.createClass({
     for (var i = 0; i < this.props.calendar.length; i++) {
       calendarDays.push(<CalendarDay key={this.props.calendar[i].date} date={this.props.calendar[i].date} uploaded={this.props.calendar[i].uploaded} matched={this.props.calendar[i].matched} />);
     }
-    console.log(this.props);
     return (
       <div className="row">
         {calendarDays}

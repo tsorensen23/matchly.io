@@ -7,7 +7,6 @@ var Calendar = React.createClass({
   getInitialState: function() {
     var startDate = moment().startOf("month");
     var endDate = moment().endOf("month");
-    console.log(endDate);
     return {
       calendar: { isFetching: true, error: '', data: [] },
       startDate: startDate,

@@ -3,16 +3,13 @@ import moment from 'moment';
 export default React.createClass({
   render: function(){
     var calendarEntry = this.props.calendarEntry;
-    return (
-      <li style={{marginLeft: '20'}}>
-        {moment(calendarEntry.date).format('MMM Do' + ', ' + 'YYYY')}
-        {() =>
-          calendarEntry.matched ? 'Matched' : ''
-        }
-        {() =>
-          calendarEntry.uploaded ? 'Uploaded' : ''
-        }
+    var date = moment(calendarEntry.date).format('MMM Do' + ', ' + 'YYYY');
+    var matched = calendarEntry.matched ? ': Matched' : '';
+    var uploaded = calendarEntry.uploaded ? ' :Uploaded' : '';
+      return (
+      <li style={{marginLeft: '10'}}>
+      {`${date}${matched} ${uploaded}`}
       </li>
       );
   }
-})
+});
