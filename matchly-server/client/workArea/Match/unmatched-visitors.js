@@ -22,7 +22,7 @@ export default class UnmatchedVisitors extends React.Component {
       method: 'get',
       url: '/visitors',
       contentType: 'application/json',
-      data: {date: this.props.date.format('YYYY-MM-DD')},
+      data: {date: this.props.date.toISOString()},
       success: function(data) {
         this.setState({visitors: { loading: false, data: data}})
       }.bind(this),
