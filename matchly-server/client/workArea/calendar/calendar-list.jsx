@@ -7,7 +7,7 @@ var CalendarList = React.createClass({
       <div>
         <ul>
         {this.props.calendar.map(datapoint =>
-            (<CalendarListItem calendarEntry={datapoint} />)
+            (<CalendarListItem key={datapoint.date} calendarEntry={datapoint} />)
           )}
         </ul>
       </div>

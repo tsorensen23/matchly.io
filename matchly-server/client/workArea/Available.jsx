@@ -40,7 +40,7 @@ var Available = React.createClass({
       <div className='classAvailable'>
         <h4>{html}</h4>
         <form onSubmit={this.sendClassConstraints}>
-          <div className='topRowTitles'>
+          <div className='topRowTitles' style={{marginLeft: '-60'}}>
             {
               [<span key={113456} className="col-xs-2"></span>]
               .concat(SECTIONS.map(function(letter, index) {
@@ -52,20 +52,23 @@ var Available = React.createClass({
             return (
               <ul key={time+i}>
                 <li>
-                  <h3 className='row-title sections'>{time}
-                  <span style={{marginLeft: '15'}}>
-                    {SECTIONS.map(function(letter) {
-                    var cur = letter + (i + 1);
-                    return (<input required='true'
-                      type='number'
-                      key={cur}
-                      className="col-xs-2 pull-right"
-                      ref={cur}
-                      onChange= {_this.changeHandler.bind(_this, cur)}
-                      value={_this.state.availableData ? _this.state.availableData[cur].availableSpots : 0}
-                    />);
-                    })}
-                  </span>
+                  <h3 className='row-title sections'>
+                    <span className="pull-left">
+                      {time}
+                    </span>
+                    <span className="" style={{marginLeft: 15}}>
+                      {SECTIONS.map(function(letter, index) {
+                      var cur = letter + (i + 1);
+                      return (<input required='true'
+                        type='number'
+                        key={cur}
+                        className="col-xs-2"
+                        ref={cur}
+                        onChange= {_this.changeHandler.bind(_this, cur)}
+                        value={_this.state.availableData ? _this.state.availableData[cur].availableSpots : 0}
+                      />);
+                      })}
+                    </span>
                   </h3>
                 </li>
               </ul>
