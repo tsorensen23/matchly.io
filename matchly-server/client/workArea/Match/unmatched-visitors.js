@@ -55,7 +55,7 @@ export default class UnmatchedVisitors extends React.Component {
       return <div />
     }
     if(this.state.visitors.loading){
-      return <h1>hi</h1>
+      return <div />
     }
     if(this.state.visitors.data){
       return (
@@ -94,7 +94,7 @@ export default class UnmatchedVisitors extends React.Component {
     </div>
           )
     }
-      return <h1>hi</h1>
+      return <div></div>
   }
 }
 
