@@ -20,14 +20,25 @@ var Available = React.createClass({
     this.myEE.setValue(cur, this.refs[cur].getDOMNode().value);
   },
 
-  sendClassConstraints:function() {
+  sendClassConstraints:function(e) {
+    e.preventDefault()
     this.myEE.postData();
+    var data = this.props.location.query;
+    if(data.lecture1Spots) {
+      this.props.history.goBack();
+    }
+
   },
 
   render:function() {
     var _this = this;
+    var data = this.props.location.query;
+    if(data.lecture1Spots) {
+      var html =  `Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`;
+    }
     return (
       <div className='classAvailable'>
+        <h4>{html}</h4>
         <form onSubmit={this.sendClassConstraints}>
           <div className='topRowTitles'>
             {

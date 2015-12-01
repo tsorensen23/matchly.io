@@ -109,14 +109,14 @@ function headers(state = initialHeaderState, action){
       return state;
   }
 }
-function hostsOrVisitors(state, action) {
+function hostsOrVisitors(state = false, action) {
   switch(action.type) {
     case 'SET_HOSTS': 
       return true;
     case 'SET_VISITORS':
       return false;
     default: 
-      return false;
+      return state;
   }
 }
 
