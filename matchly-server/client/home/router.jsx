@@ -39,7 +39,7 @@ User.getUser(function(err, user) {
         return <Component user={user} {...props} />;
       }}>
       <Route component={Home} >
-        <Redirect from='/' to='/match' />
+        <Redirect from='/' to='/calendar' />
         <Route path='match' component={Match} />
         <Route path='upload' component={Upload} />
         <Route path='available' component={Available} />
