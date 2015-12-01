@@ -55,7 +55,7 @@ var AddExceptionDay = React.createClass({
     return (
         <div>
         <h2> Now select the hosts who will be available on that date</h2>
-        <div style={{height: '500px', overflowY: 'scroll', marginBottom: '10', border: '1px solid rgba(100, 100, 100, 0.5)'}}>
+        <div style={{height: '300px', overflowY: 'scroll', marginBottom: '10', border: '1px solid rgba(100, 100, 100, 0.5)'}}>
           <table className='table table-condensed'>{this.state.hosts.map(function(host) {
             var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
             if (!host.MatchInfo.matchDates) {

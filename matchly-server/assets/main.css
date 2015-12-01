@@ -70,22 +70,27 @@ text-align: center;
 width: 100%;
 }
 .pb-container .pb-button {
-background: transparent;
-border: 2px solid #F5CB5C;
-border-radius: 27px;
-color: black;
-cursor: pointer;
-padding: 0.7em 1em;
-text-decoration: none;
-text-align: center;
-height: 54px;
-width: 20%;
-padding: 3px;
-margin: auto 40%;
-margin-top: 5px;
--webkit-tap-highlight-color: transparent;
-outline: none;
-transition: background-color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s, border-radius 0.3s;
+  background: rgba(60,180,4,1);
+  border: 2px solid rgba(20,100,60,1);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.7em 1em;
+  text-decoration: none;
+  text-align: center;
+  height: 54px;
+  width: 20%;
+  padding: 3px;
+  margin: auto 40%;
+  margin-top: 5px;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: background-color 0.175s, width 0.175s, border-width 0.175s, border-color 0.175s, border-radius 0.175s;
+  letter-spacing: 1px;
+}
+.pb-container .pb-button:hover {
+  background: rgba(60,180,4,.75);
+  color: #fff;
 }
 .pb-container .pb-button span {
 display: inherit;
