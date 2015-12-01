@@ -22,7 +22,7 @@ var Home = React.createClass({
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-10 col-xs-offset-1">
+          <div className="col-xs-12">
             <div id="workArea">
               <div id="workBox">
                 {this.props.children}

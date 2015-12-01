@@ -76,6 +76,44 @@ a.has-data:hover {
 a.has-match:hover {
   color: yellow !important;
 }
+.header-fields:first-child {
+  margin-left: -10px;
+}
+/*====================================================
+================ upload button styles ================
+====================================================*/
+/*.btn-file {
+  position: relative;
+  overflow: hidden;
+  background-color: yellow !important;
+  color: #666;
+  padding: 10px;
+  border: none;
+}
+.btn-file:hover {
+  background-color: rgb(255,245,0) !important;
+  color: #666;
+  cursor: pointer;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: center;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background-color: #FF0000 !important;
+  cursor: inherit;
+  display: block;
+}*/
+/*=====================================================
+================ /upload button styles ================
+=====================================================*/
+
 /*====================================================
 =============== .pb-container styles =================
 ====================================================*/

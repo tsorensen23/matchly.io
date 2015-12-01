@@ -15,17 +15,20 @@ export default class HeaderSelect extends React.Component {
             </ul>);
       }
     return (
-        <div style={{display: 'table-cell', float: 'left'}}>
-          needed:{header.needed}
-          <br />
-          <select onChange={this.callChangeHeader.bind(this)} value={header.given} >
-            <option value="Please Select A Header">Please Select A Header</option>
-            {options.map((option, index) =>
-              (<option key={index} value={option}>{option}</option>)
-             )}
-           </select>
-           {d}
-         </div>
-        );
+      <div className="col-xs-1 header-fields">
+        {header.needed.replace(/Class Visit Time/, 'Visit Time')}
+        <select
+          onChange={this.callChangeHeader.bind(this)}
+          value={header.given}
+          style={{width: '100px'}}
+        >
+          <option value="Choose Field">Choose Field</option>
+          {options.map((option, index) =>
+            (<option key={index} value={option}>{option}</option>)
+           )}
+         </select>
+         {d}
+      </div>
+    );
   }
 }

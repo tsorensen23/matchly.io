@@ -30,11 +30,36 @@ class ReadableFile extends React.Component{
 
   render() {
     return (
-        <div style={{display: 'inline-block', margin: '0 auto'}}>
-          <input type='file' ref="myFile" name={this.props.name} onChange={this.onChange.bind(this)} accept={this.props.accept} />
-          <button className="btn btn-primary" onClick={this.read.bind(this)}>Click</button>
+      <div>
+        <div class="form-group">
+          <label for="inputFile">
+            Please Upload Your Visitor file
+          </label>
+          <input
+           type='file'
+           ref="myFile"
+           id="inputFile"
+           name={this.props.name}
+           onChange={this.onChange.bind(this)}
+           accept={this.props.accept}
+           style={{
+             margin: '10px auto',
+             width: '250px',
+             lineHeight: '16px'
+           }}
+          />
         </div>
-        );
+        <button
+          className="btn btn-success"
+          onClick={this.read.bind(this)}
+          style={{
+            marginTop: '10'
+          }}
+        >
+          Continue
+        </button>
+      </div>
+    );
   }
 }
 export default ReadableFile;

@@ -56,7 +56,7 @@ class App extends React.Component{
     }
     if(this.props.finished.length > 0) {
       return (
-          <div>
+        <div>
           <DataTable
             getEmployers={() => {
               dispatch(getEmployers());
@@ -76,8 +76,9 @@ class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
-          <ProgressButton ref='button'
-          className="btn btn-primary"
+          <ProgressButton
+            ref='button'
+            className="btn btn-primary"
             onClick={() => {
               dispatch(setDate(this.state.date));
               var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
@@ -89,52 +90,62 @@ class App extends React.Component{
                 this.props.history.pushState(null, '/match', {date: moment(this.state.date).format('YYYY-MM-DD')});
               }.bind(this), 1 * 1000)
             }}
-            >
-              Upload
-            </ProgressButton>
-          </div>
-          );
+          >
+            Upload
+          </ProgressButton>
+        </div>
+      );
     } else {
-      if(this.props.data.length === 0){
-      return (
-          <div>
+      if(this.props.data.length === 0) {
+        return (
+          <div className="col-xs-12 text-center">
             <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
             <button
-            className="btn"
-            onClick={() => {
-              dispatch(setHosts());
-            }}>These are hosts</button>
+              className="btn btn-info"
+              style={{margin: '20px 0'}}
+              onClick={() => {
+                dispatch(setHosts());
+              }}
+            >
+              These are hosts
+            </button>
             <FileUpload
-            uploadFile={fileData =>
-              dispatch(parseData(fileData))
-            }
+              uploadFile={fileData =>
+                dispatch(parseData(fileData))
+              }
+              style={{margin: '10px 0'}}
             />
           </div>
-          );
-          } else {
-            return (
-                <div>
-                  <HeaderMatcher
-                    headers={headers.data}
-                    changeHeader={function(needed, given) {
-                      dispatch(changeHeader(needed, given));
-                    }}
-                    options={options}
-                    visitors={data}
-                  />
-                    <button
-                      className="btn btn-primary"
-                      onClick={function() {
-                        dispatch(updateHeaderOrder());
-                      }}
-                    >
-                      Finish
-                    </button>
-                </div>
         );
+      } else {
+        return (
+          <div>
+            <HeaderMatcher
+              headers={headers.data}
+              changeHeader={function(needed, given) {
+                dispatch(changeHeader(needed, given));
+              }}
+              options={options}
+              visitors={data}
+            />
+            <div
+              className="col-xs-12 text-center"
+              style={{margin: '20px 0'}}
+            >
+              <button
+                className="btn btn-success btn-lg col-xs-4 col-xs-offset-4"
+                onClick={function() {
+                  dispatch(updateHeaderOrder());
+                }}
+              >
+                Finish
+              </button>
+            </div>
+          </div>
+        );
+      }
     }
   }
-}
 }
 
 export default connect(function(state){

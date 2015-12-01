@@ -28,7 +28,7 @@ var MatchIndex = React.createClass({
     }
 
     return (
-        <div>
+        <div className="col-xs-10 col-xs-offset-1">
           <h3>Matching for {moment(this.state.date).format('MM/DD')}</h3>
           {matches}
       </div>
