@@ -62,7 +62,7 @@ var AddExceptionDay = React.createClass({
           border: '1px solid rgba(100, 100, 100, 0.5)'
         }}>
           <table className='table table-condensed'>
-            <tbody> 
+            <tbody>
               {this.state.hosts.map(function(host, index) {
               var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
               if (!host.MatchInfo.matchDates) {
@@ -89,24 +89,24 @@ var AddExceptionDay = React.createClass({
                     fontSize: '1.1em', borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
                   }}>
                   <td style={{
-                    verticalAlign: 'center',
+                    verticalAlign: 'middle',
                     textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)',
                     paddingLeft: '5px'
                   }}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
                   <td style={{
-                    verticalAlign: 'center',
+                    verticalAlign: 'middle',
                     textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b>{contact.First}</b>
                   </td>
                   <td style={{
-                    verticalAlign: 'center',
+                    verticalAlign: 'middle',
                     textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b> {contact.Last}</b>
                   </td>
                   <td style={{
-                    verticalAlign: 'center',
+                    verticalAlign: 'middle',
                     textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b>{
@@ -115,15 +115,16 @@ var AddExceptionDay = React.createClass({
                   </td>
                   <td style={{
                     textAlign: 'right',
-                    verticalAlign: 'center'
+                    verticalAlign: 'middle'
                   }}>
                     <button
-                      className={`btn`}
+                      className={`btn btn-default`}
                       style={{
                         width: '200',
                         padding: '5',
                         margin: '5',
                         color: 'black',
+                        outline: 'none',
                         textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                       }}
                       onClick={toggleHost.bind(this, host, onoff)}

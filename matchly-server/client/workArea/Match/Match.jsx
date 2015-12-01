@@ -14,7 +14,6 @@ var Match = React.createClass({
   getInitialState: function() {
     return {matchData:null};
   },
-
   match: function (e) {
     e.preventDefault()
 
@@ -106,7 +105,7 @@ var Match = React.createClass({
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
     );
   }
 });
