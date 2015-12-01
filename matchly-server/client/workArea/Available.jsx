@@ -42,15 +42,15 @@ var Available = React.createClass({
         <form onSubmit={this.sendClassConstraints}>
           <div className='topRowTitles'>
             {
-              [<span className="col-xs-2"></span>]
-              .concat(SECTIONS.map(function(letter) {
-                return <span className="col-xs-2 text-center lead">{letter}</span>;
+              [<span key={113456} className="col-xs-2"></span>]
+              .concat(SECTIONS.map(function(letter, index) {
+                return <span key={letter+index} className="col-xs-2 text-center lead">{letter}</span>;
               }))
             }
           </div>
           {TIMES.map(function(time, i) {
             return (
-              <ul>
+              <ul key={time+i}>
                 <li>
                   <h3 className='row-title sections'>{time}
                   <span style={{marginLeft: '15'}}>
@@ -58,6 +58,7 @@ var Available = React.createClass({
                     var cur = letter + (i + 1);
                     return (<input required='true'
                       type='number'
+                      key={cur}
                       className="col-xs-2 pull-right"
                       ref={cur}
                       onChange= {_this.changeHandler.bind(_this, cur)}
