@@ -17,6 +17,5 @@ React.render(
       <Route path='register' component={Register}/>
       <Route path='login' component={Login}/>
     </Route>
-  </Router>,
-  document.body
+  </Router>, document.getElementById('main')
 );

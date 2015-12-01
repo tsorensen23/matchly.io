@@ -35,15 +35,41 @@ var Login = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <h1 id='header'>MATCHLY</h1>
-        <div id='tabs'>
-          <h4>Welcome! Please log in...</h4>
+      <div className="row">
+        <div className="col-xs-12 text-center">
+          <h3 style={{lineHeight: '1.4', marginBottom: '20'}}>
+            Welcome!<br />
+            Please Log In
+          </h3>
         </div>
         <div id='loginContainer'>
           <div id='credentials'>
-            <h3>Username: <input onKeyDown={this.keyDown} ref='username' id='userName' type='text' /></h3>
-            <h3>Password: <input onKeyDown={this.keyDown} ref='password' id='password' type='password' /></h3>
+            <h3>
+              Username:
+            <input
+              onKeyDown={this.keyDown}
+              ref='username'
+              id='userName'
+              type='text'
+              style={{marginLeft: '20'}}
+            />
+            </h3>
+            <h3>
+              Password:
+            <input
+              onKeyDown={this.keyDown}
+              ref='password'
+              id='password'
+              type='password'
+              style={{marginLeft: '20'}}
+            />
+            </h3>
+            <p style={{
+              margin: '10px 0 0',
+              fontSize: '14'
+            }}>
+              Not registered yet? Click Register below to get started.
+            </p>
             <LoginForm handler={this.handler} register={this.register}/>
           </div>
         </div>

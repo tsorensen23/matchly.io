@@ -1,6 +1,6 @@
 var React = require('react');
 var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
-var TIMES = ['8:00', '10:00', '11:45'];
+var TIMES = ['08:00', '10:00', '11:45'];
 var MyEE = require('../Stores/AvailabilityStore');
 
 var Available = React.createClass({
@@ -29,32 +29,37 @@ var Available = React.createClass({
     return (
       <div className='classAvailable'>
         <form onSubmit={this.sendClassConstraints}>
-                <div className='topRowTitles'>
-                  {
-                    [<h3 className='sections'></h3>]
-                    .concat(SECTIONS.map(function(letter) {
-                      return <h3 className='sections'>{letter}</h3>;
-                    }))
-                  }
-                </div>
-            {TIMES.map(function(time, i) {
-              return (
-                <div>
-                  <h3 className='row-title sections'>{time}</h3>
-                  {SECTIONS.map(function(letter) {
+          <div className='topRowTitles'>
+            {
+              [<span className="col-xs-2"></span>]
+              .concat(SECTIONS.map(function(letter) {
+                return <span className="col-xs-2 text-center lead">{letter}</span>;
+              }))
+            }
+          </div>
+          {TIMES.map(function(time, i) {
+            return (
+              <ul>
+                <li>
+                  <h3 className='row-title sections'>{time}
+                  <span style={{marginLeft: '15'}}>
+                    {SECTIONS.map(function(letter) {
                     var cur = letter + (i + 1);
                     return (<input required='true'
                       type='number'
-                      className={cur + ' sections'}
+                      className="col-xs-2 pull-right"
                       ref={cur}
                       onChange= {_this.changeHandler.bind(_this, cur)}
                       value={_this.state.availableData ? _this.state.availableData[cur].availableSpots : 0}
                     />);
-                  })}
-                </div>
-              );
-            })}
-          <input id='updateButton' type='submit' value='Update'></input>
+                    })}
+                  </span>
+                  </h3>
+                </li>
+              </ul>
+            );
+          })}
+          <input className="btn btn-success col-xs-4 col-xs-offset-4" style={{marginTop: '25'}} id='updateButton' type='submit' value='Update'></input>
         </form>
       </div>
     );
