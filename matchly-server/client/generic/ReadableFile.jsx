@@ -27,7 +27,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div className="form-group">
-        <label for="inputFile">
+        <label htmlFor="inputFile">
           Please Upload Your Visitor file
         </label>
         <input
