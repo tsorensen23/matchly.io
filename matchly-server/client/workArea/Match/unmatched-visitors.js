@@ -60,7 +60,12 @@ export default class UnmatchedVisitors extends React.Component {
     if(this.state.visitors.data){
       return (
           <div>
-          <button onClick={this.deleteStuff.bind(this)} className="btn btn-danger">Click me</button>
+          <button 
+            onClick={this.deleteStuff.bind(this)}
+            className="btn btn-danger"
+          >
+            Erase these visitors
+          </button>
           <h3>Visitors</h3>
 
         <table className="table table condensed">
