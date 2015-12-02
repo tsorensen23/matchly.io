@@ -12,9 +12,6 @@
     "isomorphic-fetch": "^2.2.0",
     "mocha": "*",
     "request": "^2.64.0",
-    "watchify": "^3.4.0"
-  },
-  "dependencies": {
     "react": "^0.14.3",
     "react-datepicker": "^0.15.2",
     "react-dom": "^0.14.3",
@@ -32,9 +29,11 @@
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-uglify": "^1.4.2",
+    "watchify": "^3.4.0"
+  },
+  "dependencies": {
     "async": "^1.4.2",
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^2.10.0",
     "body-parser": "~1.12.4",
     "clone": "^1.0.2",
     "cookie-parser": "^1.4.0",
