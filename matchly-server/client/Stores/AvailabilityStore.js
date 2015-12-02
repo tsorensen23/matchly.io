@@ -44,8 +44,9 @@ class myEE extends events.EventEmitter {
         // callback
       },
       success: function (data, textStatus, jqXHR) {
+        this.emit('finished');
 
-      },
+      }.bind(this),
       error: function (jqXHR, textStatus, errorThrown) {
         console.error(errorThrown)
         // error callback
