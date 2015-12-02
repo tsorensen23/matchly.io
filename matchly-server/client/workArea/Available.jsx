@@ -88,7 +88,6 @@ var Available = React.createClass({
           > 
             Submit
           </ProgressButton>
-    h
         </form>
       </div>
     );
