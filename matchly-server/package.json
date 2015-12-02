@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node ./server/server.js",
-    "postinstall": "./node_modules/.bin/gulp build",
     "test": "./node_modules/mocha/bin/mocha -R nyan spec/ -s 1000 -t 3000"
   },
   "devDependencies": {
-    "request": "^2.64.0",
-    "mocha": "*",
-    "watchify": "^3.4.0",
     "browserify": "^10.2.4",
-    "isomorphic-fetch": "^2.2.0"
+    "history": "^1.13.1",
+    "isomorphic-fetch": "^2.2.0",
+    "mocha": "*",
+    "request": "^2.64.0",
+    "watchify": "^3.4.0"
   },
   "dependencies": {
     "react": "^0.14.3",
@@ -49,7 +49,6 @@
     "mpath": "^0.2.1",
     "passport": "^0.2.2",
     "chai": "^3.2.0",
-    "jquery": "^2.1.4",
-    "lodash": "^3.10.1"
+    "jquery": "^2.1.4"
   }
 }
