@@ -1,10 +1,12 @@
+var ReactDOM = require('react-dom');
 var React = require('react');
 
 var Home = require('../Home.jsx');
 
 var Match = require('../workArea/Match/index.jsx');
 var Available = require('../workArea/Available.jsx');
-var Upload = require('../workArea/Upload.jsx');
+var Upload = require('../workArea/upload-redux/index.js');
+var Calendar = require('../workArea/calendar/calendar.jsx');
 
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
@@ -33,18 +35,17 @@ User.getUser(function(err, user) {
     return window.location = '/login';
   }
 
-  React.render(
+  ReactDOM.render(
     <Router history={createHashHistory()} createElement={function(Component,props) {
         return <Component user={user} {...props} />;
       }}>
       <Route component={Home} >
-        <Redirect from='/' to='/match' />
+        <Redirect from='/' to='/calendar' />
         <Route path='match' component={Match} />
         <Route path='upload' component={Upload} />
         <Route path='available' component={Available} />
+        <Route path='calendar' component={Calendar} />
       </Route>
-    </Router>,
-
-    document.getElementById('main')
+    </Router>, document.getElementById('main')
   );
 });

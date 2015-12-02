@@ -12,6 +12,7 @@ var employerController = require('./controllers/employerController');
 var stdUIController = require('./controllers/stdUIController');
 var path = require('path');
 var Employer = require('./database/db').Employer;
+var calendarController = require('./controllers/calendarController');
 
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -59,26 +60,32 @@ app.post('/availability', matchController.availability);
 app.get('/match', matchController.rumble);
 app.get('/getAvailableData', matchController.getAvailableData);
 
+app.post('/deleteVisitors', userController.deleteVisitors);
+
 app.post('/headerOrder', matchController.getHeaderData);
 app.post('/updateHeaderOrder', matchController.updateHeaderOrder);
 
 app.get('/employers', employerController.getEmployers);
-app.post('/employers', employerController.createEmployer)
+app.post('/employers', employerController.createEmployer);
 //app.get('/employers', function(req, res) {
 //  Employer.find({}, function(err, data) {
 //   res.json(data); 
 //  });
 //  
 //});
+app.get('/visitors', matchController.getVisitorsByDate);
 app.post('/checkemployers', employerController.checkMatch);
 app.post('/employermatch', employerController.employerMatch);
 
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
+app.post('/hosts', schoolController.middleWare, matchController.submithosts);
+app.post('/visitors', schoolController.middleWare, matchController.submitvisitors);
+app.get('/calendar', calendarController.getDates);
+
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
-
 app.use(function(err, req, res, next) {
   console.error('route error', err.message, err.stack);
   next(err);

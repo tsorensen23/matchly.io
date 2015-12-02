@@ -1,3 +1,4 @@
+var ReactDOM = require('react-dom');
 var React = require('react');
 
 var Login = require('./Login.jsx');
@@ -10,13 +11,12 @@ var Redirect = ReactRouter.Redirect;
 
 var App = require('../App.jsx');
 
-React.render(
+ReactDOM.render(
   <Router history={require('./history')}>
     <Route component = {App}>
       <Redirect from='/' to='/login' />
       <Route path='register' component={Register}/>
       <Route path='login' component={Login}/>
     </Route>
-  </Router>,
-  document.body
+  </Router>, document.getElementById('main')
 );

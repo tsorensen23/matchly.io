@@ -4,11 +4,27 @@ var Host = db.Host;
 var Availability = db.Availability;
 var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
-var csv = require('fast-csv');
+var School = db.School;
+var moment = require('moment');
+var Alias = db.Alias;
+var Employer = db.Employer;
+var EmployerAlias = db.EmployerAlias;
 var async = require('async');
 var mpath = require('mpath');
+var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js');
 
 module.exports = {
+  getVisitorsByDate: function(req, res, next){
+    var startDate = moment.utc(req.query.date).subtract(1, 'minute').toDate();
+    var endDate = moment.utc(req.query.date).add(1, 'minute').toDate();
+    console.log(endDate, 'endDate');
+    console.log(startDate, 'startDate');
+    // var date = new Date("2015-11-30T08:00:00.000Z");
+    Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { _id: 0, __v: 0}, function(err, data){
+      res.json(data);
+    });
+
+  },
 
   getAvailableData:function(req, res) {
     Availability.find({}, function(err, data) {
@@ -47,8 +63,6 @@ module.exports = {
           if (err) {
             return next(err);
           }
-
-
           VisitorData = data;
           next();
         });
@@ -59,12 +73,19 @@ module.exports = {
           if (err) {
             return next(err);
           }
-
           AvailabiltyConstraint = data;
           next();
         });
       }
     ], function(err) {
+      var availability = availabilityCheck.availabilityCheck(VisitorData, AvailabiltyConstraint);
+      // console.log('just before availabilityCheck');
+      if(!availability.status){
+        var err = new Error('not enough spots');
+        res.status(400).json(availability);
+        return next(err, availability);
+      }
+     
       if (err) return next(err);
       var RumbleData;
       try {
@@ -118,24 +139,31 @@ module.exports = {
   },
 
   submithosts: function(req, res, next) {
-    //made this a batch upload, have not tested it...
-    Host.find({}).remove().exec(function(err, data) {
-      if (err) {
-        return next(err);
-      }
-
-      Host.create(req.body, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
-
-        res.send(data);
-      });
-    });
-  },
-
-  submitvisitors: function(req, res, next) {
-    req.body = req.body.map(function(visitor) {
+    req.body = req.body.map(function(visitor){
+      var newVis = {};
+      newVis.Characteristics = {
+        Military: visitor.Military,
+        Country: visitor.Country,
+        Citizenship: visitor.Citizenship,
+        Undergrad: visitor.Undergrad,
+        Employer: visitor.Employer,
+        Industry: visitor.Industry,
+        City: visitor.City,
+        State: visitor.State,
+        Gender: visitor.Gender
+      };
+      newVis.Contact = {
+        First: visitor.First,
+        Last: visitor.Last,
+        Email: visitor.Email
+      };
+      newVis.MatchInfo = {
+        'Class Visit Time': visitor['Class Visit Time'],
+        Section: visitor.Section
+      };
+      return newVis;
+    })
+    var visitors = req.body.map(function(visitor) {
       if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
         visitor.MatchInfo.classVisitNumber = 1;
         visitor.MatchInfo['Class Visit Time'] = 800;
@@ -146,37 +174,158 @@ module.exports = {
         visitor.MatchInfo.classVisitNumber = 3;
         visitor.MatchInfo['Class Visit Time'] = 1145;
       }
-      visitor.MatchInfo.visitDate = new Date(visitor.MatchInfo.visitDate);
+      visitor.MatchInfo.visitDate = moment.utc(visitor.MatchInfo.visitDate).toDate();
       return visitor;
     });
-    
+    async.map(visitors, function(visitor, done){
+      async.waterfall([
+          function(cb){
 
-    Visitor.find({}).remove().exec(function(err, data) {
-      if (err) {
-        return res.send(err);
-      }
-
-      Visitor.create(req.body, function(err, data) {
-        if (err) {
-          return res.send(err);
-        }
-
-        res.send(data);
+        var employer = visitor.Characteristics.Employer;
+        Employer.find({name: employer}, function(err, data) {
+          if(err) return cb(err);
+            if(data.length > 0) {
+              return cb(null, visitor);
+            }
+            EmployerAlias.find({value: employer}, function(err, data){
+              if(err) return cb(err)
+                if(data.length === 0) return cb(null, visitor);
+                Employer.findById(data[0].employerIDs[0], function(err, data){
+                  if(err) return cb(err);
+                    visitor.Characteristics.Employer = data.name;
+                    return cb(null, visitor);
+                });
+            });
+        });
+          },
+          function(visitor, cb) {
+            var school = visitor.Characteristics.Undergrad;
+            School.find({name: visitor.Characteristics.Undergrad}, function(err, data) {
+              if(err) return cb(err);
+                if(data.length > 0) return cb(null, visitor);
+                Alias.findOne({value: school}, function(err, data) {
+                  if(err) return cb(err);
+                    if(!data) return cb(null, visitor);
+                    School.findById(data.schoolId[0], function(err, data){
+                      if(err) return cb(err);
+                        visitor.Characteristics.Undergrad = data.name;
+                        return cb(null, visitor);
+                    });
+                });
+            });
+          }
+      ],
+      function(err, results) {
+        if(err) return done(err);
+        return done(null, results);
+      });
+    }, function(err, results) {
+      if(err) return next(err);
+      Host.create(results, function(err, visitors) {
+        if(err) return next(err);
+        res.json(visitors);
       });
     });
 
-    //I think this is what was causing the cannot set headers error
-    // res.sendStatus(200);
   },
 
-  getHeaderData:function(req, res) {
-    headers.findOne({School:req.body.School}, function(err, data) {
+  submitvisitors: function(req, res, next) {
+    req.body = req.body.map(function(visitor){
+      var newVis = {};
+      newVis.Characteristics = {
+        Military: visitor.Military,
+        Country: visitor.Country,
+        Citizenship: visitor.Citizenship,
+        Undergrad: visitor.Undergrad,
+        Employer: visitor.Employer,
+        Industry: visitor.Industry,
+        City: visitor.City,
+        State: visitor.State,
+        Gender: visitor.Gender
+      };
+      newVis.Contact = {
+        First: visitor.First,
+        Last: visitor.Last,
+      };
+      newVis.MatchInfo = {
+        'Class Visit Time': visitor['Class Visit Time'],
+        visitDate: visitor.visitDate
+      };
+      return newVis;
+    })
+    var visitors = req.body.map(function(visitor) {
+      if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 1;
+        visitor.MatchInfo['Class Visit Time'] = 800;
+      } else if (/10\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 2;
+        visitor.MatchInfo['Class Visit Time'] = 1000;
+      } else if (/11\:?45.*/.test(visitor.MatchInfo['Class Visit Time'])) {
+        visitor.MatchInfo.classVisitNumber = 3;
+        visitor.MatchInfo['Class Visit Time'] = 1145;
+      }
+      visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
+      return visitor;
+    });
+    async.map(visitors, function(visitor, done){
+      async.waterfall([
+          function(cb){
+
+        var employer = visitor.Characteristics.Employer;
+        Employer.find({name: employer}, function(err, data) {
+          if(err) return cb(err);
+            if(data.length > 0) {
+              return cb(null, visitor)
+            }
+            EmployerAlias.find({value: employer}, function(err, data){
+              if(err) return cb(err)
+                if(data.length === 0) return cb(null, visitor);
+                Employer.findById(data[0].employerIDs[0], function(err, data){
+                  if(err) return cb(err);
+                    visitor.Characteristics.Employer = data.name;
+                    return cb(null, visitor);
+                });
+            });
+        });
+          },
+          function(visitor, cb) {
+            var school = visitor.Characteristics.Undergrad;
+            School.find({name: visitor.Characteristics.Undergrad}, function(err, data) {
+              if(err) return cb(err);
+                if(data.length > 0) return cb(null, visitor);
+                Alias.findOne({value: school}, function(err, data) {
+                  if(err) return cb(err);
+                    if(!data) return cb(null, visitor);
+                    School.findById(data.schoolId[0], function(err, data){
+                      if(err) return cb(err);
+                        visitor.Characteristics.Undergrad = data.name;
+                        return cb(null, visitor);
+                    });
+                });
+            });
+          }
+      ],
+      function(err, results) {
+        if(err) return done(err);
+        return done(null, results);
+      });
+    }, function(err, results) {
+      if(err) next(err);
+      Visitor.create(results, function(err, visitors) {
+        res.json(visitors);
+      });
+    });
+
+  },
+  getHeaderData: function(req, res) {
+    var start = new Date();
+    headers.findOne({ School: req.body.School}, { __v: 0, _id: 0, School: 0 }, function(err, data) {
       if (err) {
         return res.send(err);
       }
 
       if (data) {
-        return res.send(data);
+        return res.json(data);
       }
 
       var headersModel = {
@@ -193,10 +342,11 @@ module.exports = {
       };
       headers.create(headersModel, function(err, data) {
         if (err) {
+          res.StatusCode(400);
           return res.send(err);
         }
 
-        res.send(data);
+        res.json(data);
       });
     });
   },

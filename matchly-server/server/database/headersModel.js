@@ -4,19 +4,19 @@ var DB = require('./connection.js');
 var Schema = mongoose.Schema;
 
 var headersSchema = new Schema({
-        School: {type:String},
-        Military: {type: String},
-        Country: {type: String}, 
-        Citizenship: {type: String},
-        Undergrad: {type: String},
-        Employer: {type: String},
-        Industry: {type: String},
-        City: {type: String},
-        State: {type: String},
-        Gender: {type: String},
-        First: {type: String},
-        Last: {type: String},
-        'Class Visit Time':{type: String}
+  School: {type:String, default: ''},
+        Military: {type: String, default: ''},
+        Country: {type: String, default: ''}, 
+        Citizenship: {type: String, default: ''},
+        Undergrad: {type: String, default: ''},
+        Employer: {type: String, default: ''},
+        Industry: {type: String, default: ''},
+        City: {type: String, default: ''},
+        State: {type: String, default: ''},
+        Gender: {type: String, default: ''},
+        First: {type: String, default: ''},
+        Last: {type: String, default: ''},
+        'Class Visit Time':{type: String, default: ''}
   });
 
 module.exports = DB.model('headersSchema', headersSchema);

@@ -2,6 +2,7 @@ var React = require('react');
 var Visitor = require('../Visitors.jsx');
 var Loading = require('../Loading.jsx');
 var ProgressButton = require('react-progress-button');
+import UnmatchedVisitors from './unmatched-visitors';
 
 var HostStore = require('../../Stores/CrudStore')('hosts');
 
@@ -13,7 +14,6 @@ var Match = React.createClass({
   getInitialState: function() {
     return {matchData:null};
   },
-
   match: function (e) {
     e.preventDefault()
 
@@ -37,6 +37,10 @@ var Match = React.createClass({
 
       error: function(resp) {
         _this.refs.button.error();
+        var data = resp.responseJSON;
+
+        alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`);
+        _this.props.history.pushState(null, '/available', data);
       }
     });
   },
@@ -50,7 +54,7 @@ var Match = React.createClass({
     if (this.state.matchData) {
       this.state.matchData.array.shift();
       data = this.state.matchData.array.map(function(visitor) {
-        return (<Visitor visitor={visitor} />);
+        return (<Visitor key={visitor.visitorFirstName + visitor.LastName} visitor={visitor} />);
       });
     }
 
@@ -64,13 +68,17 @@ var Match = React.createClass({
 
           </div>
           <HostChooser date={this.props.date} />
-          <ProgressButton ref='button' onClick={this.match}>MATCH</ProgressButton>
-          <button id='exportButton' onClick={this.exportToCSV}>Export Data to CSV File</button>
+          <UnmatchedVisitors date={this.props.date} />
+          <ProgressButton className="btn btn-primary" ref='button' onClick={this.match}>MATCH</ProgressButton>
+          <div className="text-center" style={{marginTop: '15'}}>
+
+          <button className="btn btn-info" onClick={this.exportToCSV}>Export Data to CSV File</button>
+          </div>
         </div>
         <div id='loading'>
         </div>
         <div id='data'>
-          <table className='table table-condensed minorPadding'>
+          <table className='table table-condensed'>
             <thead>
               <tr>
                 <th>Visitor First Name</th>
@@ -81,15 +89,15 @@ var Match = React.createClass({
                 <th>Section</th>
                 <th>Visit Time</th>
                 <th>MatchCount</th>
-                <th>Gender</th>
-                <th>State</th>
-                <th>City</th>
-                <th>Industry</th>
-                <th>Employer</th>
-                <th>Undergrad</th>
                 <th>Citizenship</th>
-                <th>Country</th>
+                <th>City</th>
+                <th>Employer</th>
+                <th>Gender</th>
+                <th>Industry</th>
                 <th>Military</th>
+                <th>State</th>
+                <th>Undergrad</th>
+                <th>Country</th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +105,7 @@ var Match = React.createClass({
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
     );
   }
 });

@@ -1,8 +1,6 @@
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
-var watchify = require('watchify');
-var reactify = require('reactify');
 var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
@@ -63,7 +61,7 @@ function scripts(input, output) {
     packageCache: {},
     fullPaths: true
   });
-  var watcher = watchify(bundler);
+  var watcher = require('watchify')(bundler);
 
   return watcher
     .on('update', function() {

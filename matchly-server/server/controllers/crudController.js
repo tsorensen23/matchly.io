@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var mpath = require('mpath');
 
-console.warn('BEFORE MOVING TO PRODUCTION, ENSURE WE STOP REMOVING ALL ITEMS');
 
 module.exports = function(modelName) {
   var model = mongoose.model(modelName);

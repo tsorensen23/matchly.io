@@ -1,8 +1,11 @@
 var db = require('../database/db');
 var User = db.User;
+var Visitors = db.Visitor;
 var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
 var Hat = require('hat');
+var moment = require('moment');
+
 
 module.exports = {
   cookieCheck: function(req, res) {
@@ -33,6 +36,17 @@ module.exports = {
 
       req.user = data;
       next();
+    });
+  },
+
+  deleteVisitors: function(req, res, next) {
+    var startDate = moment.utc(req.body.date).subtract(1, 'minute').toDate();
+    var endDate = moment.utc(req.body.date).add(1, 'minute').toDate();
+    // var date = new Date("2015-11-30T08:00:00.000Z");
+    
+    Visitors.find({'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}).remove(function(err, data){
+      res.json(data);
+
     });
   },
 
