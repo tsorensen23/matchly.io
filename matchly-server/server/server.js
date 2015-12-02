@@ -1,7 +1,9 @@
 var cookieParser = require('cookie-parser');
 var express = require('express');
 var Hat = require('hat');
+var FileStreamRotator = require('file-stream-rotator');
 var app = express();
+var fs= require('fs');
 var matchController = require('./controllers/MatchController');
 var userController = require('./controllers/userController');
 var bodyParser = require('body-parser');
@@ -13,8 +15,20 @@ var stdUIController = require('./controllers/stdUIController');
 var path = require('path');
 var Employer = require('./database/db').Employer;
 var calendarController = require('./controllers/calendarController');
+var logDirectory = __dirname + '/log'
 
-app.use(morgan('combined'));
+// ensure log directory exists
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+// create a rotating write stream
+var accessLogStream = FileStreamRotator.getStream({
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false,
+  date_format: "YYYY-MM-DD"
+})
+
+app.use(morgan('combined', {stream: accessLogStream}))
 app.use(cookieParser());
 app.disable('x-powered-by');
 app.disable('etag')

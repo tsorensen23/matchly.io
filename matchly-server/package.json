@@ -40,6 +40,7 @@
     "cookie-parser": "^1.4.0",
     "envify": "^3.4.0",
     "express": "~4.12.4",
+    "file-stream-rotator": "0.0.6",
     "hat": "0.0.3",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
