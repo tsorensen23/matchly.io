@@ -6,20 +6,20 @@ var Schema = mongoose.Schema;
 
 var visitorSchema = new Schema({
   Characteristics: {
-    Military: {type: String, enum: ['Active', 'Veteran', 'None']},
-    Country: {type: String},
-    Citizenship: {type: String},
-    Undergrad: {type: String},
-    Employer: {type: String},
-    Industry: {type: String},
-    City: {type: String},
-    State: {type: String},
-    Gender: {type: String}
+    Military: {type: String, required: true },
+    Country: {type: String, default: 'United States'},
+    Citizenship: {type: String, required: true },
+    Undergrad: {type: String, required: true },
+    Employer: {type: String, required: true },
+    Industry: {type: String, default: 'Business' },
+    City: {type: String, required: true },
+    State: {type: String, required: true },
+    Gender: {type: String, required: true }
   },
   Contact: {
-    First: {type: String},
-    Last: {type: String},
-    Email: {type: String}
+    First: {type: String, required: true },
+    Last: {type: String, required: true },
+    Email: {type: String, required: true }
   },
   MatchInfo: {
     'Class Visit Time': {type: String},
