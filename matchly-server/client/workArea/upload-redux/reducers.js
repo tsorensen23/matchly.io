@@ -157,7 +157,7 @@ function data(state = [], action){
       var initialObj = Object.keys(action.rawCSV[0]).map(function(key){
         return { key: key, data: []};
       });
-      action.rawCSV.slice(1).forEach(function(visitor) {
+      action.rawCSV.forEach(function(visitor) {
         initialObj.forEach(function(element) {
           element.data.push(visitor[element.key]);
         });

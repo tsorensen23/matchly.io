@@ -310,6 +310,9 @@ module.exports = {
     }, function(err, results) {
       if(err) next(err);
       Visitor.create(results, function(err, visitors) {
+        if(err) {
+          console.log(err);
+        }
         res.json(visitors);
       });
     });

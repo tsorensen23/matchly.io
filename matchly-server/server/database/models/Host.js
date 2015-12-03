@@ -17,7 +17,7 @@ var hostSchema = new Schema({
   Contact: {
     First: {type: String, required: true },
     Last: {type: String, required: true },
-    Email: {type: String, required: true }
+    Email: {type: String }
   },
   MatchInfo: {
     matchesDone:{

@@ -19,7 +19,7 @@ var visitorSchema = new Schema({
   Contact: {
     First: {type: String, required: true },
     Last: {type: String, required: true },
-    Email: {type: String, required: true }
+    Email: {type: String}
   },
   MatchInfo: {
     'Class Visit Time': {type: String},
