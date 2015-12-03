@@ -6,15 +6,15 @@ var Schema = mongoose.Schema;
 
 var visitorSchema = new Schema({
   Characteristics: {
-    Military: {type: String, required: true },
+    Military: {type: String, default: ' '  },
     Country: {type: String, default: 'United States'},
-    Citizenship: {type: String, required: true },
-    Undergrad: {type: String, required: true },
-    Employer: {type: String, required: true },
+    Citizenship: {type: String, default: ' '  },
+    Undergrad: {type: String, default: ' '  },
+    Employer: {type: String, default: ' '  },
     Industry: {type: String, default: 'Business' },
-    City: {type: String, required: true },
-    State: {type: String, required: true },
-    Gender: {type: String, required: true }
+    City: {type: String, default: ' '  },
+    State: {type: String, default: ' '  },
+    Gender: {type: String, default: ' '  }
   },
   Contact: {
     First: {type: String, required: true },
