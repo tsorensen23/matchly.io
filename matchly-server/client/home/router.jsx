@@ -13,12 +13,6 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Redirect = ReactRouter.Redirect;
 
-var About = React.createClass({
-  render: function() {
-    return (<h2>About</h2>);
-  }
-});
-
 //these are the routes, they determine which component will be
 //loaded for each url
 

@@ -20,11 +20,8 @@ var Calendar = React.createClass({
       method: 'get',
       url: '/calendar',
       data: { startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString()},
-      complete: () => {
-        this.setState({calendar: {isFetching: false}});
-      },
       success: (data) => {
-        this.setState({calendar: { data: data }});
+        this.setState({calendar: { isFetching: false, data: data }});
       },
       error: (err) => {
         this.setState({calendar: {err: err}});
@@ -35,27 +32,27 @@ var Calendar = React.createClass({
     if(this.state.calendar.isFetching){
       return (<Loading/>);
     }
-    if(this.state.calendar.data.length > 0){
-    return (
-      <div style={{margin: '20px 0'}} className="calendar-view">
-        <div
-          className="col-xs-10"
-          style={{
-            border: '1px solid #ccc',
-            overflow: 'hidden'
-          }}
-        >
-          <CalendarMonth
-            calendar={this.state.calendar.data}
-          />
+      if(this.state.calendar.data.length > 0){
+      return (
+        <div style={{margin: '20px 0'}} className="calendar-view">
+          <div
+            className="col-xs-10"
+            style={{
+              border: '1px solid #ccc',
+              overflow: 'hidden'
+            }}
+          >
+            <CalendarMonth
+              calendar={this.state.calendar.data}
+            />
+          </div>
+          <div className="col-xs-2">
+            <CalendarList
+              calendar={this.state.calendar.data}
+            />
+          </div>
         </div>
-        <div className="col-xs-2">
-          <CalendarList
-            calendar={this.state.calendar.data}
-          />
-        </div>
-      </div>
-    );
+      );
     }
     return (<Loading/>);
   }
