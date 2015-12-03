@@ -9,8 +9,10 @@ export default class UploadRedux extends React.Component{
   render() {
     return (
       <div>
+      <div className="col-sm-offset-3 col-sm-9">
         <App store={store} location={this.props.location} history={this.props.history} context={this.props.context}/>
-        <DebugPanel top right bottom>
+      </div>
+        <DebugPanel top left bottom>
           <DevTools store={store} monitor={LogMonitor} />
         </DebugPanel>
       </div>
