@@ -49,6 +49,7 @@
     "mongoose": "^4.1.2",
     "morgan": "^1.6.1",
     "mpath": "^0.2.1",
-    "passport": "^0.2.2"
+    "passport": "^0.2.2",
+    "redux-devtools": "^2.1.5"
   }
 }

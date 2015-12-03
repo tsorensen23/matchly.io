@@ -1,6 +1,7 @@
 var React = require('react');
 var LoginForm = require('./LoginForm.jsx');
 var history = require('./history');
+var ReactDOM = require('react-dom');
 
 var Login = React.createClass({
   register: function() {
@@ -9,8 +10,8 @@ var Login = React.createClass({
 
   handler: function(event) {
     event.preventDefault();
-    var userName = React.findDOMNode(this.refs.username).value;
-    var password = React.findDOMNode(this.refs.password).value;
+    var userName = ReactDOM.findDOMNode(this.refs.username).value;
+    var password = ReactDOM.findDOMNode(this.refs.password).value;
     var profileObject = {
       username: userName,
       password: password

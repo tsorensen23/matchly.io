@@ -6,7 +6,7 @@ import Baby from 'babyparse';
 
 class ReadableFile extends React.Component{
   read() {
-    var data = this.refs.myFile.getDOMNode().files;
+    var data = this.refs.myFile.files;
     var reader = new FileReader();
     reader.addEventListener('load', function(event) {
       this.props.uploadFile(Baby.parse(event.target.result, {header: true}).data);
