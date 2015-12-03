@@ -139,6 +139,9 @@ export function getEmployers(){
   return function(dispatch, getState) {
     dispatch(requestEmployerMatch());
     var employers = mpath.get('Employer', getState().finished);
+    employers = employers.filter(function(employer) {
+      return typeof employer !== 'undefined' && employer !== ' ';
+    });
     var body = {
       employers: employers
     };
@@ -173,18 +176,18 @@ export function receiveSchools(data){
   return { type: 'RECEIVE_SCHOOL_MATCHES', data};
 }
 export function requestAllSchools() {
-  return { type: 'REQUEST_SCHOOLS' }
+  return { type: 'REQUEST_SCHOOLS' };
 }
 export function receiveAllSchools(data) {
-  return { type: 'RECEIVE_SCHOOLS', data }
+  return { type: 'RECEIVE_SCHOOLS', data };
 }
 export function errorAllSchools(error) {
-  return { type: 'SCHOOL_REQUEST_FAIL', error}
+  return { type: 'SCHOOL_REQUEST_FAIL', error};
 }
 export function getAllSchools() {
   return function(dispatch) {
     dispatch(requestAllSchools());
-    return fetch('schools', { 
+    return fetch('schools', {
       credentials: 'same-origin'
     })
       .catch(err =>
@@ -192,14 +195,17 @@ export function getAllSchools() {
       ).then(resp =>
         resp.json()
       ).then(data => {
-        dispatch(receiveAllSchools(data))
+        dispatch(receiveAllSchools(data));
       });
-  }
+  };
 }
 export function getSchools(){
   return function(dispatch, getState) {
     dispatch(requestSchoolMatch());
     var schools = mpath.get('Undergrad', getState().finished);
+    schools = schools.filter(function(school) {
+      return typeof school !== 'undefined' && school !== ' ';
+    });
     var body = {
       names: schools
     };
@@ -228,18 +234,18 @@ export function getSchools(){
   };
 }
 export function requestAllEmployers() {
-  return { type: 'REQUEST_EMPLOYERS' }
+  return { type: 'REQUEST_EMPLOYERS' };
 }
 export function receiveAllEmployers(data) {
-  return { type: 'RECEIVE_EMPLOYERS', data }
+  return { type: 'RECEIVE_EMPLOYERS', data };
 }
 export function errorAllEmployers(error) {
-  return { type: 'EMPLOYER_REQUEST_FAIL', error}
+  return { type: 'EMPLOYER_REQUEST_FAIL', error};
 }
 export function getAllEmployers() {
   return function(dispatch) {
     dispatch(requestAllEmployers());
-    return fetch('employers', { 
+    return fetch('employers', {
       credentials: 'same-origin'
     })
       .catch(err =>
@@ -247,9 +253,9 @@ export function getAllEmployers() {
       ).then(resp =>
         resp.json()
       ).then(data => {
-        dispatch(receiveAllEmployers(data))
+        dispatch(receiveAllEmployers(data));
       });
-  }
+  };
 }
 
 export function changeValue(key, oldValue, newValue){
@@ -303,12 +309,12 @@ export function setDate(date){
   return { type: 'SET_DATE', date};
 }
 export function startUpload(){
-  return { type: 'START_UPLOAD'}
+  return { type: 'START_UPLOAD'};
 }
 
 export function uploadData(url){
   return function(dispatch, getState){
-    dispatch(startUpload())
+    dispatch(startUpload());
     var body = getState().finished;
     //TODO take this out when the date box works
     return fetch(url, {

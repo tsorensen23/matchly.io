@@ -13,4 +13,4 @@ var userSchema = new Schema({
   matchlycookie: {type: String, required:false}
 });
 
-module.exports = db.model('UserController', userSchema);
+module.exports = db.model('users', userSchema);

@@ -119,6 +119,6 @@ router.get('/exception-date', function(req, res, next) {
   ], next);
 });
 
-router.use(require('./crudController')('hostProfile'));
+router.use(require('./crudController')('hosts'));
 
 module.exports = router;

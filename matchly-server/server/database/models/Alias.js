@@ -16,6 +16,6 @@ AliasSchema.pre('save', function(next) {
   next();
 });
 
-var Alias = db.model('Alias', AliasSchema);
+var Alias = db.model('aliases', AliasSchema);
 
 module.exports = Alias;

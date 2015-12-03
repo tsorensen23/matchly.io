@@ -46,4 +46,4 @@ virtual.set(function(a) {
   this.MATCH = a;
 });
 
-module.exports = db.model('hostProfile', hostSchema);
+module.exports = db.model('hosts', hostSchema);

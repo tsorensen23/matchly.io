@@ -103,6 +103,7 @@ module.exports = {
   registerUser: function(req, res) {
     req.body.password = bcrypt.hashSync(req.body.password);
     req.body.matchlycookie = req.cookies.matchlycookie;
+    console.log(req.body.password);
 
     User.create(req.body, function(err, data) {
       if (err) {

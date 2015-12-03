@@ -6,4 +6,4 @@ var AliasSchema = new Schema({
   industryIDs: { type: [Schema.ObjectId] }
 });
 
-module.exports = db.model('industryalias', AliasSchema);
+module.exports = db.model('industryaliases', AliasSchema);

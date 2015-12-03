@@ -6,4 +6,4 @@ var EmployerAliasSchema = new Schema({
   employerIDs: { type: [Schema.ObjectId], ref: 'employer' }
 });
 
-module.exports = db.model('employeralias', EmployerAliasSchema);
+module.exports = db.model('employeraliases', EmployerAliasSchema);

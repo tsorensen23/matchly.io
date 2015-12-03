@@ -5,4 +5,4 @@ var IndustrySchema = new Schema({
   name: {type: String, unique: true}
 });
 
-module.exports = db.model('industry', IndustrySchema);
+module.exports = db.model('industries', IndustrySchema);

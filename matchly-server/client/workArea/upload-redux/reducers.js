@@ -192,7 +192,11 @@ function wholeState(state = {}, action) {
       }
       dataArray.reduce(function(prev, curr) {
         return curr.data.map(function(dp, index){
+          if(dp) {
           prev[index][curr.key] = dp.trim();
+          } else {
+            prev[index][curr.key] = ' ';
+          }
           return prev[index]
         });
       }, newDataArray)
