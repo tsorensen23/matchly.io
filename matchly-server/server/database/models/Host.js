@@ -11,7 +11,7 @@ var hostSchema = new Schema({
     Employer: {type: String, required: true },
     Industry: {type: String, default: 'Business' },
     City: {type: String, required: true },
-    State: {type: String, required: true },
+    State: {type: String, default: ' ' },
     Gender: {type: String, required: true }
   },
   Contact: {
