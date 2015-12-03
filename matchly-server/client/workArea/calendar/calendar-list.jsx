@@ -6,9 +6,11 @@ var CalendarList = React.createClass({
     return (
       <div>
         <ul>
-        {this.props.calendar.map(datapoint =>
+        {this.props.calendar.filter(datapoint => 
+            datapoint.uploaded || datapoint.matched
+         ).map(datapoint =>
             (<CalendarListItem key={datapoint.date} calendarEntry={datapoint} />)
-          )}
+         )}
         </ul>
       </div>
     );
