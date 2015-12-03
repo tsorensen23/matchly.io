@@ -2,6 +2,7 @@ var React = require('react');
 var CalendarMonth = require('./calendar-month.jsx');
 var CalendarList = require('./calendar-list.jsx');
 var moment = require('moment');
+var Loading = require('../Loading.jsx');
 
 var Calendar = React.createClass({
   getInitialState: function() {
@@ -32,8 +33,9 @@ var Calendar = React.createClass({
   },
   render: function() {
     if(this.state.calendar.isFetching){
-      return <h1>Loading</h1>;
+      return (<Loading/>);
     }
+    if(this.state.calendar.data.length > 0){
     return (
       <div style={{margin: '20px 0'}} className="calendar-view">
         <div
@@ -54,6 +56,8 @@ var Calendar = React.createClass({
         </div>
       </div>
     );
+    }
+    return (<Loading/>);
   }
 });
 
