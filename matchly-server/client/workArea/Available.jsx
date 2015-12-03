@@ -2,6 +2,7 @@ var React = require('react');
 var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
 var TIMES = ['08:00', '10:00', '11:45'];
 var MyEE = require('../Stores/AvailabilityStore');
+var ProgressButton = require('react-progress-button');
 
 var Available = React.createClass({
   componentDidMount: function() {
@@ -9,6 +10,9 @@ var Available = React.createClass({
     this.myEE.on('update state', function(state) {
       this.setState({availableData: state});
     }.bind(this));
+    this.myEE.on('finished', () => {
+      this.refs.button.success()
+    })
 
   },
 
@@ -21,6 +25,7 @@ var Available = React.createClass({
   },
 
   sendClassConstraints:function(e) {
+    this.refs.button.loading();
     e.preventDefault()
     this.myEE.postData();
     var data = this.props.location.query;
@@ -76,7 +81,13 @@ var Available = React.createClass({
               </ul>
             );
           })}
-          <input className="btn btn-success col-xs-4 col-xs-offset-4" style={{marginTop: '25'}} id='updateButton' type='submit' value='Update'></input>
+          <ProgressButton 
+            className="btn btn-primary" 
+            ref='button' 
+            onClick={this.sendClassConstraints}
+          > 
+            Submit
+          </ProgressButton>
         </form>
       </div>
     );

@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 
 var visitorSchema = new Schema({
   Characteristics: {
-    Military: {type: String},
+    Military: {type: String, enum: ['Active', 'Veteran', 'None']},
     Country: {type: String},
     Citizenship: {type: String},
     Undergrad: {type: String},
