@@ -39,12 +39,27 @@ module.exports = {
     });
   },
 
+
   deleteVisitors: function(req, res, next) {
     var startDate = moment.utc(req.body.date).subtract(1, 'minute').toDate();
     var endDate = moment.utc(req.body.date).add(1, 'minute').toDate();
     // var date = new Date("2015-11-30T08:00:00.000Z");
-    
+    db.Host.find( {}, function ( err, data ) {
+    	data.forEach( function ( host ) {
+    		if( host.MatchInfo.matches ) {
+    			for( var i = 0; i < host.MatchInfo.matches.length; i++ ) {
+    				if( ( Date.parse( host.MatchInfo.matches[ i ].date ) > startDate ) && (
+    						(Date.parse(host.MatchInfo.matches[ i ].date)) <
+    						endDate ) ) {
+    					host.MatchInfo.matches.splice( i, 1 );
+    					host.save();
+    				}
+    			}
+    		}
+    	} );
+    } );
     Visitors.find({'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}).remove(function(err, data){
+
       res.json(data);
 
     });
