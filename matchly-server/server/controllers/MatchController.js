@@ -17,8 +17,6 @@ module.exports = {
   getVisitorsByDate: function(req, res, next){
     var startDate = moment.utc(req.query.date).subtract(1, 'minute').toDate();
     var endDate = moment.utc(req.query.date).add(1, 'minute').toDate();
-    console.log(endDate, 'endDate');
-    console.log(startDate, 'startDate');
     // var date = new Date("2015-11-30T08:00:00.000Z");
     Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { _id: 0, __v: 0}, function(err, data){
       res.json(data);

@@ -28,7 +28,6 @@ Match.prototype.calculatematchScore = function() {
 
   for (var i = 0; i < MATCH_KEYS.length; i++) {
     if (visitor.Characteristics[MATCH_KEYS[i]] === host.Characteristics[MATCH_KEYS[i]] && MATCH_KEYS[i].key === 'Military' && visitor.Characteristics[MATCH_KEYS[i]] === 'None' ) {
-      console.log(visitor.Characteristics[MATCH_KEYS[i]]);
       continue;
 
     }
