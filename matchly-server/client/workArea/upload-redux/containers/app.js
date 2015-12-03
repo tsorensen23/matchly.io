@@ -127,20 +127,10 @@ class App extends React.Component{
               }}
               options={options}
               visitors={data}
-            />
-            <div
-              className="col-xs-12 text-center"
-              style={{margin: '20px 0'}}
-            >
-              <button
-                className="btn btn-success btn-lg col-xs-4 col-xs-offset-4"
-                onClick={function() {
+              onFinish={function() {
                   dispatch(updateHeaderOrder());
                 }}
-              >
-                Finish
-              </button>
-            </div>
+            />
           </div>
         );
       }

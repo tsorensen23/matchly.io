@@ -15,8 +15,8 @@ export default class HeaderSelect extends React.Component {
             </ul>);
       }
     return (
-      <div className="col-xs-1 header-fields">
-        {header.needed.replace(/Class Visit Time/, 'Visit Time')}
+      <div className="col-xs-2 header-fields">
+        {header.needed.replace(/Class Visit Time/, 'Visit Time')}<br />
         <select
           onChange={this.callChangeHeader.bind(this)}
           value={header.given}
