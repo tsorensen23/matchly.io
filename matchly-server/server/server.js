@@ -14,6 +14,7 @@ var employerController = require('./controllers/employerController');
 var stdUIController = require('./controllers/stdUIController');
 var path = require('path');
 var Employer = require('./database/db').Employer;
+var db = require('./database/db');
 var calendarController = require('./controllers/calendarController');
 var logDirectory = __dirname + '/log'
 
@@ -97,6 +98,12 @@ app.get('/schools', schoolController.getSchools);
 app.post('/hosts', schoolController.middleWare, matchController.submithosts);
 app.post('/visitors', schoolController.middleWare, matchController.submitvisitors);
 app.get('/calendar', calendarController.getDates);
+app.get('/schoolaliases', function(req, res, next){
+  db.Alias.find({}, function(err, data){
+
+  res.json(data);
+  })
+})
 
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitors'));
