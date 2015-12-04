@@ -97,9 +97,17 @@ function headers(state = initialHeaderState, action){
           })
         });
     case 'SET_HOSTS':
+    var removeVisits = state.data.filter(function(i) {
+      if (i.needed === "Class Visit Time" || i.needed === 'Email' || i.needed === 'Section') {
+        return false;
+      } else {
+        return true;
+      }
+    });
         return Object.assign({}, state, {
           data: [
-            ...state.data,
+            ...removeVisits
+            ,
             {needed: 'Email', given: ''},
             {needed: 'Section', given: ''}
           ]
@@ -111,16 +119,16 @@ function headers(state = initialHeaderState, action){
 }
 function hostsOrVisitors(state = false, action) {
   switch(action.type) {
-    case 'SET_HOSTS': 
+    case 'SET_HOSTS':
       return true;
     case 'SET_VISITORS':
       return false;
-    default: 
+    default:
       return state;
   }
 }
 
-    
+
 function data(state = [], action){
   switch(action.type) {
     case 'CHANGE_KEY':
@@ -259,7 +267,7 @@ export default function schoolMatches(state = {
         lastUpdated: Date.now(),
         data: action.data
       })
-    case 'SCHOOL_MATCH_REQUEST_FAIL': 
+    case 'SCHOOL_MATCH_REQUEST_FAIL':
       console.error(action.error);
       return Object.assign({}, state, {
         isFetching: false
@@ -289,11 +297,11 @@ export default function finished(state = [], action){
         if(visitor[key] == oldValue){
           var obj = {};
           obj[key] = newValue;
-          return Object.assign({}, visitor, obj); 
+          return Object.assign({}, visitor, obj);
         }
         return visitor;
       })
-    case 'SET_DATE': 
+    case 'SET_DATE':
       return state.map(function(visitor){
         visitor.visitDate = action.date.toISOString();
         return visitor;

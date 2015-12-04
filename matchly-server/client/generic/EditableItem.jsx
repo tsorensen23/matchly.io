@@ -9,7 +9,7 @@ module.exports = React.createClass({
 
   startModifying: function() {
     this.setState({editing:true}, function(){
-      $(React.findDOMNode(this)).focus().select();
+      $(ReactDOM.findDOMNode(this)).focus().select();
     });
   },
 
