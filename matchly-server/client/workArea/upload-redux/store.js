@@ -8,6 +8,7 @@ import { devTools, persistState } from 'redux-devtools';
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = compose(
     applyMiddleware(thunkMiddleware),
+    devTools()
 
 )(createStore);
 function configureStore(initialState) {

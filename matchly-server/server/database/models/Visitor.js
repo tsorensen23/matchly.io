@@ -42,4 +42,4 @@ var visitorSchema = new Schema({
 //     this.MATCH=a;
 // });
 
-module.exports = db.model('visitorProfile', visitorSchema);
+module.exports = db.model('visitors', visitorSchema);

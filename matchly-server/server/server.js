@@ -99,7 +99,7 @@ app.post('/visitors', schoolController.middleWare, matchController.submitvisitor
 app.get('/calendar', calendarController.getDates);
 
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
-app.use('/visitors', schoolController.middleWare, crudController('visitorProfile'));
+app.use('/visitors', schoolController.middleWare, crudController('visitors'));
 app.use(function(err, req, res, next) {
   console.error('route error', err.message, err.stack);
   next(err);
