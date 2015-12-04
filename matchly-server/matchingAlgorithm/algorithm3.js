@@ -2,6 +2,7 @@ var Match = require('./Match.js');
 var MATCH_KEYS = require('./matchly-io-keys.js');
 var memoizeMatches = {};
 var moment = require('moment');
+const DAYS_BETWEEN_MATCHES = 3
 var Rumble = {
 
   prepForSaving: function(match, date) {
@@ -106,23 +107,20 @@ var Rumble = {
   },
 
   validateTotalAvailable: function(visitorArray, constraintObject) {
-    var totalAvailableSpots = {};
-    for (var i = 1; i < 4; i++) {
-      var total = 0;
-      var SectionLetters = ['A', 'B', 'C', 'D', 'E'];
-      for (var j = 0; j < SectionLetters.length; j++) {
-        var currentLecture = constraintObject[SectionLetters[j] + i];
-        total += currentLecture.availableSpots;
-        currentLecture.matches = [];
-      }
+    var totalAvailableSpots = Object.keys(constraintObject).filter(key =>
+        key !== '_id' && key !== '__v'
+      ).reduce((prev, key) => {
+        prev[key.slice(1, 2)] += constraintObject[key].availableSpots;
+        constraintObject[key].matches = [];
+        return prev;
+      }, {1: 0, 2: 0, 3: 0 })
 
-      totalAvailableSpots[i] = total;
-    }
 
     var unMatchedVisitors = visitorArray.map(function(a) {
       totalAvailableSpots[a.MatchInfo.classVisitNumber]--;
       return a;
     });
+    console.log(totalAvailableSpots);
 
     for (var i = 1; i < 4; i++) {
       if (totalAvailableSpots[i] < 0) {
@@ -135,10 +133,12 @@ var Rumble = {
   },
 
   rumble: function(unfilteredVisitorArray, unfilteredHostArray, constraintObject, date) {
+    //host map is an object with the hosts id as the key that hold any hosts that have been previously matched on that date
     var hostMap = {};
+    //TODO implement not matching hosts who were matched three days ago
     var hostArray = unfilteredHostArray.filter(function(host) {
       if (host.MatchInfo.matches.some(function(match) {
-        return match.date.toString() === date.toString();
+        return match.date.toString() === date.toString() || moment(date).subtract(DAYS_BETWEEN_MATCHES, 'days').diff(match.date) < 0;
       })) {
         hostMap[host._id] = host;
         return false;
@@ -158,6 +158,7 @@ var Rumble = {
       return true;
     });
 
+    // check to make sure there are a valid amount of slots left
     var unMatchedVisitors = this.validateTotalAvailable(visitorArray, constraintObject);
 
     while (unMatchedVisitors.length) {

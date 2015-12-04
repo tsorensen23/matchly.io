@@ -53,8 +53,8 @@ var Match = React.createClass({
     var data = [];
     if (this.state.matchData) {
       this.state.matchData.array.shift();
-      data = this.state.matchData.array.map(function(visitor) {
-        return (<Visitor key={visitor.visitorFirstName + visitor.LastName} visitor={visitor} />);
+      data = this.state.matchData.array.map(function(visitor, index) {
+        return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
       });
     }
 
