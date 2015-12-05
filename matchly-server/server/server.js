@@ -16,6 +16,10 @@ var path = require('path');
 var Employer = require('./database/db').Employer;
 var db = require('./database/db');
 var calendarController = require('./controllers/calendarController');
+
+
+
+if(process.env.NODE_ENV == 'production'){
 var logDirectory = __dirname + '/log'
 
 // ensure log directory exists
@@ -28,8 +32,10 @@ var accessLogStream = FileStreamRotator.getStream({
   verbose: false,
   date_format: "YYYY-MM-DD"
 })
-
-app.use(morgan('combined', {stream: accessLogStream}))
+  app.use(morgan('combined', {stream: accessLogStream}))
+} else {
+  app.use(morgan('dev'));
+}
 app.use(cookieParser());
 app.disable('x-powered-by');
 app.disable('etag')

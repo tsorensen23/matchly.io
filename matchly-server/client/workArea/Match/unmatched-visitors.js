@@ -46,7 +46,7 @@ export default class UnmatchedVisitors extends React.Component {
           destroy: true, 
           visitors: { 
             data: []}});
-        console.log(data);
+        this.props.backtoCalendar();
       }.bind(this)
     });
   }

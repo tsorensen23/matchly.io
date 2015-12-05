@@ -61,24 +61,30 @@ var Match = React.createClass({
     }
 
     return (
-      <div>
         <div id='workArea'>
-          <div id='list-of-visitors'>
-
-          </div>
-          <div id='schedule'>
-
-          </div>
           <HostChooser date={this.props.date} />
-          <UnmatchedVisitors date={this.props.date} />
-          <ProgressButton className="btn btn-primary" ref='button' onClick={this.match}>MATCH</ProgressButton>
+          <UnmatchedVisitors 
+            backtoCalendar={() =>{
+              this.props.history.pushState(null, '/calendar');
+            }}
+            date={this.props.date} 
+          />
+          <ProgressButton 
+            className="btn btn-primary" 
+            ref='button' 
+            onClick={this.match}
+          >
+            MATCH
+          </ProgressButton>
           <div className="text-center" style={{marginTop: '15'}}>
 
-          <button className="btn btn-info" onClick={this.exportToCSV}>Export Data to CSV File</button>
+            <button 
+              className="btn btn-info" 
+              onClick={this.exportToCSV}
+            >
+              Export Data to CSV File
+            </button>
           </div>
-        </div>
-        <div id='loading'>
-        </div>
         <div id='data'>
           <table className='table table-condensed'>
             <thead>
