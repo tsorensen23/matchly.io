@@ -3,6 +3,7 @@ var DatePicker = require('react-datepicker');
 var Match = require('./Match.jsx');
 var moment = require('moment');
 var CrudStore = require('../../Stores/CrudStore');
+import { connect} from 'react-redux';
 
 var VisitorStore = CrudStore('visitors');
 var HostStore = CrudStore('hosts');
@@ -35,4 +36,6 @@ var MatchIndex = React.createClass({
   }
 });
 
-module.exports = MatchIndex;
+module.exports = connect(function(state){
+  return state.hosts;
+})(MatchIndex);

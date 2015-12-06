@@ -2,6 +2,8 @@ var React = require('react');
 
 // var alasql=require('alasql');
 
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import { connect } from 'react-redux';
 var Link = require('react-router').Link;
 
 var Home = React.createClass({
