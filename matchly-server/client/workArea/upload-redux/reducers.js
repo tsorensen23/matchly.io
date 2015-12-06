@@ -1,21 +1,3 @@
-/* var state = {
-   upload: boolean,
-   headers: [
-   {
-   needed: 'Military',
-   given: 'Mstatus'
-   }
-   ],
-   data [
-   { key: 'Mstatus',
-   data: ['yes','no','veteran']
-   }
-   ]
-   }
-   */
-
-import { combineReducers } from 'redux';
-
 function upload(state = false, action){
   switch(action.type){
     case 'START_UPLOAD':
@@ -361,6 +343,13 @@ export default function employers(state = {
       return state;
   }
 }
+function hosts(state = {}, action){
+  switch(action.type) {
+    default: 
+      return state;
+  }
+}
+
 
 
 export default function(state = {}, action = {}) {
@@ -374,6 +363,7 @@ export default function(state = {}, action = {}) {
     data: data(state.data, action),
     finished: finished(state.finished, action),
     allSchools: schools(state.allSchools, action),
-    allEmployers: employers(state.allEmployers, action)
+    allEmployers: employers(state.allEmployers, action),
+    hosts: hosts(state.hosts, action) 
   };
 }

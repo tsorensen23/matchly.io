@@ -35,4 +35,6 @@ var Home = React.createClass({
   }
 });
 
-module.exports = Home;
+module.exports = connect(function(state) {
+  return state;
+})(Home);
