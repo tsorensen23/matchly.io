@@ -1,48 +1,37 @@
 var React = require('react');
 var Visitor = require('../Visitors.jsx');
 var Loading = require('../Loading.jsx');
+import {connect} from 'react-redux';
 var ProgressButton = require('react-progress-button');
 import UnmatchedVisitors from './unmatched-visitors';
-
 var HostStore = require('../../Stores/CrudStore')('hosts');
 
 var exportToCSV = require('../../generic/exportCSV.js');
 
 var HostChooser = require('../DateException/HostChooser.jsx');
+import * as actions from './actions';
 
 var Match = React.createClass({
   getInitialState: function() {
+    this.props.dispatch(actions.setDate(this.props.date));
+    this.props.dispatch(actions.getAllVisitors());
     return {matchData:null};
+  },
+  componentDidMount(){
   },
   match: function (e) {
     e.preventDefault()
-
-    var _this = this;
-
-    // this.props
     this.refs.button.loading();
-    $.ajax({
-      method: 'GET',
-      url: '/match/?date=' + this.props.date,
-      success: function(data) {
-        _this.setState({ matchData: data});
-        if (data.array.length === 0) {
-          alert('There were no visitors found!');
-          _this.refs.button.error();
-        } else {
-          HostStore.getAll({});
-          _this.refs.button.success();
-        }
-      },
+    this.props.dispatch(actions.getMatches());
 
-      error: function(resp) {
-        _this.refs.button.error();
-        var data = resp.responseJSON;
-
-        alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`);
-        _this.props.history.pushState(null, '/available', data);
-      }
-    });
+    //TODO handle these cases
+    //
+    // _this.refs.button.error();
+    // _this.refs.button.success();
+    // this.props
+    // alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`);
+    // _this.props.history.pushState(null, '/available', data);
+  // }
   },
 
   exportToCSV:function() {
@@ -50,20 +39,16 @@ var Match = React.createClass({
   },
 
   render:function() {
-    var data = [];
-    if (this.state.matchData) {
-      this.state.matchData.array.shift();
-      data = this.state.matchData.array.sort((a, b) => {
+      var data = this.props.matches.data.sort((a, b) => {
         return a.visitorLastName > b.visitorLastName;
       }).map(function(visitor, index) {
         return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
       });
-    }
-
     return (
         <div id='workArea'>
           <HostChooser date={this.props.date} />
           <UnmatchedVisitors 
+            visitors={this.props.visitors}
             backtoCalendar={() =>{
               this.props.history.pushState(null, '/calendar');
             }}
@@ -118,4 +103,6 @@ var Match = React.createClass({
   }
 });
 
-module.exports = Match;
+module.exports =connect(function(state){
+ return state;
+})(Match);
