@@ -14,15 +14,14 @@ import * as actions from './actions';
 var Match = React.createClass({
   getInitialState: function() {
     this.props.dispatch(actions.setDate(this.props.date));
-    this.props.dispatch(actions.getAllVisitors());
+    this.props.dispatch(actions.getAllHosts());
+    this.props.getAllVisitors()
     return {matchData:null};
-  },
-  componentDidMount(){
   },
   match: function (e) {
     e.preventDefault()
     this.refs.button.loading();
-    this.props.dispatch(actions.getMatches());
+    this.props.getMatches();
 
     //TODO handle these cases
     //
@@ -35,7 +34,7 @@ var Match = React.createClass({
   },
 
   exportToCSV:function() {
-    exportToCSV('match-data', this.state.matchData.array);
+    exportToCSV('match-data', this.props.matches.data);
   },
 
   render:function() {
@@ -44,9 +43,20 @@ var Match = React.createClass({
       }).map(function(visitor, index) {
         return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
       });
+      if(this.props.hosts.data.length > 0){
+          var hosts = <HostChooser 
+                        date={this.props.date} 
+                        toggleHost={(host, onOff) => {
+                          console.log('in match', host);
+                         this.props.dispatch(actions.toggleHost(host, onOff))
+                        }} 
+                      />
+      }
+
+
     return (
         <div id='workArea'>
-          <HostChooser date={this.props.date} />
+          {hosts}
           <UnmatchedVisitors 
             visitors={this.props.visitors}
             backtoCalendar={() =>{

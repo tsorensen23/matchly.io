@@ -344,7 +344,7 @@ export default function employers(state = {
       return state;
   }
 }
-export function hosts(state = {}, action){
+export function hosts(state = {isFetching: false, data: []}, action){
   switch(action.type) {
     case 'REQUEST_HOSTS':
       return Object.assign({}, state, {
@@ -354,6 +354,20 @@ export function hosts(state = {}, action){
       return Object.assign({}, state, {
         isFetching: false,
         data: action.data
+      });
+    case 'TOGGLE_HOST':
+      var index;
+      for(var i = 0; i < state.data.length; i++){
+        if(state.data[i]._id === action.data.update.hosts[0]._id){
+          index = i;
+        }
+      }
+      return Object.assign({}, state, {
+        data: [
+          ...state.data.slice(0,index - 1),
+          action.data.update.hosts[0],
+        ...state.data.slice(index + 1)
+          ]
       });
     default:
       return state;

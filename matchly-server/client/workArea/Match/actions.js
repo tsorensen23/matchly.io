@@ -64,3 +64,21 @@ export function getMatches() {
     );
   };
 }
+function toggleHostData(data) {
+  return { type: 'TOGGLE_HOST', data};
+}
+
+export function toggleHost(host, onOff){
+  return function(dispatch, getState) {
+    var date = getState().matches.date.toString();
+    fetch(`/hosts/exception-date?date=${date}&host=${host._id}&onoff=${onOff}`, {
+      credentials: 'same-origin'
+    }).then(resp =>
+      resp.json()
+    ).then(data => {
+      console.log(data, 'in actions');
+      dispatch(toggleHostData(data))
+    });
+  }
+}
+

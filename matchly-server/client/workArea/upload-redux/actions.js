@@ -16,7 +16,6 @@ export function setHosts() {
 export function setVisitors() {
   return { type: 'SET_VISITORS' }
 }
-
 export function changeKeys(keyArray) {
   return { type: 'CHANGE_KEYS', keyArray}
 }
