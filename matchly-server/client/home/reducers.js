@@ -364,7 +364,7 @@ export function hosts(state = {isFetching: false, data: []}, action){
       }
       return Object.assign({}, state, {
         data: [
-          ...state.data.slice(0,index - 1),
+          ...state.data.slice(0,index),
           action.data.update.hosts[0],
         ...state.data.slice(index + 1)
           ]
