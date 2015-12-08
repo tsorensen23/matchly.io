@@ -43,7 +43,10 @@ var Match = React.createClass({
     if(this.props.hosts.isFetching || this.props.matches.isFetching || this.props.visitors.isFetching){
       return( <Loading />);
     }
-      var data = this.props.matches.data.sort((a, b) => {
+      var data = 
+        this.props.matches.data.filter(match =>
+          match.hostFirstName || match.hostLastName
+        ).sort((a, b) => {
         return a.visitorLastName > b.visitorLastName;
       }).map(function(visitor, index) {
         return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
