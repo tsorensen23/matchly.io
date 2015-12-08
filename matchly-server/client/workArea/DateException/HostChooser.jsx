@@ -16,7 +16,6 @@ var AddExceptionDay = React.createClass({
   },
 
   toggleHost: function(host, onoff) {
-    console.log('in toggle host', host, onoff);
     this.props.toggleHost(host, onoff);
   },
 
@@ -98,7 +97,6 @@ var AddExceptionDay = React.createClass({
                         textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                       }}
                       onClick={() => {
-                        console.log(host);
                         this.toggleHost(host, onoff);
                       }}
                     >

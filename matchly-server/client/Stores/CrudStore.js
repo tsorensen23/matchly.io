@@ -74,7 +74,6 @@ module.exports = function(url) {
       contentType: 'application/json',
       data: values,
       success: function(data, textStatus, jqXHR) {
-        console.log(data);
         if (next) return next(void 0, data);
         if (!data.update) return;
         for (var name in data.update) {

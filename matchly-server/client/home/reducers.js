@@ -72,7 +72,6 @@ function headers(state = initialHeaderState, action){
           isFetching: false
         });
     case 'SET_HEADERSGIVEN_TO_NEEDED':
-        console.log('made it here');
         return Object.assign({}, state, {
           data: data.map(function(dp){
             dp.given = dp.needed;
@@ -401,7 +400,6 @@ export function matches(state ={isFetching: false, data: []}, action){
         isFetching: true
       });
     case 'RECEIVE_MATCHES':
-      console.log('hit reducer');
       return Object.assign({}, state, {
         isFetching: false,
         data: action.data

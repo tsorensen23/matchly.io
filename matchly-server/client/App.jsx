@@ -1,5 +1,4 @@
 var React = require('react');
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 var App = React.createClass({
   render: function() {

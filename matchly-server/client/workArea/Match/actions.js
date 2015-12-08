@@ -1,4 +1,5 @@
 // always wrap your actions in a dispatch!!!!
+import moment from 'moment';
 
 function requestHosts(){
   return { type: 'REQUEST_HOSTS' }
@@ -30,13 +31,12 @@ export function getAllVisitors() {
   return function(dispatch, getState){
     dispatch(requestVisitors());
     var date = getState().matches.date;
-    fetch(`/visitors?date=${date.toISOString()}`, {
+    fetch(`/visitors?date=${moment(date).toISOString()}`, {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()
     ).then(json => {
-      console.log(json);
-      dispatch(receiveVisitors(json))
+      dispatch(receiveVisitors(json));
     });
   };
 }
@@ -48,8 +48,11 @@ function requestMatches(){
   return { type: 'REQUEST_MATCHES' };
 }
 function receiveMatches(data) {
-  console.log('hit this2');
   return { type: 'RECEIVE_MATCHES', data};
+}
+function notEnoughSpots(error){
+  alert(error);
+  return { type: 'NOT_ENOUGH_SPOTS', error}
 }
 export function getMatches() {
   return function(dispatch, getState){
@@ -57,9 +60,12 @@ export function getMatches() {
     var date = getState().matches.date;
     fetch(`match/?date=${Date.parse(date)}`, {
       credentials: 'same-origin'
-    }).then(resp => 
-      resp.json()
-    ).then(data => 
+    }).then(resp => {
+      if(resp.status >= 400){
+        dispatch(notEnoughSpots(resp.json()))
+      }
+      return resp.json()
+    }).then(data => 
       dispatch(receiveMatches(data.array))
     );
   };
@@ -76,7 +82,6 @@ export function toggleHost(host, onOff){
     }).then(resp =>
       resp.json()
     ).then(data => {
-      console.log(data, 'in actions');
       dispatch(toggleHostData(data))
     });
   }

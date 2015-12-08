@@ -11,9 +11,7 @@ const reducer = combineReducers(Object.assign({}, reducers, {
 
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = compose(
-    applyMiddleware(thunkMiddleware, loggerMiddleware),
-    devTools(),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    applyMiddleware(thunkMiddleware)
 )(createStore);
 function configureStore(initialState) {
   return createStoreWithMiddleware(reducers, initialState);

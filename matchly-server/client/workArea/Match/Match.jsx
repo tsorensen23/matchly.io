@@ -5,23 +5,26 @@ import {connect} from 'react-redux';
 var ProgressButton = require('react-progress-button');
 import UnmatchedVisitors from './unmatched-visitors';
 var HostStore = require('../../Stores/CrudStore')('hosts');
+var Loading = require('../Loading.jsx');
 
 var exportToCSV = require('../../generic/exportCSV.js');
+import { updatePath } from 'redux-simple-router'
+
 
 var HostChooser = require('../DateException/HostChooser.jsx');
 import * as actions from './actions';
 
 var Match = React.createClass({
-  getInitialState: function() {
+  componentDidMount: function() {
     this.props.dispatch(actions.setDate(this.props.date));
     this.props.dispatch(actions.getAllHosts());
-    this.props.getAllVisitors()
-    return {matchData:null};
+    this.props.getAllVisitors();
   },
   match: function (e) {
-    e.preventDefault()
+    e.preventDefault();
     this.refs.button.loading();
     this.props.getMatches();
+    this.refs.button.success();
 
     //TODO handle these cases
     //
@@ -30,7 +33,6 @@ var Match = React.createClass({
     // this.props
     // alert(`Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`);
     // _this.props.history.pushState(null, '/available', data);
-  // }
   },
 
   exportToCSV:function() {
@@ -38,6 +40,9 @@ var Match = React.createClass({
   },
 
   render:function() {
+    if(this.props.hosts.isFetching || this.props.matches.isFetching || this.props.visitors.isFetching){
+      return( <Loading />);
+    }
       var data = this.props.matches.data.sort((a, b) => {
         return a.visitorLastName > b.visitorLastName;
       }).map(function(visitor, index) {
@@ -47,7 +52,6 @@ var Match = React.createClass({
           var hosts = <HostChooser 
                         date={this.props.date} 
                         toggleHost={(host, onOff) => {
-                          console.log('in match', host);
                          this.props.dispatch(actions.toggleHost(host, onOff))
                         }} 
                       />
@@ -60,7 +64,7 @@ var Match = React.createClass({
           <UnmatchedVisitors 
             visitors={this.props.visitors}
             backtoCalendar={() =>{
-              this.props.history.pushState(null, '/calendar');
+              this.props.dispatch(updatePath('/calendar'));
             }}
             date={this.props.date} 
           />

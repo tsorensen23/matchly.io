@@ -15,7 +15,6 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Redirect = ReactRouter.Redirect;
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 import store from './store';
 //these are the routes, they determine which component will be
@@ -39,14 +38,7 @@ User.getUser(function(err, user) {
 
   ReactDOM.render(
       <div className="row">
-
-        <div className="col-xs-3">
-           <DebugPanel top left bottom>
-             <DevTools store={store} monitor={LogMonitor} />
-          </DebugPanel> 
-        </div>
-
-        <div className="col-xs-9">
+        <div className="col-xs-12">
           <Provider store={store}>
             <Router history={history}>
               <Route component={Home} >
