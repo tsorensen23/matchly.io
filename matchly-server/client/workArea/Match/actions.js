@@ -42,7 +42,7 @@ export function getAllVisitors() {
 }
 
 export function setDate(date){
-  return { type: 'SET_DATE', date};
+  return { type: 'SET_DATE_MATCH', date};
 }
 function requestMatches(){
   return { type: 'REQUEST_MATCHES' };

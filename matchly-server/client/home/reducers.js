@@ -282,11 +282,11 @@ export default function finished(state = [], action){
           return Object.assign({}, visitor, obj);
         }
         return visitor;
-      })
+      });
     case 'SET_DATE':
+      var date = action.date.format();
       return state.map(function(visitor){
-        
-        visitor.visitDate = action.date.format();
+        visitor.visitDate = date;
         return visitor;
       });
     default:
@@ -394,7 +394,7 @@ export function visitors(state = {isFetching: false, data: [], lastUpdated: 0}, 
 
 export function matches(state ={isFetching: false, data: [], lastUpdated: 0}, action){
   switch(action.type) {
-    case 'SET_DATE':
+    case 'SET_DATE_MATCH':
       return Object.assign({}, state, {
         date: action.date
       });
