@@ -116,7 +116,7 @@ var Rumble = {
         prev[key.slice(1, 2)] += constraintObject[key].availableSpots;
         constraintObject[key].matches = [];
         return prev;
-      }, {1: 0, 2: 0, 3: 0 })
+      }, {1: 0, 2: 0, 3: 0 });
 
 
     var unMatchedVisitors = visitorArray.map(function(a) {

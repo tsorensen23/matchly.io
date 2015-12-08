@@ -1,20 +1,3 @@
-/* var state = {
-   upload: boolean,
-   headers: [
-   {
-   needed: 'Military',
-   given: 'Mstatus'
-   }
-   ],
-   data [
-   { key: 'Mstatus',
-   data: ['yes','no','veteran']
-   }
-   ]
-   }
-   */
-
-import { combineReducers } from 'redux';
 
 function upload(state = false, action){
   switch(action.type){
@@ -89,7 +72,6 @@ function headers(state = initialHeaderState, action){
           isFetching: false
         });
     case 'SET_HEADERSGIVEN_TO_NEEDED':
-        console.log('made it here');
         return Object.assign({}, state, {
           data: data.map(function(dp){
             dp.given = dp.needed;
@@ -361,8 +343,75 @@ export default function employers(state = {
       return state;
   }
 }
+export function hosts(state = {isFetching: false, data: []}, action){
+  switch(action.type) {
+    case 'REQUEST_HOSTS':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_HOSTS':
+      return Object.assign({}, state, {
+        isFetching: false,
+        data: action.data
+      });
+    case 'TOGGLE_HOST':
+      var index;
+      for(var i = 0; i < state.data.length; i++){
+        if(state.data[i]._id === action.data.update.hosts[0]._id){
+          index = i;
+        }
+      }
+      return Object.assign({}, state, {
+        data: [
+          ...state.data.slice(0,index),
+          action.data.update.hosts[0],
+        ...state.data.slice(index + 1)
+          ]
+      });
+    default:
+      return state;
+  }
+}
+
+export function visitors(state = {isFetching: false, data: []}, action){
+  switch(action.type) {
+    case 'REQUEST_VISITORS':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_VISITORS':
+      return Object.assign({}, state, {
+        isFetching: false,
+        data: action.data
+      });
+    default:
+      return state;
+  }
+}
+
+export function matches(state ={isFetching: false, data: []}, action){
+  switch(action.type) {
+    case 'SET_DATE':
+      return Object.assign({}, state, {
+        date: action.date
+      });
+    case 'REQUEST_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_MATCHES':
+      return Object.assign({}, state, {
+        isFetching: false,
+        data: action.data
+      });
+    default:
+      return state;
+  }
+}
 
 
+
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 export default function(state = {}, action = {}) {
   state = wholeState(state, action);
   return {
@@ -374,6 +423,10 @@ export default function(state = {}, action = {}) {
     data: data(state.data, action),
     finished: finished(state.finished, action),
     allSchools: schools(state.allSchools, action),
-    allEmployers: employers(state.allEmployers, action)
+    allEmployers: employers(state.allEmployers, action),
+    hosts: hosts(state.hosts, action),
+    visitors: visitors(state.visitors, action),
+    matches: matches(state.matches, action),
+    routing: routeReducer(state.routing, action)
   };
 }

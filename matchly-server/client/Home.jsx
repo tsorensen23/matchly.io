@@ -2,6 +2,7 @@ var React = require('react');
 
 // var alasql=require('alasql');
 
+import { connect } from 'react-redux';
 var Link = require('react-router').Link;
 
 var Home = React.createClass({
@@ -35,4 +36,6 @@ var Home = React.createClass({
   }
 });
 
-module.exports = Home;
+module.exports = connect(function(state) {
+  return state;
+})(Home);

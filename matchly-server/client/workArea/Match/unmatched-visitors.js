@@ -12,28 +12,6 @@ export default class UnmatchedVisitors extends React.Component {
     }
   }
   componentDidMount() {
-    
-    this.setState(Object.assign({}, this.state, {
-      visitors: {
-        loading: true
-      }
-    }));
-    $.ajax({
-      method: 'get',
-      url: '/visitors',
-      contentType: 'application/json',
-      data: {date: this.props.date.toISOString()},
-      success: function(data) {
-        this.setState({visitors: { loading: false, data: data}})
-      }.bind(this),
-      always: function(){
-      this.setState(Object.assign({}, this.state, {
-        visitors: {
-          loading: false
-        }
-      }));
-      }.bind(this)
-    });
   }
   deleteStuff(){
     $.ajax({
@@ -57,7 +35,7 @@ export default class UnmatchedVisitors extends React.Component {
     if(this.state.visitors.loading){
       return <div />
     }
-    if(this.state.visitors.data){
+    if(this.props.visitors.data){
       return (
           <div>
           <button 
@@ -77,7 +55,7 @@ export default class UnmatchedVisitors extends React.Component {
           </thead>
           <tbody>
 
-          {this.state.visitors.data.map((visitor, index) => {
+          {this.props.visitors.data.map((visitor, index) => {
             return(
                 <tr key={visitor.Contact.Last + index}>
                   <td>

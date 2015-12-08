@@ -16,7 +16,6 @@ export function setHosts() {
 export function setVisitors() {
   return { type: 'SET_VISITORS' }
 }
-
 export function changeKeys(keyArray) {
   return { type: 'CHANGE_KEYS', keyArray}
 }
@@ -316,7 +315,6 @@ export function uploadData(url){
   return function(dispatch, getState){
     dispatch(startUpload());
     var body = getState().finished;
-    console.log(body);
     body = body.filter(function(person){
       return Object.keys(person).filter(key =>
           key !== 'visitDate'
@@ -324,7 +322,6 @@ export function uploadData(url){
         return person[key] !== ' ';
       });
     });
-    console.log(body);
     //TODO take this out when the date box works
     return fetch(url, {
       method: 'POST',

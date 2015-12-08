@@ -1,38 +1,12 @@
 var React = require('react');
 
+import {connect} from 'react-redux';
 var CrudStore = require('../../Stores/CrudStore');
 var HostStore = CrudStore('hosts');
 var moment = require('moment');
+import * as actions from '../Match/actions';
 
 var AddExceptionDay = React.createClass({
-  getInitialState: function() {
-    return {
-      hosts: []
-    };
-  },
-
-  componentWillMount: function() {
-    this.hostListener = function(hosts) {
-      this.setState({hosts:hosts.sort(function(a, b) {
-        return a.Contact.Last.localeCompare(b.Contact.Last);
-      })});
-    }.bind(this);
-    HostStore.on('hosts-updated', this.hostListener);
-    HostStore.getAll({});
-  },
-
-  componentWillUnMount: function() {
-    HostStore.removeListener('hosts-updated', this.hostListener);
-  },
-
-  shouldComponentUpdate: function(nextProps, nextState) {
-    if (nextProps.date !== this.props.date) {
-      HostStore.getAll({});
-    }
-
-    return true;
-  },
-
   findIndex: function(array, date) {
     for (var i = 0; i < array.length; i++) {
       if (moment(array[i]).format() === moment(date).format()) return i;
@@ -42,12 +16,7 @@ var AddExceptionDay = React.createClass({
   },
 
   toggleHost: function(host, onoff) {
-
-    HostStore.run('exception-date/', {
-      date: this.props.date.toString(),
-      host: host._id,
-      onoff: onoff
-    });
+    this.props.toggleHost(host, onoff);
   },
 
   render:function() {
@@ -63,7 +32,7 @@ var AddExceptionDay = React.createClass({
         }}>
           <table className='table table-condensed'>
             <tbody>
-              {this.state.hosts.map(function(host, index) {
+              {this.props.hosts.data.map(function(host, index) {
               var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
               if (!host.MatchInfo.matchDates) {
                 host.MatchInfo.matchDates = host.MatchInfo.matches.map(function(match) {
@@ -127,7 +96,9 @@ var AddExceptionDay = React.createClass({
                         outline: 'none',
                         textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                       }}
-                      onClick={toggleHost.bind(this, host, onoff)}
+                      onClick={() => {
+                        this.toggleHost(host, onoff);
+                      }}
                     >
                       {onoff ? 'Make Unavailable' : 'Make Available'} on Date
                     </button>
@@ -143,4 +114,6 @@ var AddExceptionDay = React.createClass({
   }
 });
 
-module.exports = AddExceptionDay;
+module.exports =connect(function(state) {
+ return state;
+})(AddExceptionDay);

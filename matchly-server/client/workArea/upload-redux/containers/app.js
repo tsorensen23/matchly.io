@@ -30,7 +30,7 @@ var Loading = require('../../Loading.jsx');
 var DatePicker = require('react-datepicker');
 var moment = require('moment');
 
-class App extends React.Component{
+export default class App extends React.Component{
   constructor(props) {
     super(props);
     this.props.dispatch(fetchHeaders());
@@ -137,7 +137,3 @@ class App extends React.Component{
     }
   }
 }
-
-export default connect(function(state){
-  return state;
-})(App);

@@ -1,6 +1,9 @@
 var ReactDOM = require('react-dom');
 var React = require('react');
 
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+
+import { Provider } from 'react-redux'
 var Home = require('../Home.jsx');
 
 var Match = require('../workArea/Match/index.jsx');
@@ -13,12 +16,16 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Redirect = ReactRouter.Redirect;
 
+import store from './store';
 //these are the routes, they determine which component will be
 //loaded for each url
 
 var User = require('../Stores/UserStore');
 
 var createHashHistory = require('history/lib/createHashHistory');
+var history = createHashHistory();
+
+syncReduxAndRouter(history, store)
 
 User.getUser(function(err, user) {
   if (err) {
@@ -30,16 +37,22 @@ User.getUser(function(err, user) {
   }
 
   ReactDOM.render(
-    <Router history={createHashHistory()} createElement={function(Component,props) {
-        return <Component user={user} {...props} />;
-      }}>
-      <Route component={Home} >
-        <Redirect from='/' to='/calendar' />
-        <Route path='match' component={Match} />
-        <Route path='upload' component={Upload} />
-        <Route path='available' component={Available} />
-        <Route path='calendar' component={Calendar} />
-      </Route>
-    </Router>, document.getElementById('main')
+      <div className="row">
+        <div className="col-xs-12">
+          <Provider store={store}>
+            <Router history={history}>
+              <Route component={Home} >
+                <Redirect from='/' to='/calendar' />
+                <Route path='match' component={Match} />
+                <Route path='upload' component={Upload} />
+                <Route path='available' component={Available} />
+                <Route path='calendar' component={Calendar} />
+              </Route>
+            </Router>
+          </Provider>
+        </div>
+
+      </div>
+    , document.getElementById('main')
   );
 });
