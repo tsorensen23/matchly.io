@@ -8,7 +8,7 @@ var HostStore = require('../../Stores/CrudStore')('hosts');
 var Loading = require('../Loading.jsx');
 
 var exportToCSV = require('../../generic/exportCSV.js');
-import { updatePath } from 'redux-simple-router'
+import { updatePath } from 'redux-simple-router';
 
 
 var HostChooser = require('../DateException/HostChooser.jsx');
@@ -19,12 +19,17 @@ var Match = React.createClass({
     this.props.dispatch(actions.setDate(this.props.date));
     this.props.dispatch(actions.getAllHosts());
     this.props.getAllVisitors();
+    if(this.props.matches.isFetching){
+      this.refs.button.loading();
+    }
+    if(this.props.matches.lastUpdated !== 0){
+      this.refs.button.success();
+    }
   },
   match: function (e) {
     e.preventDefault();
     this.refs.button.loading();
-    this.props.getMatches();
-    this.refs.button.success();
+    this.props.getMatches(this.refs.button.success);
 
     //TODO handle these cases
     //
@@ -40,20 +45,21 @@ var Match = React.createClass({
   },
 
   render:function() {
-    if(this.props.hosts.isFetching || this.props.matches.isFetching || this.props.visitors.isFetching){
+    let { hosts, matches, visitors, date } = this.props;
+    if(hosts.isFetching || visitors.isFetching){
       return( <Loading />);
     }
       var data = 
-        this.props.matches.data.filter(match =>
+        matches.data.filter(match =>
           match.hostFirstName || match.hostLastName
         ).sort((a, b) => {
         return a.visitorLastName > b.visitorLastName;
       }).map(function(visitor, index) {
         return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
       });
-      if(this.props.hosts.data.length > 0){
-          var hosts = <HostChooser 
-                        date={this.props.date} 
+      if(hosts.data.length > 0){
+          var hosthtml = <HostChooser 
+                        date={date} 
                         toggleHost={(host, onOff) => {
                          this.props.dispatch(actions.toggleHost(host, onOff))
                         }} 
@@ -63,13 +69,13 @@ var Match = React.createClass({
 
     return (
         <div id='workArea'>
-          {hosts}
+          {hosthtml}
           <UnmatchedVisitors 
-            visitors={this.props.visitors}
+            visitors={visitors}
             backtoCalendar={() =>{
               this.props.dispatch(updatePath('/calendar'));
             }}
-            date={this.props.date} 
+            date={date} 
           />
           <ProgressButton 
             className="btn btn-primary" 
@@ -121,5 +127,5 @@ var Match = React.createClass({
 });
 
 module.exports =connect(function(state){
- return state;
+ return {hosts: state.hosts, visitors: state.visitors, matches: state.matches};
 })(Match);

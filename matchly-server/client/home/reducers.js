@@ -285,7 +285,8 @@ export default function finished(state = [], action){
       })
     case 'SET_DATE':
       return state.map(function(visitor){
-        visitor.visitDate = action.date.toISOString();
+        
+        visitor.visitDate = action.date.format();
         return visitor;
       });
     default:
@@ -343,7 +344,7 @@ export default function employers(state = {
       return state;
   }
 }
-export function hosts(state = {isFetching: false, data: []}, action){
+export function hosts(state = {isFetching: false, data: [], lastUpdated: 0}, action){
   switch(action.type) {
     case 'REQUEST_HOSTS':
       return Object.assign({}, state, {
@@ -352,7 +353,8 @@ export function hosts(state = {isFetching: false, data: []}, action){
     case 'RECEIVE_HOSTS':
       return Object.assign({}, state, {
         isFetching: false,
-        data: action.data
+        data: action.data,
+        lastUpdated: Date.now()
       });
     case 'TOGGLE_HOST':
       var index;
@@ -373,7 +375,7 @@ export function hosts(state = {isFetching: false, data: []}, action){
   }
 }
 
-export function visitors(state = {isFetching: false, data: []}, action){
+export function visitors(state = {isFetching: false, data: [], lastUpdated: 0}, action){
   switch(action.type) {
     case 'REQUEST_VISITORS':
       return Object.assign({}, state, {
@@ -382,14 +384,15 @@ export function visitors(state = {isFetching: false, data: []}, action){
     case 'RECEIVE_VISITORS':
       return Object.assign({}, state, {
         isFetching: false,
-        data: action.data
+        data: action.data,
+        lastUpdated: Date.now()
       });
     default:
       return state;
   }
 }
 
-export function matches(state ={isFetching: false, data: []}, action){
+export function matches(state ={isFetching: false, data: [], lastUpdated: 0}, action){
   switch(action.type) {
     case 'SET_DATE':
       return Object.assign({}, state, {
@@ -402,7 +405,28 @@ export function matches(state ={isFetching: false, data: []}, action){
     case 'RECEIVE_MATCHES':
       return Object.assign({}, state, {
         isFetching: false,
-        data: action.data
+        data: action.data,
+        lastUpdated: Date.now()
+      });
+    default:
+      return state;
+  }
+}
+function calendar(state ={ startDate: null, endDate: null, data: [], isFetching: false}, action){
+  switch(action.type){
+    case 'SET_START_END_DATE':
+      return Object.assign({}, state, {
+        startDate: action.startDate,
+        endDate: action.endDate
+      });
+    case 'REQUEST_CALENDAR':
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case 'RECEIVE_CALENDAR':
+      return Object.assign({}, state, {
+        data: action.data,
+        isFetching: false
       });
     default:
       return state;
@@ -427,6 +451,7 @@ export default function(state = {}, action = {}) {
     hosts: hosts(state.hosts, action),
     visitors: visitors(state.visitors, action),
     matches: matches(state.matches, action),
-    routing: routeReducer(state.routing, action)
+    routing: routeReducer(state.routing, action),
+    calendar: calendar(state.calendar, action)
   };
 }

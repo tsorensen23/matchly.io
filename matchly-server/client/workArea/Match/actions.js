@@ -54,7 +54,7 @@ function notEnoughSpots(error){
   alert(error);
   return { type: 'NOT_ENOUGH_SPOTS', error}
 }
-export function getMatches() {
+export function getMatches(cb) {
   return function(dispatch, getState){
     dispatch(requestMatches());
     var date = getState().matches.date;
@@ -65,9 +65,10 @@ export function getMatches() {
         dispatch(notEnoughSpots(resp.json()))
       }
       return resp.json()
-    }).then(data => 
-      dispatch(receiveMatches(data.array))
-    );
+    }).then(data =>  {
+      cb();
+      dispatch(receiveMatches(data.array));
+    });
   };
 }
 function toggleHostData(data) {
