@@ -19,7 +19,7 @@ var MatchIndex = React.createClass({
             }}
             location={this.props.location} 
             history={this.props.history}  
-            date={this.props.location.query.date} 
+            date={moment(this.props.location.query.date)} 
           />
       </div>
     );
