@@ -58,6 +58,7 @@ export function getMatches(cb) {
   return function(dispatch, getState){
     dispatch(requestMatches());
     var date = getState().matches.date;
+    date = moment(date).toDate();
     fetch(`match/?date=${Date.parse(date)}`, {
       credentials: 'same-origin'
     }).then(resp => {
@@ -66,8 +67,8 @@ export function getMatches(cb) {
       }
       return resp.json()
     }).then(data =>  {
-      cb();
       dispatch(receiveMatches(data.array));
+      cb();
     });
   };
 }
