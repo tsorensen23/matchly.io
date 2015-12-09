@@ -1,38 +1,25 @@
 var React = require('react');
 var CalendarMonth = require('./calendar-month.jsx');
+
 var CalendarList = require('./calendar-list.jsx');
 var moment = require('moment');
 var Loading = require('../Loading.jsx');
+import { connect } from 'react-redux';
+import * as actions from './actions';
 
 var Calendar = React.createClass({
-  getInitialState: function() {
-    var startDate = moment().startOf("month");
-    var endDate = moment().endOf("month");
-    return {
-      calendar: { isFetching: true, error: '', data: [] },
-      startDate: startDate,
-      endDate: endDate
-    };
-  },
   componentDidMount: function(){
-    this.setState({calendar: { isFetching: true}});
-    $.ajax({
-      method: 'get',
-      url: '/calendar',
-      data: { startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString()},
-      success: (data) => {
-        this.setState({calendar: { isFetching: false, data: data }});
-      },
-      error: (err) => {
-        this.setState({calendar: {err: err}});
-      }
-    });
+    var startDate = moment().startOf('month').format();
+    var endDate = moment().endOf('month').format();
+    this.props.dispatch(actions.setStartEndDate(startDate, endDate));
+    this.props.dispatch(actions.getCalendar());
   },
   render: function() {
-    if(this.state.calendar.isFetching){
+    var { calendar} = this.props;
+    if(calendar.isFetching){
       return (<Loading/>);
     }
-      if(this.state.calendar.data.length > 0){
+      if(calendar.data.length > 0){
       return (
         <div style={{margin: '20px 0'}} className="calendar-view">
           <div
@@ -43,12 +30,12 @@ var Calendar = React.createClass({
             }}
           >
             <CalendarMonth
-              calendar={this.state.calendar.data}
+              calendar={calendar.data}
             />
           </div>
           <div className="col-xs-2">
             <CalendarList
-              calendar={this.state.calendar.data}
+              calendar={calendar.data}
             />
           </div>
         </div>
@@ -58,4 +45,8 @@ var Calendar = React.createClass({
   }
 });
 
-module.exports = Calendar;
+module.exports = connect(function(state){
+  return {
+    calendar: state.calendar
+  };
+})(Calendar);

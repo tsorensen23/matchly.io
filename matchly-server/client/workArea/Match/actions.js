@@ -42,7 +42,7 @@ export function getAllVisitors() {
 }
 
 export function setDate(date){
-  return { type: 'SET_DATE', date};
+  return { type: 'SET_DATE_MATCH', date};
 }
 function requestMatches(){
   return { type: 'REQUEST_MATCHES' };
@@ -54,10 +54,11 @@ function notEnoughSpots(error){
   alert(error);
   return { type: 'NOT_ENOUGH_SPOTS', error}
 }
-export function getMatches() {
+export function getMatches(cb) {
   return function(dispatch, getState){
     dispatch(requestMatches());
     var date = getState().matches.date;
+    date = moment(date).toDate();
     fetch(`match/?date=${Date.parse(date)}`, {
       credentials: 'same-origin'
     }).then(resp => {
@@ -65,9 +66,10 @@ export function getMatches() {
         dispatch(notEnoughSpots(resp.json()))
       }
       return resp.json()
-    }).then(data => 
-      dispatch(receiveMatches(data.array))
-    );
+    }).then(data =>  {
+      dispatch(receiveMatches(data.array));
+      cb();
+    });
   };
 }
 function toggleHostData(data) {

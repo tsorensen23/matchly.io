@@ -87,7 +87,7 @@ export default class App extends React.Component{
               this.refs.button.loading();
               window.setTimeout(function() {
                 this.refs.button.success();
-                this.props.history.pushState(null, '/match', {date: moment(this.state.date).format('YYYY-MM-DD')});
+                this.props.history.pushState(null, '/calendar');
               }.bind(this), 1 * 1000)
             }}
           >
