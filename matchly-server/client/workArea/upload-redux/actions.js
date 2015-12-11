@@ -59,12 +59,12 @@ export function finish(){
     });
     dispatch(changeKeys(changeKeysArray));
     dispatch(removeDataPoints(dropKeys));
-    dispatch(finishChangingKeys());
+    dispatch(finishChangingKeys(getState().data));
     // dispatch(setHeadersGivenToNeeded());
   }
 }
-export function finishChangingKeys() {
-  return { type: 'FINISH_HEADER_MATCH' };
+export function finishChangingKeys(data) {
+  return { type: 'FINISH_HEADER_MATCH', data };
 }
 
 export function getHeadersError(error) {
