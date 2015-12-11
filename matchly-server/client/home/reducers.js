@@ -30,5 +30,6 @@ export default combineReducers({
   finished,
   headers,
   employerMatches,
-  schoolMatches
+  schoolMatches,
+  upload
 })
