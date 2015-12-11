@@ -62,7 +62,7 @@ export default function headers(state = initialHeaderState, action){
         });
     case 'SET_HEADERSGIVEN_TO_NEEDED':
         return Object.assign({}, state, {
-          data: data.map(function(dp){
+          data: state.data.map(function(dp){
             dp.given = dp.needed;
             return dp;
           })
