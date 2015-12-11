@@ -33,9 +33,6 @@ var moment = require('moment');
 export default class App extends React.Component{
   constructor(props) {
     super(props);
-    this.props.dispatch(fetchHeaders());
-    this.props.dispatch(getAllSchools());
-    this.props.dispatch(getAllEmployers());
     this.state = {
       date: moment(this.props.location.query.date)
     };

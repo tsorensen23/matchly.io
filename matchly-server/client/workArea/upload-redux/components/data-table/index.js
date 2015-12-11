@@ -7,9 +7,7 @@ class DataTable extends React.Component{
   render() {
     return (
         <table>
-          <thead>
-            <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
-          </thead>
+          <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
           <tbody>
             {this.props.finished.map((e, index) =>
                 (<DataTableRow

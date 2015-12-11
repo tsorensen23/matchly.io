@@ -4,8 +4,14 @@ var React = require('react');
 
 import { connect } from 'react-redux';
 var Link = require('react-router').Link;
+import { fetchHeaders, getAllSchools, getAllEmployers } from './workArea/upload-redux/actions';
 
 var Home = React.createClass({
+  componentDidMount: function() {
+    this.props.dispatch(fetchHeaders());
+    this.props.dispatch(getAllSchools());
+    this.props.dispatch(getAllEmployers());
+  },
   render: function() {
     return (
       <div className="container-fluid">
