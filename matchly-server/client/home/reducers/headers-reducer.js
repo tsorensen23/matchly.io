@@ -1,6 +1,6 @@
 var initialHeaderState = {
   isFetching: false,
-  lastUpdated: void 0,
+  lastUpdated: null,
   data: [
     { needed: 'Military'},
     { needed: 'Country'},

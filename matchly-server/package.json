@@ -4,14 +4,20 @@
   "private": true,
   "scripts": {
     "start": "node ./server/server.js",
-    "test": "./node_modules/mocha/bin/mocha -R nyan spec/ -s 1000 -t 3000"
+    "test": "mocha --compilers js:babel-core/register --recursive spec",
+    "test:watch": "npm test -- --watch"
   },
   "devDependencies": {
+    "babelify": "^6.3.0",
+    "babyparse": "^0.4.3",
     "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-uglify": "^1.4.2",
     "history": "^1.13.1",
     "isomorphic-fetch": "^2.2.0",
     "mocha": "*",
-    "request": "^2.64.0",
+    "nock": "^3.4.0",
     "react": "^0.14.3",
     "react-datepicker": "^0.15.2",
     "react-dom": "^0.14.3",
@@ -22,13 +28,9 @@
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",
-    "babyparse": "^0.4.3",
-    "babelify": "^6.3.0",
+    "request": "^2.64.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-uglify": "^1.4.2",
     "watchify": "^3.4.0"
   },
   "dependencies": {

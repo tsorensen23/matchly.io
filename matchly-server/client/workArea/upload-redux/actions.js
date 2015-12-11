@@ -331,11 +331,13 @@ export function uploadData(url){
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-    }).then(resp =>
-      dispatch(successUpload())
-    ).catch(err =>
-      dispatch(errorUpload(err))
-    );
+    }).then(resp => {
+      if(resp.status > 400){
+      return dispatch(errorUpload(resp.status))
+      } else {
+        return dispatch(successUpload())
+      }
+    });
   };
 }
 
