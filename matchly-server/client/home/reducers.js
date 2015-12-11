@@ -13,17 +13,8 @@ import hostsOrVisitors from './reducers/host-or-visitor-reducer';
 import employerMatches from './reducers/employer-match-reducer';
 import schoolMatches from './reducers/school-match-reducer';
 import calendar from './reducers/calendar-reducer';
+import upload from './reducers/upload-reducer';
 
-function upload(state = false, action){
-  switch(action.type){
-    case 'START_UPLOAD':
-      return true;
-    case 'SUCCESS_DATA_UPLOAD':
-      return false;
-    default:
-      return false;
-  }
-}
 
 
 
