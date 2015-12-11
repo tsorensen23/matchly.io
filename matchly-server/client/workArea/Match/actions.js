@@ -10,12 +10,14 @@ function receiveHosts(data) {
 export function getAllHosts() {
   return function(dispatch){
     dispatch(requestHosts());
-    fetch('http://localhost:3000/hosts', {
+    fetch(process.env.URL +'/hosts', {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()
     ).then(json =>
       dispatch(receiveHosts(json))
+    ).catch(err =>
+      console.log(err)
     );
   };
 }
@@ -31,7 +33,7 @@ export function getAllVisitors() {
   return function(dispatch, getState){
     dispatch(requestVisitors());
     var date = getState().matches.date;
-    fetch(`http://localhost:3000/visitors?date=${moment(date).toISOString()}`, {
+    fetch(`${process.env.URL}/visitors?date=${moment(date).toISOString()}`, {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()
