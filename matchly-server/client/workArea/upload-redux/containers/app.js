@@ -51,7 +51,7 @@ export default class App extends React.Component{
         this.props.headers.isFetching) {
       return <Loading />;
     }
-    if(this.props.finished.length > 0) {
+    if(this.props.finished.data.length > 0) {
       return (
         <div>
           <DataTable
@@ -63,7 +63,7 @@ export default class App extends React.Component{
             }}
             employerMatches={employerMatches}
             schoolMatches={schoolMatches}
-            finished={finished}
+            finished={finished.data}
             addNewAlias={(alias, trueValue, employerBool) => {
               dispatch(addNewAlias(alias, trueValue, employerBool));
             }}

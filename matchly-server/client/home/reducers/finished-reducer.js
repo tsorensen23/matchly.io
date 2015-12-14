@@ -1,4 +1,4 @@
-export default function finished(state = [], action){
+export default function finished(state = { ready: false, data: []}, action){
   switch(action.type) {
     case 'FINISH_HEADER_MATCH':
       var dataArray = action.data;
@@ -17,25 +17,39 @@ export default function finished(state = [], action){
           return prev[index]
         });
       }, newDataArray)
-      return newDataArray;
+      var haveGender = newDataArray.every((visitor) => {
+        return visitor.hasOwnProperty("Gender");
+      })
+      var haveMilitary = newDataArray.every((visitor) => {
+        return visitor.hasOwnProperty("Military");
+      })
+      return Object.assign({}, state, {
+        data: newDataArray,
+        ready: haveMilitary === true && haveGender === true
+
+      });
     case 'CHANGE_VALUE':
       var key = action.key;
       var oldValue = action.oldValue;
       var newValue = action.newValue;
-      return state.map(function(visitor) {
+      return Object.assign({}, state, {
+        data: state.data.map(function(visitor) {
         if(visitor[key] == oldValue){
           var obj = {};
           obj[key] = newValue;
           return Object.assign({}, visitor, obj);
         }
         return visitor;
+        })
       });
     case 'SET_DATE':
       var date = action.date.format();
-      return state.map(function(visitor){
-        visitor.visitDate = date;
-        return visitor;
-      });
+      return Object.assign({}, state, {
+        data: state.data.map(function(visitor){
+          visitor.visitDate = date;
+          return visitor;
+        })
+      })
     default:
       return state;
   }

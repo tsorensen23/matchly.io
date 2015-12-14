@@ -1,7 +1,8 @@
 var ReactDOM = require('react-dom');
 var React = require('react');
 
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+
 
 import { Provider } from 'react-redux'
 var Home = require('../Home.jsx');

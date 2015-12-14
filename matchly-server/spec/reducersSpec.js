@@ -29,7 +29,10 @@ describe('todos reducer', () => {
           "isFetching": false,
           "lastUpdated": null
         },
-        "finished": [],
+        "finished": {
+          data: [],
+          ready: false
+        },
         "headers": {
           "data": [
             {
@@ -91,7 +94,14 @@ describe('todos reducer', () => {
           "data": [],
           "isFetching": false,
           "lastUpdated": null
+          },
+        "hosts": {
+          data: [],
+          isFetching: false,
+          data: [],
+          lastUpdated: 0
         }
-      })
+  })
+
   })
 })

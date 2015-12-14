@@ -5,6 +5,7 @@ var nodemon = require('gulp-nodemon');
 var babelify = require('babelify');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
+var envify = require('envify');
 
 gulp.task('browserify', compileScripts)
     .task('serve', serve);
@@ -54,7 +55,7 @@ function compileScripts() {
 function scripts(input, output) {
   var bundler = browserify({
     entries: [input],
-    transform: [babelify], // We want to convert JSX to normal javascript
+    transform: [babelify, envify], // We want to convert JSX to normal javascript
     extensions: ['.jsx'],
     debug: true,
     cache: {},
