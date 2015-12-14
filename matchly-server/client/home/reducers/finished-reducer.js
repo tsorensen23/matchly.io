@@ -50,6 +50,14 @@ export default function finished(state = { ready: false, data: []}, action){
           return visitor;
         })
       })
+    case 'SET_GENDER':
+      return Object.assign({}, state, {
+        data: state.data.map((visitor) => {
+          visitor.Gender = action.gender;
+          return visitor;
+        })
+      });
+
     default:
       return state;
   }

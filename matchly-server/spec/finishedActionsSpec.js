@@ -16,7 +16,7 @@ describe('upload actions', () => {
       .post('/hosts', [{"name":"rob"}])
       .reply(200);
     const initialState = {
-      finished: [ { name: 'rob' }]
+      finished: { data:[{ name: 'rob' }], isReady: false}
     }
 
     const expectedActions = [
@@ -31,7 +31,10 @@ describe('upload actions', () => {
       .post('/hosts', [{"name":"rob"}])
       .reply(401);
     const initialState = {
-      finished: [ { name: 'rob' }]
+      finished: {
+        data: [ { name: 'rob' }],
+        ready: false
+      }
     }
     const expectedActions = [
       { type: 'START_UPLOAD' },

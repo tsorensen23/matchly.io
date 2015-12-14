@@ -83,7 +83,9 @@ describe('todos reducer', () => {
         },
         "routing": {
           "changeId": 1,
-          "path": "/"
+          "path": undefined,
+          replace: false,
+          state: undefined,
         },
         "schoolMatches": {
           "data": [],
