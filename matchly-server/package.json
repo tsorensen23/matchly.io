@@ -6,7 +6,8 @@
     "start": "node ./server/server.js",
     "test": "URL='http://localhost:3000' mocha --compilers js:babel-core/register --recursive spec",
     "test:watch": "URL='http://localhost:3000' npm test -- --watch",
-    "start-dev": "URL='http://localhost:3000' gulp"
+    "start-dev": "URL='http://localhost:3000' gulp",
+    "build-assets": "URL='http://localhost:3000' gulp build"
   },
   "devDependencies": {
     "babelify": "^6.3.0",

@@ -13,7 +13,7 @@ gulp.task('build', function() {
 
   browserify({
     entries: ['./client/home/router.jsx'],
-    transform: [babelify], // we want to convert jsx to normal javascript
+    transform: [babelify, envify], // we want to convert jsx to normal javascript
     extensions: ['.jsx'],
     debug: true,
     cache: {},
@@ -30,7 +30,7 @@ gulp.task('build', function() {
   .pipe(gulp.dest('./build/'));
   browserify({
     entries: ['./client/login/router.jsx'],
-    transform: [babelify], // we want to convert jsx to normal javascript
+    transform: [babelify, envify], // we want to convert jsx to normal javascript
     extensions: ['.jsx'],
     debug: true,
     cache: {},
