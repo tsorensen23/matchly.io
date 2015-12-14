@@ -13,7 +13,7 @@ import hostsOrVisitors from './reducers/host-or-visitor-reducer';
 import employerMatches from './reducers/employer-match-reducer';
 import schoolMatches from './reducers/school-match-reducer';
 import calendar from './reducers/calendar-reducer';
-import upload from './reducers/upload-reducer'
+import upload from './reducers/upload-reducer';
 
 
 
