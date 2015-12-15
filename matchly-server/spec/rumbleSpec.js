@@ -72,6 +72,7 @@ describe('rumble', function() {
 
       var matchScore = rumble.calculatematchScore(visitor, host);
       expect(matchScore.count).to.eq(1);
+      expect(matchScore.score).to.eq(1000000);
     });
   });
 
