@@ -30,8 +30,10 @@ class Binary extends React.Component {
               <BinarySelector
                 selector={(gender) => {
                   dispatch(actions.setGender(gender));
-                  dispatch(uploadData('/visitors'));
-                  dispatch(pushPath('/calendar'));
+                  if(!missingMilitary && !missingGender) {
+                    dispatch(uploadData('/visitors'));
+                    dispatch(pushPath('/calendar'));
+                  }
 
                 }}
                 options={['Male', 'Female']}
@@ -53,8 +55,10 @@ class Binary extends React.Component {
             <BinarySelector
               selector={(military) => {
                 dispatch(actions.setMilitary(military));
-                dispatch(uploadData('/visitors'));
-                dispatch(pushPath('/calendar'));
+                if(!missingMilitary && !missingGender) {
+                  dispatch(uploadData('/visitors'));
+                  dispatch(pushPath('/calendar'));
+                }
 
               }}
               options={['Veteran/Active', 'Non Veteran']}
@@ -63,6 +67,20 @@ class Binary extends React.Component {
           </div>
           );
     }
+    return (
+        <div>
+          Looks like everything is fixed, upload now to finalize your data set
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              dispatch(uploadData('/visitors'));
+              dispatch(pushPath('/calendar'));
+            }}
+          >
+            Upload
+          </button>
+        </div>
+        );
   }
 
 }
