@@ -6,6 +6,9 @@ var _ = require('lodash');
 var moment = require('moment');
 var async = require('async');
 
+module.exports.checkVisitors = function(startDate, endDate){
+      return Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { 'MatchInfo.visitDate': 1, _id: 0}).exec()
+};
 module.exports.getDates = function(req, res, next){
   let startDate = moment.utc(req.query.startDate).subtract(1, 'minute').toDate();
   let endDate = moment.utc(req.query.endDate).add(1, 'minute').toDate();
