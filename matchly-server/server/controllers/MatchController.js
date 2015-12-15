@@ -281,13 +281,10 @@ submitvisitors: function(req, res, next) {
       }
       return el;
     });
-    console.log(uploadedVisitTimes, '<~ uploadedVisitTimes');
     // go through our unique array and given times to place into visiting time slot
     var visitors = req.body.map(function(visitor, i) {
-      console.log(visitor.MatchInfo['Class Visit Time']);
       visitor.MatchInfo.classVisitNumber =
         (visitor.MatchInfo['Class Visit Time'].substr(0,1) === '8' || visitor.MatchInfo['Class Visit Time'].substr(0,2) === '08') ? 1 : uploadedVisitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
-        console.log(visitor.MatchInfo.classVisitNumber);
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
