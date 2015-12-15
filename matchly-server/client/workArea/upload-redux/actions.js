@@ -137,7 +137,7 @@ export function receiveEmployers(data){
 export function getEmployers(){
   return function(dispatch, getState) {
     dispatch(requestEmployerMatch());
-    var employers = mpath.get('Employer', getState().finished);
+    var employers = mpath.get('Employer', getState().finished.data);
     employers = employers.filter(function(employer) {
       return typeof employer !== 'undefined' && employer !== ' ';
     });
@@ -201,7 +201,7 @@ export function getAllSchools() {
 export function getSchools(){
   return function(dispatch, getState) {
     dispatch(requestSchoolMatch());
-    var schools = mpath.get('Undergrad', getState().finished);
+    var schools = mpath.get('Undergrad', getState().finished.data);
     schools = schools.filter(function(school) {
       return typeof school !== 'undefined' && school !== ' ';
     });
@@ -314,7 +314,7 @@ export function startUpload(){
 export function uploadData(url){
   return function(dispatch, getState){
     dispatch(startUpload());
-    var body = getState().finished;
+    var body = getState().finished.data;
     body = body.filter(function(person){
       return Object.keys(person).filter(key =>
           key !== 'visitDate'
@@ -331,11 +331,13 @@ export function uploadData(url){
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-    }).then(resp =>
-      dispatch(successUpload())
-    ).catch(err =>
-      dispatch(errorUpload(err))
-    );
+    }).then(resp => {
+      if(resp.status > 400){
+      return dispatch(errorUpload(resp.status))
+      } else {
+        return dispatch(successUpload())
+      }
+    });
   };
 }
 

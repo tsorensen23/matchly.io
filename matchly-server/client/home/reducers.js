@@ -29,6 +29,7 @@ export default combineReducers({
   data,
   finished,
   headers,
+  hosts,
   employerMatches,
   schoolMatches,
   upload

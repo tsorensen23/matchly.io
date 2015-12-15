@@ -25,6 +25,7 @@ import ProgressButton from 'react-progress-button'
 import FileUpload from '../components/file-upload';
 import HeaderMatcher from '../components/header-matcher';
 import DataTable from '../components/data-table/index';
+import { pushPath } from 'redux-simple-router'
 import _ from 'lodash';
 var Loading = require('../../Loading.jsx');
 var DatePicker = require('react-datepicker');
@@ -51,7 +52,7 @@ export default class App extends React.Component{
         this.props.headers.isFetching) {
       return <Loading />;
     }
-    if(this.props.finished.length > 0) {
+    if(this.props.finished.data.length > 0) {
       return (
         <div>
           <DataTable
@@ -63,7 +64,7 @@ export default class App extends React.Component{
             }}
             employerMatches={employerMatches}
             schoolMatches={schoolMatches}
-            finished={finished}
+            finished={finished.data}
             addNewAlias={(alias, trueValue, employerBool) => {
               dispatch(addNewAlias(alias, trueValue, employerBool));
             }}
@@ -79,13 +80,17 @@ export default class App extends React.Component{
             onClick={() => {
               dispatch(setDate(this.state.date));
               var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
-              dispatch(uploadData(url));
+              if(this.props.finished.ready){
+                dispatch(uploadData(url));
+                window.setTimeout(function() {
+                  this.refs.button.success();
+                  this.props.history.pushState(null, '/calendar');
+                }.bind(this), 1 * 1000)
+                this.refs.button.loading();
+              } else {
+                dispatch(pushPath('/binary'));
+              }
               //TODO make this real
-              this.refs.button.loading();
-              window.setTimeout(function() {
-                this.refs.button.success();
-                this.props.history.pushState(null, '/calendar');
-              }.bind(this), 1 * 1000)
             }}
           >
             Upload

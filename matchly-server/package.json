@@ -4,14 +4,23 @@
   "private": true,
   "scripts": {
     "start": "node ./server/server.js",
-    "test": "./node_modules/mocha/bin/mocha -R nyan spec/ -s 1000 -t 3000"
+    "test": "URL='http://localhost:3000' MONGO_URI='mongodb://localhost/matchly-test' mocha --compilers js:babel-core/register --recursive spec",
+    "test:watch": "npm test --watch",
+    "start-dev": "MONGO_URI='mongodb://localhost/matchly' URL='http://localhost:3000' gulp",
+    "build-assets": "URL='http://localhost:3000' gulp build",
+    "seed-data": "MONGO_URI='mongodb://localhost/matchly' URL='http://localhost:3000' node scripts/createEmployers.js & node scripts/createSchools.js"
   },
   "devDependencies": {
+    "babelify": "^6.3.0",
+    "babyparse": "^0.4.3",
     "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-uglify": "^1.4.2",
     "history": "^1.13.1",
     "isomorphic-fetch": "^2.2.0",
     "mocha": "*",
-    "request": "^2.64.0",
+    "nock": "^3.4.0",
     "react": "^0.14.3",
     "react-datepicker": "^0.15.2",
     "react-dom": "^0.14.3",
@@ -22,13 +31,10 @@
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",
-    "babyparse": "^0.4.3",
-    "babelify": "^6.3.0",
+    "request": "^2.64.0",
+    "superagent": "^1.5.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.4",
-    "gulp-uglify": "^1.4.2",
     "watchify": "^3.4.0"
   },
   "dependencies": {
@@ -50,6 +56,7 @@
     "morgan": "^1.6.1",
     "mpath": "^0.2.1",
     "passport": "^0.2.2",
-    "redux-devtools": "^2.1.5"
+    "redux-devtools": "^2.1.5",
+    "redux-simple-router": "^1.0.0"
   }
 }
