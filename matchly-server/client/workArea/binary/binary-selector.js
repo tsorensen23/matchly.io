@@ -1,26 +1,26 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 export default class BinarySelector extends Component {
   submit(e) {
     e.preventDefault();
     var form = e.target;
 
-    if(form.elements.Gender.value !== ""){
-      this.props.selector(form.elements.Gender.value)
+    if(form.elements[this.props.name].value !== ""){
+      this.props.selector(form.elements[this.props.name].value);
     }
   }
   render() {
     const {options, name } = this.props;
     return (
-        <div>
+        <div className="col-sm-4">
           <h3>Select a {name}</h3>
           <form onSubmit={this.submit.bind(this)}>
             {options.map((option, index) => {
               return (
-                <p>
-                  <input 
+                <div className="radio">
+                  <input
                     ref={name}
-                    id={name+index}
+                    id={name + index}
                     name={name}
                     type='radio'
                     value={option}
@@ -30,32 +30,32 @@ export default class BinarySelector extends Component {
                   >
                     {option}
                   </label>
-                </p>
+                </div>
                 );
 
             })}
-            <button 
+            <button
+              className="btn btn-primary"
             >
               Submit
             </button>
           </form>
-          <h3>Or 
-            <button 
+          <h3>Or
+            <button
               onClick={() => {
-                this.props.selector('N/A')
+                this.props.selector('N/A');
               }}
             >
               Skip
             </button>
           </h3>
         </div>
-
-    )
+    );
   }
 }
 
 BinarySelector.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired
-}
-BinarySelector.defaultProps = {}
+};
+BinarySelector.defaultProps = {};

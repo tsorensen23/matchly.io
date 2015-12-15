@@ -51,11 +51,21 @@ export default function finished(state = { ready: false, data: []}, action){
         })
       })
     case 'SET_GENDER':
+      //TODO Make this so it sets ready to true if and only if military status is there as well
       return Object.assign({}, state, {
         data: state.data.map((visitor) => {
           visitor.Gender = action.gender;
           return visitor;
-        })
+        }),
+        ready: true
+      });
+    case 'SET_MILITARY':
+      return Object.assign({}, state, {
+        data: state.data.map((visitor) => {
+          visitor.Military = action.military;
+          return visitor;
+        }),
+        ready: true
       });
 
     default:

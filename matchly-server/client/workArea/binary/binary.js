@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import Header from './header';
-import DisplayBody from './display-body'
+import DisplayBody from './display-body';
 import BinarySelector from './binary-selector';
 import * as actions from './actions';
 import { pushPath } from 'redux-simple-router';
@@ -12,42 +12,55 @@ class Binary extends React.Component {
     const {finished, dispatch } = this.props;
     var missingGender = !finished.data.every(visitor =>
         visitor.hasOwnProperty('Gender')
-    )
+    );
     var missingMilitary = !finished.data.every(visitor =>
         visitor.hasOwnProperty('Military')
-    )
+    );
     var missingProp = missingGender ? 'Gender' : 'Military';
     if(missingGender) {
       return (
-          <div> 
+          <div>
             <Header display="Gender" />
-            <DisplayBody 
-              data={finished.data.filter( visitor =>
-                  !visitor.hasOwnProperty('Gender')
-                )} 
-            />
-            <BinarySelector 
-              selector={(gender) => {
-                dispatch(actions.setGender(gender));
-                dispatch(uploadData('/visitors'));
-                dispatch(pushPath('/calendar'));
+            <div className="row">
+              <DisplayBody
+                data={finished.data.filter( visitor =>
+                    !visitor.hasOwnProperty('Gender')
+                  )}
+              />
+              <BinarySelector
+                selector={(gender) => {
+                  dispatch(actions.setGender(gender));
+                  dispatch(uploadData('/visitors'));
+                  dispatch(pushPath('/calendar'));
 
-              }}
-              options={['Male', 'Female']}
-              name='Gender'
-            />
+                }}
+                options={['Male', 'Female']}
+                name='Gender'
+              />
+            </div>
           </div>
           );
     }
     if(missingMilitary) {
       return (
-          <div> These people were missing Military Status
-            <DisplayBody 
+          <div>
+            <Header display="Military" />
+            <DisplayBody
               data={finished.data.filter( visitor =>
                   !visitor.hasOwnProperty('Military')
-              )} 
+                )}
             />
-            </div>
+            <BinarySelector
+              selector={(military) => {
+                dispatch(actions.setMilitary(military));
+                dispatch(uploadData('/visitors'));
+                dispatch(pushPath('/calendar'));
+
+              }}
+              options={['Veteran/Active', 'Non Veteran']}
+              name='Military'
+            />
+          </div>
           );
     }
   }
@@ -58,5 +71,5 @@ class Binary extends React.Component {
 export default connect((state) => {
     return {
       finished: state.finished
-    }
+    };
 })(Binary);

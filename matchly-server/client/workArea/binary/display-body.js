@@ -1,19 +1,19 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 export default class DisplayBody extends Component {
   render() {
     const {data } = this.props;
     return (
-        <div>
+        <div className="col-sm-8">
           {data.map(visitor =>
               <p>{visitor.First + ' ' + visitor.Last}</p>
           )}
         </div>
-    )
+    );
   }
 }
 
 DisplayBody.propTypes = {
   data: PropTypes.array.isRequired
-}
-DisplayBody.defaultProps = {}
+};
+DisplayBody.defaultProps = {};

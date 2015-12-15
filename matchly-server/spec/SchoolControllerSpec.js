@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var request = require('superagent');
 var cp = require('child_process');
 var User = require('../server/database/db').User;
-describe('SchoolsController', function() {
+xdescribe('SchoolsController', function() {
   var server;
   before(function(next) {
     User.create({firstName: 'rob', lastName: 'wilkinson', emailAddress: 'rob@rob.com', username: 'robw', password: 'robw', matchlycookie: '1234'}, function(err, data) {

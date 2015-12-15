@@ -7,7 +7,8 @@
     "test": "URL='http://localhost:3000' MONGO_URI='mongodb://localhost/matchly-test' mocha --compilers js:babel-core/register --recursive spec",
     "test:watch": "npm test --watch",
     "start-dev": "MONGO_URI='mongodb://localhost/matchly' URL='http://localhost:3000' gulp",
-    "build-assets": "URL='http://localhost:3000' gulp build"
+    "build-assets": "URL='http://localhost:3000' gulp build",
+    "seed-data": "MONGO_URI='mongodb://localhost/matchly' URL='http://localhost:3000' node scripts/createEmployers.js & node scripts/createSchools.js"
   },
   "devDependencies": {
     "babelify": "^6.3.0",
