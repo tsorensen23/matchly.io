@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./server/server.js",
     "test": "URL='http://localhost:3000' MONGO_URI='mongodb://localhost/matchly-test' mocha --compilers js:babel-core/register --recursive spec",
-    "test:watch": "MONGO_URI='mongodb://localhost/matchly-test' URL='http://localhost:3000' npm test -- --watch",
+    "test:watch": "npm test --watch",
     "start-dev": "MONGO_URI='mongodb://localhost/matchly' URL='http://localhost:3000' gulp",
     "build-assets": "URL='http://localhost:3000' gulp build"
   },
@@ -31,6 +31,7 @@
     "redux-logger": "^2.0.4",
     "redux-thunk": "^1.0.0",
     "request": "^2.64.0",
+    "superagent": "^1.5.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
