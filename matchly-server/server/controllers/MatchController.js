@@ -6,6 +6,7 @@ var headers = require('../database/headersModel.js');
 var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
 var School = db.School;
 var moment = require('moment');
+var _ = require('lodash');
 var Alias = db.Alias;
 var Employer = db.Employer;
 var EmployerAlias = db.EmployerAlias;
@@ -83,7 +84,7 @@ module.exports = {
         res.status(400).json(availability);
         return next(err, availability);
       }
-     
+
       if (err) return next(err);
       var RumbleData;
       try {
@@ -175,6 +176,7 @@ module.exports = {
       visitor.MatchInfo.visitDate = moment.utc(visitor.MatchInfo.visitDate).toDate();
       return visitor;
     });
+
     async.map(visitors, function(visitor, done){
       async.waterfall([
           function(cb){
@@ -227,7 +229,7 @@ module.exports = {
 
   },
 
-  submitvisitors: function(req, res, next) {
+submitvisitors: function(req, res, next) {
     req.body = req.body.map(function(visitor){
       var newVis = {};
       newVis.Characteristics = {
@@ -250,18 +252,42 @@ module.exports = {
         visitDate: visitor.visitDate
       };
       return newVis;
-    })
-    var visitors = req.body.map(function(visitor) {
-      if (/0?8\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
-        visitor.MatchInfo.classVisitNumber = 1;
-        visitor.MatchInfo['Class Visit Time'] = 800;
-      } else if (/10\:?00.*/.test(visitor.MatchInfo['Class Visit Time'])) {
-        visitor.MatchInfo.classVisitNumber = 2;
-        visitor.MatchInfo['Class Visit Time'] = 1000;
-      } else if (/11\:?45.*/.test(visitor.MatchInfo['Class Visit Time'])) {
-        visitor.MatchInfo.classVisitNumber = 3;
-        visitor.MatchInfo['Class Visit Time'] = 1145;
+    });
+    // map through visit times and set to visitTimes array
+    var visitTimes = req.body.map(function(visitor) {
+      return visitor.MatchInfo['Class Visit Time'];
+    });
+    // pull out only unique visit times of all uploaded times
+    var uploadedVisitTimes = _.uniq(visitTimes);
+    // sanitize the times with moment.js
+    uploadedVisitTimes = _.map(uploadedVisitTimes, function(el) {
+      return moment(el, 'HH:mm:ss A').toObject();
+    });
+    // map through visitTimes and sort them from smallest to largest
+    uploadedVisitTimes = uploadedVisitTimes.sort(function (a, b) {
+      if (a.hours > b.hours) {
+        return 1;
       }
+      if (a.hours < b.hours) {
+        return -1;
+      }
+      return 0;
+    });
+    uploadedVisitTimes = uploadedVisitTimes.map(function (el,i) {
+      if (el.hours.length < 10) {
+        el = '0' + el.hours;
+      } else {
+        el = el.hours + '';
+      }
+      return el;
+    });
+    console.log(uploadedVisitTimes, '<~ uploadedVisitTimes');
+    // go through our unique array and given times to place into visiting time slot
+    var visitors = req.body.map(function(visitor, i) {
+      console.log(visitor.MatchInfo['Class Visit Time']);
+      visitor.MatchInfo.classVisitNumber =
+        (visitor.MatchInfo['Class Visit Time'].substr(0,1) === '8') ? 1 : uploadedVisitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
+        console.log(visitor.MatchInfo.classVisitNumber);
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
