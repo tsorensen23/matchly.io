@@ -8,4 +8,3 @@ export default function upload(state = false, action){
       return false;
   }
 }
-
