@@ -1,6 +1,6 @@
 export default function employers(state = {
   isFetching: false,
-  lastUpdated: void 0,
+  lastUpdated: null,
   data: []
 }, action) {
   switch(action.type) {

@@ -10,12 +10,14 @@ function receiveHosts(data) {
 export function getAllHosts() {
   return function(dispatch){
     dispatch(requestHosts());
-    fetch('/hosts', {
+    fetch(process.env.URL +'/hosts', {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()
     ).then(json =>
       dispatch(receiveHosts(json))
+    ).catch(err =>
+      console.log(err)
     );
   };
 }
@@ -31,13 +33,15 @@ export function getAllVisitors() {
   return function(dispatch, getState){
     dispatch(requestVisitors());
     var date = getState().matches.date;
-    fetch(`/visitors?date=${moment(date).toISOString()}`, {
+    fetch(`${process.env.URL}/visitors?date=${moment(date).toISOString()}`, {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()
     ).then(json => {
       dispatch(receiveVisitors(json));
-    });
+    }).catch(err =>
+      console.log(err.stack)
+    );
   };
 }
 
@@ -59,7 +63,7 @@ export function getMatches(cb) {
     dispatch(requestMatches());
     var date = getState().matches.date;
     date = moment(date).toDate();
-    fetch(`match/?date=${Date.parse(date)}`, {
+    fetch(`http://localhost:3000/match/?date=${Date.parse(date)}`, {
       credentials: 'same-origin'
     }).then(resp => {
       if(resp.status >= 400){
@@ -69,7 +73,9 @@ export function getMatches(cb) {
     }).then(data =>  {
       dispatch(receiveMatches(data.array));
       cb();
-    });
+    }).catch(err =>
+      console.log(err)
+    );
   };
 }
 function toggleHostData(data) {
@@ -79,7 +85,7 @@ function toggleHostData(data) {
 export function toggleHost(host, onOff){
   return function(dispatch, getState) {
     var date = getState().matches.date.toString();
-    fetch(`/hosts/exception-date?date=${date}&host=${host._id}&onoff=${onOff}`, {
+    fetch(`http://localhost:3000/hosts/exception-date?date=${date}&host=${host._id}&onoff=${onOff}`, {
       credentials: 'same-origin'
     }).then(resp =>
       resp.json()

@@ -9,11 +9,11 @@ const STATES= ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID",
 var visitorSchema = new Schema({
   Characteristics: {
     Military: {type: String, default: ' '  },
-    Country: {type: String},
-    Citizenship: {type: String, required: true  },
-    Undergrad: {type: String, required: true  },
-    Employer: {type: String, required: true  },
-    Industry: {type: String, default: 'Business' },
+    Country: {type: String, default: ' '},
+    Citizenship: {type: String, default: ' '   },
+    Undergrad: {type: String, default: ' '  },
+    Employer: {type: String, default: ' '  },
+    Industry: {type: String, default: ' ' },
     City: {type: String, default: ' '  },
     State: {type: String, default: ' '  },
     Gender: {type: String, default: ' '  }

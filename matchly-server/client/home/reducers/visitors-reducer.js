@@ -1,4 +1,8 @@
-export default function visitors(state = {isFetching: false, data: [], lastUpdated: 0}, action){
+export default function visitors(state = {
+  isFetching: false,
+  data: [],
+  lastUpdated: null
+}, action){
   switch(action.type) {
     case 'REQUEST_VISITORS':
       return Object.assign({}, state, {

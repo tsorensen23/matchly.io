@@ -1,7 +1,8 @@
 var ReactDOM = require('react-dom');
 var React = require('react');
 
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+
 
 import { Provider } from 'react-redux'
 var Home = require('../Home.jsx');
@@ -10,6 +11,7 @@ var Match = require('../workArea/Match/index.jsx');
 var Available = require('../workArea/Available.jsx');
 var Upload = require('../workArea/upload-redux/index.js');
 var Calendar = require('../workArea/calendar/calendar.jsx');
+import Binary from '../workArea/binary/binary';
 
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
@@ -47,6 +49,7 @@ User.getUser(function(err, user) {
                 <Route path='upload' component={Upload} />
                 <Route path='available' component={Available} />
                 <Route path='calendar' component={Calendar} />
+                <Route path="binary" component={Binary} />
               </Route>
             </Router>
           </Provider>

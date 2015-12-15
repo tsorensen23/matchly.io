@@ -1,8 +1,11 @@
-var Match = require('./Match.js');
-var MATCH_KEYS = require('./matchly-io-keys.js');
-var memoizeMatches = {};
-var moment = require('moment');
-const DAYS_BETWEEN_MATCHES = 3
+var
+  Match = require('./Match.js'),
+  MATCH_KEYS = require('./matchly-io-keys.js'),
+  memoizeMatches = {},
+  moment = require('moment');
+
+const DAYS_BETWEEN_MATCHES = 3;
+
 var Rumble = {
 
   prepForSaving: function(match, date) {

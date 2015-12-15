@@ -1,6 +1,6 @@
 export default function schoolMatches(state = {
   isFetching: false,
-  lastUpdated: void 0,
+  lastUpdated: null,
   data: []
 }, action) {
   switch(action.type) {
