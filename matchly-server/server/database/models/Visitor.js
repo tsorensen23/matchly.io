@@ -13,7 +13,7 @@ var visitorSchema = new Schema({
     Citizenship: {type: String, default: ' '   },
     Undergrad: {type: String, default: ' '  },
     Employer: {type: String, default: ' '  },
-    Industry: {type: String, default: 'Business' },
+    Industry: {type: String, default: ' ' },
     City: {type: String, default: ' '  },
     State: {type: String, default: ' '  },
     Gender: {type: String, default: ' '  }
