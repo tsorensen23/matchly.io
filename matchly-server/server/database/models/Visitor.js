@@ -8,7 +8,7 @@ const STATES= ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID",
 
 var visitorSchema = new Schema({
   Characteristics: {
-    Military: {type: String, default: ' '  },
+    Military: {type: Schema.Types.String },
     Country: {type: String, default: ' '},
     Citizenship: {type: String, default: ' '   },
     Undergrad: {type: String, default: ' '  },
@@ -16,7 +16,7 @@ var visitorSchema = new Schema({
     Industry: {type: String, default: ' ' },
     City: {type: String, default: ' '  },
     State: {type: String, default: ' '  },
-    Gender: {type: String, default: ' '  }
+    Gender: {type: String }
   },
   Contact: {
     First: {type: String, required: true },
@@ -42,6 +42,46 @@ visitorSchema.pre('save', function(next) {
   }
   next();
 });
+
+var genderMap = {
+   'Male': 'M',
+   'male': 'M',
+   'Female': 'F',
+   'female': 'F',
+   'Woman': 'F',
+   'woman': 'F',
+   'Womyn': 'F',
+   'Man': 'M',
+   'man': 'M',
+   'M': 'M',
+   'm': 'M',
+   'F': 'F',
+   'f': 'F'
+};
+visitorSchema.pre('validate', function(next) {
+  var newGender = genderMap[this.Characteristics.Gender];
+  this.Characteristics.Gender = newGender ? newGender : ' ';
+  next();
+});
+
+var milMap = {
+  'Active Duty Military': 'Veteran',
+  'Dependent of Veteran': 'Veteran',
+  'Veteran': 'Veteran',
+  'Yes': 'Veteran',
+  'true': 'Veteran',
+  'false': 'None',
+  'No': 'None',
+  'None': 'None',
+  'N/A': 'None',
+  ' ': 'None'
+};
+visitorSchema.pre('validate', function(next) {
+  var newMil = milMap[this.Characteristics.Military];
+  this.Characteristics.Military = newMil ? newMil : ' ';
+  next();
+});
+
 
 // var virtual = visitorSchema.virtual('match');
 // virtual.get(function(){

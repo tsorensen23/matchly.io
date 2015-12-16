@@ -33,6 +33,7 @@ describe('rumble', function() {
           Last: 'Wilkinson'
         }
       });
+      visitor.save();
       let host = new Host({
         Characteristics: {
           Military: '',
@@ -43,6 +44,7 @@ describe('rumble', function() {
           Last: 'Schwatrzkopf'
         }
       });
+      host.save();
 
       var matchScore = rumble.calculatematchScore(visitor, host);
       expect(matchScore.score).to.eq(0);
