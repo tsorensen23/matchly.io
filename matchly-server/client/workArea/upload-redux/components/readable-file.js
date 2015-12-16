@@ -49,6 +49,17 @@ class ReadableFile extends React.Component{
            }}
           />
         </div>
+        <div className="checkbox">
+              <label>
+                <input type="checkbox"/>
+                <span style={{margin: '20px 0'}}
+                    onClick={() => {
+                    dispatch(setHosts());}}
+                  >
+                  These are hosts
+                </span>
+              </label>
+            </div> 
         <button
           className="btn btn-success"
           onClick={this.read.bind(this)}

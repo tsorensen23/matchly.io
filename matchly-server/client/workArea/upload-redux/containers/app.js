@@ -102,21 +102,12 @@ export default class App extends React.Component{
         return (
           <div className="col-xs-12 text-center">
             <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
-            <button
-              className="btn btn-info"
-              style={{margin: '20px 0'}}
-              onClick={() => {
-                dispatch(setHosts());
-              }}
-            >
-              These are hosts
-            </button>
             <FileUpload
               uploadFile={fileData =>
                 dispatch(parseData(fileData))
               }
-              style={{margin: '10px 0'}}
-            />
+              style={{margin: '10px', display: 'inline-block'}}
+            />  
           </div>
         );
       } else {
