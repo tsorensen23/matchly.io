@@ -288,6 +288,23 @@ submitvisitors: function(req, res, next) {
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
+
+    //catch all check
+      var proceed=true;
+
+    visitors.forEach(function(visitor){
+        for(var key in visitor) {
+  //         console.log(visitor[key]);
+          if(visitor[key]===undefined){
+            console.log("there was an undefined visitor");
+            proceed=false;
+          }
+        }
+      });
+
+    //we should only proceed past this if there are no undefined keys in the visitors.
+    if(!proceed) res.error(404, 'Sorry, there was a fatal error with your data set.  Please constact your administrator.');
+
     async.map(visitors, function(visitor, done){
       async.waterfall([
           function(cb){
@@ -332,6 +349,7 @@ submitvisitors: function(req, res, next) {
       });
     }, function(err, results) {
       if(err) next(err);
+      console.log("results ", results);
       Visitor.create(results, function(err, visitors) {
         if(err) {
           console.log(err);
