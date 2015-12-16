@@ -79,7 +79,7 @@ export default class App extends React.Component{
             className="btn btn-primary"
             onClick={() => {
               dispatch(setDate(this.state.date));
-              var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
+              var url = this.props.hostsOrVisitors ? 'hosts' : 'visitors';
               if(this.props.finished.ready){
                 dispatch(uploadData(url));
                 window.setTimeout(function() {
