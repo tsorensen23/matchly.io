@@ -208,6 +208,8 @@ module.exports = {
                     if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
+			console.log('BREAKING VISITOR');
+			console.log(visitor);
                         visitor.Characteristics.Undergrad = data.name;
                         return cb(null, visitor);
                     });

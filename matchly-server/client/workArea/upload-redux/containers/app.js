@@ -79,7 +79,7 @@ export default class App extends React.Component{
             className="btn btn-primary"
             onClick={() => {
               dispatch(setDate(this.state.date));
-              var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
+              var url = this.props.hostsOrVisitors ? 'hosts' : 'visitors';
               if(this.props.finished.ready){
                 dispatch(uploadData(url));
                 window.setTimeout(function() {
@@ -106,8 +106,11 @@ export default class App extends React.Component{
               uploadFile={fileData =>
                 dispatch(parseData(fileData))
               }
+              setHosts={() => {
+                dispatch(setHosts());
+              }}
               style={{margin: '10px', display: 'inline-block'}}
-            />  
+            />
           </div>
         );
       } else {

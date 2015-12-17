@@ -8,6 +8,7 @@ class FileUpload extends React.Component {
       <ReadableFile
         uploadFile={this.props.uploadFile}
         setHeaders={this.props.setHeaders}
+        setHosts={this.props.setHosts}
       />
 
     );

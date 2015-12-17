@@ -51,10 +51,17 @@ class ReadableFile extends React.Component{
         </div>
         <div className="checkbox">
               <label>
-                <input type="checkbox"/>
+                <input type="checkbox"
+		 onClick={() => {
+		  this.props.setHosts();
+		}}
+
+		/>
                 <span style={{margin: '20px 0'}}
                     onClick={() => {
-                    dispatch(setHosts());}}
+                      this.props.setHosts();
+
+                    }}
                   >
                   These are hosts
                 </span>
