@@ -74,6 +74,7 @@ var milMap = {
   'No': 'None',
   'None': 'None',
   'N/A': 'None',
+  'Veteran/Active': 'Veteran',
   ' ': 'None'
 };
 visitorSchema.pre('validate', function(next) {
