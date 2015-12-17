@@ -44,7 +44,6 @@ module.exports = {
     var startDate = moment.utc(req.body.date).subtract(1, 'minute').toDate();
     var endDate = moment.utc(req.body.date).add(1, 'minute').toDate();
     // var date = new Date("2015-11-30T08:00:00.000Z");
-    console.log(startDate, endDate);
     db.Host.find( {}, function ( err, data ) {
       if(err) {
         next(err);
@@ -55,7 +54,6 @@ module.exports = {
             if( ( Date.parse( host.MatchInfo.matches[ i ].date ) > startDate ) && (
                   (Date.parse(host.MatchInfo.matches[ i ].date)) <
                   endDate ) ) {
-              console.log(host);
               host.MatchInfo.matches.splice( i, 1 );
               host.save();
             }

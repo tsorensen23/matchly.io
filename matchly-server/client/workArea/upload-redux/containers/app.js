@@ -79,7 +79,7 @@ export default class App extends React.Component{
             className="btn btn-primary"
             onClick={() => {
               dispatch(setDate(this.state.date));
-              var url = this.props.hostsOrVisitors ? '/hosts' : '/visitors';
+              var url = this.props.hostsOrVisitors ? 'hosts' : 'visitors';
               if(this.props.finished.ready){
                 dispatch(uploadData(url));
                 window.setTimeout(function() {
@@ -102,20 +102,14 @@ export default class App extends React.Component{
         return (
           <div className="col-xs-12 text-center">
             <h3>Uploading for {moment(this.props.location.query.date).format('MM/DD')}</h3>
-            <button
-              className="btn btn-info"
-              style={{margin: '20px 0'}}
-              onClick={() => {
-                dispatch(setHosts());
-              }}
-            >
-              These are hosts
-            </button>
             <FileUpload
               uploadFile={fileData =>
                 dispatch(parseData(fileData))
               }
-              style={{margin: '10px 0'}}
+              setHosts={() => {
+                dispatch(setHosts());
+              }}
+              style={{margin: '10px', display: 'inline-block'}}
             />
           </div>
         );

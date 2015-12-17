@@ -208,6 +208,8 @@ module.exports = {
                     if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
+			console.log('BREAKING VISITOR');
+			console.log(visitor);
                         visitor.Characteristics.Undergrad = data.name;
                         return cb(null, visitor);
                     });
@@ -284,7 +286,7 @@ submitvisitors: function(req, res, next) {
     // go through our unique array and given times to place into visiting time slot
     var visitors = req.body.map(function(visitor, i) {
       visitor.MatchInfo.classVisitNumber =
-        (visitor.MatchInfo['Class Visit Time'].substr(0,1) === '8' || visitor.MatchInfo['Class Visit Time'].substr(0,2) === '08') ? 1 : uploadedVisitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
+        (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : uploadedVisitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
@@ -380,12 +382,14 @@ console.log(proceed);
       });
     }, function(err, results) {
       if(err) next(err);
-      console.log("results ", results);
-      Visitor.create(results, function(err, visitors) {
-        if(err) {
-          console.log(err);
-        }
-        res.json(visitors);
+        async.map(results, function(visitor, cb){
+          Visitor.create(visitor, cb);
+        }, function(err, results, three){
+          if(err){
+            res.status(401).send(err);
+            console.log(err);
+          }
+          res.json(results);
       });
     });
 
