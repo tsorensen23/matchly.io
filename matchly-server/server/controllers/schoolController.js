@@ -65,17 +65,6 @@ module.exports.checkAlias = function(req, res, next) {
 
 };
 
-module.exports.checkSchools = function(req, res, next) {
-  Full.find({}, function(err,travisLoveList) {
-    if (err) return next(err);
-    travisLoveList = travisLoveList[0].value.split('\r');
-
-    var list = new Fuzzy(travisLoveList);
-    var newNames = req.body.names.map(list.getFull.bind(list));
-    res.json(newNames);
-  });
-};
-
 module.exports.schoolMatch = function(req, res, next) {
 
   // obj comes is an { alias: String, schoolname: String }
@@ -89,7 +78,7 @@ module.exports.schoolMatch = function(req, res, next) {
       alias = new Alias({value: req.body.alias});
     }
 
-    var school;
+    console.log(alias);
     School.findOne({name: req.body.trueValue}, function(err, school) {
       if (err) {
         return next(err);

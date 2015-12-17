@@ -106,8 +106,11 @@ export default class App extends React.Component{
               uploadFile={fileData =>
                 dispatch(parseData(fileData))
               }
+              setHosts={() => {
+                dispatch(setHosts());
+              }}
               style={{margin: '10px', display: 'inline-block'}}
-            />  
+            />
           </div>
         );
       } else {
