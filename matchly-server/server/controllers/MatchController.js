@@ -274,6 +274,15 @@ submitvisitors: function(req, res, next) {
       }
       return 0;
     });
+    visitTimes = visitTimes.map(function (el,i) {
+      if (el.hours.length < 10) {
+        el = '0' + el.hours;
+      } else {
+        el = el.hours + '';
+      }
+      return el;
+    });
+   console.log(visitTimes);
     // go through our unique array and given times to place into visiting time slot
     
     visitTimes = _.uniq(visitTimes);
@@ -284,7 +293,7 @@ submitvisitors: function(req, res, next) {
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
-
+console.log(visitors);
 //Class visit time catch
 var proceed=true;
 var JSONerrObject ={visitors:[]};
