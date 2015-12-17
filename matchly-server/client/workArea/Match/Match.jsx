@@ -41,6 +41,7 @@ var Match = React.createClass({
   },
 
   exportToCSV:function() {
+    console.log("props",this.props);
     exportToCSV('match-data', this.props.matches.data);
   },
 
