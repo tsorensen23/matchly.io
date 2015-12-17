@@ -17,7 +17,6 @@ module.exports = {
     // search db for visitors
     async.parallel([function(cb){
       Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { 'MatchInfo.visitDate': 1, _id: 0}, function(err, data) {
-        console.log(data);
         if(err) { cb(err); }
         var visitorDays = data.map(d =>
             moment.utc(d.MatchInfo.visitDate).format('YYYY-MM-DD')

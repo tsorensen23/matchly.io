@@ -351,7 +351,6 @@ submitvisitors: function(req, res, next) {
       });
     }, function(err, results) {
       if(err) next(err);
-      console.log("results ", results);
       Visitor.create(results, function(err, visitors) {
         if(err) {
           console.log(err);

@@ -78,7 +78,6 @@ module.exports.schoolMatch = function(req, res, next) {
       alias = new Alias({value: req.body.alias});
     }
 
-    console.log(alias);
     School.findOne({name: req.body.trueValue}, function(err, school) {
       if (err) {
         return next(err);
