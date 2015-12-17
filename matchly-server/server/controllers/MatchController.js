@@ -260,13 +260,12 @@ submitvisitors: function(req, res, next) {
       return visitor.MatchInfo['Class Visit Time'];
     });
     // pull out only unique visit times of all uploaded times
-    var uploadedVisitTimes = _.uniq(visitTimes);
     // sanitize the times with moment.js
-    uploadedVisitTimes = _.map(uploadedVisitTimes, function(el) {
+    visitTimes = _.map(visitTimes, function(el) {
       return moment(el, 'HH:mm:ss A').toObject();
     });
     // map through visitTimes and sort them from smallest to largest
-    uploadedVisitTimes = uploadedVisitTimes.sort(function (a, b) {
+    visitTimes = visitTimes.sort(function (a, b) {
       if (a.hours > b.hours) {
         return 1;
       }
@@ -275,18 +274,13 @@ submitvisitors: function(req, res, next) {
       }
       return 0;
     });
-    uploadedVisitTimes = uploadedVisitTimes.map(function (el,i) {
-      if (el.hours.length < 10) {
-        el = '0' + el.hours;
-      } else {
-        el = el.hours + '';
-      }
-      return el;
-    });
     // go through our unique array and given times to place into visiting time slot
+    
+    visitTimes = _.uniq(visitTimes)
+    console.log(visitTimes);
     var visitors = req.body.map(function(visitor, i) {
       visitor.MatchInfo.classVisitNumber =
-        (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : uploadedVisitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
+        (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });
