@@ -302,6 +302,7 @@ function successUpload() {
 }
 function errorUpload(err){
   console.error(err);
+  alert(err);
   return { type: 'ERROR_UPLOAD', err };
 }
 export function setDate(date){
