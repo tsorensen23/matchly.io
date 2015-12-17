@@ -290,20 +290,51 @@ submitvisitors: function(req, res, next) {
     });
 
     //catch all check
-      var proceed=true;
+var visitorObjectModel={
+   
+    "MatchInfo": {
+        "Class Visit Time": "8:00 AM",
+        "visitDate": {
+            "$date": "2015-12-04T08:00:00.000Z"
+        },
+        "classVisitNumber": "1"
+    },
+    "Contact": {
+        "First": "Mark",
+        "Last": "Angel"
+    },
+    "Characteristics": {
+        "Military": "None",
+        "Gender": "M",
+        "State": "NC",
+        "City": "Charlotte",
+        "Industry": "Consulting",
+        "Employer": "Deloitte",
+        "Undergrad": "Davidson College",
+        "Citizenship": "United States",
+        "Country": "United States"
+    }
+};
+console.log('proceed starts');
 
-    visitors.forEach(function(visitor){
-        for(var key in visitor) {
-  //         console.log(visitor[key]);
-          if(visitor[key]===undefined){
-            console.log("there was an undefined visitor");
-            proceed=false;
-          }
-        }
-      });
+var proceed=true;
+
+visitors.forEach(function(visitor){
+//   console.log('fire');
+  for(var key in visitorObjectModel){
+    for(var innerKey in visitorObjectModel[key]){
+//       console.log('fire');
+      if(typeof visitor[key] === 'undefined' || typeof visitor[key][innerKey] === 'undefined'){
+//         console.log('inner fire');
+        proceed=false;
+      }
+    }
+  }
+});
+console.log(proceed);
 
     //we should only proceed past this if there are no undefined keys in the visitors.
-    if(!proceed) res.error(404, 'Sorry, there was a fatal error with your data set.  Please constact your administrator.');
+    if(!proceed) return res.status(404).send('Sorry, there was a fatal error with your data set.  Please constact your administrator.');
 
     async.map(visitors, function(visitor, done){
       async.waterfall([
