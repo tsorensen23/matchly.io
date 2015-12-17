@@ -351,11 +351,14 @@ submitvisitors: function(req, res, next) {
       });
     }, function(err, results) {
       if(err) next(err);
-      Visitor.create(results, function(err, visitors) {
-        if(err) {
-          console.log(err);
-        }
-        res.json(visitors);
+        async.map(results, function(visitor, cb){
+          Visitor.create(visitor, cb);
+        }, function(err, results, three){
+          if(err){
+            res.status(401).send(err);
+            console.log(err);
+          }
+          res.json(results);
       });
     });
 
