@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import mpath from 'mpath';
+import {pushPath} from 'redux-simple-router';
 
 export function startUpload(){
   return { type: 'START_UPLOAD' };
@@ -312,8 +313,9 @@ export function startUpload(){
   return { type: 'START_UPLOAD'};
 }
 
-export function uploadData(url){
+export function uploadData(){
   return function(dispatch, getState){
+    var url = getState().hostsOrVisitors ? '/hosts' : '/visitors';
     dispatch(startUpload());
     var body = getState().finished.data;
     body = body.filter(function(person){
@@ -324,7 +326,7 @@ export function uploadData(url){
       });
     });
     //TODO take this out when the date box works
-    return fetch(url, {
+    return fetch(process.env.URL + url, {
       method: 'POST',
       credentials: 'same-origin',
       body: JSON.stringify(body),
@@ -334,7 +336,8 @@ export function uploadData(url){
       }
     }).then(resp => {
       if(resp.status > 400){
-      return dispatch(errorUpload(resp.status))
+        dispatch(pushPath('/classnumber'));
+        return dispatch(errorUpload(resp.status))
       } else {
         return dispatch(successUpload())
       }

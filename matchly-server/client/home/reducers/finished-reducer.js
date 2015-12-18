@@ -69,6 +69,18 @@ export default function finished(state = { ready: false, data: []}, action){
         }),
         ready: hasGender
       });
+    case 'SET_CLASS_NUMBER':
+      return Object.assign({}, state, {
+        data: [
+          ...state.data.slice(0, action.index),
+          Object.assign({}, state.data[action.index], {
+            classVisitNumber: parseInt(action.classNum)
+          }),
+          ...state.data.slice(action.index+1)
+          ]
+      })
+
+
 
     default:
       return state;

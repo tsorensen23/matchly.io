@@ -232,7 +232,10 @@ module.exports = {
   },
 
 submitvisitors: function(req, res, next) {
-    req.body = req.body.map(function(visitor){
+    var hasClassVisitNums = req.body.every(function(visitor){
+      return visitor.hasOwnProperty('classVisitNumber')
+    });
+    var visitors = req.body.map(function(visitor){
       var newVis = {};
       newVis.Characteristics = {
         Military: visitor.Military,
@@ -253,61 +256,67 @@ submitvisitors: function(req, res, next) {
         'Class Visit Time': visitor['Class Visit Time'],
         visitDate: visitor.visitDate
       };
+      if(hasClassVisitNums){
+        newVis.MatchInfo.classVisitNumber = visitor.classVisitNumber;
+      }
       return newVis;
     });
-    // map through visit times and set to visitTimes array
-    var visitTimes = req.body.map(function(visitor) {
-      return visitor.MatchInfo['Class Visit Time'];
-    });
-    // pull out only unique visit times of all uploaded times
-    // sanitize the times with moment.js
-    visitTimes = _.map(visitTimes, function(el) {
-      return moment(el, 'HH:mm:ss A').toObject();
-    });
-    // map through visitTimes and sort them from smallest to largest
-    visitTimes = visitTimes.sort(function (a, b) {
-      if (a.hours > b.hours) {
-        return 1;
-      }
-      if (a.hours < b.hours) {
-        return -1;
-      }
-      return 0;
-    });
-    visitTimes = visitTimes.map(function (el,i) {
-      if (el.hours.length < 10) {
-        el = '0' + el.hours;
-      } else {
-        el = el.hours + '';
-      }
-      return el;
-    });
-   console.log(visitTimes);
-    // go through our unique array and given times to place into visiting time slot
-    
-    visitTimes = _.uniq(visitTimes);
-    console.log(visitTimes);
-    var visitors = req.body.map(function(visitor, i) {
-      visitor.MatchInfo.classVisitNumber =
-        (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
-      visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
-      return visitor;
-    });
-console.log(visitors);
-//Class visit time catch
-var proceed=true;
-var JSONerrObject ={visitors:[]};
+    if(!hasClassVisitNums) {
+      // map through visit times and set to visitTimes array
+      var visitTimes = visitors.map(function(visitor) {
+        return visitor.MatchInfo['Class Visit Time'];
+      });
+      // pull out only unique visit times of all uploaded times
+      // sanitize the times with moment.js
+      visitTimes = _.map(visitTimes, function(el) {
+        return moment(el, 'HH:mm:ss A').toObject();
+      });
+      // map through visitTimes and sort them from smallest to largest
+      visitTimes = visitTimes.sort(function (a, b) {
+        if (a.hours > b.hours) {
+          return 1;
+        }
+        if (a.hours < b.hours) {
+          return -1;
+        }
+        return 0;
+      });
+      visitTimes = visitTimes.map(function (el,i) {
+        if (el.hours.length < 10) {
+          el = '0' + el.hours;
+        } else {
+          el = el.hours + '';
+        }
+        return el;
+      });
+     console.log(visitTimes);
+      // go through our unique array and given times to place into visiting time slot
+      
+      visitTimes = _.uniq(visitTimes);
+      console.log(visitTimes);
+      visitors = visitors.map(function(visitor, i) {
+        visitor.MatchInfo.classVisitNumber =
+          (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
+        visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
+        return visitor;
+      });
+  console.log(visitors);
+  //Class visit time catch
+  var proceed=true;
+  var JSONerrObject ={visitors:[]};
 
-visitors.forEach(function(visitor){
-  if(typeof visitor.MatchInfo.classVisitNumber === 'undefined'){
-    proceed=false;
-    JSONerrObject.visitors.push(visitor);
-  }
-});
+  visitors.forEach(function(visitor){
+    if(typeof visitor.MatchInfo.classVisitNumber === 'undefined' 
+       || visitor.MatchInfo.classVisitNumber == '0'
+       || visitor.MatchInfo.classVisitNumber == ''){
+      proceed=false;
+      JSONerrObject.visitors.push(visitor);
+    }
+  });
 
-//we should only proceed past this if there are no visitors with undefined class visit numbers.
-if(!proceed) return res.status(404).send(JSONerrObject);
-
+  //we should only proceed past this if there are no visitors with undefined class visit numbers.
+  if(!proceed) return res.status(404).send(JSONerrObject);
+}
     async.map(visitors, function(visitor, done){
       async.waterfall([
           function(cb){
