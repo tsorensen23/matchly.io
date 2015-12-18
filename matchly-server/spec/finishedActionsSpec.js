@@ -12,10 +12,11 @@ describe('upload actions', () => {
     nock.cleanAll()
   })
   it('creates start upload on dispatch and success data upload when done', (done) => {
-   nock('http://localhost:3000/')
-      .post('/hosts', [{"name":"rob"}])
+   nock('http://localhost:3000')
+      .post('/visitors', [{"name":"rob"}])
       .reply(200);
     const initialState = {
+      hostsOrVisitors: false,
       finished: { data:[{ name: 'rob' }], isReady: false}
     }
 
@@ -24,13 +25,14 @@ describe('upload actions', () => {
       { type: 'SUCCESS_DATA_UPLOAD'}
     ];
     const store = mockStore(initialState, expectedActions, done);
-    store.dispatch(uploadData('http://localhost:3000/hosts'));
+    store.dispatch(uploadData());
   })
   it('creates start upload on firing and error event on 404', (done) => {
-   nock('http://localhost:3000/')
-      .post('/hosts', [{"name":"rob"}])
+   nock('http://localhost:3000')
+      .post('/visitors', [{"name":"rob"}])
       .reply(401);
     const initialState = {
+      hostsOrVisitors: false,
       finished: {
         data: [ { name: 'rob' }],
         ready: false
@@ -38,9 +40,16 @@ describe('upload actions', () => {
     }
     const expectedActions = [
       { type: 'START_UPLOAD' },
-      { type: 'ERROR_UPLOAD', err: 401 }
+      { type: "@@router/UPDATE_PATH", 
+        "payload": {
+          "avoidRouterUpdate": false,
+          "path": "/classnumber",
+          "replace": false,
+          "state": undefined
+        } 
+      },
     ];
     const store = mockStore(initialState, expectedActions, done);
-    store.dispatch(uploadData('http://localhost:3000/hosts'));
+    store.dispatch(uploadData());
   })
 })

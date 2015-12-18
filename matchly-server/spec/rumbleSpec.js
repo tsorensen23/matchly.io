@@ -26,7 +26,8 @@ describe('rumble', function() {
         Characteristics: {
           Military: 'Veteran',
           Citizenship: 'USA',
-          Industry: 'Pharmaceuticals'
+          Industry: 'Pharmaceuticals',
+          Gender: 'Male'
         },
         Contact: {
           First: 'Rob',
@@ -61,6 +62,7 @@ describe('rumble', function() {
           Last: 'Wilkinson'
         }
       });
+      visitor.save();
       let host = new Host({
         Characteristics: {
           Military: '',

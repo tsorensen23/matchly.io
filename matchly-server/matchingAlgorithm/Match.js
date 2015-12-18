@@ -33,7 +33,9 @@ Match.prototype.calculatematchScore = function() {
       continue;
 
     }
-    if (visitor.Characteristics[MATCH_KEYS[i]] === host.Characteristics[MATCH_KEYS[i]] && visitor.Characteristics[MATCH_KEYS[i]] != ' ') {
+    if (visitor.Characteristics[MATCH_KEYS[i]] === host.Characteristics[MATCH_KEYS[i]] 
+        && visitor.Characteristics[MATCH_KEYS[i]] != ' ' 
+        && visitor.Characteristics[MATCH_KEYS[i]] != undefined) {
       this.score += MATCH_KEYS[i].incrementalScore;
       this.count++;
       this.matchedOn[MATCH_KEYS[i]] = true;

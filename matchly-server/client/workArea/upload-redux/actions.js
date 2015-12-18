@@ -337,9 +337,9 @@ export function uploadData(){
     }).then(resp => {
       if(resp.status > 400){
         dispatch(pushPath('/classnumber'));
-        return dispatch(errorUpload(resp.status))
+        dispatch(errorUpload(resp.status))
       } else {
-        return dispatch(successUpload())
+         dispatch(successUpload())
       }
     });
   };
