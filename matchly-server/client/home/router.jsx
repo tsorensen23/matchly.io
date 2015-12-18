@@ -17,6 +17,7 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Redirect = ReactRouter.Redirect;
+import ClassNumberSelector from '../workArea/class-number-selector/index';
 
 import store from './store';
 //these are the routes, they determine which component will be
@@ -50,6 +51,7 @@ User.getUser(function(err, user) {
                 <Route path='available' component={Available} />
                 <Route path='calendar' component={Calendar} />
                 <Route path="binary" component={Binary} />
+                <Route path="classnumber" component={ClassNumberSelector} />
               </Route>
             </Router>
           </Provider>
