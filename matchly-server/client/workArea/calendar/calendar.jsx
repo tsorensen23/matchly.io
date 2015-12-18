@@ -15,7 +15,7 @@ var Calendar = React.createClass({
     this.props.dispatch(actions.getCalendar());
   },
   render: function() {
-    var { calendar} = this.props;
+    var {calendar} = this.props;
     if(calendar.isFetching){
       return (<Loading/>);
     }
