@@ -43,8 +43,12 @@ var AddExceptionDay = React.createClass({
     }
     console.log(matches.length, noMatches.length, hosts.data.length);
     return(
-        <div 
-        >
+        <div style={{
+          height: '300px',
+          overflowY: 'scroll',
+          marginBottom: '10',
+          border: '1px solid rgba(100, 100, 100, 0.5)'
+        }}>
           <div className="col-sm-6">
             <HostTable 
               hosts={matches} 

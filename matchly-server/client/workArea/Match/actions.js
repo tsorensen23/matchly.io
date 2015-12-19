@@ -55,7 +55,7 @@ function receiveMatches(data) {
   return { type: 'RECEIVE_MATCHES', data};
 }
 function notEnoughSpots(error){
-  alert(error);
+  alert(`Sorry you were missing ${error.lecture1Spots} in lecture 1, ${error.lecture2Spots} in lecture 2, and ${error.lecture3Spots} in lecture 3`);
   return { type: 'NOT_ENOUGH_SPOTS', error}
 }
 export function getMatches(cb) {
@@ -67,7 +67,9 @@ export function getMatches(cb) {
       credentials: 'same-origin'
     }).then(resp => {
       if(resp.status >= 400){
-        dispatch(notEnoughSpots(resp.json()))
+        resp.json().then(json =>
+          dispatch(notEnoughSpots(json))
+        )
       }
       return resp.json()
     }).then(data =>  {
