@@ -2,27 +2,6 @@ import React from 'react';
 import moment from 'moment';
 
 export default class HostTable extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state= {
-      allHosts: this.props.hosts,
-      startIndex: 0,
-      currHosts: this.props.hosts.slice(0,6)
-    }
-  }
-  paginateForward(){
-    this.setState({
-      currHosts: this.state.allHosts.slice(this.state.startIndex + 6, this.state.startIndex + 12),
-      startIndex: this.state.startIndex + 6
-    });
-  }
-  paginateBackward(){
-    this.setState({
-      currHosts: this.state.allHosts.slice(this.state.startIndex - 12, this.state.startIndex - 6),
-      startIndex: this.state.startIndex - 12 > 0 ? this.state.startIndex - 12 : 0
-    })
-  }
-
   findIndex(array, date) {
     for (var i = 0; i < array.length; i++) {
       if (moment(array[i]).format() === moment(date).format()) return i;
@@ -31,21 +10,11 @@ export default class HostTable extends React.Component{
     return -1;
   }
   render() {
-    var hosts = this.props;
-    console.log(this.state.currhosts);
     return (
-        <div
-          <button 
-            onClick={this.paginateBackward.bind(this)}
-          >«
-          </button>
-          <button 
-            onClick={this.paginateForward.bind(this)}
-          > »
-          </button>
+        <div>
           <table className='table table-condensed'>
             <tbody>
-              {this.state.currHosts.map(function(host, index) {
+              {this.props.hosts.map(function(host, index) {
               var isAvailable = -1 === this.findIndex(host.MatchInfo.exceptionDate, this.props.date);
               if (!host.MatchInfo.matchDates) {
                 host.MatchInfo.matchDates = host.MatchInfo.matches.map(function(match) {
