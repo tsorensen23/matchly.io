@@ -35,7 +35,7 @@ export default class HostTable extends React.Component{
               var contact = host.Contact;
               return (
                 <tr key={contact.First + contact.Last + index} style={{
-                    color : !isAvailable ? 'white' : isTaken ? 'white':'white', 
+                    color : !isAvailable ? 'white' : isTaken ? 'white':'black', 
                     backgroundColor: !isAvailable ?  '#965250' : isTaken ? '#327D3C' : 'white', 
                     fontSize: '1.1em',
                     borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
@@ -58,7 +58,7 @@ export default class HostTable extends React.Component{
                     verticalAlign: 'middle',
                   }}>
                     <b>{
-                    isTaken ? 'Has Visitor' : isAvailable ? 'Is Available' : 'Is Unavailable'
+                    isTaken ? 'Matched' : isAvailable ? 'Available' : 'Unavailable'
                   }</b>
                   </td>
                   <td style={{

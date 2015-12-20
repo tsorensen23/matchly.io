@@ -108,6 +108,7 @@ var Match = React.createClass({
           />
           <ProgressButton
             className="btn btn-primary"
+            style={{clear: 'both'}}
             ref='button'
             onClick={this.match}
           >
@@ -117,6 +118,7 @@ var Match = React.createClass({
 
             <button
               className="btn btn-info"
+              style={{margin: '0 0 10px 0'}}
               onClick={this.exportToCSV}
               disabled={!this.props.matches.data.length>0}
             >
