@@ -10,7 +10,6 @@ var Loading = require('../Loading.jsx');
 var exportToCSV = require('../../generic/exportCSV.js');
 import { updatePath } from 'redux-simple-router';
 
-
 var HostChooser = require('../DateException/HostChooser.jsx');
 import * as actions from './actions';
 
@@ -51,7 +50,8 @@ var Match = React.createClass({
     if(hosts.isFetching || visitors.isFetching){
       return( <Loading />);
     }
-      var data = 
+    if(matches.data.length > 0){
+      var data =
         matches.data.filter(match =>
           match.hostFirstName || match.hostLastName
         ).sort((a, b) => {
@@ -59,59 +59,21 @@ var Match = React.createClass({
       }).map(function(visitor, index) {
         return (<Visitor key={visitor.visitorFirstName + visitor.visitorLastName + index} visitor={visitor} />);
       });
-      if(hosts.data.length > 0){
-          var hosthtml = <HostChooser 
-                        date={date} 
-                        toggleHost={(host, onOff) => {
-                         this.props.dispatch(actions.toggleHost(host, onOff))
-                        }} 
-                      />
-      }
-
-
-    return (
-        <div id='workArea'>
-          {hosthtml}
-          <UnmatchedVisitors 
-            visitors={visitors}
-            backtoCalendar={() =>{
-              this.props.dispatch(updatePath('/calendar'));
-            }}
-            date={date} 
-          />
-          <ProgressButton 
-            className="btn btn-primary" 
-            ref='button' 
-            onClick={this.match}
-          >
-            MATCH
-          </ProgressButton>
-          <div className="text-center" style={{marginTop: '15'}}>
-
-            <button 
-              className="btn btn-info" 
-              onClick={this.exportToCSV}
-            >
-              Export Data to CSV File
-            </button>
-          </div>
-        <div id='data'>
+      var dataHTML = (
+        <div id='data' style={{}}>
           <table className='table table-condensed'>
             <thead>
               <tr>
-                <th>Visitor First Name</th>
-                <th>Visitor Last Name</th>
-                <th>Host First Name</th>
-                <th>Host Last Name</th>
+                <th>Visitor</th>
+                <th>Host</th>
                 <th>Host Email</th>
-                <th>Section</th>
-                <th>Visit Time</th>
-                <th>MatchCount</th>
-                <th>Citizenship</th>
+                <th>Visit Info</th>
+                <th>Score</th>
+                <th>Citizen</th>
                 <th>City</th>
                 <th>Employer</th>
                 <th>Gender</th>
-                <th>Industry</th>
+                 <th>Industry</th>
                 <th>Military</th>
                 <th>State</th>
                 <th>Undergrad</th>
@@ -123,9 +85,48 @@ var Match = React.createClass({
             </tbody>
           </table>
         </div>
+        )
+
+    }
+      if(hosts.data.length > 0){
+          var hosthtml = <HostChooser
+                        date={date}
+                        toggleHost={(host, onOff) => {
+                         this.props.dispatch(actions.toggleHost(host, onOff))
+                        }}
+                      />
+      }
+    return (
+        <div>
+          {hosthtml}
+          <UnmatchedVisitors
+            visitors={visitors}
+            backtoCalendar={() =>{
+              this.props.dispatch(updatePath('/calendar'));
+            }}
+            date={date}
+          />
+          <ProgressButton
+            className="btn btn-primary"
+            ref='button'
+            onClick={this.match}
+          >
+            MATCH
+          </ProgressButton>
+          <div className="text-center" style={{marginTop: '15'}}>
+
+            <button
+              className="btn btn-info"
+              onClick={this.exportToCSV}
+            >
+              Export Data to CSV File
+            </button>
+          </div>
+          {dataHTML}
       </div>
     );
   }
+
 });
 
 module.exports =connect(function(state){

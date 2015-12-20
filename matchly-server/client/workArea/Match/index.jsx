@@ -8,7 +8,7 @@ import * as actions from './actions';
 var MatchIndex = React.createClass({
   render:function() {
     return (
-        <div className="col-xs-10 col-xs-offset-1">
+        <div className="col-xs-12">
           <h3>Matching for {moment(this.props.location.query.date).format('MM/DD')}</h3>
           <Match 
             getAllVisitors={() => {

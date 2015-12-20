@@ -125,7 +125,7 @@ a.has-match:hover {
 }
 .pb-container .pb-button {
   background: rgba(124,252,0, .75);
-  border: 2px solid currentColor;
+  border: 2px solid #5EB708;
   border-radius: 27px;
   color: currentColor;
   cursor: pointer;
@@ -136,6 +136,9 @@ a.has-match:hover {
   -webkit-tap-highlight-color: transparent;
   outline: none;
   transition: background-color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s, border-radius 0.3s;
+}
+.pb-button {
+  margin-top: 20px;
 }
 .pb-button:hover {
   background: rgba(124,252,0, 1);  
@@ -159,40 +162,53 @@ a.has-match:hover {
 }
 .pb-container .pb-button svg.pb-progress-circle {
   animation: spin 0.9s infinite cubic-bezier(0.085, 0.260, 0.935, 0.710);
+  width: 250px;
+  margin: 10px auto;
+  padding: 0.7em 1em;
+  text-decoration: none;
 }
 .pb-container .pb-button svg.pb-progress-circle path {
   stroke: currentColor;
   stroke-width: 5;
+  padding: .7em 1em;
 }
 .pb-container .pb-button svg.pb-checkmark path,
 .pb-container .pb-button svg.pb-cross path {
   stroke: #fff;
   stroke-linecap: round;
   stroke-width: 4;
+  padding: .7em 1em;
 }
 .pb-container.disable .pb-button {
   cursor: not-allowed;
 }
 .pb-container.loading .pb-button {
   width: 54px;
-  border-width: 6.5px;
-  border-color: #ddd;
+  margin: 10px auto;
+  display: block;
   cursor: wait;
+  border: none;
   background-color: transparent;
-  padding: 0;
+  padding: 0.7em 1em;
+  text-decoration: none;
+  height: 50px;
 }
 .pb-container.loading .pb-button span {
   transition: all 0.15s;
+  width: 250px;
+  margin: 10px auto;
   opacity: 0;
   display: none;
 }
 .pb-container.loading .pb-button .pb-progress-circle > path {
   transition: opacity 0.15s 0.3s;
   opacity: 1;
+  height: 60px;
 }
 .pb-container.success .pb-button {
   border-color: #A0D468;
   background-color: #A0D468;
+  height: 60px;
 }
 .pb-container.success .pb-button span {
   transition: all 0.15s;

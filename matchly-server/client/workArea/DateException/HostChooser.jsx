@@ -48,6 +48,7 @@ var AddExceptionDay = React.createClass({
             style={{
               height: '300px',
               overflowY: 'scroll',
+              border: '1px solid #666'
             }}
           className="col-sm-6"
           >
@@ -56,6 +57,7 @@ var AddExceptionDay = React.createClass({
               taken={true} 
               date={this.props.date}
               toggleHost={this.props.toggleHost}
+
             />
           </div>
           <div 
@@ -63,12 +65,14 @@ var AddExceptionDay = React.createClass({
             style={{
               height: '300px',
               overflowY: 'scroll',
+              border: '1px solid #666'
             }}
             >
             <HostTable 
               hosts={noMatches} 
               date={this.props.date}
               toggleHost={this.props.toggleHost} 
+              
             />
           </div>
         </div>
