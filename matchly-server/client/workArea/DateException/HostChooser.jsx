@@ -43,13 +43,14 @@ var AddExceptionDay = React.createClass({
     }
     console.log(matches.length, noMatches.length, hosts.data.length);
     return(
-        <div style={{
-          height: '300px',
-          overflowY: 'scroll',
-          marginBottom: '10',
-          border: '1px solid rgba(100, 100, 100, 0.5)'
-        }}>
-          <div className="col-sm-6">
+        <div>
+          <div 
+            style={{
+              height: '300px',
+              overflowY: 'scroll',
+            }}
+          className="col-sm-6"
+          >
             <HostTable 
               hosts={matches} 
               taken={true} 
@@ -57,7 +58,13 @@ var AddExceptionDay = React.createClass({
               toggleHost={this.props.toggleHost}
             />
           </div>
-          <div className="col-sm-6">
+          <div 
+            className="col-sm-6"
+            style={{
+              height: '300px',
+              overflowY: 'scroll',
+            }}
+            >
             <HostTable 
               hosts={noMatches} 
               date={this.props.date}
