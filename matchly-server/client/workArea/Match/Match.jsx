@@ -118,6 +118,7 @@ var Match = React.createClass({
             <button
               className="btn btn-info"
               onClick={this.exportToCSV}
+              disabled={!this.props.matches.data.length>0}
             >
               Export Data to CSV File
             </button>
