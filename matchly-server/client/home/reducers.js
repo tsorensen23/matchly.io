@@ -14,10 +14,7 @@ import employerMatches from './reducers/employer-match-reducer';
 import schoolMatches from './reducers/school-match-reducer';
 import calendar from './reducers/calendar-reducer';
 import upload from './reducers/upload-reducer';
-
-
-
-
+import availability from './reducers/availability-reducer';
 export default combineReducers({
   routing: routeReducer,
   hostsOrVisitors,
@@ -25,6 +22,7 @@ export default combineReducers({
   matches,
   calendar,
   allSchools,
+  availability,
   allEmployers,
   data,
   finished,

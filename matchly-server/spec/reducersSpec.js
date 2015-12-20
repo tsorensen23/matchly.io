@@ -33,6 +33,10 @@ describe('todos reducer', () => {
           data: [],
           ready: false
         },
+        availability: {
+          data: [],
+          isFetching: false
+        },
         "headers": {
           "data": [
             {

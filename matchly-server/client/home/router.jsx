@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 var Home = require('../Home.jsx');
 
 var Match = require('../workArea/Match/index.jsx');
-var Available = require('../workArea/Available.jsx');
+var Available = require('../workArea/availability/index.js');
 var Upload = require('../workArea/upload-redux/index.js');
 var Calendar = require('../workArea/calendar/calendar.jsx');
 import Binary from '../workArea/binary/binary';

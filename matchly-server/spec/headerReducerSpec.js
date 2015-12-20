@@ -86,6 +86,8 @@ describe('headers reducer', () => {
     };
   let expectedOutput = {
     data: [
+    {needed: "Email", given: ""},
+    {needed: "Section", given: "" },
     { "needed": "Military"},
     { "needed": "Country"},
     { "needed": "Citizenship" },
@@ -96,9 +98,7 @@ describe('headers reducer', () => {
     {"needed": "State"},
     {"needed": "First Name"},
     {"needed": "Last Name"},
-    {"needed": "Gender"},
-    {needed: "Email", given: ""},
-    {needed: "Section", given: "" }
+    {"needed": "Gender"}
     ],
     isFetching: false,
     lastUpdated: null

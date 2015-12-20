@@ -1,8 +1,10 @@
 var React = require('react');
 var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
 var TIMES = ['08:00', '10:00', '11:45'];
-var MyEE = require('../Stores/AvailabilityStore');
+var MyEE = require('../../Stores/AvailabilityStore');
 var ProgressButton = require('react-progress-button');
+
+import {connect} from 'react-redux';
 
 var Available = React.createClass({
   componentDidMount: function() {
@@ -94,4 +96,4 @@ var Available = React.createClass({
   }
 });
 
-module.exports = Available;
+module.exports = connect(state => state)(Available);
