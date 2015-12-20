@@ -68,7 +68,7 @@ export default class HostTable extends React.Component{
                     <button
                       className={`btn btn-default`}
                       style={{
-                        width: '200',
+                        width: '150',
                         padding: '5',
                         margin: '5',
                         color: 'black',
@@ -79,7 +79,7 @@ export default class HostTable extends React.Component{
                         this.props.toggleHost(host, onoff);
                       }}
                     >
-                      {onoff ? 'Make Unavailable' : 'Make Available'} on Date
+                      {onoff ? 'Make Unavailable' : 'Make Available'}
                     </button>
                   </td>
                 </tr>
