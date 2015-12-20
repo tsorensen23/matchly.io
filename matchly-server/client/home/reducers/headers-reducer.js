@@ -77,12 +77,31 @@ export default function headers(state = initialHeaderState, action){
     });
         return Object.assign({}, state, {
           data: [
-            ...removeVisits
-            ,
             {needed: 'Email', given: ''},
-            {needed: 'Section', given: ''}
+            {needed: 'Section', given: ''},
+            ...removeVisits
           ]
         });
+    case 'SET_VISITORS':
+      var removeVisits = state.data.filter(function(i) {
+        if (i.needed === "Class Visit Time" || i.needed === 'Email' || i.needed === 'Section') {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      return Object.assign({}, state, {
+        data: [
+          {needed: 'Class Visit Time', given: ''},
+          ...state.data.filter(function(i) {
+            if (i.needed === "Class Visit Time" || i.needed === 'Email' || i.needed === 'Section') {
+              return false;
+            } else {
+              return true;
+            }
+          })
+        ]
+      });
 
     default:
       return state;

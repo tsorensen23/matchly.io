@@ -19,7 +19,7 @@ import {
   addNewAlias,
   setVisitors,
   setHosts,
-  uploadData
+  uploadData,
 } from '../actions';
 import ProgressButton from 'react-progress-button'
 import FileUpload from '../components/file-upload';
@@ -107,8 +107,12 @@ export default class App extends React.Component{
                 dispatch(parseData(fileData))
               }
               setHosts={() => {
-                dispatch(setHosts());
+                  dispatch(setHosts());
               }}
+              setVisitors={() => {
+                dispatch(setVisitors());
+              }}
+              hostsOrVisitors={this.props.hostsOrVisitors}
               style={{margin: '10px', display: 'inline-block'}}
             />
           </div>
