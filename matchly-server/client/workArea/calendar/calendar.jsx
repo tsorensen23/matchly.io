@@ -21,7 +21,10 @@ var Calendar = React.createClass({
     }
       if(calendar.data.length > 0){
       return (
-        <div style={{margin: '20px 0'}} className="calendar-view">
+       <div style={{margin: '0 0 40px', overflow: 'hidden'}} className="calendar-view">
+          <h3 style={{margin: '15px 0'}}>
+            Please choose a day to upload visitors.
+          </h3>
           <div
             className="col-xs-10"
             style={{
