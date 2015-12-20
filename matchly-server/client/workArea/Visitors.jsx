@@ -5,55 +5,48 @@ var Visitor = React.createClass({
     return (
       <tr>
         <td>
-          {this.props.visitor.visitorFirstName}
+          {this.props.visitor.visitorFirstName + 
+          this.props.visitor.visitorLastName}
         </td>
         <td>
-          {this.props.visitor.visitorLastName}
-        </td>
-        <td>
-          {this.props.visitor.hostFirstName}
-        </td>
-        <td>
-          {this.props.visitor.hostLastName}
+          {this.props.visitor.hostFirstName +
+          this.props.visitor.hostLastName}
         </td>
         <td>
           {this.props.visitor.hostEmail}
         </td>
         <td>
-          {this.props.visitor.section}
+          {this.props.visitor.visitTime + ' ' + this.props.visitor.section}
         </td>
-        <td>
-          {this.props.visitor.visitTime}
-        </td>
-        <td>
+        <td className="text-center">
           {this.props.visitor.matchCount}
         </td>
-        <td>
-          { this.props.visitor.Citizenship ? this.props.visitor.Citizenship.toString() : '' }
+        <td className="text-center">
+          { this.props.visitor.Citizenship ? <span className="glyphicon glyphicon-ok"></span> : '' }
         </td>
-        <td>
-          {this.props.visitor.City ? this.props.visitor.City.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.City ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Employer ? this.props.visitor.Employer.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.Employer ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Gender ? this.props.visitor.Gender.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.Gender ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Industry ? this.props.visitor.Industry.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.Industry ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Military ? this.props.visitor.Military.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.Military ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.State ? this.props.visitor.State.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.State ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Undergrad ? this.props.visitor.Undergrad.toString() : ''}
+        <td className="text-center">
+          {this.props.visitor.Undergrad ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
-        <td>
-          {this.props.visitor.Country ? this.props.visitor.Country.toString() : ''}
+        <td className="text-center">
+         {this.props.visitor.Country ? <span className="glyphicon glyphicon-ok"></span> : ''}
         </td>
       </tr>
     );

@@ -35,29 +35,27 @@ export default class HostTable extends React.Component{
               var contact = host.Contact;
               return (
                 <tr key={contact.First + contact.Last + index} style={{
-                    backgroundColor: !isAvailable ? '#E26A6A' : isTaken ? 'yellow' : '#2ecc71',
-                    fontSize: '1.1em', borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
+                    color : !isAvailable ? 'white' : isTaken ? 'white':'white', 
+                    backgroundColor: !isAvailable ?  '#965250' : isTaken ? '#327D3C' : 'white', 
+                    fontSize: '1.1em',
+                    borderBottom: '1px solid rgba(250, 250, 250, 0.5)'
                   }}>
                   <td style={{
                     verticalAlign: 'middle',
-                    textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)',
                     paddingLeft: '5px'
                   }}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
                   <td style={{
                     verticalAlign: 'middle',
-                    textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b>{contact.First}</b>
                   </td>
                   <td style={{
                     verticalAlign: 'middle',
-                    textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b> {contact.Last}</b>
                   </td>
                   <td style={{
                     verticalAlign: 'middle',
-                    textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'
                   }}>
                     <b>{
                     isTaken ? 'Has Visitor' : isAvailable ? 'Is Available' : 'Is Unavailable'

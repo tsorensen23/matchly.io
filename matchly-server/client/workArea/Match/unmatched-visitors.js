@@ -55,14 +55,14 @@ export default class UnmatchedVisitors extends React.Component {
           </thead>
           <tbody>
 
-          {this.props.visitors.data.map((visitor, index) => {
+          { this.props.visitors.data.map((visitor, index) => {
             return(
                 <tr key={visitor.Contact.Last + index}>
                   <td>
                     {visitor.Contact.First} {visitor.Contact.Last}
                   </td>
                   <td>
-                    Visit Date: {moment(visitor.MatchInfo.visitDate).format('YYYY-MM-DD')}
+                  {visitor.MatchInfo['Class Visit Time']}
                   </td>
                   </tr>
                 );

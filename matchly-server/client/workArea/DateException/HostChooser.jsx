@@ -46,22 +46,27 @@ var AddExceptionDay = React.createClass({
         <div style={{
           height: '300px',
           overflowY: 'scroll',
-          marginBottom: '10',
-          border: '1px solid rgba(100, 100, 100, 0.5)'
+          marginBottom: '10'
         }}>
-          <div className="col-sm-6">
+          <div className="col-sm-6"
+              style={{border: '1px solid #666';}}
+          >
             <HostTable 
               hosts={matches} 
               taken={true} 
               date={this.props.date}
               toggleHost={this.props.toggleHost}
+
             />
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-6"
+              style={{border: '1px solid #666';}}
+          >
             <HostTable 
               hosts={noMatches} 
               date={this.props.date}
               toggleHost={this.props.toggleHost} 
+              style={{border: '1px solid #666';}}
             />
           </div>
         </div>
