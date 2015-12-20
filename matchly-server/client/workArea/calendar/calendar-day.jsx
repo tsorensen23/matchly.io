@@ -1,5 +1,6 @@
 var React = require('react');
-var Link = require('react-router').Link;
+import { Link } from 'react-router';
+import moment from 'moment';
 
 var styles = {
   day: {
@@ -35,7 +36,7 @@ var CalendarDay = React.createClass({
           className="has-data"
           style={Object.assign({}, styles.day, styles.hasData)}
         >
-          {this.props.date.slice(8)}
+          {moment(this.props.date).format('MM/DD')}
         </Link>
       );
     } if (this.props.matched) {
@@ -46,7 +47,7 @@ var CalendarDay = React.createClass({
           className="has-match"
           style={Object.assign({}, styles.day, styles.matched)}
         >
-          {this.props.date.slice(8)}
+          {moment(this.props.date).format('MM/DD')}
         </Link>
       );
     } else {
@@ -56,7 +57,7 @@ var CalendarDay = React.createClass({
             query={{date: this.props.date}}
             style={styles.day}
             >
-            {this.props.date.slice(8)}
+          {moment(this.props.date).format('MM/DD')}
             </Link>
       );
     }

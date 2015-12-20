@@ -9,8 +9,8 @@ import * as actions from './actions';
 
 var Calendar = React.createClass({
   componentDidMount: function(){
-    var startDate = moment().startOf('month').format();
-    var endDate = moment().endOf('month').format();
+    var startDate = moment().startOf('week').add(1, 'day').format();
+    var endDate = moment().startOf('week').add(4,'weeks').add(1, 'day').format();
     this.props.dispatch(actions.setStartEndDate(startDate, endDate));
     this.props.dispatch(actions.getCalendar());
   },
