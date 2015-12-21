@@ -39,7 +39,6 @@ class Available  extends React.Component{
                 </div>
               )}
             </div>
-
             <div className="row">
               <div className=" col-sm-2">
                 <h3>8:00</h3>
@@ -59,7 +58,6 @@ class Available  extends React.Component{
               )
                                   })}
             </div>
-
             <div className="row">
               <div className=" col-sm-2">
                 <h3>10:00</h3>
