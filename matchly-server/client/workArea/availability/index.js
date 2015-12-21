@@ -31,30 +31,24 @@ class Available  extends React.Component{
         <form onSubmit={this.sendClassConstraints}>
           {SECTIONS.map(function(time, i) {
             return (
-              <ul key={time+i}>
-                <li style={{margin: '0 0 5px 0'}}>
-                  <h3 className='row-title sections'>
-                    <span
-                      className="col-xs-2 pull-left text-center"
-                    >
-                      {time}
-                    </span>
-                    <span>
-                      {SECTIONS.map(function(letter, index) {
-                      var cur = letter + (i + 1);
-                      return (<input required='true'
-                        type='number'
-                        key={cur}
-                        className="col-xs-2 text-center"
-                        ref={cur}
-                        onChange= {_this.changeHandler.bind(_this, cur)}
-                        value={_this.state.availableData ? _this.state.availableData[cur].availableSpots : 0}
-                      />);
-                      })}
-                    </span>
-                  </h3>
-                </li>
+              <ul className="col-xs-2">
+                <li>{time}</li>
+                {TIMES.map(function(letter, index) {
+                var cur = time + (index + 1);
+                return(<li>
+                        {cur}
+                        <input
+                          required='true'
+                          type='number'
+                          key={cur}
+                          ref={cur}
+                          onChange= {_this.changeHandler.bind(_this, cur)}
+                          value={availability.data[cur].availableSpots}
+                      />
+                    </li>
+                    );
 
+                })}
               </ul>
             );
           })}
