@@ -63,7 +63,7 @@ export function getMatches(cb) {
     dispatch(requestMatches());
     var date = getState().matches.date;
     date = moment(date).toDate();
-    fetch(`${process.env.URL}/match/?date=${Date.parse(date)}`, {
+    return fetch(`${process.env.URL}/match/?date=${Date.parse(date)}`, {
       credentials: 'same-origin'
     }).then(resp => {
       if(resp.status >= 400){
@@ -94,6 +94,13 @@ export function toggleHost(host, onOff){
     ).then(data => {
       dispatch(toggleHostData(data))
     });
+  }
+}
+export function getMatchesAndHosts(cb){
+  return function(dispatch, getState){
+    dispatch(getMatches(cb)).then( res =>
+        dispatch(getAllHosts())
+        )
   }
 }
 

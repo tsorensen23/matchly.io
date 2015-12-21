@@ -25,7 +25,7 @@ var MatchIndex = React.createClass({
               this.props.dispatch(actions.getAllVisitors());
             }} 
             getMatches={(cb) => {
-              this.props.dispatch(actions.getMatches(cb))
+              this.props.dispatch(actions.getMatchesAndHosts(cb));
             }}
             location={this.props.location} 
             history={this.props.history}  

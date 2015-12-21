@@ -21,6 +21,11 @@ router.get('/exception-date', function(req, res, next) {
         if (err) return next(err);
         if (!foundHost) return next(new Error('the host does not exist'));
         host = foundHost;
+        host.MatchInfo.matches = host.MatchInfo.matches.filter(match => {
+          return !(moment(match.date).isSame(date, 'day'));
+        });
+        host.save()
+        console.log(host.MatchInfo.matches);
         next();
       });
     },
