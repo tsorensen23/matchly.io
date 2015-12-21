@@ -14,6 +14,11 @@ export default function matches(state ={isFetching: false, data: [], lastUpdated
         data: action.data,
         lastUpdated: Date.now()
       });
+    case 'CLEAR_MATCHES':
+      return Object.assign({} , state, {
+        data: [],
+        isFetching: false
+      })
     default:
       return state;
   }

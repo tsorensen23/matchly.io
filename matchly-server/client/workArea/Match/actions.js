@@ -103,4 +103,7 @@ export function getMatchesAndHosts(cb){
         )
   }
 }
+export function clearMatches(){
+  return {type: 'CLEAR_MATCHES'}
+}
 

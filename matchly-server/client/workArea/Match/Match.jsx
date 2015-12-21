@@ -14,6 +14,7 @@ import * as actions from './actions';
 
 var Match = React.createClass({
   componentDidMount: function() {
+    this.props.dispatch(actions.clearMatches());
     this.props.dispatch(actions.setDate(this.props.date));
     this.props.dispatch(actions.getAllHosts());
     this.props.getAllVisitors();
@@ -49,7 +50,7 @@ var Match = React.createClass({
     if(hosts.isFetching || visitors.isFetching){
       return( <Loading />);
     }
-    if(matches.data.length > 0){
+    if(matches.data.length > 0 && date.isSame(matches.date, 'day')){
       var data =
         matches.data.filter(match =>
           match.hostFirstName || match.hostLastName

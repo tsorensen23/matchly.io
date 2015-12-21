@@ -3,6 +3,7 @@ var Host = require('../database/models/Host');
 var Visitor = require('../database/models/Visitor');
 var Availability = require('../database/models/Availability');
 var async = require('async');
+var moment = require('moment');
 
 var router = new Router();
 
