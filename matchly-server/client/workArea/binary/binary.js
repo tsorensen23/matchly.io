@@ -6,6 +6,7 @@ import BinarySelector from './binary-selector';
 import * as actions from './actions';
 import { pushPath } from 'redux-simple-router';
 import { uploadData } from '../upload-redux/actions';
+import FontAwesome from 'react-fontawesome';
 
 class Binary extends React.Component {
   render(){
@@ -74,10 +75,16 @@ class Binary extends React.Component {
             className="col-sm-12 text-center"
           >
             <h3>Looks like everything is fixed, upload now to finalize your data set</h3>
+            <FontAwesome
+              name="check-circle"
+              size="2x"
+            />
           </div>
+        </div>
+        <div className="row">
           <div className="col-sm-12 text-center">
             <button
-              className="btn btn-success"
+              className="btn-lg btn-success"
               onClick={() => {
                 dispatch(uploadData('/visitors'));
                 dispatch(pushPath('/calendar'));

@@ -6,7 +6,8 @@ export default function calendar(state ={ startDate: null, endDate: null, data: 
       if(moment.isMoment(action.endDate)) action.endDate = action.endDate.toISOString();
       return Object.assign({}, state, {
         startDate: action.startDate,
-        endDate: action.endDate
+        endDate: action.endDate,
+        isFetching: true
       });
     case 'REQUEST_CALENDAR':
       return Object.assign({}, state, {
