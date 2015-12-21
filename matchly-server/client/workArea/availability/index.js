@@ -27,43 +27,28 @@ class Available  extends React.Component{
     }
     if(availability.data) {
     return (
-      <div className='classAvailable container'>
+      <div>
         <form onSubmit={this.sendClassConstraints}>
-          <div className='topRowTitles'>
-            {
-              [<span key={113456} className="col-xs-2"></span>]
-              .concat(SECTIONS.map(function(letter, index) {
-                return <span key={letter+index} className="col-xs-2 text-center lead">{letter}</span>;
-              }))
-            }
-          </div>
-          {TIMES.map(function(time, i) {
+          {SECTIONS.map(function(time, i) {
             return (
-              <ul key={time+i}>
-                <li>
-                  <h3 className='row-title sections'>
-                    <span
-                      className="col-xs-2 pull-left text-center"
-                    >
-                      {time}
-                    </span>
-                    <span>
-                      {SECTIONS.map(function(letter, index) {
-                      var cur = letter + (i + 1);
-                      return (
+              <ul className="col-xs-2">
+                <li>{time}</li>
+                {TIMES.map(function(letter, index) {
+                var cur = time + (index + 1);
+                return(<li>
+                        {cur}
                         <input
                           required='true'
                           type='number'
                           key={cur}
-                          className="col-xs-2 text-center"
                           ref={cur}
                           onChange= {_this.changeHandler.bind(_this, cur)}
                           value={availability.data[cur].availableSpots}
-                      />);
-                      })}
-                    </span>
-                  </h3>
-                </li>
+                      />
+                    </li>
+                    );
+
+                })}
               </ul>
             );
           })}
