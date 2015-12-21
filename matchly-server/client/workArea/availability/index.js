@@ -1,6 +1,5 @@
 var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
 var TIMES = ['08:00', '10:00', '11:45'];
-var MyEE = require('../../Stores/AvailabilityStore');
 var ProgressButton = require('react-progress-button');
 import * as actions from './actions';
 import Loading from '../Loading.jsx';
@@ -16,8 +15,8 @@ class Available  extends React.Component{
     this.props.dispatch(actions.changeAvailability(cur, this.refs[cur].value));
   }
   sendClassConstraints(e) {
-    e.preventDefault()
-    this.props.dispatch(actions.submitAvailability());
+    e.preventDefault();
+    this.props.dispatch(actions.submitAvailability(this.refs.button));
   }
   render() {
     var _this = this;
@@ -51,13 +50,15 @@ class Available  extends React.Component{
                     <span>
                       {SECTIONS.map(function(letter, index) {
                       var cur = letter + (i + 1);
-                      return (<input required='true'
-                        type='number'
-                        key={cur}
-                        className="col-xs-2 text-center"
-                        ref={cur}
-                        onChange= {_this.changeHandler.bind(_this, cur)}
-                        value={availability.data[cur].availableSpots}
+                      return (
+                        <input
+                          required='true'
+                          type='number'
+                          key={cur}
+                          className="col-xs-2 text-center"
+                          ref={cur}
+                          onChange= {_this.changeHandler.bind(_this, cur)}
+                          value={availability.data[cur].availableSpots}
                       />);
                       })}
                     </span>
@@ -69,7 +70,7 @@ class Available  extends React.Component{
           <ProgressButton 
             className="btn btn-primary" 
             ref='button' 
-            onClick={this.sendClassConstraints}
+            onClick={this.sendClassConstraints.bind(this)}
           > 
             Submit
           </ProgressButton>

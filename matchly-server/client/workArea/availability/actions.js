@@ -19,8 +19,9 @@ function receiveAvailability(data) {
 export function changeAvailability(key, value){
   return {type: 'CHANGE_AVAILABILITY', key, value}
 }
-export function submitAvailability(){
+export function submitAvailability(button){
   return function(dispatch, getState) {
+    button.loading();
     // dispatch(postingAvailability());
     var SECTIONS = ['A','B','C','D','E'];
     var TIMES = ['8:00','10:00','11:45'];
@@ -47,9 +48,10 @@ export function submitAvailability(){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(dataObject),
-    }).then(resp =>
-      resp.json()
-    ).then(json =>
+    }).then(resp => {
+      button.success();
+      return resp.json();
+    }).then(json =>
       dispatch(receivedResponse())
       );
   }
