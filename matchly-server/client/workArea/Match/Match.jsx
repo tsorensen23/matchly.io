@@ -4,7 +4,6 @@ var Loading = require('../Loading.jsx');
 import {connect} from 'react-redux';
 var ProgressButton = require('react-progress-button');
 import UnmatchedVisitors from './unmatched-visitors';
-var HostStore = require('../../Stores/CrudStore')('hosts');
 var Loading = require('../Loading.jsx');
 
 var exportToCSV = require('../../generic/exportCSV.js');
