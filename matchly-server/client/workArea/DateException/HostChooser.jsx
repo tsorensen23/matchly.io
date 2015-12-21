@@ -41,7 +41,6 @@ var AddExceptionDay = React.createClass({
       }
 
     }
-    console.log(matches.length, noMatches.length, hosts.data.length);
     return(
         <div>
           <div 

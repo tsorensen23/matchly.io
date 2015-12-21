@@ -1,61 +1,35 @@
-var React = require('react');
 var SECTIONS = ['A', 'B', 'C', 'D', 'E'];
 var TIMES = ['08:00', '10:00', '11:45'];
-var MyEE = require('../../Stores/AvailabilityStore');
 var ProgressButton = require('react-progress-button');
+import * as actions from './actions';
+import Loading from '../Loading.jsx';
+import React from 'react';
 
 import {connect} from 'react-redux';
 
-var Available = React.createClass({
-  componentDidMount: function() {
-    this.myEE = new MyEE();
-    this.myEE.on('update state', function(state) {
-      this.setState({availableData: state});
-    }.bind(this));
-    this.myEE.on('finished', () => {
-      this.refs.button.success()
-    })
-
-  },
-
-  getInitialState: function() {
-    return {availableData: void 0};
-  },
-
-  changeHandler: function(cur) {
-    this.myEE.setValue(cur, this.refs[cur].getDOMNode().value);
-  },
-
-  sendClassConstraints:function(e) {
-    this.refs.button.loading();
-    e.preventDefault()
-    this.myEE.postData();
-    var data = this.props.location.query;
-    if(data.lecture1Spots) {
-      this.props.history.goBack();
-    }
-
-  },
-
-  render:function() {
+class Available  extends React.Component{
+  componentDidMount() {
+    this.props.dispatch(actions.getAvailability())
+  }
+  changeHandler(cur) {
+    this.props.dispatch(actions.changeAvailability(cur, this.refs[cur].value));
+  }
+  sendClassConstraints(e) {
+    e.preventDefault();
+    this.props.dispatch(actions.submitAvailability(this.refs.button));
+  }
+  render() {
     var _this = this;
     var data = this.props.location.query;
-    if(data.lecture1Spots) {
-      var html =  `Sorry you were missing ${data.lecture1Spots} spots in lecture 1, ${data.lecture2Spots} spots in lecture 2,and  ${data.lecture3Spots} in Lecture 4`;
+    const { availability } = this.props;
+    if(availability.isFetching) {
+      return( <Loading />);
     }
+    if(availability.data) {
     return (
-      <div className='classAvailable container'>
-        <h4>{html}</h4>
+      <div>
         <form onSubmit={this.sendClassConstraints}>
-          <div className='topRowTitles'>
-            {
-              [<span key={113456} className="col-xs-2"></span>]
-              .concat(SECTIONS.map(function(letter, index) {
-                return <span key={letter+index} className="col-xs-2 text-center lead">{letter}</span>;
-              }))
-            }
-          </div>
-          {TIMES.map(function(time, i) {
+          {SECTIONS.map(function(time, i) {
             return (
               <ul key={time+i}>
                 <li style={{margin: '0 0 5px 0'}}>
@@ -80,13 +54,14 @@ var Available = React.createClass({
                     </span>
                   </h3>
                 </li>
+
               </ul>
             );
           })}
           <ProgressButton 
             className="btn btn-primary" 
             ref='button' 
-            onClick={this.sendClassConstraints}
+            onClick={this.sendClassConstraints.bind(this)}
           > 
             Submit
           </ProgressButton>
@@ -94,6 +69,12 @@ var Available = React.createClass({
       </div>
     );
   }
-});
+  return <Loading />
+  }
+}
 
-module.exports = connect(state => state)(Available);
+module.exports = connect(function(state) {
+ return {
+   availability: state.availability
+ }
+})(Available);
