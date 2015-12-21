@@ -25,9 +25,8 @@ var styles = {
   }
 };
 
-var CalendarDay = React.createClass({
-
-  render:function() {
+export default class CalendarDay extends  React.Component{
+  render() {
     if (this.props.uploaded) {
       return (
         <Link
@@ -56,12 +55,11 @@ var CalendarDay = React.createClass({
             to='/upload'
             query={{date: this.props.date}}
             style={styles.day}
+            className="calendar-day"
             >
           {moment(this.props.date).format('MM/DD')}
             </Link>
       );
     }
   }
-});
-
-module.exports = CalendarDay;
+}
