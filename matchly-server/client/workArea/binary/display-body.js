@@ -4,7 +4,7 @@ export default class DisplayBody extends Component {
   render() {
     const {data } = this.props;
     return (
-        <div className="col-sm-8">
+        <div className="col-sm-4 col-sm-offset-2">
           {data.map(visitor =>
               <p>{visitor.First + ' ' + visitor.Last}</p>
           )}

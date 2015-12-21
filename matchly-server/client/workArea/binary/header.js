@@ -5,7 +5,7 @@ export default class Header extends Component {
     const { display } = this.props;
     return (
         <div className="row">
-          <div className="col-sm-12">
+          <div className="col-sm-12 text-center">
             <h3>
               These People were missing {display}
             </h3>

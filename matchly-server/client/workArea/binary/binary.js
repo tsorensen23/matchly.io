@@ -69,17 +69,25 @@ class Binary extends React.Component {
     }
     return (
         <div>
-          Looks like everything is fixed, upload now to finalize your data set
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              dispatch(uploadData('/visitors'));
-              dispatch(pushPath('/calendar'));
-            }}
+        <div className="row">
+          <div 
+            className="col-sm-12 text-center"
           >
-            Upload
-          </button>
+            <h3>Looks like everything is fixed, upload now to finalize your data set</h3>
+          </div>
+          <div className="col-sm-12 text-center">
+            <button
+              className="btn btn-success"
+              onClick={() => {
+                dispatch(uploadData('/visitors'));
+                dispatch(pushPath('/calendar'));
+              }}
+            >
+              Upload
+            </button>
+          </div>
         </div>
+      </div>
         );
   }
 
