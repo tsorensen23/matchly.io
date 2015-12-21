@@ -27,87 +27,102 @@ class Available  extends React.Component{
     }
     if(availability.data) {
       return(
-          <div>
-        <form onSubmit={this.sendClassConstraints}>
-            <div className="row">
-              <div className="col-sm-offset-2 col-sm-2 text-center">
-                <h3>A</h3>
+          <div className="col-xs-10 col-xs-offset-1">
+            <form onSubmit={this.sendClassConstraints}>
+              <div className="row">
+                <div className="col-sm-offset-2 col-sm-2">
+                  <h3 className="text-center">A</h3>
+                </div>
+                {SECTIONS.slice(1).map(section =>
+                  <div className="col-sm-2 text-center">
+                    <h3>{section}</h3>
+                  </div>
+                )}
               </div>
-              {SECTIONS.slice(1).map(section =>
+              <hr style={{marginBottom: 0, marginTop: 0}} />
+              <div className="row">
                 <div className="col-sm-2 text-center">
-                  <h3>{section}</h3>
+                  <h3>8:00</h3>
                 </div>
-              )}
-            </div>
-            <div className="row">
-              <div className=" col-sm-2">
-                <h3>8:00</h3>
+                {SECTIONS.map(section => {
+                return(
+                  <div className="col-sm-2 text-center">
+                    <input
+                      style={{
+                        width: '100%',
+                        marginTop: 20,
+                        textAlign: 'center'
+                      }}
+                      required='true'
+                      type='number'
+                      ref={section+'1'}
+                      onChange= {_this.changeHandler.bind(_this, section+'1')}
+                      value={availability.data[section+'1'].availableSpots}
+                    />
+                  </div>
+                )
+                                    })}
               </div>
-              {SECTIONS.map(section => {
-              return(
-                <div className="col-sm-2">
+              <hr style={{marginBottom: 0}} />
+              <div className="row">
+                <div className="col-sm-2 text-center">
+                  <h3>10:00</h3>
+                </div>
+                {SECTIONS.map(section => {
+                return(
+                  <div className="col-sm-2 text-center">
+                    <input
+                      style={{
+                        width: '100%',
+                        marginTop: 20,
+                        textAlign: 'center'
+                      }}
+                      required='true'
+                      type='number'
+                      ref={section+'2'}
+                      onChange= {_this.changeHandler.bind(_this, section+'2')}
+                      value={availability.data[section+'2'].availableSpots}
+                    />
+                  </div>
+                )
+                })}
+              </div>
+              <hr style={{marginBottom: 0}} />
+              <div className="row">
+                <div className="col-sm-2 text-center">
+                  <h3>11:45</h3>
+                </div>
+                {SECTIONS.map(section => {
+                                      console.log(section + '3');
+                                      console.log(availability.data[section+'3']);
+                                      
+                return(
+                <div className="col-sm-2 text-center">
                   <input
-                    style={{width: 100}}
+                    style={{
+                      width: '100%',
+                      marginTop: 20,
+                      textAlign: 'center'
+                    }}
                     required='true'
                     type='number'
-                    ref={section+'1'}
-                    onChange= {_this.changeHandler.bind(_this, section+'1')}
-                    value={availability.data[section+'1'].availableSpots}
+                    ref={section+'3'}
+                    onChange= {_this.changeHandler.bind(_this, section+'3')}
+                    value={availability.data[section+'3'].availableSpots}
                   />
                 </div>
-              )
-                                  })}
-            </div>
-            <div className="row">
-              <div className=" col-sm-2">
-                <h3>10:00</h3>
+                )
+                                    })}
               </div>
-              {SECTIONS.map(section => {
-              return(
-                <div className="col-sm-2">
-                  <input
-                    style={{width: 100}}
-                    required='true'
-                    type='number'
-                    ref={section+'2'}
-                    onChange= {_this.changeHandler.bind(_this, section+'2')}
-                    value={availability.data[section+'2'].availableSpots}
-                  />
-                </div>
-              )
-              })}
-            </div>
-            <div className="row">
-              <div className=" col-sm-2">
-                <h3>11:45</h3>
-              </div>
-              {SECTIONS.map(section => {
-                                    console.log(section + '3');
-                                    console.log(availability.data[section+'3']);
-                                    
-              return(
-              <div className="col-sm-2">
-                <input
-                  style={{width: 100}}
-                  required='true'
-                  type='number'
-                  className="col-xs-2 text-center"
-                  ref={section+'3'}
-                  onChange= {_this.changeHandler.bind(_this, section+'3')}
-                  value={availability.data[section+'3'].availableSpots}
-                />
-              </div>
-              )
-                                  })}
-            </div>
-          <ProgressButton 
-            className="btn btn-primary" 
-            ref='button' 
-            onClick={this.sendClassConstraints.bind(this)}
-          > 
-            Submit
-          </ProgressButton>
-        </form>
+              <hr style={{marginBottom: 0}} />
+                  <ProgressButton
+                    className="btn btn-primary"
+                    ref='button'
+                    onClick={this.sendClassConstraints.bind(this)}
+                  >
+                    Submit
+                  </ProgressButton>
+              </form>
           </div>
           );
   }
