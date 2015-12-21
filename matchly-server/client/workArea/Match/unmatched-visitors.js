@@ -34,10 +34,10 @@ export default class UnmatchedVisitors extends React.Component {
   }
   render() {
     if(this.state.destroy) {
-      return <div / >
+      return <div/>
     }
     if(this.state.visitors.loading) {
-      return <div / >
+      return <div/>
     }
     if(this.props.visitors.data) {
       return(
@@ -68,7 +68,7 @@ export default class UnmatchedVisitors extends React.Component {
           </div>
 
 
-        <table className = "table table-condensed">
+        <table className="table table-condensed">
           <thead>
             <tr>
               <th> Name </th>

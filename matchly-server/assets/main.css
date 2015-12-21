@@ -124,10 +124,11 @@ a.has-match:hover {
   margin: 10px auto;
 }
 .pb-container .pb-button {
-  background: rgba(124,252,0, .75);
+  background: rgba(60, 124, 60, 1);
   border: 2px solid #5EB708;
   border-radius: 27px;
-  color: currentColor;
+  color: white;
+  font-weight: 400;
   cursor: pointer;
   padding: 0.7em 1em;
   text-decoration: none;
@@ -141,13 +142,12 @@ a.has-match:hover {
   margin-top: 20px;
 }
 .pb-button:hover {
-  background: rgba(124,252,0, 1);  
+  background: rgba(70, 202, 71, 1);  
 }
 .pb-container .pb-button span {
   display: inherit;
   transition: opacity 0.3s 0.1s;
   font-size: 2em;
-  font-weight: 100;
 }
 .pb-container .pb-button svg {
   height: 54px;
@@ -168,7 +168,7 @@ a.has-match:hover {
   text-decoration: none;
 }
 .pb-container .pb-button svg.pb-progress-circle path {
-  stroke: currentColor;
+  stroke: rgba(70, 202, 71, 1);  
   stroke-width: 5;
   padding: .7em 1em;
 }
@@ -203,12 +203,12 @@ a.has-match:hover {
 .pb-container.loading .pb-button .pb-progress-circle > path {
   transition: opacity 0.15s 0.3s;
   opacity: 1;
-  height: 60px;
+  height: 54px;
 }
 .pb-container.success .pb-button {
   border-color: #A0D468;
   background-color: #A0D468;
-  height: 60px;
+  height: 54px;
 }
 .pb-container.success .pb-button span {
   transition: all 0.15s;

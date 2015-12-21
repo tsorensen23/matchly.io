@@ -58,7 +58,7 @@ var Available = React.createClass({
           {TIMES.map(function(time, i) {
             return (
               <ul key={time+i}>
-                <li>
+                <li style={{margin: '0 0 5px 0'}}>
                   <h3 className='row-title sections'>
                     <span
                       className="col-xs-2 pull-left text-center"
