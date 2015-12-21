@@ -10,6 +10,16 @@ var MatchIndex = React.createClass({
     return (
         <div className="col-xs-12">
           <h3>Matching for {moment(this.props.location.query.date).format('MM/DD')}</h3>
+          <div className="col-xs-6 text-center">
+            <h3>  
+              Matched Hosts
+            </h3>
+          </div>
+          <div className="col-xs-6 text-center">
+            <h3>
+              Available Hosts
+            </h3>
+          </div>
           <Match 
             getAllVisitors={() => {
               this.props.dispatch(actions.getAllVisitors());

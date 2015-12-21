@@ -42,7 +42,7 @@ export default class HostTable extends React.Component{
                   }}>
                   <td style={{
                     verticalAlign: 'middle',
-                    paddingLeft: '5px'
+                    paddingLeft: '20px'
                   }}><span className={`glyphicon ${isAvailable ? 'glyphicon-ok' : 'glyphicon glyphicon-remove'}`} /></td>
                   <td style={{
                     verticalAlign: 'middle',
@@ -70,7 +70,7 @@ export default class HostTable extends React.Component{
                       style={{
                         width: '150',
                         padding: '5',
-                        margin: '5',
+                        margin: '5px 15px',
                         color: 'black',
                         outline: 'none',
                         textShadow: '1px 1px 1px rgba(250, 250, 250, 0.5)'

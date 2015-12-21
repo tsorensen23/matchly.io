@@ -72,7 +72,7 @@ var Match = React.createClass({
                 <th>City</th>
                 <th>Employer</th>
                 <th>Gender</th>
-                 <th>Industry</th>
+                <th>Industry</th>
                 <th>Military</th>
                 <th>State</th>
                 <th>Undergrad</th>
@@ -117,7 +117,7 @@ var Match = React.createClass({
 
             <button
               className="btn btn-info"
-              style={{margin: '0 0 10px 0'}}
+              style={{margin: '0 0 15px 0'}}
               onClick={this.exportToCSV}
               disabled={!this.props.matches.data.length>0}
             >
