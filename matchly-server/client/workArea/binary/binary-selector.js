@@ -35,20 +35,22 @@ export default class BinarySelector extends Component {
 
             })}
             <button
-              className="btn btn-primary"
+              className="btn-sm btn-primary"
+              style={{
+                marginRight: 10
+              }}
             >
               Submit
             </button>
-          </form>
-          <h3>Or
             <button
+              className="btn-sm btn-danger"
               onClick={() => {
                 this.props.selector('N/A');
               }}
             >
               Skip
             </button>
-          </h3>
+          </form>
         </div>
     );
   }
