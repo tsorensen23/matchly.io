@@ -40,7 +40,13 @@ class Available  extends React.Component{
                 {TIMES.map(function(letter, index) {
                 var cur = time + (index + 1);
                 return(<li>
-                        {cur}
+                        <span 
+                          style={{
+                            fontWeight: 'bold',
+                            paddingRight: '5'
+                          }}>
+                            {cur}
+                        </span>
                         <input
                           required='true'
                           type='number'
