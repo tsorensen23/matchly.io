@@ -26,43 +26,80 @@ class Available  extends React.Component{
       return( <Loading />);
     }
     if(availability.data) {
-    return (
-      <div
-        className="text-center"
-      >
+      return(
+          <div>
         <form onSubmit={this.sendClassConstraints}>
-          {SECTIONS.map(function(time, i) {
-            return (
-              <ul
-                className="col-xs-2"
-              >
-                <li>{time}</li>
-                {TIMES.map(function(letter, index) {
-                var cur = time + (index + 1);
-                return(<li>
-                        <span 
-                          style={{
-                            fontWeight: 'bold',
-                            paddingRight: '5'
-                          }}>
-                            {cur}
-                        </span>
-                        <input
-                          required='true'
-                          type='number'
-                          key={cur}
-                          ref={cur}
-                          onChange= {_this.changeHandler.bind(_this, cur)}
-                          className="text-center"
-                          value={availability.data[cur].availableSpots}
-                      />
-                    </li>
-                    );
-
-                })}
-              </ul>
-            );
-          })}
+            <div className="row">
+              <div className="col-sm-offset-2 col-sm-2 text-center">
+                <h3>A</h3>
+              </div>
+              {SECTIONS.slice(1).map(section =>
+                <div className="col-sm-2 text-center">
+                  <h3>{section}</h3>
+                </div>
+              )}
+            </div>
+            <div className="row">
+              <div className=" col-sm-2">
+                <h3>8:00</h3>
+              </div>
+              {SECTIONS.map(section => {
+              return(
+                <div className="col-sm-2">
+                  <input
+                    style={{width: 100}}
+                    required='true'
+                    type='number'
+                    ref={section+'1'}
+                    onChange= {_this.changeHandler.bind(_this, section+'1')}
+                    value={availability.data[section+'1'].availableSpots}
+                  />
+                </div>
+              )
+                                  })}
+            </div>
+            <div className="row">
+              <div className=" col-sm-2">
+                <h3>10:00</h3>
+              </div>
+              {SECTIONS.map(section => {
+              return(
+                <div className="col-sm-2">
+                  <input
+                    style={{width: 100}}
+                    required='true'
+                    type='number'
+                    ref={section+'2'}
+                    onChange= {_this.changeHandler.bind(_this, section+'2')}
+                    value={availability.data[section+'2'].availableSpots}
+                  />
+                </div>
+              )
+              })}
+            </div>
+            <div className="row">
+              <div className=" col-sm-2">
+                <h3>11:45</h3>
+              </div>
+              {SECTIONS.map(section => {
+                                    console.log(section + '3');
+                                    console.log(availability.data[section+'3']);
+                                    
+              return(
+              <div className="col-sm-2">
+                <input
+                  style={{width: 100}}
+                  required='true'
+                  type='number'
+                  className="col-xs-2 text-center"
+                  ref={section+'3'}
+                  onChange= {_this.changeHandler.bind(_this, section+'3')}
+                  value={availability.data[section+'3'].availableSpots}
+                />
+              </div>
+              )
+                                  })}
+            </div>
           <ProgressButton 
             className="btn btn-primary" 
             ref='button' 
@@ -71,8 +108,8 @@ class Available  extends React.Component{
             Submit
           </ProgressButton>
         </form>
-      </div>
-    );
+          </div>
+          );
   }
   return <Loading />
   }
