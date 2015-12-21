@@ -27,11 +27,15 @@ class Available  extends React.Component{
     }
     if(availability.data) {
     return (
-      <div>
+      <div
+        className="text-center"
+      >
         <form onSubmit={this.sendClassConstraints}>
           {SECTIONS.map(function(time, i) {
             return (
-              <ul className="col-xs-2">
+              <ul
+                className="col-xs-2"
+              >
                 <li>{time}</li>
                 {TIMES.map(function(letter, index) {
                 var cur = time + (index + 1);
@@ -43,6 +47,7 @@ class Available  extends React.Component{
                           key={cur}
                           ref={cur}
                           onChange= {_this.changeHandler.bind(_this, cur)}
+                          className="text-center"
                           value={availability.data[cur].availableSpots}
                       />
                     </li>
