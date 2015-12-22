@@ -67,6 +67,10 @@ module.exports = {
 
     });
   },
+  logout: function(req, res, next) {
+    res.cookie('matchlycookie', '');
+    res.redirect('/');
+  },
 
   checkLogin: function(req, res, next) {
     if (!req.body.password) {

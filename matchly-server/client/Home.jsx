@@ -24,6 +24,7 @@ var Home = React.createClass({
               <ul className="pull-right">
                 <li><Link to='available'>AVAILABLE</Link></li>
                 <li><Link to='calendar'>CALENDAR</Link></li>
+                <li><a href="/logout">Logout</a></li>
               </ul>
             </div>
           </div>
