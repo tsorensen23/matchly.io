@@ -6,26 +6,27 @@ import * as actions from '../../actions';
 class DataTable extends React.Component{
   render() {
     return (
-        <table>
-          <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
-          <tbody>
+      <div className="container">
+        <div className="row">
+          <div className="col-xs-12">
+            <DataTableHeaderRow headers={this.props.headers} visitor={this.props.finished[0]} />
             {this.props.finished.map((e, index) =>
-                (<DataTableRow
-                 visitor={e}
-                 key={e.First + e.Last}
-                 allSchools={this.props.allSchools}
-                 allEmployers={this.props.allEmployers}
-                 employerMatches={this.props.employerMatches}
-                 schoolMatches={this.props.schoolMatches}
-                 changeValue={this.props.changeValue}
-                 addNewAlias={this.props.addNewAlias}
-                 />)
+              (<DataTableRow
+                className="row"
+                visitor={e}
+                key={e.First + e.Last}
+                allSchools={this.props.allSchools}
+                allEmployers={this.props.allEmployers}
+                employerMatches={this.props.employerMatches}
+                schoolMatches={this.props.schoolMatches}
+                changeValue={this.props.changeValue}
+                addNewAlias={this.props.addNewAlias}
+              />)
             )}
-          </tbody>
-        </table>
-      );
-
-
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 export default DataTable;
