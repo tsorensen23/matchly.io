@@ -30,6 +30,7 @@ Match.prototype.calculatematchScore = function() {
     if (visitor.Characteristics[MATCH_KEYS[i]] === host.Characteristics[MATCH_KEYS[i]] 
         && MATCH_KEYS[i].key === 'Military' 
         && visitor.Characteristics[MATCH_KEYS[i]] === 'None') {
+      this.matchedOn[MATCH_KEYS[i]] = false;
       continue;
 
     }
