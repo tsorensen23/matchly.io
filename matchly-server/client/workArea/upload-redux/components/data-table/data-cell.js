@@ -66,51 +66,54 @@ class DataCell extends React.Component {
     }
     if(multipleMatch && this.state.clicked) {
       return (
-          <td>
-            <b>{this.props.data}</b>
-            <Select
-              value=""
-              onChange={this.handleInput.bind(this)}
-              ref="select"
-              allowCreate={true}
-              placeholder="Select..."
-              options={this.possibilities.value.map(e => {
-                  return {value: e, label: e};
-              })}
-            />
-          </td>
-          );
+        <div
+          style={{height: 20, overflow: 'hidden'}}>
+          <b>{this.props.data}</b>
+          <Select
+            style={{width: 100}}
+            value=""
+            onChange={this.handleInput.bind(this)}
+            ref="select"
+            allowCreate={true}
+            placeholder="Select..."
+            options={this.possibilities.value.map(e => {
+                return {value: e, label: e};
+            })}
+          />
+        </div>
+      );
     }
     if(noValue && this.state.clicked){
       var options = this.school ? this.props.allSchools.data : this.props.allEmployers.data;
       return (
-          <td>
-            <b>{this.props.data}</b>
-            <Select
-              value=""
-              onChange={this.handleInput.bind(this)}
-              ref="select"
-              allowCreate={true}
-              placeholder="Select..."
-              options={options.map(e =>{
-                  return {value: e, label: e};
-              })}
-            />
-          </td>
-          );
+        <div className="col-xs-1">
+          <b>{this.props.data}</b>
+          <Select
+            value=""
+            onChange={this.handleInput.bind(this)}
+            ref="select"
+            allowCreate={true}
+            placeholder="Select..."
+            options={options.map(e =>{
+                return {value: e, label: e};
+            })}
+          />
+        </div>
+      );
     }
     return (
-        <td
-          style={{
-            backgroundColor: this.color
-          }}
-          onClick={() =>
-            this.setState({clicked: true})
-          }
-        >
-          {this.props.data}
-          </td>
-        );
+      <div
+        className= {this.props.dataKey === 'Employer' || this.props.dataKey === 'Undergrad' ? "col-xs-2" : "col-xs-1"}
+        style={{
+          backgroundColor: this.color
+        }}
+        onClick={() =>
+          this.setState({clicked: true})
+        }
+      >
+        {this.props.data}
+      </div>
+    );
   }
 }
 export default DataCell;
