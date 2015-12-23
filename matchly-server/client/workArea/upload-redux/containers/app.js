@@ -20,6 +20,7 @@ import {
   setVisitors,
   setHosts,
   uploadData,
+  clearData
 } from '../actions';
 import ProgressButton from 'react-progress-button'
 import FileUpload from '../components/file-upload';
@@ -37,6 +38,9 @@ export default class App extends React.Component{
     this.state = {
       date: moment(this.props.location.query.date)
     };
+  }
+  componentDidMount() {
+    this.props.dispatch(clearData());
   }
   render(){
     const { dispatch, headers, data, upload, finished, employerMatches, schoolMatches, allSchools, allEmployers, hostsOrVisitors } = this.props;

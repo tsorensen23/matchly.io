@@ -86,6 +86,11 @@ export default function finished(state = { ready: false, data: []}, action){
           return visitor;
         })
       })
+    case 'CLEAR_PREV_DATA':
+      return Object.assign({}, state, {
+        data: []
+        }
+      );
     default:
       return state;
   }

@@ -345,3 +345,6 @@ export function uploadData(){
   };
 }
 
+export function clearData() {
+  return { type: 'CLEAR_PREV_DATA' };
+}
