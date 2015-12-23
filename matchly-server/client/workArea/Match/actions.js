@@ -148,38 +148,40 @@ export function getAllCurrMatches() {
     }).then(resp =>
       resp.json()
     ).then(json => {
-      var currHosts = json;
-      var currHostIdList = currHosts.data.map(function(i) {
-        return i.host;
-      });
-      var hosts = getState().hosts.data;
-      var hostIDs = hosts.map(function(i) {
-        return i._id;
-      });
-      var visitors = getState().visitors.data;
-      var visitorIDs = visitors.map(visitor =>
-          visitor._id
-      )
-      var stuff = json.data.map(dp => {
-        var hostIndex = hostIDs.indexOf(dp.host);
-        var host = hosts[hostIndex];
-        var visitorIndex = visitorIDs.indexOf(dp.visitor);
-        var visitor = visitors[visitorIndex];
-        var matchedOn = dp.matchedOn;
-        var row = Object.assign({}, matchedOn, {
-          hostEmail: host.Contact.Email,
-          hostFirstName: host.Contact.First,
-          hostLastName: host.Contact.Last,
-          hostName: host.Contact.First + ' ' + host.Contact.Last,
-          section: host.MatchInfo.Section,
-          visitTime: visitor.MatchInfo["Class Visit Time"],
-          visitorFirstName: visitor.Contact.First,
-          visitorLastName: visitor.Contact.Last,
-          visitorName: visitor.Contact.First + ' ' + visitor.Contact.Last,
+      if (json) {
+        var currHosts = json;
+        var currHostIdList = currHosts.data.map(function(i) {
+          return i.host;
         });
-        return row;
-      })
-      return dispatch(receiveCurrMatches(stuff, date));
+        var hosts = getState().hosts.data;
+        var hostIDs = hosts.map(function(i) {
+          return i._id;
+        });
+        var visitors = getState().visitors.data;
+        var visitorIDs = visitors.map(visitor =>
+            visitor._id
+        )
+        var stuff = json.data.map(dp => {
+          var hostIndex = hostIDs.indexOf(dp.host);
+          var host = hosts[hostIndex];
+          var visitorIndex = visitorIDs.indexOf(dp.visitor);
+          var visitor = visitors[visitorIndex];
+          var matchedOn = dp.matchedOn;
+          var row = Object.assign({}, matchedOn, {
+            hostEmail: host.Contact.Email,
+            hostFirstName: host.Contact.First,
+            hostLastName: host.Contact.Last,
+            hostName: host.Contact.First + ' ' + host.Contact.Last,
+            section: host.MatchInfo.Section,
+            visitTime: visitor.MatchInfo["Class Visit Time"],
+            visitorFirstName: visitor.Contact.First,
+            visitorLastName: visitor.Contact.Last,
+            visitorName: visitor.Contact.First + ' ' + visitor.Contact.Last,
+          });
+          return row;
+        })
+        return dispatch(receiveCurrMatches(stuff, date));
+      }
     }).catch(err =>
       console.log(err.stack)
     );
