@@ -16,7 +16,7 @@ var path = require('path');
 var Employer = require('./database/db').Employer;
 var db = require('./database/db');
 var calendarController = require('./controllers/calendarController');
-var oldMatches = require('./controllers/oldMatches');
+var currentmatches = require('./controllers/oldMatches');
 
 
 
@@ -112,7 +112,7 @@ app.get('/schoolaliases', function(req, res, next){
   })
 })
 
-app.get('/oldmatches', oldMatches.get);
+app.get('/currentmatches', currentmatches.get);
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));
 app.use('/visitors', schoolController.middleWare, crudController('visitors'));
 app.use(function(err, req, res, next) {

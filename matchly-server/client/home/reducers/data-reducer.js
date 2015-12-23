@@ -53,6 +53,8 @@ export default function data(state = [], action){
             return true;
           }
       });
+    case 'CLEAR_PREV_DATA':
+      return [];
     default:
       return state;
   }

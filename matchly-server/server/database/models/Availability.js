@@ -13,11 +13,9 @@ var tempObject = {};
     };
   }
 });
-
 var availabilitySchema = new Schema(tempObject, {toObject:true});
 
 availabilitySchema.set('toObject', { getters: true });
 availabilitySchema.method('getTotalAvailableOf', function(number) {});
 
 module.exports = db.model('availability', availabilitySchema);
-

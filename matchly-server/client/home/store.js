@@ -11,7 +11,7 @@ const reducer = combineReducers(Object.assign({}, reducers, {
 
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = compose(
-    applyMiddleware(thunkMiddleware)
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 )(createStore);
 function configureStore(initialState) {
   return createStoreWithMiddleware(reducers, initialState);

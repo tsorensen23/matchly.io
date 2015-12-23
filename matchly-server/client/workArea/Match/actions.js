@@ -29,7 +29,6 @@ function receiveVisitors(data) {
   return { type: 'RECEIVE_VISITORS', data }
 }
 
-
 export function getAllVisitors() {
   return function(dispatch, getState){
     dispatch(requestVisitors());
@@ -40,6 +39,8 @@ export function getAllVisitors() {
       resp.json()
     ).then(json => {
       dispatch(receiveVisitors(json));
+    }).then(json => {
+      dispatch(getAllCurrMatches(json));
     }).catch(err =>
       console.log(err.stack)
     );
@@ -97,6 +98,7 @@ export function toggleHost(host, onOff){
     });
   }
 }
+
 export function getMatchesAndHosts(cb){
   return function(dispatch, getState){
     dispatch(getMatches(cb)).then( res =>
@@ -128,7 +130,62 @@ export function deleteVisitors() {
   }
 
 }
+
+function requestCurrMatches(){
+  return { type: 'REQUEST_CURR_MATCHES' }
+}
+function receiveCurrMatches(data) {
+  return { type: 'RECEIVE_CURR_MATCHES', data }
+}
+
+export function getAllCurrMatches() {
+  console.log('matchesFUNC');
+  return function(dispatch, getState){
+    dispatch(requestCurrMatches());
+    var date = getState().matches.date;
+    fetch(`${process.env.URL}/currentmatches?date=${moment(date).toISOString()}`, {
+      credentials: 'same-origin'
+    }).then(resp =>
+      resp.json()
+    ).then(json => {
+      //Host Info pulling
+      var currHosts = json;
+      var currHostIdList = currHosts.data.map(function(i) {
+        return i.host;
+      });
+
+      var hosts = getState().hosts.data;
+      hosts = hosts.map(function(i) {
+        return i;
+      });
+
+      var hostIDs = hosts.map(function(i) {
+        return i._id;
+      });
+
+      var hostList = currHostIdList.map(function(el) {
+        var hostIndex = hostIDs.indexOf(el);
+        return hosts[hostIndex];
+      })
+console.log(hostList, '<hostList>');
+      // Visitor Info pulling
+      var visitorIDs = getState().visitors.data;
+
+      var currVisitorList = visitorIDs.map(function(i) {
+        return i;
+      });
+console.log(currVisitorList, '<currVisitorList>');
+      var matchesTable;
+      for (var i = 0; i < visitorIDs.length; i++) {
+        var matchInfo =
+        matchesTable.push()
+      }
+      return dispatch(receiveCurrMatches(json));
+    }).catch(err =>
+      console.log(err.stack)
+    );
+  };
+}
 export function clearMatches(){
   return {type: 'CLEAR_MATCHES'}
 }
-

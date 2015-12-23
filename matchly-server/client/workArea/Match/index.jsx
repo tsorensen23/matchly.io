@@ -9,9 +9,9 @@ var MatchIndex = React.createClass({
   render:function() {
     return (
         <div className="col-xs-12">
-          <h3>Matching for {moment(this.props.location.query.date).format('MM/DD')}</h3>
+          <h2 className="text-center">Matching for {moment(this.props.location.query.date).format('MM/DD')}</h2>
           <div className="col-xs-6 text-center">
-            <h3>  
+            <h3>
               Matched Hosts
             </h3>
           </div>
@@ -20,16 +20,16 @@ var MatchIndex = React.createClass({
               Available Hosts
             </h3>
           </div>
-          <Match 
+          <Match
             getAllVisitors={() => {
               this.props.dispatch(actions.getAllVisitors());
-            }} 
+            }}
             getMatches={(cb) => {
               this.props.dispatch(actions.getMatchesAndHosts(cb));
             }}
-            location={this.props.location} 
-            history={this.props.history}  
-            date={moment(this.props.location.query.date)} 
+            location={this.props.location}
+            history={this.props.history}
+            date={moment(this.props.location.query.date)}
           />
       </div>
     );
@@ -37,7 +37,7 @@ var MatchIndex = React.createClass({
 });
 
 module.exports = connect(function(state){
-  return { 
+  return {
     hosts: state.hosts,
     visitors: state.visitors,
     matches: state.matches
