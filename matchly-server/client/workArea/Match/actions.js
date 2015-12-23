@@ -1,5 +1,6 @@
 // always wrap your actions in a dispatch!!!!
 import moment from 'moment';
+import {pushPath} from 'redux-simple-router';
 
 function requestHosts(){
   return { type: 'REQUEST_HOSTS' }
@@ -102,6 +103,30 @@ export function getMatchesAndHosts(cb){
         dispatch(getAllHosts())
         )
   }
+}
+function removeVisitors(){
+  return {type: 'REMOVE_VISITORS' }
+}
+
+export function deleteVisitors() {
+  return function(dispatch, getState){
+    var date = getState().matches.date.toISOString();
+    console.log('date is', date);
+    fetch(`${process.env.URL}/deletevisitors`,{
+      method: 'post',
+      body: JSON.stringify({date: date}),
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(resp =>{
+        dispatch(removeVisitors());
+        dispatch(pushPath('calendar'));
+    })
+  }
+
 }
 export function clearMatches(){
   return {type: 'CLEAR_MATCHES'}

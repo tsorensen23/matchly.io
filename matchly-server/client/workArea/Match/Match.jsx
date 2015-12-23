@@ -101,9 +101,10 @@ var Match = React.createClass({
           {hosthtml}
           <UnmatchedVisitors
             visitors={visitors}
-            backtoCalendar={() =>{
-              this.props.dispatch(updatePath('/calendar'));
-            }}
+            deleteVisitors={() =>
+              this.props.dispatch(actions.deleteVisitors())
+            }
+            
             date={date}
           />
           <ProgressButton

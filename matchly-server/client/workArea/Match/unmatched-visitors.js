@@ -12,26 +12,6 @@ export default class UnmatchedVisitors extends React.Component {
       }
     }
   }
-  componentDidMount() {}
-  deleteStuff() {
-    $.ajax({
-      method: 'post',
-      url: '/deletevisitors',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        date: this.props.date
-      }),
-      success: function (data) {
-        this.setState({
-          destroy: true,
-          visitors: {
-            data: []
-          }
-        });
-        this.props.backtoCalendar();
-      }.bind(this)
-    });
-  }
   render() {
     if(this.state.destroy) {
       return <div/>
@@ -44,9 +24,8 @@ export default class UnmatchedVisitors extends React.Component {
         <div>
           <div>
             <div>
-              <button onClick = {
-                this.deleteStuff.bind(this)
-                }
+              <button 
+                onClick = {this.props.deleteVisitors}
                 className="btn btn-danger pull-right"
                 style={
                   {
