@@ -42,11 +42,12 @@ html, body, h1, h2, h3, h4, p, div, ul, li, a {
 .navigation ul li {
   font-size: 28px;
   float: left;
-  padding: 20px;
+  padding: 20px 5px;
   letter-spacing: 1px;
 }
 .navigation ul li a {
   color: #fff;
+  transition: all 0.2s;
 }
 .navigation ul li a:focus {
   color: #fff;
@@ -55,8 +56,10 @@ html, body, h1, h2, h3, h4, p, div, ul, li, a {
 }
 .navigation ul li a:hover  {
   color: rgba(245,243,92,1);
+  background-color: rgba(66,66,66,.75) !important;
   text-decoration: none;
   outline: none;
+  transition: all 0.2s;
 }
 
 /*====================================================
@@ -145,7 +148,7 @@ a.has-match:hover {
   margin-top: 20px;
 }
 .pb-button:hover {
-  background: rgba(70, 202, 71, 1);  
+  background: rgba(70, 202, 71, 1);
 }
 .pb-container .pb-button span {
   display: inherit;
@@ -171,7 +174,7 @@ a.has-match:hover {
   text-decoration: none;
 }
 .pb-container .pb-button svg.pb-progress-circle path {
-  stroke: rgba(70, 202, 71, 1);  
+  stroke: rgba(70, 202, 71, 1);
   stroke-width: 5;
   padding: .7em 1em;
 }
