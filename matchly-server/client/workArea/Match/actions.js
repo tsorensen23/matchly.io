@@ -152,7 +152,7 @@ export function getAllCurrMatches() {
     }).then(resp =>
       resp.json()
     ).then(json => {
-      if (json) {
+      if(json){
         var currHosts = json;
         var currHostIdList = currHosts.data.map(function(i) {
           return i.host;

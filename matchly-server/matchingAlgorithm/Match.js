@@ -80,8 +80,8 @@ Match.prototype.toClientObject = function() {
     returnObject.hostLastName = host.Contact.Last;
     returnObject.hostEmail = host.Contact.Email;
     returnObject.section = host.MatchInfo.Section;
-    returnObject.visitTime = visitor.MatchInfo['Class Visit Time'];
-    returnObject.sectionTime = returnObject.section + returnObject.visitTime.toString();
+    returnObject.visitTime = visitor.MatchInfo['Class Visit Time'] ? visitor.MatchInfo['Class Visit Time'].toString() : '';
+    returnObject.sectionTime = returnObject.section + returnObject.visitTime;
     returnObject.matchCount = _this.count;
 
     //this loops through the keys and determines what we are matched on
