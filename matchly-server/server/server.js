@@ -59,6 +59,7 @@ app.use(function(req, res, next) {
 
 app.use(userController.authorizationCheck);
 app.use('/login', stdUIController('login'));
+app.get('/logout', userController.logout);
 app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/userLogin', userController.checkLogin);
 app.use('/assets', express.static(__dirname + './../assets'));
