@@ -1,4 +1,5 @@
 var db = require('../database/db');
+var mongoose = require('mongoose');
 var Visitor = db.Visitor;
 var Host = db.Host;
 var Availability = db.Availability;
@@ -19,7 +20,7 @@ module.exports = {
     var startDate = moment.utc(req.query.date).subtract(1, 'minute').toDate();
     var endDate = moment.utc(req.query.date).add(1, 'minute').toDate();
     // var date = new Date("2015-11-30T08:00:00.000Z");
-    Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, { _id: 0, __v: 0}, function(err, data){
+    Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, {__v: 0}, function(err, data){
       res.json(data);
     });
 
@@ -116,15 +117,39 @@ module.exports = {
         if (err) {
           return next(err);
         }
+        var schmuck = RumbleData.map((data) => {
+          return {
+            visitor: data.visitor._id,
+            matchedOn: data.matchedOn,
+            count: data.count,
+            host: data.host._id
+          }
 
+        })
         RumbleData = Rumble.visitorHostPairings(RumbleData);
         RumbleData = Rumble.SortReturnObject(RumbleData);
         var dataObject = {
           array:RumbleData
         };
+        mongoose.model('donematches').findOne({date: date }, function(err, data){
+          if(err) throw err;
+          console.log(data);
+          if(!data){
+            mongoose.model('donematches').create({date: date, data: schmuck}, function(err, data){
+              if(err){
+               console.log(err);
+               throw err;
+              }
+              res.json(dataObject);
+            })
+          } else {
+          data.data = schmuck;
+          data.save();
           res.json(dataObject);
+          }
         });
       });
+    });
   },
 
   availability:function(req, res) {

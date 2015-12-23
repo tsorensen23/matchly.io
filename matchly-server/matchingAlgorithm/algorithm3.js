@@ -79,7 +79,6 @@ var Rumble = {
 
       // Match.constraint key
       var curConstraint = constraintObject[match.constraintKey];
-      console.log("constraint Object", match.constraintKey);
       // If no one is allowed, the host cannot accept this visitor
       if (curConstraint.availableSpots === 0) {
         continue;
@@ -123,7 +122,6 @@ var Rumble = {
       totalAvailableSpots[a.MatchInfo.classVisitNumber]--;
       return a;
     });
-    console.log(totalAvailableSpots);
 
     for (var i = 1; i < 4; i++) {
       if (totalAvailableSpots[i] < 0) {
