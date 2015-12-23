@@ -70,7 +70,7 @@ class DataCell extends React.Component {
           style={{height: 20, overflow: 'hidden'}}>
           <b>{this.props.data}</b>
           <Select
-            className= {this.props.dataKey === 'Employer' || this.props.dataKey === 'Undergrad' ? "col-xs-2" : "col-xs-1"}
+            className="col-xs-1"
             value=""
             onChange={this.handleInput.bind(this)}
             ref="select"
@@ -86,7 +86,7 @@ class DataCell extends React.Component {
     if(noValue && this.state.clicked){
       var options = this.school ? this.props.allSchools.data : this.props.allEmployers.data;
       return (
-        <div className= {this.props.dataKey === 'Employer' || this.props.dataKey === 'Undergrad' ? "col-xs-2" : "col-xs-1"}>
+        <div className="col-xs-1">
           <b>{this.props.data}</b>
           <Select
             value=""
@@ -103,7 +103,7 @@ class DataCell extends React.Component {
     }
     return (
       <div
-        className= {this.props.dataKey === 'Employer' || this.props.dataKey === 'Undergrad' ? "col-xs-2" : "col-xs-1"}
+        className="col-xs-1"
         style={{
           backgroundColor: this.color
         }}

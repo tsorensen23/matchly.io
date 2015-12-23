@@ -17,14 +17,44 @@ var Home = React.createClass({
       <div className="container-fluid">
         <div className="row">
           <div className="col-xs-12 navigation">
-            <div className="col-xs-5">
+            <div className="col-xs-12 col-sm-5">
               <h1><a href="/">MATCHLY.IO</a></h1>
             </div>
-            <div className="col-xs-7">
+            <div className="col-xs-12 col-sm-7">
               <ul className="pull-right">
-                <li><Link to='available'>AVAILABLE</Link></li>
-                <li><Link to='calendar'>CALENDAR</Link></li>
-                <li><a href="/logout">LOGOUT</a></li>
+                <li>
+                  <Link
+                    to='available'
+                    className="btn btn-lg"
+                    style={{
+                      backgroundColor: '#333'
+                    }}
+                  >
+                    AVAILABLE
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='calendar'
+                    className="btn btn-lg"
+                    style={{
+                      backgroundColor: '#333'
+                    }}
+                  >
+                    CALENDAR
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="/logout"
+                    className="btn btn-lg"
+                    style={{
+                      backgroundColor: '#333'
+                    }}
+                  >
+                    LOGOUT
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
