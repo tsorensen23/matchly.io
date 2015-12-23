@@ -150,11 +150,7 @@ console.log(hostList, '<hostList>');
         return i;
       });
 console.log(currVisitorList, '<currVisitorList>');
-      var matchesTable;
-      for (var i = 0; i < visitorIDs.length; i++) {
-        var matchInfo =
-        matchesTable.push()
-      }
+
       return dispatch(receiveCurrMatches(json));
     }).catch(err =>
       console.log(err.stack)
