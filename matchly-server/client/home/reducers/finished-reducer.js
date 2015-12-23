@@ -79,9 +79,13 @@ export default function finished(state = { ready: false, data: []}, action){
           ...state.data.slice(action.index+1)
           ]
       })
-
-
-
+    case 'INITIAL_CLASS_NUMBER':
+      return Object.assign({}, state, {
+        data: state.data.map(visitor => {
+          visitor.classVisitNumber = 1;
+          return visitor;
+        })
+      })
     default:
       return state;
   }

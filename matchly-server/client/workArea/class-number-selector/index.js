@@ -9,6 +9,9 @@ class ClassNumberSelector extends React.Component {
   constructor(props){
     super(props);
   }
+  componentDidMount() {
+    this.props.dispatch(actions.initialClassNumber());
+  }
   render() {
     const { dispatch, finished } = this.props;
     // var dispatch = this.props.dispatch;
@@ -21,7 +24,7 @@ class ClassNumberSelector extends React.Component {
             {this.props.finished.data.map( (vis, index) => {
              return (
                    <li>
-                     {vis.First}{vis.Last}{vis['Class Visit Time']}
+                     {vis.First} {vis.Last} {vis['Class Visit Time']}
                      <Selector
                        select={(option) => {
                          dispatch(actions.setClassNumber(option, index));
