@@ -155,13 +155,24 @@ export function getAllCurrMatches() {
       });
 
       var hosts = getState().hosts.data;
-      hosts = hosts.map(function(i) {
-        return i;
-      });
 
       var hostIDs = hosts.map(function(i) {
         return i._id;
       });
+      var visitors = getState().visitors.data;
+
+      var visitorIDs = visitors.map(visitor =>
+          visitor._id;
+      )
+        //// Rob stuff
+      var stuff = json.data.map(dp => {
+        var hostIndex = hostIDs.indexOf(dp.host);
+        var host = hosts[hostIndex];
+        var visitorIndex = visitorIDs.indexOf(db.visitor);
+        var visitor = visitor[visitorIndex];
+        return { host: host, visitor: visitor}
+      })
+      //rob stuff
 
       var hostList = currHostIdList.map(function(el) {
         var hostIndex = hostIDs.indexOf(el);
@@ -169,11 +180,6 @@ export function getAllCurrMatches() {
       })
 console.log(hostList, '<hostList>');
       // Visitor Info pulling
-      var visitorIDs = getState().visitors.data;
-
-      var currVisitorList = visitorIDs.map(function(i) {
-        return i;
-      });
 console.log(currVisitorList, '<currVisitorList>');
       var matchesTable;
       for (var i = 0; i < visitorIDs.length; i++) {
