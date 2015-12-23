@@ -117,8 +117,15 @@ module.exports = {
         if (err) {
           return next(err);
         }
-        console.log(RumbleData);
+        var schmuck = RumbleData.map((data) => {
+          return {
+            visitor: data.visitor._id,
+            matchedOn: data.matchedOn,
+            count: data.count,
+            host: data.host._id
+          }
 
+        })
         RumbleData = Rumble.visitorHostPairings(RumbleData);
         RumbleData = Rumble.SortReturnObject(RumbleData);
         var dataObject = {
