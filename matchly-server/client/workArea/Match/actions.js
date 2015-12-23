@@ -1,5 +1,6 @@
 // always wrap your actions in a dispatch!!!!
 import moment from 'moment';
+import {pushPath} from 'redux-simple-router';
 
 function requestHosts(){
   return { type: 'REQUEST_HOSTS' }
@@ -105,6 +106,30 @@ export function getMatchesAndHosts(cb){
         )
   }
 }
+function removeVisitors(){
+  return {type: 'REMOVE_VISITORS' }
+}
+
+export function deleteVisitors() {
+  return function(dispatch, getState){
+    var date = getState().matches.date.toISOString();
+    console.log('date is', date);
+    fetch(`${process.env.URL}/deletevisitors`,{
+      method: 'post',
+      body: JSON.stringify({date: date}),
+      credentials: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(resp =>{
+        dispatch(removeVisitors());
+        dispatch(pushPath('calendar'));
+    })
+  }
+
+}
 
 function requestCurrMatches(){
   return { type: 'REQUEST_CURR_MATCHES' }
@@ -130,13 +155,25 @@ export function getAllCurrMatches() {
       });
 
       var hosts = getState().hosts.data;
-      hosts = hosts.map(function(i) {
-        return i;
-      });
 
       var hostIDs = hosts.map(function(i) {
         return i._id;
       });
+      var visitors = getState().visitors.data;
+
+      var visitorIDs = visitors.map(visitor =>
+          visitor._id
+      )
+        //// Rob stuff
+      var stuff = json.data.map(dp => {
+        var hostIndex = hostIDs.indexOf(dp.host);
+        var host = hosts[hostIndex];
+        var visitorIndex = visitorIDs.indexOf(dp.visitor);
+        var visitor = visitors[visitorIndex];
+        return { host: host, visitor: visitor}
+      })
+      console.log(stuff);
+      //rob stuff
 
       var hostList = currHostIdList.map(function(el) {
         var hostIndex = hostIDs.indexOf(el);
@@ -144,11 +181,6 @@ export function getAllCurrMatches() {
       })
 console.log(hostList, '<hostList>');
       // Visitor Info pulling
-      var visitorIDs = getState().visitors.data;
-
-      var currVisitorList = visitorIDs.map(function(i) {
-        return i;
-      });
 console.log(currVisitorList, '<currVisitorList>');
 
       return dispatch(receiveCurrMatches(json));
@@ -157,7 +189,6 @@ console.log(currVisitorList, '<currVisitorList>');
     );
   };
 }
-
 export function clearMatches(){
   return {type: 'CLEAR_MATCHES'}
 }
