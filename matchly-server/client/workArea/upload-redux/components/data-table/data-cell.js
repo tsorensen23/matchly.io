@@ -33,7 +33,7 @@ class DataCell extends React.Component {
             singleMatch = true;
           }
           if(v.multipleMatch) {
-            this.color = 'yellow';
+            this.color = '#FFEB3B';
             multipleMatch = true;
           }
           if(v.noValue) {
@@ -54,7 +54,7 @@ class DataCell extends React.Component {
             singleMatch = true;
           }
           if(v.multipleMatch) {
-            this.color = 'yellow';
+            this.color = '#FFEB3B';
             multipleMatch = true;
           }
           if(v.noValue) {

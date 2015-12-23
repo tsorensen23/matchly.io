@@ -208,8 +208,6 @@ module.exports = {
                     if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
-			console.log('BREAKING VISITOR');
-			console.log(visitor);
                         visitor.Characteristics.Undergrad = data.name;
                         return cb(null, visitor);
                     });
@@ -289,24 +287,21 @@ submitvisitors: function(req, res, next) {
         }
         return el;
       });
-     console.log(visitTimes);
       // go through our unique array and given times to place into visiting time slot
-      
+
       visitTimes = _.uniq(visitTimes);
-      console.log(visitTimes);
       visitors = visitors.map(function(visitor, i) {
         visitor.MatchInfo.classVisitNumber =
           (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
         visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
         return visitor;
       });
-  console.log(visitors);
   //Class visit time catch
   var proceed=true;
   var JSONerrObject ={visitors:[]};
 
   visitors.forEach(function(visitor){
-    if(typeof visitor.MatchInfo.classVisitNumber === 'undefined' 
+    if(typeof visitor.MatchInfo.classVisitNumber === 'undefined'
        || visitor.MatchInfo.classVisitNumber == '0'
        || visitor.MatchInfo.classVisitNumber == ''){
       proceed=false;
