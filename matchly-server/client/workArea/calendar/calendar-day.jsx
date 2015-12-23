@@ -13,15 +13,15 @@ var styles = {
     display: 'inline-block',
     textAlign: 'center',
     verticalAlign: 'middle',
-    color: 'black'
+    color: 'rgb(66,66,66)'
   },
   matched: {
-    backgroundColor: 'green',
+    backgroundColor: '#327D3C',
     color: 'white'
   },
   hasData: {
-    backgroundColor: 'yellow',
-    color: 'grey'
+    backgroundColor: '#FFEB3B',
+    color: 'rgb(66,66,66)'
   }
 };
 
@@ -35,7 +35,7 @@ export default class CalendarDay extends  React.Component{
           className="has-data"
           style={Object.assign({}, styles.day, styles.hasData)}
         >
-          {moment(this.props.date).format('MM/DD')}
+          {moment(this.props.date).format('MMM DD')}
         </Link>
       );
     } if (this.props.matched) {
@@ -46,7 +46,7 @@ export default class CalendarDay extends  React.Component{
           className="has-match"
           style={Object.assign({}, styles.day, styles.matched)}
         >
-          {moment(this.props.date).format('MM/DD')}
+          {moment(this.props.date).format('MMM DD')}
         </Link>
       );
     } else {
@@ -57,7 +57,7 @@ export default class CalendarDay extends  React.Component{
             style={styles.day}
             className="calendar-day"
             >
-          {moment(this.props.date).format('MM/DD')}
+          {moment(this.props.date).format('MMM DD')}
             </Link>
       );
     }

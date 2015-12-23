@@ -69,7 +69,6 @@ app.use(function(req, res, next) {
       return res.redirect('/login');
     }
   }
-
   next();
 });
 
@@ -91,9 +90,9 @@ app.get('/employers', employerController.getEmployers);
 app.post('/employers', employerController.createEmployer);
 //app.get('/employers', function(req, res) {
 //  Employer.find({}, function(err, data) {
-//   res.json(data); 
+//   res.json(data);
 //  });
-//  
+//
 //});
 app.get('/visitors', matchController.getVisitorsByDate);
 app.post('/checkemployers', employerController.checkMatch);
