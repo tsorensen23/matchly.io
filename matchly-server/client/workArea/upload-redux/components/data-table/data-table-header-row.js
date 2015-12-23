@@ -11,7 +11,7 @@ export default class DataTableHeaderRow extends React.Component {
           return (
             <div
              style={{fontWeight: 500, whiteSpace: 'nowrap'}}
-             className= {key === 'Employer' || key === 'Undergrad' ? "col-xs-2" : "col-xs-1"}
+             className="col-xs-1"
              key={key}>
               {key}
             </div>
