@@ -51,6 +51,7 @@ var Match = React.createClass({
       return( <Loading />);
     }
     if(matches.data.length > 0 && date.isSame(matches.date, 'day')){
+      console.log(date, '<DATE>');
       var data =
         matches.data.filter(match =>
           match.hostFirstName || match.hostLastName
@@ -104,7 +105,7 @@ var Match = React.createClass({
             deleteVisitors={() =>
               this.props.dispatch(actions.deleteVisitors())
             }
-            
+
             date={date}
           />
           <ProgressButton

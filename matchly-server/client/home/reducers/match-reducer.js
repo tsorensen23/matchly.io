@@ -21,7 +21,8 @@ export default function matches(state ={isFetching: false, data: [], lastUpdated
         });
       } else {
         return Object.assign({}, state, {
-          data: action.data.data
+          data: action.data,
+          date: action.date
         })
       }
     case 'CLEAR_MATCHES':

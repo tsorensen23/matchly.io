@@ -134,8 +134,8 @@ export function deleteVisitors() {
 function requestCurrMatches(){
   return { type: 'REQUEST_CURR_MATCHES' }
 }
-function receiveCurrMatches(data) {
-  return { type: 'RECEIVE_CURR_MATCHES', data }
+function receiveCurrMatches(data, date) {
+  return { type: 'RECEIVE_CURR_MATCHES', data, date }
 }
 
 export function getAllCurrMatches() {
@@ -148,42 +148,38 @@ export function getAllCurrMatches() {
     }).then(resp =>
       resp.json()
     ).then(json => {
-      //Host Info pulling
       var currHosts = json;
       var currHostIdList = currHosts.data.map(function(i) {
         return i.host;
       });
-
       var hosts = getState().hosts.data;
-
       var hostIDs = hosts.map(function(i) {
         return i._id;
       });
       var visitors = getState().visitors.data;
-
       var visitorIDs = visitors.map(visitor =>
           visitor._id
       )
-        //// Rob stuff
       var stuff = json.data.map(dp => {
         var hostIndex = hostIDs.indexOf(dp.host);
         var host = hosts[hostIndex];
         var visitorIndex = visitorIDs.indexOf(dp.visitor);
         var visitor = visitors[visitorIndex];
-        return { host: host, visitor: visitor}
+        var matchedOn = dp.matchedOn;
+        var row = Object.assign({}, matchedOn, {
+          hostEmail: host.Contact.Email,
+          hostFirstName: host.Contact.First,
+          hostLastName: host.Contact.Last,
+          hostName: host.Contact.First + ' ' + host.Contact.Last,
+          section: host.MatchInfo.Section,
+          visitTime: visitor.MatchInfo["Class Visit Time"],
+          visitorFirstName: visitor.Contact.First,
+          visitorLastName: visitor.Contact.Last,
+          visitorName: visitor.Contact.First + ' ' + visitor.Contact.Last,
+        });
+        return row;
       })
-      console.log(stuff);
-      //rob stuff
-
-      var hostList = currHostIdList.map(function(el) {
-        var hostIndex = hostIDs.indexOf(el);
-        return hosts[hostIndex];
-      })
-console.log(hostList, '<hostList>');
-      // Visitor Info pulling
-console.log(currVisitorList, '<currVisitorList>');
-
-      return dispatch(receiveCurrMatches(json));
+      return dispatch(receiveCurrMatches(stuff, date));
     }).catch(err =>
       console.log(err.stack)
     );
