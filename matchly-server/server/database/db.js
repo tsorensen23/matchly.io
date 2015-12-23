@@ -8,6 +8,7 @@ var Employer = require('./models/Employer');
 var EmployerAlias = require('./models/EmployerAlias');
 var Industry = require('./models/Industry');
 var IndustryAlias = require('./models/IndustryAlias');
+var DoneMatches = require('./models/DoneMatches');
 var db = {};
 db.User = User;
 db.Visitor = Visitor;
@@ -21,5 +22,6 @@ db.Employer = Employer;
 db.Industry = Industry;
 db.IndustryAlias = IndustryAlias;
 db.EmployerAlias = EmployerAlias;
+db.DoneMatches = DoneMatches;
 
 module.exports = db;

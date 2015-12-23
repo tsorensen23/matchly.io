@@ -52,24 +52,14 @@ var AvailabilityCheck = {
   };
 
   if(lecture1Spots < visitorsLecture1) {
-    // console.log(lecture1Spots, visitorsLecture1);
     returnObject.status = false;
   }
   if(lecture2Spots < visitorsLecture2) {
-    // console.log(lecture2Spots, visitorsLecture2);
     returnObject.status = false;    
   }
   if(lecture3Spots < visitorsLecture3) {
-      // console.log(lecture3Spots, visitorsLecture3);
       returnObject.status = false;
   }
-  // console.log("lecture1Spots ", lecture1Spots);
-  // console.log("lecture2Spots ", lecture2Spots);
-  // console.log("lecture3Spots ", lecture3Spots);
-  
-  // console.log("visitorsLecture1 ",visitorsLecture1 );
-  // console.log("visitorsLecture2 ",visitorsLecture2 );
-  // console.log("visitorsLecture3 ",visitorsLecture3 );
   return returnObject;
   
 
