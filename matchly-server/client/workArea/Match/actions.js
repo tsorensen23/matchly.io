@@ -162,7 +162,7 @@ export function getAllCurrMatches() {
       var visitors = getState().visitors.data;
 
       var visitorIDs = visitors.map(visitor =>
-          visitor._id;
+          visitor._id
       )
         //// Rob stuff
       var stuff = json.data.map(dp => {
@@ -172,6 +172,7 @@ export function getAllCurrMatches() {
         var visitor = visitor[visitorIndex];
         return { host: host, visitor: visitor}
       })
+      console.log(stuff);
       //rob stuff
 
       var hostList = currHostIdList.map(function(el) {
