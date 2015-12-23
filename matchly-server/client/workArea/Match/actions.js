@@ -169,7 +169,7 @@ export function getAllCurrMatches() {
         var hostIndex = hostIDs.indexOf(dp.host);
         var host = hosts[hostIndex];
         var visitorIndex = visitorIDs.indexOf(dp.visitor);
-        var visitor = visitor[visitorIndex];
+        var visitor = visitors[visitorIndex];
         return { host: host, visitor: visitor}
       })
       console.log(stuff);
