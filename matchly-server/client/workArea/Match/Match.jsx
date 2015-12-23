@@ -120,7 +120,7 @@ var Match = React.createClass({
 
             <button
               className="btn btn-info"
-              style={{margin: '0 0 15px 0'}}
+              style={{margin: '-10px 0 25px 0'}}
               onClick={this.exportToCSV}
               disabled={!this.props.matches.data.length>0}
             >
