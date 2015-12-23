@@ -18,14 +18,15 @@ class ClassNumberSelector extends React.Component {
     // var finished = this.props.finished;
 
     return (
-        <div>
+        <div className="col-xs-12">
         <h3> Your lecture numbers were invalid please select the proper lectures</h3>
           <ul>
             {this.props.finished.data.map( (vis, index) => {
              return (
-                   <li>
+                   <li className="col-xs-8 col-sm-4 col-sm-offset-4">
                      {vis.First} {vis.Last} {vis['Class Visit Time']}
                      <Selector
+                      className="col-xs-4 col-sm-4"
                        select={(option) => {
                          dispatch(actions.setClassNumber(option, index));
                        }}
