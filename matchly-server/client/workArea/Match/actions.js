@@ -168,7 +168,7 @@ export function getAllCurrMatches() {
       var stuff = json.data.map(dp => {
         var hostIndex = hostIDs.indexOf(dp.host);
         var host = hosts[hostIndex];
-        var visitorIndex = visitorIDs.indexOf(db.visitor);
+        var visitorIndex = visitorIDs.indexOf(dp.visitor);
         var visitor = visitor[visitorIndex];
         return { host: host, visitor: visitor}
       })
