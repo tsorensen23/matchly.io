@@ -31,7 +31,7 @@ function receiveVisitors(data) {
 
 export function getAllVisitors() {
   return function(dispatch, getState){
-    dispatch(requestVisitors());
+    dispatch(requestVisitors())
     var date = getState().matches.date;
     fetch(`${process.env.URL}/visitors?date=${moment(date).toISOString()}`, {
       credentials: 'same-origin'
@@ -39,6 +39,10 @@ export function getAllVisitors() {
       resp.json()
     ).then(json => {
       dispatch(receiveVisitors(json));
+    }).then(json => {
+      dispatch(clearMatches());
+    }).then(json => {
+      dispatch(getAllHosts());
     }).then(json => {
       dispatch(getAllCurrMatches(json));
     }).catch(err =>

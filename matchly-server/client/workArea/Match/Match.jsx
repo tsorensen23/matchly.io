@@ -14,9 +14,7 @@ import * as actions from './actions';
 
 var Match = React.createClass({
   componentDidMount: function() {
-    this.props.dispatch(actions.clearMatches());
     this.props.dispatch(actions.setDate(this.props.date));
-    this.props.dispatch(actions.getAllHosts());
     this.props.getAllVisitors();
     if(this.props.matches.isFetching){
       this.refs.button.loading();
