@@ -3,7 +3,6 @@ var Host = require('../database/models/Host');
 var Visitor = require('../database/models/Visitor');
 var Availability = require('../database/models/Availability');
 var async = require('async');
-var moment = require('moment');
 
 var router = new Router();
 
@@ -22,11 +21,6 @@ router.get('/exception-date', function(req, res, next) {
         if (err) return next(err);
         if (!foundHost) return next(new Error('the host does not exist'));
         host = foundHost;
-        host.MatchInfo.matches = host.MatchInfo.matches.filter(match => {
-          return !(moment(match.date).isSame(date, 'day'));
-        });
-        host.save()
-        console.log(host.MatchInfo.matches);
         next();
       });
     },

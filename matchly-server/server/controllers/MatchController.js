@@ -385,10 +385,10 @@ submitvisitors: function(req, res, next) {
           Visitor.create(visitor, cb);
         }, function(err, results, three){
           if(err){
-            res.status(401).send(err);
-            console.log(err);
+            return res.status(401).send(err);
+          }else {
+          return res.json(results);
           }
-          res.json(results);
       });
     });
 
