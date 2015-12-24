@@ -23,8 +23,10 @@ class ClassNumberSelector extends React.Component {
           <ul>
             {this.props.finished.data.map( (vis, index) => {
              return (
-                   <li className="col-xs-8 col-sm-4 col-sm-offset-4">
+                   <li>
+                    <div className="col-xs-8 col-sm-4 col-sm-offset-4">
                      {vis.First} {vis.Last} {vis['Class Visit Time']}
+                     </div>
                      <Selector
                       className="col-xs-4 col-sm-4"
                        select={(option) => {
