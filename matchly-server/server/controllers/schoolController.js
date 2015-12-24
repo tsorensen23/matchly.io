@@ -121,7 +121,6 @@ module.exports.addAlias = function(req, res, next) {
 
 module.exports.middleWare = function(req, res, next) {
   if (true) {
-    console.log('TODO: implement schoolcodes');
     if (!req.crudExtra) req.crudExtra = {};
     return next();
   }

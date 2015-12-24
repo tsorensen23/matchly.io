@@ -133,7 +133,6 @@ module.exports = {
         };
         mongoose.model('donematches').findOne({date: date }, function(err, data){
           if(err) throw err;
-          console.log(data);
           if(!data){
             mongoose.model('donematches').create({date: date, data: schmuck}, function(err, data){
               if(err){
