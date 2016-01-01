@@ -10,14 +10,11 @@ export function checkAllSchoolsandEmployers() {
     }).then(resp => 
       resp.json()
     ).then(json => {
-      console.log('checkschools json', json);
       // {schools: bool, employers: bool}
       if(!json.schools){
-        console.log('getting all schools');
         dispatch(getAllSchools());
       }
       if(!json.employers){
-        console.log('getting all employers');
         dispatch(getAllEmployers());
       }
     });
