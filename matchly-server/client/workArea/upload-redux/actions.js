@@ -1,6 +1,28 @@
 import fetch from 'isomorphic-fetch';
 import mpath from 'mpath';
 import {pushPath} from 'redux-simple-router';
+export function checkAllSchoolsandEmployers() {
+  return function(dispatch, getState){
+    const numSchools = getState().allSchools.data.length;
+    const numEmployers = getState().allEmployers.data.length;
+    fetch(`${process.env.URL}/checklengths?schools=${numSchools}&employers=${numEmployers}`, {
+      credentials: 'same-origin'
+    }).then(resp => 
+      resp.json()
+    ).then(json => {
+      console.log('checkschools json', json);
+      // {schools: bool, employers: bool}
+      if(!json.schools){
+        console.log('getting all schools');
+        dispatch(getAllSchools());
+      }
+      if(!json.employers){
+        console.log('getting all employers');
+        dispatch(getAllEmployers());
+      }
+    });
+  }
+}
 
 export function startUpload(){
   return { type: 'START_UPLOAD' };

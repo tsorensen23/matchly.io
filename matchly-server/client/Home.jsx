@@ -4,13 +4,13 @@ var React = require('react');
 
 import { connect } from 'react-redux';
 var Link = require('react-router').Link;
-import { fetchHeaders, getAllSchools, getAllEmployers } from './workArea/upload-redux/actions';
+import { fetchHeaders, getAllSchools, getAllEmployers, checkAllSchoolsandEmployers } from './workArea/upload-redux/actions';
+import DevTools from './home/devTools';
 
 var Home = React.createClass({
   componentDidMount: function() {
     this.props.dispatch(fetchHeaders());
-    this.props.dispatch(getAllSchools());
-    this.props.dispatch(getAllEmployers());
+    this.props.dispatch(checkAllSchoolsandEmployers());
   },
   render: function() {
     return (
@@ -60,7 +60,10 @@ var Home = React.createClass({
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-4">
+           <DevTools/ >
+          </div>
+          <div className="col-xs-8">
             <div id="workArea">
               <div id="workBox">
                 {this.props.children}

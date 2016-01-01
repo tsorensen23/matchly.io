@@ -111,6 +111,19 @@ app.get('/schoolaliases', function(req, res, next){
   res.json(data);
   })
 })
+app.get('/checklengths', function(req, res){
+  db.School.count(function(err, numschools){
+    db.Employer.count(function(err, numemployers) {
+      console.log(req.query);
+      res.json({
+        schools: req.query.schools == numschools,
+        employers: req.query.employers == numemployers
+      });
+    })
+  })
+})
+
+
 
 app.get('/currentmatches', currentmatches.get);
 app.use('/hosts', schoolController.middleWare, require('./controllers/hostController'));

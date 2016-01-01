@@ -1,7 +1,7 @@
 var ReactDOM = require('react-dom');
 var React = require('react');
 
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 
 
 import { Provider } from 'react-redux'
@@ -12,6 +12,8 @@ var Available = require('../workArea/availability/index.js');
 var Upload = require('../workArea/upload-redux/index.js');
 var Calendar = require('../workArea/calendar/calendar.jsx');
 import Binary from '../workArea/binary/binary';
+
+
 
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
