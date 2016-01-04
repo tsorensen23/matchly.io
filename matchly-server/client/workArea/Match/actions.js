@@ -61,6 +61,9 @@ function receiveMatches(data) {
   return { type: 'RECEIVE_MATCHES', data};
 }
 function notEnoughSpots(error){
+  error.lecture1Spots = Math.max(0, error.lecture1Spots);
+  error.lecture2Spots = Math.max(0, error.lecture2Spots);
+  error.lecture3Spots = Math.max(0, error.lecture3Spots);
   alert(`Sorry you were missing ${error.lecture1Spots} in lecture 1, ${error.lecture2Spots} in lecture 2, and ${error.lecture3Spots} in lecture 3`);
   return { type: 'NOT_ENOUGH_SPOTS', error}
 }
