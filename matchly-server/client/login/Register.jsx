@@ -103,7 +103,7 @@ var Register = React.createClass({
                 <h3>Password:
                   <input
                     id='password'
-                    type='text'
+                    type='password'
                     style={{float: 'right'}}
                     required
                   />
@@ -113,7 +113,7 @@ var Register = React.createClass({
                 <h3>Confirm Password:
                   <input
                     id='confirmPassword'
-                    type='text'
+                    type='password'
                     style={{float: 'right'}}
                     required
                   />

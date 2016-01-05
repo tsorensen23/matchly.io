@@ -311,7 +311,7 @@ export function startUpload(){
   return { type: 'START_UPLOAD'};
 }
 
-export function uploadData(){
+export function uploadData(url, cb){
   return function(dispatch, getState){
     var url = getState().hostsOrVisitors ? '/hosts' : '/visitors';
     dispatch(startUpload());
@@ -337,7 +337,8 @@ export function uploadData(){
         dispatch(pushPath('/classnumber'));
         dispatch(errorUpload(resp.status))
       } else {
-         dispatch(successUpload())
+         cb();
+         dispatch(successUpload());
       }
     });
   };

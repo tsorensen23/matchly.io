@@ -85,11 +85,10 @@ export default class App extends React.Component{
               dispatch(setDate(this.state.date));
               var url = this.props.hostsOrVisitors ? 'hosts' : 'visitors';
               if(this.props.finished.ready){
-                dispatch(uploadData(url));
-                window.setTimeout(function() {
+                dispatch(uploadData(url, function() {
                   this.refs.button.success();
                   this.props.history.pushState(null, '/calendar');
-                }.bind(this), 1 * 1000)
+                }));
                 this.refs.button.loading();
               } else {
                 dispatch(pushPath('/binary'));
