@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var connect;
-mongoose.connect(process.env.MONGO_URI || 'mongodb://travis:abc123@ds041188.mongolab.com:41188/finalproject');
+mongoose.connect(process.env.MONGO_URI || 'mongodb://admin:nala&mars@ds039155.mongolab.com:39155/matchly');
 mongoose.connection.on('error', function(err) {
   console.error('connection error ', err);
 
