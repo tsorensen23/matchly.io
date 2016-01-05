@@ -315,7 +315,6 @@ submitvisitors: function(req, res, next) {
 
       visitTimes = _.uniq(visitTimes);
       // this case handles if there is no 8am and the first visit time needs to be 9am
-      console.log(visitTimes);
       if (visitTimes[0] < 9 && visitTimes[0] != 8) {
         visitTimes.unshift('0');
       }
@@ -327,13 +326,10 @@ submitvisitors: function(req, res, next) {
       if (visitTimes[0] < 9 && visitTimes[1] >= 11) {
         visitTimes = [visitTimes[0], 'hiJenna', visitTimes[1]];
       }
-      console.log(visitTimes);
       visitors = visitors.map(function(visitor, i) {
         visitor.MatchInfo.classVisitNumber =
           (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
-          console.log(visitor.MatchInfo.classVisitNumber, '<~ classVisitNumber');
         visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
-        console.log(visitor.MatchInfo.classVisitNumber, '<~ visitor');
         return visitor;
       });
   //Class visit time catch
