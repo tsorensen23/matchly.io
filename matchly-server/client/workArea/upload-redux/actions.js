@@ -302,7 +302,6 @@ function successUpload() {
   return { type: 'SUCCESS_DATA_UPLOAD' };
 }
 function errorUpload(err){
-  alert('Sorry there was a problem with your data upload please fix the problems indicated and try again');
   return { type: 'ERROR_UPLOAD', err };
 }
 export function setDate(date){

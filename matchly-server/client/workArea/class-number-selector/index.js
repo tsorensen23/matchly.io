@@ -18,13 +18,18 @@ class ClassNumberSelector extends React.Component {
     // var finished = this.props.finished;
 
     return (
-        <div className="col-xs-12">
-        <h3> Your lecture numbers were invalid please select the proper lectures</h3>
+        <div className="col-xs-12 text-center">
+        <h3>
+          We found some invalid Class Visit Times
+        </h3>
+        <p className="lead">
+          Please select the proper lecture numbers for each visitor from the list below or fix your dataset and reupload.
+        </p>
           <ul>
             {this.props.finished.data.map( (vis, index) => {
              return (
                    <li>
-                    <div className="col-xs-8 col-sm-4 col-sm-offset-4">
+                    <div className="text-left col-xs-8 col-sm-4 col-sm-offset-2">
                      {vis.First} {vis.Last} {vis['Class Visit Time']}
                      </div>
                      <Selector
@@ -39,6 +44,7 @@ class ClassNumberSelector extends React.Component {
             }
           </ul>
           <button
+            className="btn btn-lg btn-success"
             onClick={() => {
               dispatch(uploadData());
               dispatch(pushPath('calendar'));

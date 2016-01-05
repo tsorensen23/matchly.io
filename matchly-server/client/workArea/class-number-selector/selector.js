@@ -4,6 +4,9 @@ export default class Selector extends React.Component {
   render() {
     return (
     <select
+      style={{
+        width: 100
+      }}
       onChange={(e) => {
               this.props.select(e.target.value);
       }}
