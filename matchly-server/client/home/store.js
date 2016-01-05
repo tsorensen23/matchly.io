@@ -3,7 +3,6 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducers from './reducers';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
-import { devTools, persistState } from 'redux-devtools';
 import createBrowserHistory from 'history/lib/createHashHistory';
 
 const reducer = combineReducers(Object.assign({}, reducers, {
