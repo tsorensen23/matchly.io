@@ -64,6 +64,7 @@ app.get('/logout', userController.logout);
 app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/userLogin', userController.checkLogin);
 app.use('/assets', express.static(__dirname + './../assets'));
+app.post('/registerUser', userController.registerUser);
 app.use(function(req, res, next) {
   if (process.env.NODE_ENV != 'DEVELOPMENT') {
     if (!req.user) {
@@ -75,7 +76,6 @@ app.use(function(req, res, next) {
 
 app.use('/', stdUIController('home'));
 app.post('/checkLogin', userController.cookieCheck);
-app.post('/registerUser', userController.registerUser);
 app.post('/submithosts', matchController.submithosts);
 app.post('/submitvisitors', matchController.submitvisitors);
 app.post('/availability', matchController.availability);
