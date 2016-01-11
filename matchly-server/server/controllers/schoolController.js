@@ -1,5 +1,6 @@
 var Fuzzy = require('../database/models/Fuzzy/Synchronous');
 var db = require('../database/db');
+var mpath = require('mpath');
 
 //var Full = require('../database/models/Fuzzy/Full');
 //var Alias = require('../database/models/Fuzzy/Alias');
@@ -10,60 +11,51 @@ var Alias = db.Alias;
 module.exports.checkAlias = function(req, res, next) {
 
   // response will be a JSON object with the string the user wrote, and the mapping that we have, if its null then no watch was found and ask user to input a new school
-  var output = {};
-  async.each(req.body.names, function(v, next) {
-    Alias.findOne({value: v}, function(err, alias) {
-      if (err) {
-        return next(err);
+  //
+  //
+  // Find if the name is an alias
+  // if (!alias) check if it is a school name
+  // if (!schoolName) create a new alias with no school id
+  // if (schoolName) create a new alias with that schools id
+  // if (alias) return that alias's school name
+  //
+  Promise.all(req.body.names.map(name => {
+    return Alias.findOne({value: name}).exec()
+        .then(alias => {
+          if (!alias) {
+            return School.findOne({name: name}).exec()
+              .then(school => {
+                if (!school) {
+                  return Alias.create({value: name})
+                }
+                return Alias.create({value: name, schoolId: [school]})
+              })
+          }
+          return alias
+        }).then(alias => {
+          if (alias.schoolId.length) {
+            return School.find({_id: {$in: alias.schoolId}}).exec()
+              .then(schools => {
+                var obj = {}
+                var schoolNames = mpath.get('name', schools)
+                obj[name] = schoolNames.length > 1 ? schoolNames : schoolNames[0]
+                return obj
+              })
+          }
+          var obj = {}
+          obj[name] = null
+          return obj
+        })
+  })).then(finished => {
+    var output = finished.reduce((prev, curr) => {
+      for (var prop in curr) {
+        prev[prop] = curr[prop]
       }
-
-      if (!alias) {
-        output[v] = null;
-        return School.findOne({name: v}, function(err, school) {
-          if (err) return next(err);
-          if (!school) return next();
-          output[v] = school.name;
-          Alias.create({value: v, schoolId: [school]}, next);
-        });
-      }
-
-      School.find({_id: {$in: alias.schoolId}}, function(err, schools) {
-        if (err) {
-          return next(err);
-        }
-
-        if (schools.length === 1) {
-          output[v] = schools[0].name;
-        } else if (schools.length > 1) {
-          output[v] = schools.map(function(s) { return s.name; });
-        }else if (schools.length === 0) {
-          output[v] = null;
-        }
-
-        next();
-      });
-    });
-  }, function(error) {
-
-    if (error) {
-      return next(error);
-    }
-
-    res.json(output);
-  });
-
-  //  async.map(req.body.names, function(item, next)  {
-  //  Alias.find({value:item}, function(err, doc) {
-  //  if(err) return next(err);
-  //  if(doc) return next(null, doc);
-  //  next();
-  //  });
-  //  },function(err,mapped) {
-  //  if(err) return next(err);
-  //  res.send(mapped);
-  //  });
-
-};
+      return prev
+    }, {})
+    res.json(output)
+  }).catch(next)
+}
 
 module.exports.schoolMatch = function(req, res, next) {
 
