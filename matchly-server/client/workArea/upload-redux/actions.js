@@ -273,7 +273,7 @@ export function addNewAlias(alias, trueValue, employerBool){
     var url = employerBool ? 'employerMatch' : 'schoolMatch';
     var body = {
       alias: alias,
-      trueValue: trueValue.value
+      trueValue: trueValue
     };
     return fetch(url, {
       method: 'POST',
