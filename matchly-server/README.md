@@ -6,8 +6,8 @@ A full scale javascript application that creates a dynamic intuitive user interf
 
 * Running tests, `npm  test`
 * continually run tests `npm run-script test:watch`
-* Start local server `npm run-script start-dev`
-* Build assets for deploy `npm run-script build-assets`
+* Start local server `npm run start-dev`
+* Build assets for deploy `npm run build-assets`
 
 ##Further Steps
  Test coverage for actions and reducers is quite low and this needs to be improved before we transfer functionality over to troopa.

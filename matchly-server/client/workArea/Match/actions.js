@@ -146,7 +146,6 @@ function receiveCurrMatches(data, date) {
 }
 
 export function getAllCurrMatches() {
-  console.log('matchesFUNC');
   return function(dispatch, getState){
     dispatch(requestCurrMatches());
     var date = getState().matches.date;

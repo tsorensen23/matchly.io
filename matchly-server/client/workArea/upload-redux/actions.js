@@ -58,8 +58,8 @@ export function finish(){
         dropKeys.push(dataPoint.key);
       }
     });
-    dispatch(changeKeys(changeKeysArray));
     dispatch(removeDataPoints(dropKeys));
+    dispatch(changeKeys(changeKeysArray));
     dispatch(finishChangingKeys(getState().data));
     // dispatch(setHeadersGivenToNeeded());
   }
