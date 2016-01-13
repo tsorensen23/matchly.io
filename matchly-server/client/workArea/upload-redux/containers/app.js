@@ -79,6 +79,7 @@ export default class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
+          { !this.props.hostsOrVisitors && (
             <div className="row" >
               <div className="col-xs-offset-4 col-xs-4">
                 <select 
@@ -93,6 +94,7 @@ export default class App extends React.Component{
                 </select>
               </div>
             </div>
+            )}
           <ProgressButton
             ref='button'
             className="btn btn-primary"
