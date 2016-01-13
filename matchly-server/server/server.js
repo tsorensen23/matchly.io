@@ -13,6 +13,7 @@ var crudController = require('./controllers/crudController');
 var employerController = require('./controllers/employerController');
 var stdUIController = require('./controllers/stdUIController');
 var path = require('path');
+var VisitorController = require('./controllers/visitorController');
 var Employer = require('./database/db').Employer;
 var db = require('./database/db');
 var calendarController = require('./controllers/calendarController');
@@ -95,15 +96,16 @@ app.post('/employers', employerController.createEmployer);
 //  });
 //
 //});
-app.get('/visitors', matchController.getVisitorsByDate);
+app.get('/visitors', VisitorController.getVisitorsByDate);
+app.post('/visitors', schoolController.middleWare, VisitorController.submitvisitors);
 app.post('/checkemployers', employerController.checkMatch);
 app.post('/employermatch', employerController.employerMatch);
+
+app.post('/hosts', schoolController.middleWare, matchController.submithosts);
 
 app.post('/checkschools', schoolController.checkAlias);
 app.post('/schoolmatch', schoolController.schoolMatch);
 app.get('/schools', schoolController.getSchools);
-app.post('/hosts', schoolController.middleWare, matchController.submithosts);
-app.post('/visitors', schoolController.middleWare, matchController.submitvisitors);
 app.get('/calendar', calendarController.getDates);
 app.get('/schoolaliases', function(req, res, next){
   db.Alias.find({}, function(err, data){

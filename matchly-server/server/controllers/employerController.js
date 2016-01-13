@@ -1,43 +1,46 @@
 var EmployerAlias = require('../database/db').EmployerAlias;
 var Employer = require('../database/db').Employer;
 var async = require('async');
+var mpath = require('mpath');
 module.exports.checkMatch = function(req, res, next) {
-  var output = {};
-  async.each(req.body.employers, function(v, next) {
-    EmployerAlias.findOne({value: v}, function(err, alias) {
-      if(err){
-       return next(err);
+  Promise.all(req.body.employers.map(name => {
+    return EmployerAlias.findOne({value: name }).exec()
+        .then(alias => {
+          if(!alias) {
+            return Employer.findOne({name: name}).exec()
+              .then(employer => {
+                if (!employer){
+                  return EmployerAlias.create({value: name})
+                }
+                return EmployerAlias.create({value: name, employerIDs: [employer]})
+              })
+          }
+          return alias;
+        }).then(alias => {
+          if(alias.employerIDs.length){
+            return Employer.find({_id: {$in: alias.employerIDs}}).exec()
+              .then(employers => {
+                var obj = {}
+                var employerNames = mpath.get('name', employers)
+                obj[name] = employerNames.length > 1 ? employerNames : employerNames[0]
+                return obj
+              })
+          }
+          var obj = {}
+          obj[name] = null
+          return obj
+        })
+  })).then(finished => {
+    var output = finished.reduce(function(prev, curr) {
+      for(var prop in curr){
+        prev[prop] = curr[prop]
       }
-      if (!alias) {
-        output[v] = null;
-        return Employer.findOne({name: v}, function(err, employer) {
-          if (err) return next(err);
-          if (!employer) return next();
-          output[v] = employer.name;
-          EmployerAlias.create({value: v, employerIDs: [employer]}, next);
-        });
-      }
-      Employer.find({_id: {$in: alias.employerIDs}}, function(err, employers) {
-        if (err) {
-          return next(err);
-        }
+      return prev
+    }, {})
+    res.json(output)
 
-        if (employers.length === 1) {
-          output[v] = employers[0].name;
-        } else if (employers.length > 1) {
-          output[v] = employers.map(function(s) { return s.name; });
-        }else if (employers.length === 0) {
-          output[v] = null;
-        }
-        next();
-      });
-    });
-  }, function(error) {
-    if (error) {
-      return next(error);
-    }
-    res.json(output);
-    });
+  }).catch(next)
+
 };
 module.exports.getEmployers = function(req, res, next) {
   Employer.find({}, function(err, data) {

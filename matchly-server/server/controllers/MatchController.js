@@ -361,9 +361,12 @@ submitvisitors: function(req, res, next) {
             EmployerAlias.find({value: employer}, function(err, data){
               if(err) return cb(err)
                 if(data.length === 0) return cb(null, visitor);
+              console.log(data);
                 Employer.findById(data[0].employerIDs[0], function(err, data){
                   if(err) return cb(err);
+                  if(data) {
                     visitor.Characteristics.Employer = data.name;
+                  }
                     return cb(null, visitor);
                 });
             });
@@ -379,7 +382,9 @@ submitvisitors: function(req, res, next) {
                     if(!data) return cb(null, visitor);
                     School.findById(data.schoolId[0], function(err, data){
                       if(err) return cb(err);
+                      if(data){
                         visitor.Characteristics.Undergrad = data.name;
+                      }
                         return cb(null, visitor);
                     });
                 });
