@@ -54,7 +54,6 @@
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .has-value > .Select-control > .Select-placeholder {
   color: #333333;
@@ -69,7 +68,6 @@
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .has-value > .Select-control > .Select-value {
   color: #333333;
@@ -166,7 +164,7 @@
   max-height: 200px;
   position: absolute;
   top: 100%;
-  width: 100%;
+  width: 140%;
   z-index: 1000;
   -webkit-overflow-scrolling: touch;
 }

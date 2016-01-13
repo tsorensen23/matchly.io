@@ -129,7 +129,7 @@ a.has-match:hover {
   display: block;
   text-align: center;
   width: 250px;
-  margin: 10px auto 40px;
+  margin: 10px auto 100px;
 }
 .pb-container .pb-button {
   background: rgba(60, 124, 60, 1);

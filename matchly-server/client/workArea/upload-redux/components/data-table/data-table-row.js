@@ -5,7 +5,7 @@ class DataTableRow extends React.Component {
   render() {
     const { visitor } = this.props;
     return (
-      <div className="col-xs-12">
+      <div className="row">
         {Object.keys(visitor).map((key, index) =>
           (<DataCell
             className="col-xs-1"
