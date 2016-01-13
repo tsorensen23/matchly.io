@@ -5,9 +5,6 @@ import reducers from './reducers';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import createBrowserHistory from 'history/lib/createHashHistory';
 
-const reducer = combineReducers(Object.assign({}, reducers, {
-}));
-
 const loggerMiddleware = createLogger();
 const createStoreWithMiddleware = compose(
     applyMiddleware(thunkMiddleware)
