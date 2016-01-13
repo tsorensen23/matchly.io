@@ -1,6 +1,7 @@
 var Fuzzy = require('../database/models/Fuzzy/Synchronous');
 var db = require('../database/db');
 var mpath = require('mpath');
+var Promise = require('bluebird');
 
 //var Full = require('../database/models/Fuzzy/Full');
 //var Alias = require('../database/models/Fuzzy/Alias');
@@ -19,7 +20,7 @@ module.exports.checkAlias = function(req, res, next) {
   // if (schoolName) create a new alias with that schools id
   // if (alias) return that alias's school name
   //
-  Promise.all(req.body.names.map(name => {
+  Promise.map(req.body.names, name => {
     return Alias.findOne({value: name}).exec()
         .then(alias => {
           if (!alias) {
@@ -46,7 +47,7 @@ module.exports.checkAlias = function(req, res, next) {
           obj[name] = null
           return obj
         })
-  })).then(finished => {
+  }).then(finished => {
     var output = finished.reduce((prev, curr) => {
       for (var prop in curr) {
         prev[prop] = curr[prop]
