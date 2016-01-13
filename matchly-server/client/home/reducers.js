@@ -15,6 +15,7 @@ import schoolMatches from './reducers/school-match-reducer';
 import calendar from './reducers/calendar-reducer';
 import upload from './reducers/upload-reducer';
 import availability from './reducers/availability-reducer';
+import twoSlots from './reducers/two-slot-reducer';
 export default combineReducers({
   routing: routeReducer,
   hostsOrVisitors,
@@ -25,6 +26,7 @@ export default combineReducers({
   availability,
   allEmployers,
   data,
+  twoSlots,
   finished,
   headers,
   hosts,
