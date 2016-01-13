@@ -79,15 +79,20 @@ export default class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
-            <select 
-              onChange={(e) =>{
-                dispatch(changeSlots(e.target.value))
-              }}
-            name="twoSlots"
-            >
-              <option value="threeSlots">Three Slots</option>
-              <option value="twoSlots">Two Slots</option>
-            </select>
+            <div className="row" >
+              <div className="col-xs-offset-4 col-xs-4">
+                <select 
+                  className="form-control"
+                  onChange={(e) =>{
+                    dispatch(changeSlots(e.target.value))
+                  }}
+                name="twoSlots"
+                >
+                  <option value="threeSlots">Three Slots</option>
+                  <option value="twoSlots">Two Slots</option>
+                </select>
+              </div>
+            </div>
           <ProgressButton
             ref='button'
             className="btn btn-primary"

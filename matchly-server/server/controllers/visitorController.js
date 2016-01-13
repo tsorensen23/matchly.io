@@ -133,12 +133,14 @@ exports.submitvisitors = function(req, res, next) {
             EmployerAlias.find({value: employer}, function(err, data){
               if(err) return cb(err)
                 if(data.length === 0) return cb(null, visitor);
-              console.log(data);
               Employer.findById(data[0].employerIDs[0], function(err, data){
                 if(err) return cb(err);
                 if(data) {
                   visitor.Characteristics.Employer = data.name;
+                } else {
+                  visitor.Characteristics.Employer = '';
                 }
+
                 return cb(null, visitor);
               });
             });
@@ -156,6 +158,8 @@ exports.submitvisitors = function(req, res, next) {
                 if(err) return cb(err);
                 if(data){
                   visitor.Characteristics.Undergrad = data.name;
+                } else {
+                  visitor.Characteristics.Undergrad = '';
                 }
                 return cb(null, visitor);
               });
