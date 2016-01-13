@@ -337,8 +337,8 @@ export function uploadData(url, cb){
         dispatch(pushPath('/classnumber'));
         dispatch(errorUpload(resp.status))
       } else {
-         cb();
          dispatch(successUpload());
+         cb();
       }
     });
   };
