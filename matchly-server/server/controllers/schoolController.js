@@ -63,40 +63,28 @@ module.exports.checkAlias = function(req, res, next) {
 
 module.exports.schoolMatch = function(req, res, next) {
 
+  Alias.findOne({value: req.body.alias})
+    .then(alias => {
+      if (alias){
+        return alias
+      }
+      return Alias.create({value: req.body.alias})
+    }).then(alias => {
+      return School.findOne({name: req.body.trueValue}).then(school => {
+        if(!school){
+          return School.create({name: req.body.trueValue})
+        }
+        return school
+      }).then(school => {
+        alias.schoolId.push(school.id);
+        return alias.save()
+      })
+    }).then(alias => {
+      console.log(alias);
+      return res.json({alias: alias, employerName: req.body.trueValue})
+    })
   // obj comes is an { alias: String, schoolname: String }
   // find or create an alias for the alias, and set its schoolId to the id of the schoolname.
-  Alias.findOne({value: req.body.alias}, function(err, alias) {
-    if (err) {
-      return next(err);
-    }
-
-    if (!alias || alias.length === 0) {
-      alias = new Alias({value: req.body.alias});
-    }
-
-    School.findOne({name: req.body.trueValue}, function(err, school) {
-      if (err) {
-        return next(err);
-      }
-      if(school){
-        if (alias.schoolId.indexOf(school.id) === -1){
-          alias.schoolId.push(school.id);
-          alias.save();
-          res.json({alias: alias, schoolname: school.name});
-        }
-      } else {
-        School.create({name: req.body.trueValue}, function(err, school){
-          if(err){
-            return next(err);
-          }
-          alias.schoolId.push(school.id);
-          alias.save();
-        res.json({alias: alias, schoolname: school.name});
-        })
-      }
-    });
-
-  });
 };
 
 module.exports.getSchools = function(req, res, next) {

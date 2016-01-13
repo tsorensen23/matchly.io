@@ -61,15 +61,24 @@ module.exports.createEmployer = function(req, res, next) {
 // {"alias":"Nielsen","school":"Nielsen"}
 module.exports.employerMatch = function(req, res, next) {
   // find if the alias has  match
-  Employer.findOne({name: req.body.trueValue})
-    .then(employer => {
-      if (employer){
-        return employer
+  EmployerAlias.findOne({value: req.body.alias})
+    .then(alias => {
+      if (alias){
+        return alias
       }
-      return Employer.create({name: req.body.trueValue})
-    }).then(employer => {
-      return EmployerAlias.create({value: req.body.alias, employerIDs: [employer.id]})
+      return EmployerAlias.create({value: req.body.alias})
     }).then(alias => {
+      return Employer.findOne({name: req.body.trueValue}).then(employer => {
+        if(!employer){
+          return Employer.create({name: req.body.trueValue})
+        }
+        return employer
+      }).then(employer => {
+        alias.employerIDs.push(employer.id);
+        return alias.save()
+      })
+    }).then(alias => {
+      console.log(alias);
       return res.json({alias: alias, employerName: req.body.trueValue})
     })
 }
