@@ -3,6 +3,7 @@ var db = require('../database/db');
 var mpath = require('mpath');
 var Promise = require('bluebird');
 
+var _ = require('lodash');
 //var Full = require('../database/models/Fuzzy/Full');
 //var Alias = require('../database/models/Fuzzy/Alias');
 var async = require('async');
@@ -20,6 +21,8 @@ module.exports.checkAlias = function(req, res, next) {
   // if (schoolName) create a new alias with that schools id
   // if (alias) return that alias's school name
   //
+  
+  req.body.names = _.uniq(req.body.names)
   Promise.map(req.body.names, name => {
     return Alias.findOne({value: name}).exec()
         .then(alias => {
