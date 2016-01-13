@@ -27,10 +27,11 @@ exports.getVisitorsByDate = function(req, res, next){
 
 };
 exports.submitvisitors = function(req, res, next) {
+  console.log(req.body);
   var hasClassVisitNums = req.body.visitors.every(function(visitor){
     return visitor.hasOwnProperty('classVisitNumber')
   });
-  var visitors = req.body.map(function(visitor){
+  var visitors = req.body.visitors.map(function(visitor){
     return visitorControllerHelpers.newVisitors(visitor, hasClassVisitNums)
   });
   if(!hasClassVisitNums) {
