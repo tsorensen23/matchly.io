@@ -173,12 +173,14 @@ export function getAllCurrMatches() {
           var visitorIndex = visitorIDs.indexOf(dp.visitor);
           var visitor = visitors[visitorIndex];
           var matchedOn = dp.matchedOn;
+          var score = dp.count;
           var row = Object.assign({}, matchedOn, {
             hostEmail: host.Contact.Email,
             hostFirstName: host.Contact.First,
             hostLastName: host.Contact.Last,
             hostName: host.Contact.First + ' ' + host.Contact.Last,
             section: host.MatchInfo.Section,
+            score:  score,
             visitTime: visitor.MatchInfo["Class Visit Time"],
             visitorFirstName: visitor.Contact.First,
             visitorLastName: visitor.Contact.Last,
