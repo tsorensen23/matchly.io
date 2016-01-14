@@ -1,19 +1,21 @@
-var db = require('../database/db');
 var mongoose = require('mongoose');
-var Visitor = db.Visitor;
-var Host = db.Host;
-var Availability = db.Availability;
-var headers = require('../database/headersModel.js');
-var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
-var School = db.School;
-var moment = require('moment');
 var _ = require('lodash');
+var async = require('async');
+var moment = require('moment');
+var mpath = require('mpath');
+
+var Rumble = require('./../../matchingAlgorithm/algorithm3.js');
+var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js');
+var db = require('../database/db');
+var headers = require('../database/headersModel.js');
+
 var Alias = db.Alias;
+var Availability = db.Availability;
 var Employer = db.Employer;
 var EmployerAlias = db.EmployerAlias;
-var async = require('async');
-var mpath = require('mpath');
-var availabilityCheck = require('./../../matchingAlgorithm/availabilityCheck.js');
+var Host = db.Host;
+var School = db.School;
+var Visitor = db.Visitor;
 
 module.exports = {
   getVisitorsByDate: function(req, res, next){

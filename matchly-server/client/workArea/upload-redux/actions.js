@@ -2,6 +2,9 @@ import fetch from 'isomorphic-fetch';
 import mpath from 'mpath';
 import {pushPath} from 'redux-simple-router';
 
+export function changeSlots(value){
+  return {type: 'CHANGE_SLOTS', value }
+}
 export function startUpload(){
   return { type: 'START_UPLOAD' };
 }
@@ -323,6 +326,14 @@ export function uploadData(url, cb){
         return person[key] !== ' ';
       });
     });
+    console.log(getState().twoSlots);
+    if(url == '/visitors'){
+      body = {
+        visitors: body,
+        twoSlot: getState().twoSlots
+      }
+    }
+      
     //TODO take this out when the date box works
     return fetch(process.env.URL + url, {
       method: 'POST',

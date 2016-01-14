@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import ReadableFile from '../components/readable-file';
 import {
+  changeSlots,
   startUpload,
   setDate,
   getEmployers,
@@ -78,6 +79,22 @@ export default class App extends React.Component{
               dispatch(changeValue(key, oldValue, newValue));
             }}
           />
+          { !this.props.hostsOrVisitors && (
+            <div className="row" >
+              <div className="col-xs-offset-4 col-xs-4">
+                <select 
+                  className="form-control"
+                  onChange={(e) =>{
+                    dispatch(changeSlots(e.target.value))
+                  }}
+                name="twoSlots"
+                >
+                  <option value="threeSlots">Three Slots</option>
+                  <option value="twoSlots">Two Slots</option>
+                </select>
+              </div>
+            </div>
+            )}
           <ProgressButton
             ref='button'
             className="btn btn-primary"
