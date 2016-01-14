@@ -27,7 +27,6 @@ exports.getVisitorsByDate = function(req, res, next){
 
 };
 exports.submitvisitors = function(req, res, next) {
-  console.log(req.body);
   var hasClassVisitNums = req.body.visitors.every(function(visitor){
     return visitor.hasOwnProperty('classVisitNumber')
   });
@@ -37,8 +36,7 @@ exports.submitvisitors = function(req, res, next) {
   if(!hasClassVisitNums) {
     var visitTimes = visitorControllerHelpers.visitTimes(visitors, req.body.twoSlot)
     visitors = visitors.map(function(visitor, i) {
-      visitor.MatchInfo.classVisitNumber =
-        (visitor.MatchInfo['Class Visit Time'].substr(0,1) < 1 || visitor.MatchInfo['Class Visit Time'].substr(0,1) > 1) ? 1 : visitTimes.indexOf(visitor.MatchInfo['Class Visit Time'].substr(0,2)) + 1;
+      visitor.MatchInfo.classVisitNumber = visitTimes.indexOf(visitor.MatchInfo.time.substr(0,2)) + 1;
       visitor.MatchInfo.visitDate = new Date(Date.parse(visitor.MatchInfo.visitDate)).getTime();
       return visitor;
     });

@@ -20,6 +20,7 @@ exports.newVisitors = function(visitor, hasClassVisitNums){
   };
   newVis.MatchInfo = {
     'Class Visit Time': visitor['Class Visit Time'],
+    time: standardizeTime(visitor['Class Visit Time']),
     visitDate: visitor.visitDate
   };
   if(hasClassVisitNums){
@@ -38,3 +39,14 @@ exports.visitTimes = function (visitors, twoSlot) {
 
   return visitTimes;
 };
+
+function standardizeTime (time) {
+  time = time.match(/[0-9]+/g).join('');
+  if (time[0] > 1) {
+    time = '0' + time;
+  }
+  if (time.length == 2) {
+    time += '00'
+  }
+  return time
+}
