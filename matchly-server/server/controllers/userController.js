@@ -5,6 +5,7 @@ var bcrypt = require('bcrypt-nodejs');
 var cookieParser = require('cookie-parser');
 var Hat = require('hat');
 var moment = require('moment');
+var mongoose = require('mongoose');
 
 
 module.exports = {
@@ -57,9 +58,9 @@ module.exports = {
         }
       });
     Visitors.find({'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}).remove(function(err, data){
-
-      res.json(data);
-
+      mongoose.model('donematches').find({date: { $lte: endDate, $gte: startDate}}).remove(function(err, data){
+        res.json(data);
+      })
     });
     })
   },
