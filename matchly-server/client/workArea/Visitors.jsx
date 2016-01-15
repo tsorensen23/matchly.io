@@ -19,7 +19,7 @@ var Visitor = React.createClass({
           {this.props.visitor.visitTime + ' ' + this.props.visitor.section}
         </td>
         <td className="text-center">
-          {this.props.visitor.matchCount}
+          {this.props.visitor.score}
         </td>
         <td className="text-center">
           { this.props.visitor.Citizenship ? <span className="glyphicon glyphicon-ok"></span> : '' }
