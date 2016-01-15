@@ -1,0 +1,5 @@
+::ffff:54.183.191.120 - - [31/Dec/2015:10:27:42 +0000] "GET / HTTP/1.0" 302 28 "-" "Mozilla/5.0 (Windows NT 6.3; rv:36.0 Gecko/20100101 Firefox/36.0"
+::ffff:66.249.84.108 - - [31/Dec/2015:18:00:20 +0000] "GET /login HTTP/1.1" 200 705 "-" "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20110814 Firefox/6.0 Google Favicon"
+::ffff:182.118.54.76 - - [31/Dec/2015:19:16:36 +0000] "GET / HTTP/1.1" 302 28 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2251.0 Safari/537.36"
+::ffff:182.118.54.76 - - [31/Dec/2015:19:16:37 +0000] "GET /login HTTP/1.1" 200 705 "http://45.55.51.249" "Go 1.1 package http"
+::ffff:216.18.231.50 - - [01/Jan/2016:00:07:19 +0000] "GET //phpmyadmin/scripts/setup.php HTTP/1.1" 302 28 "-" "-"
