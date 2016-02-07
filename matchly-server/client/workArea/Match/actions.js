@@ -155,23 +155,9 @@ export function getAllCurrMatches() {
       resp.json()
     ).then(json => {
       if(json){
-        var currHosts = json;
-        var currHostIdList = currHosts.data.map(function(i) {
-          return i.host;
-        });
-        var hosts = getState().hosts.data;
-        var hostIDs = hosts.map(function(i) {
-          return i._id;
-        });
-        var visitors = getState().visitors.data;
-        var visitorIDs = visitors.map(visitor =>
-            visitor._id
-        )
         var stuff = json.data.map(dp => {
-          var hostIndex = hostIDs.indexOf(dp.host);
-          var host = hosts[hostIndex];
-          var visitorIndex = visitorIDs.indexOf(dp.visitor);
-          var visitor = visitors[visitorIndex];
+          var host = dp.host
+          var visitor = dp.visitor
           var matchedOn = dp.matchedOn;
           var score = dp.count;
           var row = Object.assign({}, matchedOn, {

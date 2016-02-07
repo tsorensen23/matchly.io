@@ -8,9 +8,39 @@ class OldMatches {
     }
     var startDate = moment(req.query.date).startOf('day').toDate();
     var endDate = moment(req.query.date).endOf('day').toDate();
-    mongoose.model('donematches').findOne({date: {$gte: startDate, $lte: endDate}}, function(err, data){
-      if(err) return res.send(err);
-      res.json(data);
+    // find the donematch for the specific day
+    //
+    // map through the data
+    //
+    // find the visitor
+    // find the host
+    // return the new array
+
+    mongoose.model('donematches')
+      .findOne({date: {$gte: startDate, $lte: endDate}})
+      .lean()
+      .exec()
+      .then(function(donematches){
+        return Promise.all(donematches.data.map(donematch => {
+          return Promise.all([
+                  mongoose.model('visitors')
+                    .findOne({_id: donematch.visitor}, {_id: 0, Contact: 1, MatchInfo: 1})
+                    .lean()
+                    .exec(),
+                  mongoose.model('hosts')
+                    .findOne({_id: donematch.host}, {_id: 0, 'Contact': 1,'MatchInfo.Section': 1})
+                    .lean()
+                    .exec()
+                    ]).then(stuff => {
+            donematch.visitor = stuff[0];
+            donematch.host = stuff[1];
+
+            return donematch
+          })
+        }))
+    })
+    .then(done => {
+      res.json({data: done})
     })
 
   }
