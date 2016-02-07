@@ -51,7 +51,6 @@
   top: 0;
   left: 0;
   right: -15px;
-  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -65,7 +64,6 @@
   top: 0;
   left: 0;
   right: -15px;
-  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
