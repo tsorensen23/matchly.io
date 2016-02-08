@@ -30,9 +30,9 @@ var AddExceptionDay = React.createClass({
       } else {
         var dates = mpath.get('MatchInfo.matches.date', v);
         dates = dates.map(date =>
-            moment(date).format()
+            moment(date).format('YYYY-MM-DD')
             )
-          var index = dates.indexOf(date.format());
+          var index = dates.indexOf(date.format('YYYY-MM-DD'));
         if(index > -1){
           matches.push(v);
         } else {

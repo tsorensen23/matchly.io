@@ -43,6 +43,9 @@ module.exports = {
     var HostData;
     var AvailabiltyConstraint;
     var date = req.query.date ? new Date(parseInt(req.query.date)) : new Date();
+    var startDate = moment.utc(date).startOf('day')
+    var endDate = moment.utc(date).endOf('day')
+
 
     async.parallel([
       function(next) {
@@ -59,8 +62,7 @@ module.exports = {
       },
 
       function(next) {
-        Visitor.find(
-          {'MatchInfo.visitDate': date},
+          Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, {__v: 0},
           function(err, data) {
           if (err) {
             return next(err);

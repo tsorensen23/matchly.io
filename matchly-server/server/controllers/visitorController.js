@@ -18,8 +18,8 @@ var visitorControllerHelpers = require('./visitorControllerHelpers.js');
 
 
 exports.getVisitorsByDate = function(req, res, next){
-  var startDate = moment.utc(req.query.date).subtract(1, 'minute').toDate();
-  var endDate = moment.utc(req.query.date).add(1, 'minute').toDate();
+  var startDate = moment.utc(req.query.date).startOf('day').toDate();
+  var endDate = moment.utc(req.query.date).endOf('day').toDate();
   // var date = new Date("2015-11-30T08:00:00.000Z");
   Visitor.find({ 'MatchInfo.visitDate': { $lte: endDate, $gte: startDate}}, {__v: 0}, function(err, data){
     res.json(data);
