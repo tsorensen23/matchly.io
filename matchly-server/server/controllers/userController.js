@@ -105,16 +105,21 @@ module.exports = {
   },
 
   registerUser: function(req, res) {
-    req.body.password = bcrypt.hashSync(req.body.password);
-    req.body.matchlycookie = req.cookies.matchlycookie;
+    if(req.body.schoolCode === "$~P4hH*4:!?SnpBx") { 
+      req.body.password = bcrypt.hashSync(req.body.password);
+      req.body.matchlycookie = req.cookies.matchlycookie;
 
-    User.create(req.body, function(err, data) {
-      if (err) {
-        return res.send(err);
-      }
+      User.create(req.body, function(err, data) {
+        if (err) {
+          return res.send(err);
+        }
 
-      res.send(data);
-    });
+        res.send(data);
+      });
+    } else {
+      res.status(422)
+      res.send('That registration Code is incorrect')
+    }
   },
 
 };

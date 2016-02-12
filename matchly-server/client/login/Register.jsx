@@ -30,12 +30,12 @@ var Register = React.createClass({
         data: JSON.stringify(profileObject),
         url: '/registerUser/',
         success: function(data) {
-          if (data.errors !== undefined) {
-            alert('registration failed, please try again');
-          } else {
-            window.location = '/';
-          }
-        }.bind(this)
+          window.location = '/';
+        }.bind(this),
+        error: function(data) {
+          alert('registration failed, please try again');
+        }
+
       });
     }
   },
