@@ -1,6 +1,7 @@
 var ReactDOM = require('react-dom');
 var React = require('react');
 
+var Root = require('./Root/index.jsx');
 var Login = require('./Login.jsx');
 var Register = require('./Register.jsx');
 
@@ -14,7 +15,7 @@ var App = require('../App.jsx');
 ReactDOM.render(
   <Router history={require('./history')}>
     <Route component = {App}>
-      <Redirect from='/' to='/login' />
+      <Route path='/' component={Root} />
       <Route path='register' component={Register}/>
       <Route path='login' component={Login}/>
     </Route>
