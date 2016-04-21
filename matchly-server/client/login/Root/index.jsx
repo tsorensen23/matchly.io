@@ -1,4 +1,5 @@
 var React = require('react');
+import { Link } from 'react-router';
 
 var Root = React.createClass({
   render:function() {
@@ -32,7 +33,7 @@ var Root = React.createClass({
                               <a href="#contact">Contact</a>
                           </li>
                           <li>
-                              <a href="/login">Log In</a>
+                              <Link to="/login">Log In</Link>
                           </li>
                       </ul>
                   </div>
