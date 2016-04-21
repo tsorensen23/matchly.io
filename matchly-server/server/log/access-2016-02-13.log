@@ -1,0 +1,5 @@
+::ffff:54.195.148.73 - - [13/Feb/2016:04:42:30 +0000] "HEAD / HTTP/1.0" 302 28 "-" "-"
+::ffff:94.185.83.100 - - [13/Feb/2016:05:34:14 +0000] "GET http://testp5.mielno.lubin.pl/testproxy.php HTTP/1.1" 302 56 "-" "Mozilla/5.0 (Windows NT 5.1; rv:32.0) Gecko/20100101 Firefox/31.0"
+::ffff:54.195.148.73 - - [13/Feb/2016:09:59:17 +0000] "HEAD / HTTP/1.0" 302 28 "-" "-"
+::ffff:196.203.72.192 - - [13/Feb/2016:16:56:17 +0000] "GET /manager/html HTTP/1.1" 302 56 "-" "Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0"
+::ffff:71.177.95.90 - - [13/Feb/2016:20:52:59 +0000] "GET / HTTP/1.1" 302 56 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X) AppleWebKit/601.1 (KHTML, like Gecko) CriOS/48.0.2564.104 Mobile/13D15 Safari/601.1.46"

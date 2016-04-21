@@ -1,0 +1,8 @@
+::ffff:60.217.72.16 - - [19/Feb/2016:04:54:35 +0000] "GET / HTTP/1.0" 302 28 "-" "-"
+::ffff:180.97.106.36 - - [19/Feb/2016:07:56:02 +0000] "GET http://www.baidu.com/robots.txt HTTP/1.1" 302 28 "-" "-"
+::ffff:185.49.14.190 - - [19/Feb/2016:08:46:00 +0000] "GET http://testp3.pospr.waw.pl/testproxy.php HTTP/1.1" 302 56 "-" "Mozilla/5.0 (Windows NT 5.1; rv:32.0) Gecko/20100101 Firefox/31.0"
+::ffff:180.97.106.162 - - [19/Feb/2016:09:14:14 +0000] "GET http://www.baidu.com/robots.txt HTTP/1.1" 302 28 "-" "-"
+::ffff:185.25.151.159 - - [19/Feb/2016:10:51:13 +0000] "GET http://testp3.pospr.waw.pl/testproxy.php HTTP/1.1" 302 56 "-" "Mozilla/5.0 (Windows NT 5.1; rv:32.0) Gecko/20100101 Firefox/31.0"
+::ffff:104.128.144.131 - - [19/Feb/2016:13:49:58 +0000] "GET / HTTP/1.0" 302 28 "-" "www.probethenet.com scanner"
+::ffff:104.128.144.131 - - [19/Feb/2016:13:49:58 +0000] "HEAD /redirect.php HTTP/1.0" 302 28 "-" "www.probethenet.com scanner"
+::ffff:128.232.110.28 - - [19/Feb/2016:16:32:07 +0000] "GET / HTTP/1.1" 302 28 "-" "Mozilla/5.0 zgrab/0.x"
