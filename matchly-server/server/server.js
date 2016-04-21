@@ -59,12 +59,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(userController.authorizationCheck);
 app.use('/login', stdUIController('login'));
 app.get('/logout', userController.logout);
+app.use('/assets', express.static(__dirname + './../assets'));
+app.use(userController.authorizationCheck);
 app.use(bodyParser.json({limit:1024 * 1024 * 20}));
 app.post('/userLogin', userController.checkLogin);
-app.use('/assets', express.static(__dirname + './../assets'));
 app.post('/registerUser', userController.registerUser);
 app.use(function(req, res, next) {
   if (process.env.NODE_ENV != 'DEVELOPMENT') {
