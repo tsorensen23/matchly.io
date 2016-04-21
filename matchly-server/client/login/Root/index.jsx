@@ -31,6 +31,9 @@ var Root = React.createClass({
                           <li>
                               <a href="#contact">Contact</a>
                           </li>
+                          <li>
+                              <a href="/login">Log In</a>
+                          </li>
                       </ul>
                   </div>
                   {/*/.navbar-collapse*/}
