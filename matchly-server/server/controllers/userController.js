@@ -18,11 +18,11 @@ module.exports = {
 
   authorizationCheck: function(req,res, next) {
     if (!req.cookies) {
-      return next();
+      return res.redirect('/login');
     }
 
     if (!req.cookies.matchlycookie) {
-      return next();
+      return res.redirect('/login');
     }
 
     var cookie = req.cookies.matchlycookie;
